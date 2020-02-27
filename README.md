@@ -1,6 +1,13 @@
 # Financial Services Demo Bot
 This is a demo bot for financial services.
 
+## To install the dependencies:
+
+Run:
+```bash
+pip install -r requirements.txt
+```
+
 ## To run the bot:
 
 Use `rasa train` to train a model.
