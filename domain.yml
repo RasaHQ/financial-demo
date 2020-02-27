@@ -1,0 +1,156 @@
+session_config:
+  session_expiration_time: 0.0
+  carry_over_slots_to_new_session: true
+intents:
+- transfer_money:
+    use_entities: []
+- inform
+- pay_cc:
+    use_entities: []
+- greet
+- goodbye
+- affirm
+- deny
+- thankyou
+- ask_transfer_charge
+- search_transactions:
+    use_entities: []
+- check_balance
+- check_earnings:
+    use_entities: []
+entities:
+- amount-of-money
+- payment_amount
+- credit_card
+- payment_date
+- vendor_name
+- transact_grain
+- time
+- PERSON
+- number
+slots:
+  PERSON:
+    type: unfeaturized
+  account_balance:
+    type: unfeaturized
+    initial_value: 1000
+  amount-of-money:
+    type: unfeaturized
+  amount_transferred:
+    type: unfeaturized
+  confirm:
+    type: unfeaturized
+  credit_card:
+    type: unfeaturized
+  end_time:
+    type: unfeaturized
+  payment_amount:
+    type: unfeaturized
+  payment_amount_type:
+    type: unfeaturized
+  requested_slot:
+    type: unfeaturized
+  search_type:
+    type: unfeaturized
+  start_time:
+    type: unfeaturized
+  time:
+    type: unfeaturized
+  transact_grain:
+    type: unfeaturized
+  vendor_name:
+    type: unfeaturized
+responses:
+  utter_ask_transfer_form_amount-of-money:
+  - text: How much money do you want to transfer?
+  utter_ask_transfer_form_PERSON:
+  - text: Who do you want to transfer money to?
+  utter_goodbye:
+  - text: Bye
+  utter_greet:
+  - text: Hi, how can I help you?
+  utter_noworries:
+  - text: You're welcome :)
+  utter_transfer_complete:
+  - text: 'Successfully transferred ${amount-of-money} to {PERSON}'
+  utter_transfer_charge:
+  - text: You are entitled to six transfers within a statement cycle before being
+      charged. For subsequent transfers you will be charged $10 per transaction.
+  utter_ask_cc_payment_form_payment_amount:
+  - text: How much do you want to pay?
+  utter_ask_cc_payment_form_credit_card:
+  - text: Towards which credit card account do you want to make a payment?
+  utter_ask_cc_payment_form_time:
+  - text: For which date would you like to schedule the payment?
+  utter_ask_transact_search_form_vendor_name:
+  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
+      Amazon
+  utter_ask_transact_search_form_time:
+  - text: In which timeframe would you like to search for transactions?
+  utter_no_payment_amount:
+  - text: Sorry, I don't understand that payment amount.
+  utter_no_paymentdate:
+  - text: Sorry, that is not a valid payment date.
+  utter_no_creditcard:
+  - text: Sorry, that is not a valid credit card account to make payments towards.
+  utter_no_vendor_name:
+  - text: Sorry, that's not a recognized vendor.
+  utter_no_transactdate:
+  - text: Sorry, that's not a recognized time frame.
+  utter_cc_pay_scheduled:
+  - text: Payment of {payment_amount}{payment_amount_type} towards your {credit_card}
+      account scheduled to be paid at {time}
+  utter_searching_spend_transactions:
+  - text: Searching transactions{vendor_name} during the {transact_grain} of {start_time}
+      to {end_time}...
+  utter_found_spend_transactions:
+  - text: 'I found {numtransacts} transactions{vendor_name} totalling ${total}'
+  utter_searching_deposit_transactions:
+  - text: Searching deposits made to your account during the {transact_grain} of {start_time}
+      to {end_time}...
+  utter_found_deposit_transactions:
+  - text: 'I found {numtransacts} deposits made to your account totalling ${total}'
+  utter_ask_rephrase:
+  - text: I didn't quite understand that. Can you rephrase?
+  utter_ask_switch_goal:
+  - text: We haven't completed the transaction search yet. Are you sure you want to
+      switch to transfer money?
+  utter_ask_back_to_transact:
+  - text: Would you like to go back to the transaction search now?
+  utter_ok:
+  - text: 👍
+  - text: ok
+  utter_ask_continue:
+  - text: Would you like to continue?
+  utter_default:
+  - text: Sorry, I didn't get that. Could you rephrase?
+  utter_ask_cc_payment_form_confirm:
+  - text: 'Would you like to schedule a payment of ${payment_amount}{payment_amount_type}
+      towards your {credit_card} account for {time}?'
+    buttons:
+    - title: Yes
+      payload: /affirm
+    - title: No, cancel the transaction
+      payload: /deny
+  utter_ask_transfer_form_confirm:
+  - text: 'Would you like to transfer ${amount-of-money} to {PERSON}?'
+    buttons:
+    - title: Yes
+      payload: /affirm
+    - title: No, cancel the transaction
+      payload: /deny
+  utter_transfer_cancelled:
+  - text: Transfer cancelled
+  utter_cc_pay_cancelled:
+  - text: Credit card account payment cancelled
+  utter_account_balance:
+  - text: "Your balance is ${init_account_balance}"
+  utter_changed_account_balance:
+  - text: "Your balance was ${init_account_balance} and is now ${account_balance} after the transfer"
+actions:
+- action_account_balance
+
+forms:
+- cc_payment_form
+- transfer_form
+- transact_search_form
