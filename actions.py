@@ -245,13 +245,20 @@ class TransactSearchForm(CustomFormAction):
 
         def get_duration(entity):
             value = entity.get("value")
-            start = entity.get("from")
-            end = entity.get("to")
-            grain = entity.get("additional_info").get("grain")
-
+            try:
+                start = value.get("from")
+                end = value.get("to")
+                grain = entity.get("additional_info").get("from").get("grain")
+                reportgrain = "timeframe"
+            except:
+                start = entity.get("from")
+                end = entity.get("to")
+                grain = entity.get("additional_info").get("grain")
+                reportgrain = grain
+                
             if not start:
                 start = value
-
+            
             parsedstart = datetime.datetime.fromisoformat(start)
 
             if end:
@@ -261,14 +268,21 @@ class TransactSearchForm(CustomFormAction):
                 deltaargs = {f"{grain}s": 1}
                 delta = relativedelta.relativedelta(**deltaargs)
                 parsedend = parsedstart + delta
+                reportgrain = grain
 
-            strstart = parsedstart.strftime("%A %b %d, %Y")
-            strend = parsedend.strftime("%A %b %d, %Y")
+            if any(grain == t for t in ["day","week","month","year"]):
+                dateformat = "%A %b %d, %Y"
+            else:
+                dateformat = "%H:%M %A %b %d, %Y"
+
+            strstart = parsedstart.strftime(dateformat)
+            strend = parsedend.strftime(dateformat)
+
             return {
                 "time": value,
                 "start_time": strstart,
                 "end_time": strend,
-                "transact_grain": grain,
+                "transact_grain": reportgrain,
             }
 
         tracker_state = tracker.current_state()
