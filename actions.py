@@ -143,12 +143,12 @@ class PayCCForm(CustomFormAction):
     ) -> Dict[Text, Any]:
         """Validate time value."""
 
-        if value:
+        try:
             time = datetime.datetime.fromisoformat(value).strftime(
                 "%I:%M%p, %A %b %d, %Y"
             )
             return {"time": time}
-        else:
+        except TypeError:
             dispatcher.utter_message(template="utter_no_paymentdate")
             return {"time": None}
 
@@ -250,7 +250,7 @@ class TransactSearchForm(CustomFormAction):
                 end = value.get("to")
                 grain = entity.get("additional_info").get("from").get("grain")
                 reportgrain = "timeframe"
-            except:
+            except AttributeError:
                 start = entity.get("from")
                 end = entity.get("to")
                 grain = entity.get("additional_info").get("grain")
@@ -258,7 +258,7 @@ class TransactSearchForm(CustomFormAction):
                 
             if not start:
                 start = value
-            
+
             parsedstart = datetime.datetime.fromisoformat(start)
 
             if end:
@@ -275,13 +275,13 @@ class TransactSearchForm(CustomFormAction):
             else:
                 dateformat = "%H:%M %A %b %d, %Y"
 
-            strstart = parsedstart.strftime(dateformat)
-            strend = parsedend.strftime(dateformat)
+            formatted_start_time = parsedstart.strftime(dateformat)
+            formatted_end_time = parsedend.strftime(dateformat)
 
             return {
                 "time": value,
-                "start_time": strstart,
-                "end_time": strend,
+                "start_time": formatted_start_time,
+                "end_time": formatted_end_time,
                 "transact_grain": reportgrain,
             }
 
