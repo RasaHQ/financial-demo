@@ -38,5 +38,6 @@ jobs:
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: |
           GITHUB_TAG=${GITHUB_TAG/refs\/tags\//}
-          docker tag rasa/financial-demo-app:latest rasa/rasa:${GITHUB_TAG}
+          docker tag rasa/financial-demo-app:latest rasa/financial-demo-app:${GITHUB_TAG}
           docker push rasa/financial-demo-app:${GITHUB_TAG}
+          
