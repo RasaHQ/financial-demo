@@ -1,0 +1,42 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - '*'
+  pull_request:
+
+jobs:
+  docker:
+    name: Build Action Server Docker Image
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKERHUB_USERNAME: oakela
+
+    steps:
+      - name: Checkout git repository 🕝
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub Registry 🔢
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ env.DOCKERHUB_USERNAME }} --password-stdin || true
+
+      - name: Pull latest${{ matrix.image.tag_ext }} Docker image for caching
+        run: docker pull rasa/financial-demo-app:latest || true
+
+      - name: Build latest${{ matrix.image.tag_ext }} Docker image
+        run: docker build . --tag rasa/financial-demo-app:latest --cache-from rasa/financial-demo-app:latest
+
+      - name: Push image with latest tag 📦
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: docker push rasa/financial-demo-app:latest
+
+      - name: Push image with ${{github.ref}} tag 📦
+        env:
+          GITHUB_TAG: ${{ github.ref }}
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        run: |
+          GITHUB_TAG=${GITHUB_TAG/refs\/tags\//}
+          docker tag rasa/financial-demo-app:latest rasa/rasa:${GITHUB_TAG}
+          docker push rasa/financial-demo-app:${GITHUB_TAG}
