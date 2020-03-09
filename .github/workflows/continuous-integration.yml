@@ -1,0 +1,30 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  docker:
+    name: Build Action Server Docker Image
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKERHUB_USERNAME: oakela
+
+    steps:
+      - name: Checkout git repository 🕝
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub Registry 🔢
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ env.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Pull latest${{ matrix.image.tag_ext }} Docker image for caching
+        run: docker pull rasa/financial-demo:latest || true
+
+      - name: Build latest${{ matrix.image.tag_ext }} Docker image
+        run: docker build . --tag rasa/financial-demo:latest --cache-from rasa/financial-demo:latest
+
+      - name: Push image with latest tag 📦
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: docker push rasa/financial-demo:latest         
