@@ -35,7 +35,7 @@ jobs:
       - name: Push image with ${{github.ref}} tag 📦
         env:
           GITHUB_TAG: ${{ github.ref }}
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: |
           GITHUB_TAG=${GITHUB_TAG/refs\/tags\//}
           docker tag rasa/financial-demo:latest rasa/financial-demo:${GITHUB_TAG}
