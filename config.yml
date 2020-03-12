@@ -1,26 +1,31 @@
 language: en
 pipeline:
-- name: WhitespaceTokenizer
-- name: CRFEntityExtractor
-- name: EntitySynonymMapper
-- name: CountVectorsFeaturizer
-  token_pattern: (?u)\b\w+\b
-- name: EmbeddingIntentClassifier
-- name: DucklingHTTPExtractor
-  url: http://localhost:8000
-  dimensions:
-  - amount-of-money
-  - time
-  - number
-- name: "SpacyNLP"
-  model: "en_core_web_md"
-- name: "SpacyEntityExtractor"
-  dimensions: ["PERSON"]
+  - name: WhitespaceTokenizer
+  - name: RegexFeaturizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: "char_wb"
+    min_ngram: 1
+    max_ngram: 4
+  - name: DIETClassifier
+    epochs: 100
+  - name: EntitySynonymMapper
+  - name: DucklingHTTPExtractor
+    url: http://localhost:8000
+    dimensions:
+    - amount-of-money
+    - time
+    - number
+  - name: "SpacyNLP"
+    model: "en_core_web_md"
+  - name: "SpacyEntityExtractor"
+    dimensions: ["PERSON"]
 
 policies:
 - name: FallbackPolicy
 - name: AugmentedMemoizationPolicy
 - name: FormPolicy
 - name: MappingPolicy
-- name: EmbeddingPolicy
+- name: TEDPolicy
   epochs: 20

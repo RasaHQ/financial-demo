@@ -143,12 +143,12 @@ class PayCCForm(CustomFormAction):
     ) -> Dict[Text, Any]:
         """Validate time value."""
 
-        if value:
+        try:
             time = datetime.datetime.fromisoformat(value).strftime(
                 "%I:%M%p, %A %b %d, %Y"
             )
             return {"time": time}
-        else:
+        except TypeError:
             dispatcher.utter_message(template="utter_no_paymentdate")
             return {"time": None}
 
@@ -245,10 +245,17 @@ class TransactSearchForm(CustomFormAction):
 
         def get_duration(entity):
             value = entity.get("value")
-            start = entity.get("from")
-            end = entity.get("to")
-            grain = entity.get("additional_info").get("grain")
-
+            try:
+                start = value.get("from")
+                end = value.get("to")
+                grain = entity.get("additional_info").get("from").get("grain")
+                reportgrain = "timeframe"
+            except AttributeError:
+                start = entity.get("from")
+                end = entity.get("to")
+                grain = entity.get("additional_info").get("grain")
+                reportgrain = grain
+                
             if not start:
                 start = value
 
@@ -261,14 +268,21 @@ class TransactSearchForm(CustomFormAction):
                 deltaargs = {f"{grain}s": 1}
                 delta = relativedelta.relativedelta(**deltaargs)
                 parsedend = parsedstart + delta
+                reportgrain = grain
 
-            strstart = parsedstart.strftime("%A %b %d, %Y")
-            strend = parsedend.strftime("%A %b %d, %Y")
+            if any(grain == t for t in ["day","week","month","year"]):
+                dateformat = "%A %b %d, %Y"
+            else:
+                dateformat = "%H:%M %A %b %d, %Y"
+
+            formatted_start_time = parsedstart.strftime(dateformat)
+            formatted_end_time = parsedend.strftime(dateformat)
+
             return {
                 "time": value,
-                "start_time": strstart,
-                "end_time": strend,
-                "transact_grain": grain,
+                "start_time": formatted_start_time,
+                "end_time": formatted_end_time,
+                "transact_grain": reportgrain,
             }
 
         tracker_state = tracker.current_state()
