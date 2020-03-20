@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class CustomFormAction(FormAction):
     def name(self):
-        return
+        return ""
 
     def request_next_slot(
         self,
@@ -31,7 +31,7 @@ class CustomFormAction(FormAction):
                 )
                 return [SlotSet(REQUESTED_SLOT, slot)]
 
-        return None
+        return []
 
 
 class PayCCForm(CustomFormAction):
@@ -429,3 +429,4 @@ class ActionAccountBalance(Action):
                 template="utter_account_balance",
                 init_account_balance=init_account_balance,
             )
+            return []
