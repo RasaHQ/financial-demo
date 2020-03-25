@@ -7,5 +7,5 @@ USER root
 RUN pip install --no-cache-dir -r requirements-actions.txt
 
 USER 1001
-CMD ["start", "--actions", "actions"]
+CMD ["start", "--actions", "actions", "--debug"]
 

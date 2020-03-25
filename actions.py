@@ -1,6 +1,6 @@
 from typing import Dict, Text, Any, List, Union, Optional
 import datetime
-from dateutil import relativedelta
+from dateutil import relativedelta, parser
 import logging
 from rasa_sdk import Tracker, Action
 from rasa_sdk.executor import CollectingDispatcher
@@ -31,7 +31,7 @@ class CustomFormAction(FormAction):
                 )
                 return [SlotSet(REQUESTED_SLOT, slot)]
 
-        return []
+        return None
 
 
 class PayCCForm(CustomFormAction):
@@ -144,11 +144,11 @@ class PayCCForm(CustomFormAction):
         """Validate time value."""
 
         try:
-            time = datetime.datetime.fromisoformat(value).strftime(
+            time = parser.isoparse(value).strftime(
                 "%I:%M%p, %A %b %d, %Y"
             )
             return {"time": time}
-        except TypeError:
+        except (TypeError,AttributeError):
             dispatcher.utter_message(template="utter_no_paymentdate")
             return {"time": None}
 
@@ -259,10 +259,10 @@ class TransactSearchForm(CustomFormAction):
             if not start:
                 start = value
 
-            parsedstart = datetime.datetime.fromisoformat(start)
+            parsedstart = parser.isoparse(start)
 
             if end:
-                parsedend = datetime.datetime.fromisoformat(end)
+                parsedend = parser.isoparse(end)
 
             else:
                 deltaargs = {f"{grain}s": 1}
