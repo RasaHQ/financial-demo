@@ -24,6 +24,7 @@ pipeline:
 
 policies:
 - name: FallbackPolicy
+  nlu_threshold: 0.75
 - name: AugmentedMemoizationPolicy
 - name: FormPolicy
 - name: MappingPolicy

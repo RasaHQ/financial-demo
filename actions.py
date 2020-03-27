@@ -380,8 +380,7 @@ class TransferForm(CustomFormAction):
 
         return {
             "PERSON": [
-                self.from_entity(entity="PERSON"),
-                self.from_text(intent=["inform", None, "transfer_money"]),
+                self.from_entity(entity="PERSON")
             ],
             "amount-of-money": [
                 self.from_entity(entity="amount-of-money"),

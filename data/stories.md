@@ -1,8 +1,6 @@
 ## greet/bye path
 * greet
   - utter_greet
-* deny
-  - utter_goodbye
 
 ## say goodbye
 * goodbye
