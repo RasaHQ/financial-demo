@@ -44,6 +44,8 @@ under the hood. To simply talk to the bot, you can remove this flag.
 
 `config.yml` - training configurations for the NLU pipeline and policy ensemble
 
+`tests/e2e.md` - end-to-end test stories
+
 
 ## Things you can ask the bot
 
