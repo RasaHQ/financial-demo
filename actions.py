@@ -404,6 +404,11 @@ class TransferForm(CustomFormAction):
             return [AllSlotsReset()]
 
 
+def get_balance_bank_api():
+    """Imagine this calls a bank API to get user balance"""
+    bank_api_amount = 5000
+    return bank_api_amount
+
 class ActionAccountBalance(Action):
     def name(self):
         return "action_account_balance"
