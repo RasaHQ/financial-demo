@@ -35,7 +35,6 @@
     - cc_payment_form
     - form{"name": null}
 
-
 ## pay cc happy path no greet
 * pay_cc
     - cc_payment_form
@@ -43,7 +42,6 @@
     - form{"name": null}
 * thankyou
     - utter_noworries
-
 
 ## pay credit card happy path
 * greet
@@ -102,8 +100,6 @@
     - form{"name": "transact_search_form"}
     - form{"name": null}
 
-
-
 ## search transactions switch to transfer money
 * search_transactions OR check_earnings
     - transact_search_form
@@ -144,3 +140,37 @@
     - utter_ask_back_to_transact
 * deny
     - utter_ok
+
+## New Story
+
+* greet
+    - utter_greet
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+    - slot{"requested_slot":"credit_card"}
+* inform{"credit_card":"iron bank"}
+    - slot{"credit_card":"iron bank"}
+    - cc_payment_form
+    - slot{"credit_card":"iron bank"}
+    - slot{"requested_slot":"payment_amount"}
+* inform{"amount-of-money":100}
+    - slot{"amount-of-money":100}
+    - cc_payment_form
+    - slot{"payment_amount":100}
+    - slot{"payment_amount_type":""}
+    - slot{"requested_slot":"time"}
+* inform{"time":"2020-04-04T00:00:00.000-07:00"}
+    - slot{"time":"2020-04-04T00:00:00.000-07:00"}
+    - cc_payment_form
+    - slot{"time":"12:00AM, Saturday Apr 04, 2020"}
+    - slot{"requested_slot":"confirm"}
+* affirm
+    - cc_payment_form
+    - slot{"confirm":true}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+* greet
+    - utter_greet
+* pay_cc
+    - action_default_fallback
