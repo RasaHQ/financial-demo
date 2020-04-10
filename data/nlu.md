@@ -8,6 +8,7 @@
 - yeah
 - yes please
 - yes plz
+- /affirm
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
@@ -40,7 +41,7 @@
 - how much was deposited in my account in the last two weeks?
 - check deposits for last week
 - total deposits over last year
-- how much was deposited in January 
+- how much was deposited in January
 
 ## intent:deny
 - not really
@@ -133,6 +134,8 @@
 - for saturday
 - I want to pay the [minimum balance](payment_amount) on my [gringots](credit_card) credit card today
 - today
+- [Behnam](PERSON) [Shahbazi](PERSON)
+- [Behnam](PERSON)
 
 ## intent:pay_cc
 - I would like to pay the [minimum balance](payment_amount) on my [gringtos](credit_card) card
