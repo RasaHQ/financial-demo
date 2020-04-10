@@ -29,6 +29,7 @@
 - what is my account balance
 - what's my account balance?
 - what's my account balance
+- i want to check my [balance](payment_amount)
 
 ## intent:check_earnings
 - How much money went into my account last month?
@@ -40,7 +41,7 @@
 - how much was deposited in my account in the last two weeks?
 - check deposits for last week
 - total deposits over last year
-- how much was deposited in January 
+- how much was deposited in January
 
 ## intent:deny
 - not really
@@ -175,6 +176,7 @@
 - can I look at past transactions
 - I want to search my transactions with [amazon](vendor_name)
 - can i seem my transactions with [target](vendor_name)
+- i want to see [all](credit_card) my charges in the last week
 
 ## intent:thankyou
 - thank you goodbye
@@ -200,3 +202,6 @@
 - I want to pay Bill
 - pay my friend
 - transfer money
+
+## intent:vendor
+- [amazon](vendor_name)
