@@ -35,7 +35,6 @@
     - cc_payment_form
     - form{"name": null}
 
-
 ## pay cc happy path no greet
 * pay_cc
     - cc_payment_form
@@ -43,7 +42,6 @@
     - form{"name": null}
 * thankyou
     - utter_noworries
-
 
 ## pay credit card happy path
 * greet
@@ -102,8 +100,6 @@
     - form{"name": "transact_search_form"}
     - form{"name": null}
 
-
-
 ## search transactions switch to transfer money
 * search_transactions OR check_earnings
     - transact_search_form
@@ -144,3 +140,49 @@
     - utter_ask_back_to_transact
 * deny
     - utter_ok
+
+## Transfer money ask account balance
+
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* check_balance{"payment_amount":"balance"}
+	- slot{"payment_amount":"balance"}
+    - action_account_balance
+    - transfer_form
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## Pay CC ask account balance
+
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+* check_balance
+    - action_account_balance
+    - cc_payment_form]
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## Pay CC ask account balance
+
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+* check_balance{"payment_amount":"balance"}
+	- slot{"payment_amount":"balance"}
+    - action_account_balance
+    - cc_payment_form]
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## Transfer money ask account balance
+
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name":null}
+    - slot{"requested_slot":null}
