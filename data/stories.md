@@ -160,7 +160,7 @@
     - form{"name":"cc_payment_form"}
 * check_balance
     - action_account_balance
-    - cc_payment_form]
+    - cc_payment_form
     - form{"name":null}
     - slot{"requested_slot":null}
 
@@ -172,7 +172,7 @@
 * check_balance{"payment_amount":"balance"}
     - slot{"payment_amount":"balance"}
     - action_account_balance
-    - cc_payment_form]
+    - cc_payment_form
     - form{"name":null}
     - slot{"requested_slot":null}
 
