@@ -147,7 +147,7 @@
     - transfer_form
     - form{"name":"transfer_form"}
 * check_balance{"payment_amount":"balance"}
-	- slot{"payment_amount":"balance"}
+    - slot{"payment_amount":"balance"}
     - action_account_balance
     - transfer_form
     - form{"name":null}
@@ -170,7 +170,7 @@
     - cc_payment_form
     - form{"name":"cc_payment_form"}
 * check_balance{"payment_amount":"balance"}
-	- slot{"payment_amount":"balance"}
+    - slot{"payment_amount":"balance"}
     - action_account_balance
     - cc_payment_form]
     - form{"name":null}
