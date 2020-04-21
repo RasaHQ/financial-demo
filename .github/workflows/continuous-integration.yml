@@ -1,30 +1,42 @@
-name: Continuous Integration
+# https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd/
+name: CI with Rasa example
+
 on:
-  push:
-    branches:
-    - master
+  pull_request:
+    branches: master 
 
 jobs:
-  docker:
-    name: Build Action Server Docker Image
+  continuous-integration:
+    # https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd/#continuous-integration-ci
+    name: Continuous Integration
     runs-on: ubuntu-latest
 
-    env:
-      DOCKERHUB_USERNAME: oakela
-
     steps:
-      - name: Checkout git repository 🕝
-        uses: actions/checkout@v2
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
 
-      - name: Login to DockerHub Registry 🔢
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ env.DOCKERHUB_USERNAME }} --password-stdin || true
-
-      - name: Pull latest${{ matrix.image.tag_ext }} Docker image for caching
-        run: docker pull rasa/financial-demo:latest || true
-
-      - name: Build latest${{ matrix.image.tag_ext }} Docker image
-        run: docker build . --tag rasa/financial-demo:latest --cache-from rasa/financial-demo:latest
-
-      - name: Push image with latest tag 📦
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: docker push rasa/financial-demo:latest         
+    - name: Install Rasa Open Source and dependecies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        python -m spacy download en_core_web_md 
+    
+    # https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd/#validate-data-and-stories
+    - name: Validate data and stories
+      run: |
+        rasa data validate stories --max-history 5 --fail-on-warning
+    
+    # https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd/#train-a-model
+    - name: Train a model
+      run: |
+        rasa train
+    
+    # https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd/#test-the-assistant
+    - name: Test the assistant
+      run: |
+        rasa test --stories tests/conversation_tests.md --fail-on-prediction-errors
