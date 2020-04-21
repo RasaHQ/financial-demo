@@ -40,7 +40,7 @@
 - how much was deposited in my account in the last two weeks?
 - check deposits for last week
 - total deposits over last year
-- how much was deposited in January 
+- how much was deposited in January
 
 ## intent:deny
 - not really
@@ -187,6 +187,7 @@
 - thanks
 - thanks goodbye
 - thank you and good bye
+- Thans
 
 ## intent:transfer_money
 - I want to pay John
