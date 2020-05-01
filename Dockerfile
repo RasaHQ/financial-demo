@@ -1,4 +1,4 @@
-FROM rasa/rasa-sdk:1.9.0
+FROM rasa/rasa-sdk:1.10.0
 
 COPY actions.py /app/actions.py
 COPY requirements-actions.txt /app
