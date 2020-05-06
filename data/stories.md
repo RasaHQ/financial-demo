@@ -67,7 +67,7 @@
 * ask_transfer_charge
     - utter_transfer_charge
 
-## transfer money
+## transfer money ask transfer charge
 * transfer_money
     - transfer_form
     - form{"name": "transfer_form"}
