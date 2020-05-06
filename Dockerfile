@@ -1,10 +1,9 @@
-FROM rasa/rasa-sdk:1.9.0
+FROM rasa/rasa-sdk:1.10.0
 
-COPY actions.py /app/actions.py
-COPY requirements-actions.txt /app
+COPY actions /app/actions
 
 USER root
-RUN pip install --no-cache-dir -r requirements-actions.txt
+RUN pip install --no-cache-dir -r /app/actions/requirements-actions.txt
 
 USER 1001
 CMD ["start", "--actions", "actions", "--debug"]

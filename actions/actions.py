@@ -6,6 +6,12 @@ from rasa_sdk import Tracker, Action
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction, REQUESTED_SLOT
 from rasa_sdk.events import Form, AllSlotsReset, SlotSet, Restarted, EventType
+from actions.parsing import (
+    parse_duckling_time_as_interval,
+    parse_duckling_time,
+    format_time_by_grain,
+    get_entity_details
+)
 
 logger = logging.getLogger(__name__)
 
@@ -144,12 +150,13 @@ class PayCCForm(CustomFormAction):
         """Validate time value."""
 
         try:
-            time = parser.isoparse(value).strftime(
-                "%I:%M%p, %A %b %d, %Y"
-            )
-            return {"time": time}
-        except (TypeError,AttributeError):
-            dispatcher.utter_message(template="utter_no_paymentdate")
+            timeentity = get_entity_details(tracker, "time")
+            time, grain = parse_duckling_time(timeentity)
+            formatted_time = format_time_by_grain(time, grain)
+            return {"time": formatted_time}
+
+        except TypeError:
+            dispatcher.utter_message(template="utter_no_transactdate")
             return {"time": None}
 
     def submit(
@@ -243,60 +250,17 @@ class TransactSearchForm(CustomFormAction):
     ) -> Dict[Text, Any]:
         """Validate time value."""
 
-        def get_duration(entity):
-            value = entity.get("value")
-            try:
-                start = value.get("from")
-                end = value.get("to")
-                grain = entity.get("additional_info").get("from").get("grain")
-                reportgrain = "timeframe"
-            except AttributeError:
-                start = entity.get("from")
-                end = entity.get("to")
-                grain = entity.get("additional_info").get("grain")
-                reportgrain = grain
-                
-            if not start:
-                start = value
-
-            parsedstart = parser.isoparse(start)
-
-            if end:
-                parsedend = parser.isoparse(end)
-
-            else:
-                deltaargs = {f"{grain}s": 1}
-                delta = relativedelta.relativedelta(**deltaargs)
-                parsedend = parsedstart + delta
-                reportgrain = grain
-
-            if any(grain == t for t in ["day","week","month","year"]):
-                dateformat = "%A %b %d, %Y"
-            else:
-                dateformat = "%H:%M %A %b %d, %Y"
-
-            formatted_start_time = parsedstart.strftime(dateformat)
-            formatted_end_time = parsedend.strftime(dateformat)
-
+        try:
+            timeentity = get_entity_details(tracker, "time")
+            start_time, end_time, grain = parse_duckling_time_as_interval(timeentity)
+            formatted_start = format_time_by_grain(start_time)
+            formatted_end = format_time_by_grain(end_time)
             return {
-                "time": value,
-                "start_time": formatted_start_time,
-                "end_time": formatted_end_time,
-                "transact_grain": reportgrain,
+                "start_time": formatted_start,
+                "end_time": formatted_end,
+                "transact_grain": grain
             }
-
-        tracker_state = tracker.current_state()
-        entities = [
-            e
-            for e in tracker_state["latest_message"]["entities"]
-            if e["entity"] == "time"
-        ]
-        values = None
-        for entity in entities:
-            values = get_duration(entity)
-        if values:
-            return values
-        else:
+        except TypeError:
             dispatcher.utter_message(template="utter_no_transactdate")
             return {"time": None}
 

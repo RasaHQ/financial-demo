@@ -24,7 +24,6 @@ entities:
 - credit_card
 - payment_date
 - vendor_name
-- transact_grain
 - time
 - PERSON
 - number
@@ -101,13 +100,13 @@ responses:
   - text: Payment of {payment_amount}{payment_amount_type} towards your {credit_card}
       account scheduled to be paid at {time}
   utter_searching_spend_transactions:
-  - text: Searching transactions{vendor_name} during the {transact_grain} of {start_time}
-      to {end_time}...
+  - text: Searching transactions{vendor_name} between {start_time}
+      and {end_time}...
   utter_found_spend_transactions:
   - text: 'I found {numtransacts} transactions{vendor_name} totalling ${total}'
   utter_searching_deposit_transactions:
-  - text: Searching deposits made to your account during the {transact_grain} of {start_time}
-      to {end_time}...
+  - text: Searching deposits made to your account between {start_time}
+      and {end_time}...
   utter_found_deposit_transactions:
   - text: 'I found {numtransacts} deposits made to your account totalling ${total}'
   utter_ask_rephrase:
