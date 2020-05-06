@@ -8,7 +8,6 @@
 - yeah
 - yes please
 - yes plz
-- /affirm
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
