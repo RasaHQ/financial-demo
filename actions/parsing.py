@@ -43,10 +43,6 @@ def parse_duckling_time_as_interval(timeentity: Dict[Text, Any]) -> Optional[Ite
     elif timeinfo.get("type") == "value":
         return make_interval_from_value_duckling_time(timeinfo)
 
-def parse_duckling_duration(durationentity: Dict[Text, Any]) -> Optional[relativedelta.relativedelta]:
-    seconds = durationentity.get("additional_info", {}).get("normalized", {}).get("value")
-    return relativedelta.relativedelta(seconds=seconds)
-
 def format_time_by_grain(time, grain):
     grain_format = {
         "second": "%I:%M:%S%p, %A %b %d, %Y",
