@@ -33,7 +33,7 @@ slots:
   account_balance:
     type: unfeaturized
     initial_value: 1000
-  amount-of-money:
+  amount_of_money:
     type: unfeaturized
   amount_transferred:
     type: unfeaturized
@@ -47,6 +47,7 @@ slots:
     type: unfeaturized
   payment_amount_type:
     type: unfeaturized
+    initial_value: ""
   requested_slot:
     type: unfeaturized
   search_type:
@@ -55,12 +56,15 @@ slots:
     type: unfeaturized
   time:
     type: unfeaturized
-  transact_grain:
+  grain:
     type: unfeaturized
   vendor_name:
     type: unfeaturized
+  currency:
+    type: unfeaturized
+    initial_value: "$"
 responses:
-  utter_ask_transfer_form_amount-of-money:
+  utter_ask_transfer_form_amount_of_money:
   - text: How much money do you want to transfer?
   utter_ask_transfer_form_PERSON:
   - text: Who do you want to transfer money to?
@@ -71,10 +75,10 @@ responses:
   utter_noworries:
   - text: You're welcome :)
   utter_transfer_complete:
-  - text: 'Successfully transferred ${amount-of-money} to {PERSON}'
+  - text: 'Successfully transferred {currency}{amount_of_money} to {PERSON}'
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
-      charged. For subsequent transfers you will be charged $10 per transaction.
+      charged. For subsequent transfers you will be charged 10 per transaction.
   utter_ask_cc_payment_form_payment_amount:
   - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
@@ -97,18 +101,18 @@ responses:
   utter_no_transactdate:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
-  - text: Payment of {payment_amount}{payment_amount_type} towards your {credit_card}
-      account scheduled to be paid at {time}
+  - text: 'Payment of {currency}{payment_amount}{payment_amount_type} towards your {credit_card}
+      account scheduled to be paid at {time}'
   utter_searching_spend_transactions:
   - text: Searching transactions{vendor_name} between {start_time}
       and {end_time}...
   utter_found_spend_transactions:
-  - text: 'I found {numtransacts} transactions{vendor_name} totalling ${total}'
+  - text: 'I found {numtransacts} transactions{vendor_name} totalling {currency}{total}'
   utter_searching_deposit_transactions:
   - text: Searching deposits made to your account between {start_time}
       and {end_time}...
   utter_found_deposit_transactions:
-  - text: 'I found {numtransacts} deposits made to your account totalling ${total}'
+  - text: 'I found {numtransacts} deposits made to your account totalling {currency}{total}'
   utter_ask_rephrase:
   - text: I didn't quite understand that. Can you rephrase?
   utter_ask_switch_goal:
@@ -124,7 +128,7 @@ responses:
   utter_default:
   - text: Sorry, I didn't get that. Could you rephrase?
   utter_ask_cc_payment_form_confirm:
-  - text: 'Would you like to schedule a payment of ${payment_amount}{payment_amount_type}
+  - text: 'Would you like to schedule a payment of {currency}{payment_amount}{payment_amount_type}
       towards your {credit_card} account for {time}?'
     buttons:
     - title: Yes
@@ -132,7 +136,7 @@ responses:
     - title: No, cancel the transaction
       payload: /deny
   utter_ask_transfer_form_confirm:
-  - text: 'Would you like to transfer ${amount-of-money} to {PERSON}?'
+  - text: 'Would you like to transfer {currency}{amount_of_money} to {PERSON}?'
     buttons:
     - title: Yes
       payload: /affirm
@@ -143,9 +147,9 @@ responses:
   utter_cc_pay_cancelled:
   - text: Credit card account payment cancelled
   utter_account_balance:
-  - text: "Your balance is ${init_account_balance}"
+  - text: "Your balance is {currency}{init_account_balance}"
   utter_changed_account_balance:
-  - text: "Your balance was ${init_account_balance} and is now ${account_balance} after the transfer"
+  - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after the transfer"
 actions:
 - action_account_balance
 
