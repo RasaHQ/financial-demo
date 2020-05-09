@@ -77,3 +77,8 @@ It recognises the following vendors (for spending history):
 - `Target`
 
 You can change any of these by modifying `actions.py` and the corresponding NLU data.
+
+## Testing the bot
+
+You can test the bot on the test conversations by running  `rasa test`. 
+Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! 

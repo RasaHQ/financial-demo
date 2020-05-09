@@ -142,7 +142,6 @@
     - utter_ok
 
 ## Transfer money ask account balance
-
 * transfer_money
     - transfer_form
     - form{"name":"transfer_form"}
@@ -160,8 +159,10 @@
     - form{"name":"cc_payment_form"}
 * check_balance
     - action_account_balance
-    - cc_payment_form
-    - form{"name":null}
+    - utter_ask_continue
+* deny
+    - utter_ok
+    - form{"name": null}
     - slot{"requested_slot":null}
 
 ## Pay CC ask account balance
@@ -169,11 +170,12 @@
 * pay_cc
     - cc_payment_form
     - form{"name":"cc_payment_form"}
-* check_balance{"payment_amount":"balance"}
-    - slot{"payment_amount":"balance"}
+* check_balance
     - action_account_balance
+    - utter_ask_continue
+* affirm
     - cc_payment_form
-    - form{"name":null}
+    - form{"name": null}
     - slot{"requested_slot":null}
 
 ## Transfer money ask account balance
@@ -186,3 +188,29 @@
     - transfer_form
     - form{"name":null}
     - slot{"requested_slot":null}
+
+## Transfer money pay credit card
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+    - form{"name": null}
+    - utter_ask_back_to_transfer
+* affirm
+    - transfer_form
+    - form{"name":"transfer_form"}
+    - form{"name": null}
+
+## Transfer money pay credit card
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+    - form{"name": null}
+    - utter_ask_back_to_transfer
+* deny
+    - utter_ok
