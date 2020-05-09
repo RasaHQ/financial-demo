@@ -142,7 +142,6 @@
     - utter_ok
 
 ## Transfer money ask account balance
-
 * transfer_money
     - transfer_form
     - form{"name":"transfer_form"}
@@ -186,3 +185,29 @@
     - transfer_form
     - form{"name":null}
     - slot{"requested_slot":null}
+
+## Transfer money pay credit card
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+    - form{"name": null}
+    - utter_ask_back_to_transfer
+* affirm
+    - transfer_form
+    - form{"name":"transfer_form"}
+    - form{"name": null}
+
+## Transfer money pay credit card
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+    - form{"name": null}
+    - utter_ask_back_to_transfer
+* deny
+    - utter_ok

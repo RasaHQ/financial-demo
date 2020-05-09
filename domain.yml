@@ -120,6 +120,8 @@ responses:
       switch to transfer money?
   utter_ask_back_to_transact:
   - text: Would you like to go back to the transaction search now?
+  utter_ask_back_to_transfer:
+  - text: Would you like to go back to transferring money now?
   utter_ok:
   - text: 👍
   - text: ok

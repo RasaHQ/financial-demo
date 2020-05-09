@@ -31,8 +31,6 @@
     - form: cc_payment_form
 * check_balance: what's my account balance?
     - action_account_balance
-    - utter_ask_continue
-* affirm: yes
     - cc_payment_form
 * form: inform: 8am on Friday February 21 2020
     - form: cc_payment_form
@@ -119,7 +117,6 @@
     - utter_ok
 
 
-<!--This story is not working; once it goes back to transact_search_form it just does action_listen and doesn't prompt for anything-->
 ## search transactions switch to transfer money
 * search_transactions: I want to search my spending history
     - transact_search_form

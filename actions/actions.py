@@ -112,8 +112,10 @@ class PayCCForm(FormAction):
                 tracker, "amount-of-money"
             ) or get_entity_details(tracker, "number")
             amount_currency = parse_duckling_currency(entity)
+            if not amount_currency:
+                raise (TypeError)
             return amount_currency
-        except:
+        except (TypeError, AttributeError):
             pass
         if value and value.lower() in self.payment_amount_db():
             key = value.lower()
@@ -178,7 +180,7 @@ class PayCCForm(FormAction):
             SlotSet("payment_amount", None),
             SlotSet("confirm", None),
             SlotSet("time", None),
-            SlotSet("grain", None)
+            SlotSet("grain", None),
         ]
 
 
@@ -388,8 +390,10 @@ class TransferForm(FormAction):
                 tracker, "amount-of-money"
             ) or get_entity_details(tracker, "number")
             amount_currency = parse_duckling_currency(entity)
+            if not amount_currency:
+                raise (TypeError)
             return amount_currency
-        except:
+        except (TypeError, AttributeError):
             dispatcher.utter_message(template="utter_no_payment_amount")
             return {"amount_of_money": None}
 
@@ -402,14 +406,14 @@ class TransferForm(FormAction):
                 SlotSet("confirm", None),
                 SlotSet(
                     "amount_transferred", tracker.get_slot("amount_of_money")
-                )
+                ),
             ]
         else:
             dispatcher.utter_message(template="utter_transfer_cancelled")
             return [
                 SlotSet("PERSON", None),
                 SlotSet("amount_of_money", None),
-                SlotSet("confirm", None)
+                SlotSet("confirm", None),
             ]
 
 
