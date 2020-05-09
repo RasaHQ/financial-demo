@@ -107,13 +107,15 @@ class PayCCForm(FormAction):
     ) -> Dict[Text, Any]:
         """Validate payment amount value."""
 
-        if isinstance(value, int) or isinstance(value, float):
+        try:
             entity = get_entity_details(
                 tracker, "amount-of-money"
             ) or get_entity_details(tracker, "number")
             amount_currency = parse_duckling_currency(entity)
             return amount_currency
-        elif value and value.lower() in self.payment_amount_db():
+        except:
+            pass
+        if value and value.lower() in self.payment_amount_db():
             key = value.lower()
             amount = self.payment_amount_db().get(key)
             amount_type = f" (your {key})"
@@ -377,13 +379,13 @@ class TransferForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        if isinstance(value, float) or isinstance(value, int):
+        try:
             entity = get_entity_details(
                 tracker, "amount-of-money"
             ) or get_entity_details(tracker, "number")
             amount_currency = parse_duckling_currency(entity)
             return amount_currency
-        else:
+        except:
             dispatcher.utter_message(template="utter_no_payment_amount")
             return {"amount_of_money": None}
 
