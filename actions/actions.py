@@ -3,7 +3,7 @@ import logging
 from rasa_sdk import Tracker, Action
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction, REQUESTED_SLOT
-from rasa_sdk.events import AllSlotsReset, SlotSet, EventType
+from rasa_sdk.events import SlotSet, EventType
 from actions.parsing import (
     parse_duckling_time_as_interval,
     parse_duckling_time,
@@ -174,9 +174,11 @@ class PayCCForm(FormAction):
         else:
             dispatcher.utter_message(template="utter_cc_pay_cancelled")
         return [
-            AllSlotsReset(),
-            SlotSet("payment_amount_type", ""),
-            SlotSet("currency", tracker.get_slot("currency")),
+            SlotSet("credit_card", None),
+            SlotSet("payment_amount", None),
+            SlotSet("confirm", None),
+            SlotSet("time", None),
+            SlotSet("grain", None)
         ]
 
 
@@ -324,9 +326,11 @@ class TransactSearchForm(FormAction):
         )
 
         return [
-            AllSlotsReset(),
-            SlotSet("payment_amount_type", ""),
-            SlotSet("currency", tracker.get_slot("currency")),
+            SlotSet("time", None),
+            SlotSet("start_time", None),
+            SlotSet("end_time", None),
+            SlotSet("grain", None),
+            SlotSet("search_type", None),
         ]
 
 
@@ -393,19 +397,19 @@ class TransferForm(FormAction):
         if tracker.get_slot("confirm"):
             dispatcher.utter_message(template="utter_transfer_complete")
             return [
-                AllSlotsReset(),
-                SlotSet("payment_amount_type", ""),
-                SlotSet("currency", tracker.get_slot("currency")),
+                SlotSet("PERSON", None),
+                SlotSet("amount_of_money", None),
+                SlotSet("confirm", None),
                 SlotSet(
                     "amount_transferred", tracker.get_slot("amount_of_money")
-                ),
+                )
             ]
         else:
             dispatcher.utter_message(template="utter_transfer_cancelled")
             return [
-                AllSlotsReset(),
-                SlotSet("payment_amount_type", ""),
-                SlotSet("currency", tracker.get_slot("currency")),
+                SlotSet("PERSON", None),
+                SlotSet("amount_of_money", None),
+                SlotSet("confirm", None)
             ]
 
 
