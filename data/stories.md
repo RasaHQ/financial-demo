@@ -159,8 +159,10 @@
     - form{"name":"cc_payment_form"}
 * check_balance
     - action_account_balance
-    - cc_payment_form
-    - form{"name":null}
+    - utter_ask_continue
+* deny
+    - utter_ok
+    - form{"name": null}
     - slot{"requested_slot":null}
 
 ## Pay CC ask account balance
@@ -168,11 +170,12 @@
 * pay_cc
     - cc_payment_form
     - form{"name":"cc_payment_form"}
-* check_balance{"payment_amount":"balance"}
-    - slot{"payment_amount":"balance"}
+* check_balance
     - action_account_balance
+    - utter_ask_continue
+* affirm
     - cc_payment_form
-    - form{"name":null}
+    - form{"name": null}
     - slot{"requested_slot":null}
 
 ## Transfer money ask account balance

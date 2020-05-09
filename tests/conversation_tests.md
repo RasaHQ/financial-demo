@@ -31,6 +31,8 @@
     - form: cc_payment_form
 * check_balance: what's my account balance?
     - action_account_balance
+    - utter_ask_continue
+* affirm: Yes
     - cc_payment_form
 * form: inform: 8am on Friday February 21 2020
     - form: cc_payment_form
