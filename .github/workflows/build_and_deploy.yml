@@ -107,7 +107,7 @@ jobs:
           || contains(  steps.files.outputs.all, 'domain.yml' )
       working-directory: ${{ github.workspace }}
       run: |
-        rasa test core --stories test/test_stories.md --fail-on-prediction-errors
+        rasa test core --stories tests/conversation_tests.md --fail-on-prediction-errors
     - name: Upload model
       if: |
           github.ref == 'refs/heads/master' 
