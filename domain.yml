@@ -30,11 +30,6 @@ entities:
 slots:
   PERSON:
     type: unfeaturized
-  account_balance:
-    type: unfeaturized
-    initial_value: 1000
-  amount_of_money:
-    type: unfeaturized
   amount_transferred:
     type: unfeaturized
   confirm:
@@ -53,8 +48,6 @@ slots:
   search_type:
     type: unfeaturized
   start_time:
-    type: unfeaturized
-  time:
     type: unfeaturized
   grain:
     type: unfeaturized
@@ -79,12 +72,8 @@ responses:
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
       charged. For subsequent transfers you will be charged 10 per transaction.
-  utter_ask_cc_payment_form_payment_amount:
-  - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
   - text: Towards which credit card account do you want to make a payment?
-  utter_ask_cc_payment_form_time:
-  - text: For which date would you like to schedule the payment?
   utter_ask_transact_search_form_vendor_name:
   - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
       Amazon
@@ -152,10 +141,8 @@ responses:
   - text: "Your balance is {currency}{init_account_balance}"
   utter_changed_account_balance:
   - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after the transfer"
-actions:
-- action_account_balance
+
 
 forms:
-- cc_payment_form
 - transfer_form
 - transact_search_form

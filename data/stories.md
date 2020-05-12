@@ -6,15 +6,7 @@
 * goodbye
   - utter_goodbye
 
-## pay credit card happy path
-* greet
-    - utter_greet
-* pay_cc
-    - cc_payment_form
-    - form{"name": "cc_payment_form"}
-    - form{"name": null}
-* thankyou
-    - utter_noworries
+
 
 ## pay credit card and check account balance
 * pay_cc
@@ -24,16 +16,7 @@
 * check_balance
     - action_account_balance
 
-## pay credit card and check account balance inside form
-* pay_cc
-    - cc_payment_form
-    - form{"name": "cc_payment_form"}
-* check_balance
-    - action_account_balance
-    - utter_ask_continue
-* affirm
-    - cc_payment_form
-    - form{"name": null}
+
 
 ## pay cc happy path no greet
 * pay_cc

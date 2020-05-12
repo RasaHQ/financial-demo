@@ -12,7 +12,7 @@ pipeline:
     epochs: 100
   - name: EntitySynonymMapper
   - name: DucklingHTTPExtractor
-    url: http://localhost:8000
+    url: http://duckling.rasa.com:8000
     dimensions:
     - amount-of-money
     - time

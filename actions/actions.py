@@ -55,7 +55,8 @@ class PayCCForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return ["credit_card", "payment_amount", "time", "confirm"]
+        ##TODO: define required slots
+        return []
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -71,11 +72,8 @@ class PayCCForm(FormAction):
                 self.from_entity(entity="amount-of-money"),
                 self.from_entity(entity="number"),
             ],
-            "time": [self.from_entity(entity="time")],
-            "confirm": [
-                self.from_intent(value=True, intent="affirm"),
-                self.from_intent(value=False, intent="deny"),
-            ],
+            ##TODO: define slots mappings for slots "time" and "confirm"
+
         }
 
     @staticmethod
@@ -140,11 +138,9 @@ class PayCCForm(FormAction):
     ) -> Dict[Text, Any]:
         """Validate credit_card value."""
 
-        if value and value.lower() in self.credit_card_db():
-            return {"credit_card": value}
-        else:
-            dispatcher.utter_message(template="utter_no_creditcard")
-            return {"credit_card": None}
+        ##TODO: implement credit card validation
+        pass
+
 
     def validate_time(
         self,
@@ -171,10 +167,9 @@ class PayCCForm(FormAction):
         """Define what the form has to do
             after all required slots are filled"""
 
-        if tracker.get_slot("confirm"):
-            dispatcher.utter_message(template="utter_cc_pay_scheduled")
-        else:
-            dispatcher.utter_message(template="utter_cc_pay_cancelled")
+        ##TODO: implement the submit function
+
+
         return [
             SlotSet("credit_card", None),
             SlotSet("payment_amount", None),
@@ -419,23 +414,24 @@ class TransferForm(FormAction):
 
 class ActionAccountBalance(Action):
     def name(self):
-        return "action_account_balance"
+        ##TODO: implement the name of the action
+        pass
+
 
     def run(self, dispatcher, tracker, domain):
         init_account_balance = float(tracker.get_slot("account_balance"))
-        amount = tracker.get_slot("amount_transferred")
+        ##TODO: return the value of the slot amount_transferred as variable "amount"
+
         if amount:
             amount = float(tracker.get_slot("amount_transferred"))
-            account_balance = init_account_balance - amount
+            ##TODO: calculate the new account balance
+
             dispatcher.utter_message(
-                template="utter_changed_account_balance",
-                init_account_balance=f"{init_account_balance:.2f}",
-                account_balance=f"{account_balance:.2f}",
+            ##TODO: define the response template
             )
             return [
-                SlotSet("payment_amount", None),
-                SlotSet("account_balance", account_balance),
-                SlotSet("amount_transferred", None),
+            ##TODO: Set the new values of the slots
+
             ]
         else:
             dispatcher.utter_message(
