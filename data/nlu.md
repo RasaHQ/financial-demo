@@ -8,6 +8,8 @@
 - yeah
 - yes please
 - yes plz
+- /affirm
+- sure
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
@@ -67,6 +69,7 @@
 - hey
 - good evening
 - hello
+- Hi
 
 ## intent:inform
 - $10
@@ -134,6 +137,8 @@
 - for saturday
 - I want to pay the [minimum balance](payment_amount) on my [gringots](credit_card) credit card today
 - today
+- [Iron Bank](credit_card)
+- twelve dollars
 
 ## intent:pay_cc
 - I would like to pay the [minimum balance](payment_amount) on my [gringtos](credit_card) card
@@ -160,6 +165,8 @@
 - i want to pay my [current balance](payment_amount) on my [gringots](credit_card) credit card
 - I want to pay $500 on my [gringots](credit_card) credit card on Sunday
 - I want to pay my [current balance](payment_amount) on my [gringots](credit_card) credit card today
+- I want to make a payment on my credit card
+- wait, actually I want to make a payment on my credit card
 
 ## intent:search_transactions
 - how much did I spend at [Target](vendor_name) this week?
@@ -203,3 +210,4 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
+- Actually, I want to transfer money instead

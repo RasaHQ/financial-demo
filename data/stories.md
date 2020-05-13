@@ -214,3 +214,46 @@
     - utter_ask_back_to_transfer
 * deny
     - utter_ok
+
+## New Story
+
+* greet
+    - utter_greet
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+    - slot{"requested_slot":"PERSON"}
+* pay_cc
+    - cc_payment_form
+    - form{"name":"cc_payment_form"}
+    - slot{"requested_slot":"credit_card"}
+* inform{"credit_card":"iron bank"}
+    - slot{"credit_card":"iron bank"}
+    - cc_payment_form
+    - slot{"credit_card":"iron bank"}
+    - slot{"requested_slot":"payment_amount"}
+* inform{"amount-of-money":25}
+    - cc_payment_form
+    - slot{"payment_amount":25}
+    - slot{"amount_of_money":"25.00"}
+    - slot{"currency":"$"}
+    - slot{"requested_slot":"time"}
+* inform{"time":"2020-05-14T00:00:00.000-07:00"}
+    - slot{"time":"2020-05-14T00:00:00.000-07:00"}
+    - cc_payment_form
+    - slot{"time":"Thursday May 14, 2020"}
+    - slot{"grain":"day"}
+    - slot{"requested_slot":"confirm"}
+* deny
+    - cc_payment_form
+    - slot{"confirm":false}
+    - slot{"credit_card":null}
+    - slot{"payment_amount":null}
+    - slot{"confirm":null}
+    - slot{"time":null}
+    - slot{"grain":null}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+    - utter_ask_back_to_transfer
+* deny
+    - utter_ok
