@@ -214,3 +214,35 @@
     - utter_ask_back_to_transfer
 * deny
     - utter_ok
+
+## New Story
+
+* greet
+    - utter_greet
+* check_balance{"payment_amount":"balance"}
+    - slot{"payment_amount":"balance"}
+    - action_account_balance
+    - slot{"payment_amount":null}
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+    - slot{"requested_slot":"PERSON"}
+* check_balance{"PERSON":"Ben"}
+    - slot{"PERSON":"Ben"}
+    - transfer_form
+    - slot{"PERSON":"Ben"}
+    - slot{"requested_slot":"amount_of_money"}
+* inform{"amount-of-money":100}
+    - transfer_form
+    - slot{"amount_of_money":"100.00"}
+    - slot{"currency":"$"}
+    - slot{"requested_slot":"confirm"}
+* affirm
+    - transfer_form
+    - slot{"confirm":true}
+    - slot{"PERSON":null}
+    - slot{"amount_of_money":null}
+    - slot{"confirm":null}
+    - slot{"amount_transferred":"100.00"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
