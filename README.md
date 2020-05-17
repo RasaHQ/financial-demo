@@ -1,5 +1,5 @@
-# Financial Services Demo Bot
-This is a demo bot for financial services.
+# ixo Assistant
+This is the reference contextual AI assistant for ixo networks.
 
 ## To install the dependencies:
 
@@ -8,7 +8,7 @@ Run:
 pip install -r requirements.txt
 ```
 
-## To run the bot:
+## To run the assistant:
 
 Use `rasa train` to train a model.
 
@@ -22,14 +22,14 @@ In another window, run the duckling server (for entity extraction):
 docker run -p 8000:8000 rasa/duckling
 ```
 
-Then to talk to the bot, run:
+Then to talk to the assistant, run:
 ```
 rasa shell --debug
 ```
 
 
-Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working 
-under the hood. To simply talk to the bot, you can remove this flag.
+Note that `--debug` mode will produce a lot of output meant to help you understand how the assistant is working 
+under the hood. To simply talk to the assistant, you can remove this flag.
 
 
 ## Overview of the files
@@ -49,36 +49,29 @@ under the hood. To simply talk to the bot, you can remove this flag.
 
 ## Things you can ask the bot
 
-The bot currently has five skills. You can ask it to:
-1. Transfer money to another person
-2. Check your earning or spending history (with a specific vendor or overall)
-3. Answer a question about transfer charges
-4. Pay a credit card bill
-5. Tell you your account balance
+The assistant currently has five skills. You can ask it to:
+1. 
 
 It also has a limited ability to switch skills mid-transaction and then return to the transaction at hand.
 
-For the purposes of illustration, the bot recognises the following fictional credit card accounts:
+For the purposes of illustration, the assistant recognises the following entitites:
 
-- `gringots`
-- `justice bank`
-- `credit all`
-- `iron bank`
+- `entity `
 
 It recognises the following payment amounts (besides actual currency amounts):
 
 - `minimum balance`
 - `current balance`
 
-It recognises the following vendors (for spending history):
+It recognises the following services (for fee history):
 
-- `Starbucks`
-- `Amazon`
-- `Target`
+- ` `
+- ` `
+- ` `
 
 You can change any of these by modifying `actions.py` and the corresponding NLU data.
 
-## Testing the bot
+## Testing the assistant
 
-You can test the bot on the test conversations by running  `rasa test`. 
+You can test the assistant on the test conversations by running  `rasa test`. 
 Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! 
