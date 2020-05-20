@@ -336,13 +336,13 @@ class TransactSearchForm(FormAction):
         ]
 
 
-class TransferForm(FormAction):
-    """Transfer money form..."""
+class FuelEntityForm(FormAction):
+    """Fuel entity form..."""
 
     def name(self) -> Text:
         """Unique identifier of the form"""
 
-        return "transfer_form"
+        return "fuel_entity_form"
 
     def request_next_slot(
         self,
@@ -357,7 +357,7 @@ class TransferForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return ["PERSON", "amount_of_money", "confirm"]
+        return ["entity_id", "ixo_amount","to_wallet_address", "confirm"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -367,35 +367,12 @@ class TransferForm(FormAction):
             or a list of them, where a first match will be picked"""
 
         return {
-            "PERSON": [self.from_entity(entity="PERSON")],
-            "amount_of_money": [
-                self.from_entity(entity="amount-of-money"),
-                self.from_entity(entity="number"),
-            ],
             "confirm": [
                 self.from_intent(value=True, intent="affirm"),
                 self.from_intent(value=False, intent="deny"),
             ],
         }
 
-    def validate_amount_of_money(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        try:
-            entity = get_entity_details(
-                tracker, "amount-of-money"
-            ) or get_entity_details(tracker, "number")
-            amount_currency = parse_duckling_currency(entity)
-            if not amount_currency:
-                raise (TypeError)
-            return amount_currency
-        except (TypeError, AttributeError):
-            dispatcher.utter_message(template="utter_no_payment_amount")
-            return {"amount_of_money": None}
 
     def submit(self, dispatcher, tracker, domain):
         if tracker.get_slot("confirm"):
@@ -443,54 +420,3 @@ class ActionAccountBalance(Action):
                 init_account_balance=f"{init_account_balance:.2f}",
             )
             return [SlotSet("payment_amount", None)]
-        class fuelentityform(FormAction):
-    """Fuel an entity with IXO credits"""
-
-    def name(self) -> Text:
-        """Unique identifier of the form"""
-
-        return "fuel_entity_form"
-
-    def request_next_slot(
-        self,
-        dispatcher: "CollectingDispatcher",
-        tracker: "Tracker",
-        domain: Dict[Text, Any],
-    ) -> Optional[List[EventType]]:
-
-        return custom_request_next_slot(self, dispatcher, tracker, domain)
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        """A list of required slots that the form has to fill"""
-
-        return ["entity_id", "ixo_amount","to_wallet_address", "confirm"]
-
-    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-        """A dictionary to map required slots to
-            - an extracted entity
-            - intent: value pairs
-            - a whole message
-            or a list of them, where a first match will be picked"""
-
-        return {
-            "confirm": [
-                self.from_intent(value=True, intent="affirm"),
-                self.from_intent(value=False, intent="deny"),
-            ],
-        }
-
-    def submit(self, dispatcher, tracker, domain):
-        if tracker.get_slot("confirm"):
-            dispatcher.utter_message("This transaction is ready for you to sign")
-            return [
-                SlotSet("PERSON", None),
-                SlotSet("ixo_amount", None),
-                SlotSet("confirm", None),
-            ]
-        else:
-            dispatcher.utter_message(template="utter_transfer_cancelled")
-            return [
-                SlotSet("ixo_amount", None),
-                SlotSet("confirm", None),
-            ]
