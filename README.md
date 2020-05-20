@@ -1,5 +1,6 @@
-# Financial Services Demo Bot
-This is a demo bot for financial services.
+# Financial Services Example Bot
+
+This is an example chatbot demonstrating how to build AI assistants for financial services and banking. This starter pack can be used as a base for your own development or as a reference guide for implementing common banking-industry features with Rasa. It includes pre-built intents, actions, and stories for handling conversation flows like checking spending history and transferring money to another account.
 
 ## To install the dependencies:
 
@@ -81,4 +82,36 @@ You can change any of these by modifying `actions.py` and the corresponding NLU 
 ## Testing the bot
 
 You can test the bot on the test conversations by running  `rasa test`. 
-Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! 
+This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`. 
+
+Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! Since duckling entities' extraction is not influenced by NLU training data, and since `time` entities' values depend on when the tests are being run, these have been left unannotated in the conversation tests.
+
+## Rasa X Deployment
+
+To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the 
+[one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and 
+configurations, and build or pull an action server image.
+
+### Action Server Image
+
+You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use
+the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself. 
+
+
+See the Dockerfile for what is included in the action server image,
+
+To build the image:
+
+```bash
+docker build . -t <name of your custom image>:<tag of your custom image>
+```
+
+To test the container locally, you can then run the action server container with:
+
+```bash
+docker run -p 5055:5055 <name of your custom image>:<tag of your custom image>
+```
+
+Once you have confirmed that the container works as it should, you can push the container image to a registry with `docker push`
+
+It is recommended to use an automated CI/CD process to keep your action server up to date in a production environment.
