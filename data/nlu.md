@@ -20,6 +20,17 @@
 - is there a xfer fee
 - how much is the transfer fee
 
+## intent:fuel_my_entity
+- Add fuel
+- Add ixo
+- top up my fuel
+- add ixo to my project
+- add ixo to my cell
+- Fuel my project
+- Fuel my cell
+- Pay for my project
+- Pay for my cell
+
 ## intent:check_balance
 - How much money is on my account?
 - What's left on that account?
