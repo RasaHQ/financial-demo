@@ -443,3 +443,54 @@ class ActionAccountBalance(Action):
                 init_account_balance=f"{init_account_balance:.2f}",
             )
             return [SlotSet("payment_amount", None)]
+        class fuelentityform(FormAction):
+    """Fuel an entity with IXO credits"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "fuel_entity_form"
+
+    def request_next_slot(
+        self,
+        dispatcher: "CollectingDispatcher",
+        tracker: "Tracker",
+        domain: Dict[Text, Any],
+    ) -> Optional[List[EventType]]:
+
+        return custom_request_next_slot(self, dispatcher, tracker, domain)
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ["entity_id", "ixo_amount","to_wallet_address", "confirm"]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        """A dictionary to map required slots to
+            - an extracted entity
+            - intent: value pairs
+            - a whole message
+            or a list of them, where a first match will be picked"""
+
+        return {
+            "confirm": [
+                self.from_intent(value=True, intent="affirm"),
+                self.from_intent(value=False, intent="deny"),
+            ],
+        }
+
+    def submit(self, dispatcher, tracker, domain):
+        if tracker.get_slot("confirm"):
+            dispatcher.utter_message("This transaction is ready for you to sign")
+            return [
+                SlotSet("PERSON", None),
+                SlotSet("ixo_amount", None),
+                SlotSet("confirm", None),
+            ]
+        else:
+            dispatcher.utter_message(template="utter_transfer_cancelled")
+            return [
+                SlotSet("ixo_amount", None),
+                SlotSet("confirm", None),
+            ]
