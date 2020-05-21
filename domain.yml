@@ -154,7 +154,7 @@ responses:
   utter_ask_fuel_entity_form_ixo_amount:
   - text: Let's go ahead with adding {ixo_amount} IXO credits, or please enter a different amount
   utter_ask_fuel_entity_form_confirm:
-  - text: 'So let's confirm that we are loading up {ixo_amount} IXO credits. You will still have the opportunity to review your order before submitting the transaction'
+  - text: 'So lets confirm that we are loading up {ixo_amount} IXO credits. You will still have the opportunity to review your order before submitting the transaction'
     buttons:
       - title: Confirm
         payload: /affirm
