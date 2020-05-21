@@ -39,12 +39,13 @@ entities:
 slots:
   ixo_amount:
     type: unfeaturized
-    initial_value: 100
+    initial_value: 1000
   ixo_transaction_fee:
     type: unfeaturized
     initial_value: 10
   ixo_currency_conversion:
     type: unfeaturized
+    initial_value: 10
   PERSON:
     type: unfeaturized
   account_balance:
@@ -54,16 +55,21 @@ slots:
     type: unfeaturized
   amount_transferred:
     type: unfeaturized
+    initial_value: 1000
   confirm:
     type: unfeaturized
   to_wallet_address:
     type: unfeaturized
+    initial_value: did:ixo:Lup7hzAUVJpJHG8rVTFZQJ
   from_wallet_balance_pre:
     type: unfeaturized
+    initial_value: 1000
   from_wallet_balance_post:
     type: unfeaturized
+    initial_value: 0
   entity_id:
    type: unfeaturized
+   initial_value: did:ixo:Lup7hzAUVJpJHG8rVTFZQJ
   agent_id:
    type: unfeaturized
   transaction_fee:
@@ -75,6 +81,7 @@ slots:
     type: unfeaturized
   fee_currency:
     type: unfeaturized
+    initial_value: Euros
   fee_type:
     type: unfeaturized
   offer_description:
@@ -129,6 +136,8 @@ responses:
   - text: The equivalent {currency} value of your credits will be approximately {ixo_currency_conversion}
   utter_fee_description_freehosting:
   - text: If you add 1,000 or more IXO credits, you will get 12 months of standard data hosting included (fair use terms apply).
+  utter_adding_fuel:
+  - text: Now carefully check your order details, then sign the transaction.
   utter_ask_confirm_offer:
     - text: 'Would you like to accept the offer of {offer_description}?'
       buttons:

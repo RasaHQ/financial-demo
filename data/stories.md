@@ -238,13 +238,8 @@
     - form{"name": null}
 * stop
     - utter_ask_continue
-* pay_cc
-    - cc_payment_form
-    - form{"name":"cc_payment_form"}
-    - form{"name": null}
-    - utter_ask_back_to_transfer
 * deny
     - utter_ok
     - form{"name": null}
 * success
-    - utter__fuel_added
+    - utter_adding_fuel
