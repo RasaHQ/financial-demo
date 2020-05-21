@@ -4,18 +4,26 @@ session_config:
 intents:
 - transfer_money:
     use_entities: []
-- inform
+- inform:
+  use_entities: []
 - pay_cc:
     use_entities: []
-- greet
-- goodbye
-- affirm
-- deny
-- thankyou
-- ask_transaction_charge
+- greet:
+  use_entities: []
+- goodbye:
+  use_entities: []
+- affirm:
+  use_entities: []
+- deny:
+  use_entities: []
+- thankyou:
+  use_entities: []
+- ask_transaction_charge:
+  use_entities: []
 - search_transactions:
     use_entities: []
-- check_balance
+- check_balance:
+  use_entities: []
 - fuel_my_entity:
     use_entities: []
 - check_earnings:
