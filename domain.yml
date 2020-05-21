@@ -37,13 +37,13 @@ entities:
 - PERSON
 - number
 slots:
-  ixo_amount
+  ixo_amount:
     type: unfeaturized
     initial_value: 100
-  ixo_transaction_fee
+  ixo_transaction_fee:
     type: unfeaturized
     initial_value: 10
-  ixo_currency_conversion
+  ixo_currency_conversion:
     type: unfeaturized
   PERSON:
     type: unfeaturized
@@ -56,33 +56,33 @@ slots:
     type: unfeaturized
   confirm:
     type: unfeaturized
-  to_wallet_address
+  to_wallet_address:
     type: unfeaturized
-  from_wallet_balance_pre
+  from_wallet_balance_pre:
     type: unfeaturized
-  from_wallet_balance_post
+  from_wallet_balance_post:
     type: unfeaturized
-  entity_id
+  entity_id:
    type: unfeaturized
-  agent_id
+  agent_id:
    type: unfeaturized
-  transaction_fee
+  transaction_fee:
    type: unfeaturized
    initial_value: 10 
-  fee_id
+  fee_id:
     type: unfeaturized
-  fee_amount
+  fee_amount:
     type: unfeaturized
-  fee_currency
+  fee_currency:
     type: unfeaturized
-  fee_type
+  fee_type:
     type: unfeaturized
-  offer_description
+  offer_description:
     type: unfeaturized
     initial_value: 12-months standard hosting
-  fee_description
+  fee_description:
     type: unfeaturized
-  file_id
+  file_id:
     type: unfeaturized
   credit_card:
     type: unfeaturized
@@ -107,27 +107,27 @@ slots:
     type: unfeaturized
     initial_value: "IXO"
 responses:
-  utter_project_entity_id
+  utter_project_entity_id:
   - text: I understand that you would like to add IXO credits to fuel the fees for your project
-  utter_cell_entity_id
+  utter_cell_entity_id:
   - text: I understand that you would like to add IXO credits to fuel the fees for your cell node
-  utter_currency
+  utter_currency:
   - text: The currency of this transaction is {currency}
-  utter_wallet_balance_pre
+  utter_wallet_balance_pre:
   - text: Your current IXO Credits balance in this wallet is {from_wallet_balance_pre}
-  utter_wallet_balance_post
+  utter_wallet_balance_post:
   - text: The balance in your wallet after this transaction will be { from_wallet_balance_post}
-  utter_fee_type
+  utter_fee_type:
   - text: The fee type for this transacton is {fee_type}
-  utter_transaction_fee_ixo
+  utter_transaction_fee_ixo:
   - text: You will be charged a standard transaction fee of {ixo_transaction_fee} IXO credits (included in the transaction amount).
-  utter_fuel_credit_amount
+  utter_fuel_credit_amount:
   - text: The suggested amount of credits to cover all fees is {ixo_amount} IXO
-  utter_fuel_credit_refund_policy
+  utter_fuel_credit_refund_policy:
   - text: You may choose to withdraw any remaining IXO credits at any point 
-  utter_ixo_currency_conversion
+  utter_ixo_currency_conversion:
   - text: The equivalent {currency} value of your credits will be approximately {ixo_currency_conversion}
-  utter_fee_description_freehosting
+  utter_fee_description_freehosting:
   - text: If you add 1,000 or more IXO credits, you will get 12 months of standard data hosting included (fair use terms apply).
   utter_ask_confirm_offer:
     - text: 'Would you like to accept the offer of {offer_description}?'
@@ -136,17 +136,17 @@ responses:
         payload: /affirm_offer
       - title: No thanks
         payload: /deny_offer
-  utter_ask_fuel_entity_form_from_wallet_address
+  utter_ask_fuel_entity_form_from_wallet_address:
   - text: Sending IXO Credits from this wallet address (which you control)
-  utter_got_it
+  utter_got_it:
   - text: Got it!
-  utter_ask_fuel_entity_form_to_wallet_address
+  utter_ask_fuel_entity_form_to_wallet_address:
   - text: The wallet address to which the IXO credits will be sent
-  utter_ask_fuel_entity_form_ixo_amount
+  utter_ask_fuel_entity_form_ixo_amount:
   - text: Let's go ahead with adding {ixo_amount} IXO credits, or please enter a different amount
-  utter_ask_fuel_entity_form_confirm
-    - text: 'So let's confirm that we are sending {ixo_amount}. You will still have the opportunity to review your order before submitting the transaction'
-      buttons:
+  utter_ask_fuel_entity_form_confirm:
+  - text: 'So let's confirm that we are loading up {ixo_amount} IXO credits. You will still have the opportunity to review your order before submitting the transaction'
+    buttons:
       - title: Confirm
         payload: /affirm
       - title: Cancel
