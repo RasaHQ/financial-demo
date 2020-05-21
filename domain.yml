@@ -24,7 +24,7 @@ intents:
 - check_earnings:
     use_entities: []
 - fuel_my_entity:
-    use_entities: []
+    use_entities: [ixo_entity]
 entities:
 - ixo_entity_id
 - ixo_entity
@@ -124,6 +124,8 @@ responses:
       your cell node
   utter_currency:
   - text: The currency of this transaction is {currency}
+  utter_add_fuel:
+  - text: Let's go ahead with adding some IXO credits to fuel your {ixo_entity}
   utter_wallet_balance_pre:
   - text: Your current IXO Credits balance in this wallet is {from_wallet_balance_pre}
   utter_wallet_balance_post:

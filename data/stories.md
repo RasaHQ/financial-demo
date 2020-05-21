@@ -8,6 +8,7 @@
 
 ## Fuel an entity with IXO credits
 * order
+    - utter_add_fuel
     - utter_project_entity_id
     - utter_fee_description_freehosting
     - utter_ask_confirm_hosting_offer
