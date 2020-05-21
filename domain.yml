@@ -138,7 +138,7 @@ responses:
   - text: If you add 1,000 or more IXO credits, you will get 12 months of standard data hosting included (fair use terms apply).
   utter_adding_fuel:
   - text: Now carefully check your order details, then sign the transaction.
-  utter_ask_confirm_offer:
+  utter_ask_confirm_hosting_offer:
     - text: 'Would you like to accept the offer of {offer_description}?'
       buttons:
       - title: Yes
