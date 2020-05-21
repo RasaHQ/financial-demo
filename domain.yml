@@ -60,7 +60,7 @@ slots:
     type: unfeaturized
   to_wallet_address:
     type: unfeaturized
-    initial_value: did:ixo:Lup7hzAUVJpJHG8rVTFZQJ
+    initial_value: "did:ixo:Lup7hzAUVJpJHG8rVTFZQJ"
   from_wallet_balance_pre:
     type: unfeaturized
     initial_value: 1000
@@ -69,7 +69,7 @@ slots:
     initial_value: 0
   entity_id:
    type: unfeaturized
-   initial_value: did:ixo:Lup7hzAUVJpJHG8rVTFZQJ
+   initial_value: "did:ixo:Lup7hzAUVJpJHG8rVTFZQJ"
   agent_id:
    type: unfeaturized
   transaction_fee:
@@ -81,12 +81,12 @@ slots:
     type: unfeaturized
   fee_currency:
     type: unfeaturized
-    initial_value: Euros
+    initial_value: "Euros"
   fee_type:
     type: unfeaturized
   offer_description:
     type: unfeaturized
-    initial_value: 12-months standard hosting
+    initial_value: "12-months standard hosting"
   fee_description:
     type: unfeaturized
   file_id:
