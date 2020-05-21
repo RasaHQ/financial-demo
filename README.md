@@ -84,7 +84,7 @@ You can change any of these by modifying `actions.py` and the corresponding NLU 
 You can test the bot on the test conversations by running  `rasa test`. 
 This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`. 
 
-Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! Since duckling entities' extraction is not influenced by NLU training data, and since `time` entities' values depend on when the tests are being run, these have been left unannotated in the conversation tests.
+Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! Since duckling entity extraction is not influenced by NLU training data, and since the values of `time` entities depend on when the tests are being run, these have been left unannotated in the conversation tests.
 
 ## Rasa X Deployment
 
@@ -114,4 +114,4 @@ docker run -p 5055:5055 <name of your custom image>:<tag of your custom image>
 
 Once you have confirmed that the container works as it should, you can push the container image to a registry with `docker push`
 
-It is recommended to use an automated CI/CD process to keep your action server up to date in a production environment.
+It is recommended to use an [automated CI/CD process](https://rasa.com/docs/rasa/user-guide/setting-up-ci-cd) to keep your action server up to date in a production environment.
