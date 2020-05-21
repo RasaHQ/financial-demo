@@ -23,10 +23,6 @@
     - utter_ask_fuel_entity_form_from_wallet_address
     - utter_wallet_balance_pre
     - utter_wallet_balance_post
-* chitchat
-    - utter_chitchat
-    - form{"name":"fuel_entity_form"}
-    - form{"name": null}
 * stop
     - utter_ask_continue
 * deny

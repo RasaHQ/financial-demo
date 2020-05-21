@@ -11,6 +11,11 @@ intents:
 - goodbye
 - affirm
 - deny
+- order
+- send_ixo
+- chitchat
+- stop
+- success
 - thankyou
 - ask_transfer_charge
 - search_transactions:
@@ -252,7 +257,6 @@ responses:
   - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after the transfer"
 actions:
 - action_account_balance
-
 forms:
 - cc_payment_form
 - transfer_form
