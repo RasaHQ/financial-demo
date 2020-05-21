@@ -20,8 +20,6 @@ intents:
     use_entities: []
 - fuel_my_entity:
     use_entities: []
-- check_earnings:
-    use_entities: []
 entities:
 - amount-of-money
 - ixo_entity_id
