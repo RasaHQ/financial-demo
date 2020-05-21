@@ -2,7 +2,7 @@ session_config:
   session_expiration_time: 0.0
   carry_over_slots_to_new_session: true
 intents:
-  - transfer_money:
+- transfer_money:
     use_entities: []
 - inform
 - pay_cc:
