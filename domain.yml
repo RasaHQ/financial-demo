@@ -32,11 +32,11 @@ slots:
     type: unfeaturized
   account_balance:
     type: unfeaturized
-    initial_value: 1000
   amount_of_money:
     type: unfeaturized
   amount_transferred:
     type: unfeaturized
+    initial_value: 0
   confirm:
     type: unfeaturized
   credit_card:
@@ -62,7 +62,15 @@ slots:
     type: unfeaturized
   currency:
     type: unfeaturized
-    initial_value: "$"
+  transaction_history:
+    type: unfeaturized
+  credit_card_balance:
+    type: unfeaturized
+  known_recipients:
+    type: unfeaturized
+  vendor_list:
+    type: unfeaturized
+
 responses:
   utter_ask_transfer_form_amount_of_money:
   - text: How much money do you want to transfer?
@@ -151,9 +159,13 @@ responses:
   utter_account_balance:
   - text: "Your balance is {currency}{init_account_balance}"
   utter_changed_account_balance:
-  - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after the transfer"
+  - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments"
+  utter_unknown_recipient:
+  - text: Sorry, that person is not in your list of known recipients. 
+
 actions:
 - action_account_balance
+- action_session_start
 
 forms:
 - cc_payment_form
