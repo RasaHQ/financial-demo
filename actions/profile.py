@@ -13,10 +13,7 @@ def create_mock_profile():
     account_balance = 0
 
     credit_card_balance = {}
-    transaction_history = {
-        "spend": {},
-        "deposit": {}
-    }
+    transaction_history = {"spend": {}, "deposit": {}}
 
     credit_card_db = [
         "iron bank",
@@ -48,38 +45,38 @@ def create_mock_profile():
     for vendor in vendor_db:
         rand_spend_amounts = sample(
             [round(amount, 2) for amount in list(arange(5, 50, 0.01))],
-            randint(1, 5)
+            randint(1, 5),
         )
 
-        rand_dates = (
-            [
-                (start_date + timedelta(days=randrange(number_of_days)))
-                .isoformat() for x in range(0, len(rand_spend_amounts))
-            ]
-        )
+        rand_dates = [
+            (
+                start_date + timedelta(days=randrange(number_of_days))
+            ).isoformat()
+            for x in range(0, len(rand_spend_amounts))
+        ]
 
         transaction_history["spend"][vendor] = [
-            {"amount": amount, "date": date} for amount, date
-            in zip(rand_spend_amounts, rand_dates)
+            {"amount": amount, "date": date}
+            for amount, date in zip(rand_spend_amounts, rand_dates)
         ]
         account_balance -= sum(rand_spend_amounts)
 
     for deposit in deposit_db:
         rand_deposit_amounts = sample(
             [round(amount, 2) for amount in list(arange(1000, 2000, 0.01))],
-            randint(1, 5)
+            randint(1, 5),
         )
 
-        rand_dates = (
-            [
-                (start_date + timedelta(days=randrange(number_of_days)))
-                .isoformat() for x in range(0, len(rand_deposit_amounts))
-            ]
-        )
+        rand_dates = [
+            (
+                start_date + timedelta(days=randrange(number_of_days))
+            ).isoformat()
+            for x in range(0, len(rand_deposit_amounts))
+        ]
 
         transaction_history["deposit"][deposit] = [
-            {"amount": amount, "date": date} for amount, date
-            in zip(rand_deposit_amounts, rand_dates)
+            {"amount": amount, "date": date}
+            for amount, date in zip(rand_deposit_amounts, rand_dates)
         ]
         account_balance += sum(rand_deposit_amounts)
 
@@ -87,10 +84,8 @@ def create_mock_profile():
         credit_card_balance[credit_card] = {
             "minimum balance": 20,
             "current balance": choice(
-                [
-                    round(amount, 2) for amount in list(arange(20, 500, 0.01))
-                ]
-            )
+                [round(amount, 2) for amount in list(arange(20, 500, 0.01))]
+            ),
         }
 
     mock_profile = {

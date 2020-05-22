@@ -285,16 +285,16 @@ class TransactSearchForm(FormAction):
 
         time_range = tracker.get_slot("time")
 
-        if ('to' not in time_range) or ('from' not in time_range):
-            from_date = date.fromisoformat(time_range.split('T')[0])
+        if ("to" not in time_range) or ("from" not in time_range):
+            from_date = date.fromisoformat(time_range.split("T")[0])
             to_date = date.today()
         else:
             from_date = date.fromisoformat(
-                time_range.get('from').split('T')[0]
+                time_range.get("from").split("T")[0]
             )
-            to_date = date.fromisoformat(time_range.get('to').split('T')[0])
+            to_date = date.fromisoformat(time_range.get("to").split("T")[0])
 
-        for i in range(len(transactions)-1, -1, -1):
+        for i in range(len(transactions) - 1, -1, -1):
             transaction = transactions[i]
             transaction_date = date.fromisoformat(transaction.get("date"))
 
@@ -420,7 +420,7 @@ class TransferForm(FormAction):
                 SlotSet(
                     "amount_transferred", amount_transferred + amount_of_money
                 ),
-                SlotSet("account_balance", f"{account_balance:.2f}")
+                SlotSet("account_balance", f"{account_balance:.2f}"),
             ]
         else:
             dispatcher.utter_message(template="utter_transfer_cancelled")
@@ -460,9 +460,7 @@ class ActionSessionStart(Action):
         return "action_session_start"
 
     @staticmethod
-    def _slot_set_events_from_tracker(
-        tracker: "Tracker",
-    ) -> List["SlotSet"]:
+    def _slot_set_events_from_tracker(tracker: "Tracker",) -> List["SlotSet"]:
         """Fetch SlotSet events from tracker and carry over keys and values"""
 
         return [
