@@ -8,7 +8,7 @@ from rasa_sdk.events import (
     EventType, 
     ActionExecuted, 
     EventType, 
-    SessionStarted 
+    SessionStarted,
 )
 from actions.parsing import (
     parse_duckling_time_as_interval,
