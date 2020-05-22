@@ -31,6 +31,9 @@ def create_mock_profile():
         "william",
         "karen",
         "kyle",
+        "john",
+        "percy",
+        "lisa",
     ]
     vendor_db = [
         "target",
