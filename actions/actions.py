@@ -3,11 +3,10 @@ import logging
 from rasa_sdk import Tracker, Action
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction, REQUESTED_SLOT
-from rasa_sdk.events import ( 
-    SlotSet, 
-    EventType, 
-    ActionExecuted, 
-    EventType, 
+from rasa_sdk.events import (
+    SlotSet,
+    EventType,
+    ActionExecuted,
     SessionStarted,
 )
 from actions.parsing import (
@@ -167,7 +166,7 @@ class PayCCForm(FormAction):
         cc_balance = tracker.get_slot("credit_card_balance")
         payment_amount = float(tracker.get_slot("payment_amount"))
         amount_transferred = float(tracker.get_slot("amount_transferred"))
-            
+
         if tracker.get_slot("confirm"):
             cc_balance[credit_card]["current balance"] -= payment_amount
             account_balance = account_balance - payment_amount
@@ -261,7 +260,6 @@ class TransactSearchForm(FormAction):
 
         return parsedinterval
 
-
     def submit(
         self,
         dispatcher: CollectingDispatcher,
@@ -291,10 +289,12 @@ class TransactSearchForm(FormAction):
             from_date = date.fromisoformat(time_range.split('T')[0])
             to_date = date.today()
         else:
-            from_date = date.fromisoformat(time_range.get('from').split('T')[0])
+            from_date = date.fromisoformat(
+                time_range.get('from').split('T')[0]
+            )
             to_date = date.fromisoformat(time_range.get('to').split('T')[0])
 
-        for i in range(len(transactions)-1,-1,-1):
+        for i in range(len(transactions)-1, -1, -1):
             transaction = transactions[i]
             transaction_date = date.fromisoformat(transaction.get("date"))
 
@@ -461,9 +461,9 @@ class ActionSessionStart(Action):
 
     @staticmethod
     def _slot_set_events_from_tracker(
-        tracker: "DialogueStateTracker",
+        tracker: "Tracker",
     ) -> List["SlotSet"]:
-        """Fetch SlotSet events from tracker and carry over key, value and metadata."""
+        """Fetch SlotSet events from tracker and carry over keys and values"""
 
         return [
             SlotSet(key=event.key, value=event.value, metadata=event.metadata)
@@ -478,21 +478,20 @@ class ActionSessionStart(Action):
         domain: Dict[Text, Any],
     ) -> List[EventType]:
 
-
         # the session should begin with a `session_started` event
         events = [SessionStarted()]
 
         events.extend(self._slot_set_events_from_tracker(tracker))
 
-        # create mock profile 
+        # create mock profile
         user_profile = create_mock_profile()
 
         # initialize slots from mock profile
-        for key,value in user_profile.items():
+        for key, value in user_profile.items():
             if value is not None:
                 events.append(SlotSet(key=key, value=value))
 
-        # an `action_listen` should be added at the end as a user message follows
+        # an `action_listen` should be added at the end
         events.append(ActionExecuted("action_listen"))
 
         return events
