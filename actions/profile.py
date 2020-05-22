@@ -2,7 +2,7 @@ from random import (
 	choice, 
 	randint, 
 	randrange, 
-	sample
+	sample,
 )
 from numpy import arange
 from datetime import date, timedelta
