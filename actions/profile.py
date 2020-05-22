@@ -25,14 +25,14 @@ def create_mock_profile():
     ]
 	deposit_db = [
     	"employer",
-    	"interest"
+    	"interest",
     ]
 	recipient_db = [
 		"emma",
 		"evan",
 		"william",
 		"karen",
-		"kyle"
+		"kyle",
 	]
 	vendor_db = [
 		"target",
@@ -93,7 +93,7 @@ def create_mock_profile():
 		"transaction_history": transaction_history,
 		"credit_card_balance": credit_card_balance,
 		"known_recipients": recipient_db,
-		"vendor_list": vendor_db
+		"vendor_list": vendor_db,
 	}
 	return mock_profile
 
