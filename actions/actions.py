@@ -183,7 +183,7 @@ class PayCCForm(FormAction):
             SlotSet("amount_of_money", None),
             SlotSet("amount_transferred", amount_transferred + payment_amount),
             SlotSet("account_balance", f"{account_balance:.2f}"),
-            SlotSet("credit_card_balance", cc_balance)
+            SlotSet("credit_card_balance", cc_balance),
         ]
 
 
@@ -325,7 +325,7 @@ class TransactSearchForm(FormAction):
             SlotSet("end_time", None),
             SlotSet("grain", None),
             SlotSet("search_type", None),
-            SlotSet("vendor_name", None)
+            SlotSet("vendor_name", None),
         ]
 
 
