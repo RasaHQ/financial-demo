@@ -24,7 +24,7 @@ intents:
 - check_earnings:
     use_entities: []
 - fuel_my_entity:
-    use_entities: [ixo_entity]
+    triggers: fuel_entity_form
 entities:
 - ixo_entity_id
 - ixo_entity
