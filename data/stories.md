@@ -10,6 +10,7 @@
 * order
     - utter_add_fuel
     - utter_project_entity_id
+    - utter_ask_affirm
     - utter_fee_description_freehosting
     - utter_ask_confirm_hosting_offer
     - utter_transaction_fee_ixo
@@ -19,6 +20,7 @@
     - fuel_entity_form
     - form{"name":"fuel_entity_form"}
     - utter_ask_fuel_entity_form_ixo_amount
+    - utter_ask_affirm
     - utter_got_it
     - utter_ask_fuel_entity_form_to_wallet_address
     - utter_ask_fuel_entity_form_from_wallet_address

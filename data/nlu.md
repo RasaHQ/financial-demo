@@ -30,6 +30,18 @@
 - Fuel my cell
 - Pay for my project
 - Pay for my cell
+- fuel my entity
+- I would like to fuel this project with IXO tokens
+- fund
+- fuel
+- fuel_my_entities
+- Fuel project
+- Fuel
+- Fuel a project
+- FuelEntityForm
+- fuel_entity_form
+- fuel my project
+- I would like to fuel my project
 
 ## intent:check_balance
 - How much money is on my account?
@@ -70,6 +82,7 @@
 - quit
 - stop
 - bye
+- Stop
 
 ## intent:greet
 - good morning
@@ -78,6 +91,8 @@
 - hey
 - good evening
 - hello
+- Hello
+- Hello there
 
 ## intent:inform
 - $10
@@ -214,3 +229,6 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
+
+## intent:chitchat
+- Are you a bit

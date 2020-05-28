@@ -2,42 +2,43 @@ session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
 intents:
-  - transfer_money:
-      use_entities: []
-  - inform
-  - pay_cc:
-      use_entities: []
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - order
-  - send_ixo
-  - stop
-  - success
-  - thankyou
-  - ask_transfer_charge
-  - search_transactions:
-      use_entities: []
-  - check_balance
-  - check_earnings:
-      use_entities: []
-  - fuel_my_entity:
-      triggers: fuel_entity_form
-  - fee
+- transfer_money:
+    use_entities: []
+- inform
+- pay_cc:
+    use_entities: []
+- greet
+- goodbye
+- affirm
+- deny
+- order
+- send_ixo
+- stop
+- success
+- thankyou
+- ask_transfer_charge
+- search_transactions:
+    use_entities: []
+- check_balance
+- check_earnings:
+    use_entities: []
+- fuel_my_entity:
+    triggers: fuel_entity_form
+- fee
+- chitchat
 entities:
-  - ixo_entity_id
-  - ixo_entity
-  - ixo_agent
-  - ixo_wallet
-  - currency
-  - fee
-  - token
-  - payment_amount
-  - credit_card
-  - payment_date
-  - vendor_name
-  - number
+- ixo_entity_id
+- ixo_entity
+- ixo_agent
+- ixo_wallet
+- currency
+- fee
+- token
+- payment_amount
+- credit_card
+- payment_date
+- vendor_name
+- number
 slots:
   PERSON:
     type: unfeaturized
@@ -62,7 +63,7 @@ slots:
     type: unfeaturized
   entity_id:
     type: unfeaturized
-    initial_value: 'did:ixo:Lup7hzAUVJpJHG8rVTFZQJ'
+    initial_value: did:ixo:Lup7hzAUVJpJHG8rVTFZQJ
   fee_amount:
     type: unfeaturized
   fee_currency:
@@ -108,7 +109,7 @@ slots:
     type: unfeaturized
   to_wallet_address:
     type: unfeaturized
-    initial_value: 'did:ixo:Lup7hzAUVJpJHG8rVTFZQJ'
+    initial_value: did:ixo:Lup7hzAUVJpJHG8rVTFZQJ
   transaction_fee:
     type: unfeaturized
     initial_value: 10
@@ -119,238 +120,212 @@ slots:
     type: unfeaturized
 responses:
   utter_project_entity_id:
-    - text: >-
-        I understand that you would like to add IXO credits to fuel the fees for
-        your project
+  - text: I understand that you would like to add IXO credits to your {ixo_entity}
+      with ID {entity_id}
   utter_cell_entity_id:
-    - text: >-
-        I understand that you would like to add IXO credits to fuel the fees for
-        your cell node
+  - text: I understand that you would like to add IXO credits to fuel the fees for
+      your cell node
   utter_currency:
-    - text: 'The currency of this transaction is {currency}'
+  - text: The currency of this transaction is {currency}
   utter_add_fuel:
-    - text: Let's go ahead with adding some IXO credits to add fuel
+  - text: I'm going to take you through a few steps to fuel your {ixo_entity}
   utter_wallet_balance_pre:
-    - text: >-
-        Your current IXO Credits balance in this wallet is
-        from_wallet_balance_pre
+  - text: Your current IXO Credits balance in this wallet is from_wallet_balance_pre
   utter_wallet_balance_post:
-    - text: >-
-        The balance in your wallet after this transaction will be
-        from_wallet_balance_post
+  - text: The balance in your wallet after this transaction will be from_wallet_balance_post
   utter_fee_type:
-    - text: The fee type for this transacton is fee_type
+  - text: The fee type for this transacton is fee_type
   utter_transaction_fee_ixo:
-    - text: >-
-        You will be charged a standard transaction fee of {ixo_gas_fee} IXO
-        credits (included in the transaction amount).
+  - text: You will be charged a standard transaction fee of {ixo_gas_fee} IXO credits
+      (included in the transaction amount).
   utter_fuel_credit_amount:
-    - text: The suggested amount of credits to cover all fees is ixo_amount IXO
+  - text: The suggested amount of credits to cover all fees is {ixo_amount} IXO
   utter_fuel_credit_refund_policy:
-    - text: You may choose to withdraw any remaining IXO credits at any point
+  - text: You will be able to withdraw any remaining balance of IXO credits
   utter_ixo_currency_conversion:
-    - text: >-
-        The equivalent _currency value of your credits will be approximately
-        {ixo_currency_conversion}
+  - text: The equivalent _currency value of your credits will be approximately {ixo_currency_conversion}
   utter_fee_description_freehosting:
-    - text: >-
-        If you add 1,000 or more IXO credits, you will get 12 months of standard
-        data hosting included (fair use terms apply).
+  - text: If you add 1,000 or more IXO credits, you will get 12 months of standard
+      data hosting included (fair use terms apply).
   utter_adding_fuel:
-    - text: 'Now carefully check your order details, then sign the transaction.'
+  - text: Now carefully check your order details, then I will transfer you to sign
+      this transaction in your wallet.
   utter_ask_confirm_hosting_offer:
-    - buttons:
-        - payload: /affirm_offer
-          title: 'Yes'
-        - payload: /deny_offer
-          title: No thanks
-      text: Would you like to accept the offer of offer_description?
+  - buttons:
+    - payload: /affirm_offer
+      title: Yes
+    - payload: /deny_offer
+      title: No thanks
+    text: Would you like to accept the offer of offer_description?
   utter_ask_fuel_entity_form_from_wallet_address:
-    - text: Sending IXO Credits from this wallet address (which you control)
+  - text: IXO will be sent from the wallet address (which you control)
   utter_got_it:
-    - text: Got it!
+  - text: Got it!
   utter_ask_fuel_entity_form_to_wallet_address:
-    - text: The wallet address to which the IXO credits will be sent
+  - text: The wallet address to which the IXO credits will be sent
   utter_ask_fuel_entity_form_ixo_amount:
-    - text: >-
-        Let's go ahead with adding {ixo_amount} IXO credits, or please enter a
-        different amount
+  - text: Let's go ahead with adding {ixo_amount} IXO credits, or please enter a different
+      amount
   utter_ask_fuel_entity_form_confirm:
-    - buttons:
-        - payload: /affirm
-          title: Confirm
-        - payload: /deny
-          title: Cancel
-      text: >-
-        So lets confirm that we are loading up {ixo_amount} IXO credits. You
-        will still have the opportunity to review your order before submitting
-        the transaction
+  - buttons:
+    - payload: /affirm
+      title: Confirm
+    - payload: /deny
+      title: Cancel
+    text: So lets confirm that we are loading up {ixo_amount} IXO credits. You will
+      still have the opportunity to review your order before submitting the transaction
   utter_ask_transfer_form_amount_of_money:
-    - text: How much money do you want to transfer?
+  - text: How much money do you want to transfer?
   utter_ask_transfer_form_PERSON:
-    - text: Who do you want to transfer money to?
+  - text: Who do you want to transfer money to?
   utter_goodbye:
-    - text: Bye
+  - text: Bye
   utter_greet:
-    - text: 'Hi, how can I help you?'
+  - text: Hi, how can I help you?
   utter_noworries:
-    - text: 'You''re welcome :)'
+  - text: You're welcome :)
   utter_transfer_complete:
-    - text: 'Successfully transferred {currency}{amount_of_money} to {PERSON}'
+  - text: Successfully transferred {currency}{amount_of_money} to {PERSON}
   utter_fuel_added:
-    - text: >-
-        You have successfully fueled your ixo_entity with {ixo_amount} IXO
-        credits to the value of _currency amount_of_money.
+  - text: You have successfully fuelled your ixo_entity with {ixo_amount} IXO credits
+      to the value of _currency amount_of_money.
   utter_transfer_charge:
-    - text: >-
-        You are entitled to six transfers within a statement cycle before being
-        charged. For subsequent transfers you will be charged 10 per
-        transaction.
+  - text: You are entitled to six transfers within a statement cycle before being
+      charged. For subsequent transfers you will be charged 10 per transaction.
   utter_ask_cc_payment_form_payment_amount:
-    - text: How much do you want to pay?
+  - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
-    - text: Towards which credit card account do you want to make a payment?
+  - text: Towards which credit card account do you want to make a payment?
   utter_ask_cc_payment_form_time:
-    - text: For which date would you like to schedule the payment?
+  - text: For which date would you like to schedule the payment?
   utter_ask_transact_search_form_vendor_name:
-    - text: >-
-        For which vendor do you want to see transactions?  e.g Starbucks,
-        Target, Amazon
+  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
+      Amazon
   utter_ask_transact_search_form_time:
-    - text: In which timeframe would you like to search for transactions?
+  - text: In which timeframe would you like to search for transactions?
   utter_no_payment_amount:
-    - text: 'Sorry, I don''t understand that payment amount.'
+  - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
-    - text: 'Sorry, that is not a valid payment date.'
+  - text: Sorry, that is not a valid payment date.
   utter_no_creditcard:
-    - text: 'Sorry, that is not a valid credit card account to make payments towards.'
+  - text: Sorry, that is not a valid credit card account to make payments towards.
   utter_no_vendor_name:
-    - text: 'Sorry, that''s not a recognized vendor.'
+  - text: Sorry, that's not a recognized vendor.
   utter_no_transactdate:
-    - text: 'Sorry, that''s not a recognized time frame.'
+  - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
-    - text: >-
-        Payment of {currency}{payment_amount}{payment_amount_type} towards your
-        {credit_card} account scheduled to be paid at {time}
+  - text: Payment of {currency}{payment_amount}{payment_amount_type} towards your
+      {credit_card} account scheduled to be paid at {time}
   utter_searching_spend_transactions:
-    - text: >-
-        Searching transactions{vendor_name} between {start_time} and
-        {end_time}...
+  - text: Searching transactions{vendor_name} between {start_time} and {end_time}...
   utter_found_spend_transactions:
-    - text: >-
-        I found {numtransacts} transactions{vendor_name} totalling
-        {currency}{total}
+  - text: I found {numtransacts} transactions{vendor_name} totalling {currency}{total}
   utter_searching_deposit_transactions:
-    - text: >-
-        Searching deposits made to your account between {start_time} and
-        {end_time}...
+  - text: Searching deposits made to your account between {start_time} and {end_time}...
   utter_found_deposit_transactions:
-    - text: >-
-        I found {numtransacts} deposits made to your account totalling
-        {currency}{total}
+  - text: I found {numtransacts} deposits made to your account totalling {currency}{total}
   utter_ask_rephrase:
-    - text: I didn't quite understand that. Can you rephrase?
+  - text: Hmm. I'm not sure how to answer that. Can you try rephrase please?
   utter_ask_switch_goal:
-    - text: >-
-        We haven't completed the transaction search yet. Are you sure you want
-        to switch to transfer money?
+  - text: We haven't completed the transaction search yet. Are you sure you want to
+      switch to transfer money?
   utter_ask_back_to_transact:
-    - text: Would you like to go back to the transaction search now?
+  - text: Would you like to go back to the transaction search now?
   utter_ask_back_to_transfer:
-    - text: Would you like to go back to transferring money now?
+  - text: Would you like to go back to transferring money now?
   utter_ok:
-    - text: "\U0001F44D"
-    - text: ok
+  - text: 👍
+  - text: ok
   utter_ask_continue:
-    - text: Would you like to continue?
+  - text: Would you like to continue?
   utter_default:
-    - text: 'Sorry, I didn''t get that. Could you rephrase?'
+  - text: Sorry, I didn't get that. Could you rephrase?
   utter_ask_cc_payment_form_confirm:
-    - buttons:
-        - payload: /affirm
-          title: 'Yes'
-        - payload: /deny
-          title: 'No, cancel the transaction'
-      text: >-
-        Would you like to schedule a payment of
-        {currency}{payment_amount}{payment_amount_type} towards your
-        {credit_card} account for {time}?
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transaction
+    text: Would you like to schedule a payment of {currency}{payment_amount}{payment_amount_type}
+      towards your {credit_card} account for {time}?
   utter_ask_transfer_form_confirm:
-    - buttons:
-        - payload: /affirm
-          title: 'Yes'
-        - payload: /deny
-          title: 'No, cancel the transaction'
-      text: 'Would you like to transfer {currency}{amount_of_money} to {PERSON}?'
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transaction
+    text: Would you like to transfer {currency}{amount_of_money} to {PERSON}?
   utter_transfer_cancelled:
-    - text: Transfer cancelled
+  - text: Transfer cancelled
   utter_cc_pay_cancelled:
-    - text: Credit card account payment cancelled
+  - text: Credit card account payment cancelled
   utter_account_balance:
-    - text: 'Your balance is {currency}{init_account_balance}'
+  - text: Your balance is {currency}{init_account_balance}
   utter_changed_account_balance:
-    - text: >-
-        Your balance was {currency}{init_account_balance} and is now
-        {currency}{account_balance} after the transfer
+  - text: Your balance was {currency}{init_account_balance} and is now {currency}{account_balance}
+      after the transfer
+  utter_ask_affirm:
+  - text: 'Is this correct? Buttons: Yes, No'
 actions:
-  - utter_project_entity_id
-  - utter_cell_entity_id
-  - utter_currency
-  - utter_wallet_balance_pre
-  - utter_wallet_balance_post
-  - utter_fee_type
-  - utter_transaction_fee_ixo
-  - utter_fuel_credit_amount
-  - utter_fuel_credit_refund_policy
-  - utter_ixo_currency_conversion
-  - utter_fee_description_freehosting
-  - utter_adding_fuel
-  - utter_ask_confirm_hosting_offer
-  - utter_ask_fuel_entity_form_from_wallet_address
-  - utter_got_it
-  - utter_ask_fuel_entity_form_to_wallet_address
-  - utter_ask_fuel_entity_form_ixo_amount
-  - utter_ask_fuel_entity_form_confirm
-  - utter_ask_transfer_form_amount_of_money
-  - utter_ask_transfer_form_PERSON
-  - utter_goodbye
-  - utter_greet
-  - utter_noworries
-  - utter_transfer_complete
-  - utter_fuel_added
-  - utter_transfer_charge
-  - utter_ask_cc_payment_form_payment_amount
-  - utter_ask_cc_payment_form_credit_card
-  - utter_ask_cc_payment_form_time
-  - utter_ask_transact_search_form_vendor_name
-  - utter_ask_transact_search_form_time
-  - utter_no_payment_amount
-  - utter_no_paymentdate
-  - utter_no_creditcard
-  - utter_no_vendor_name
-  - utter_no_transactdate
-  - utter_cc_pay_scheduled
-  - utter_searching_spend_transactions
-  - utter_found_spend_transactions
-  - utter_searching_deposit_transactions
-  - utter_found_deposit_transactions
-  - utter_ask_rephrase
-  - utter_ask_switch_goal
-  - utter_ask_back_to_transact
-  - utter_ask_back_to_transfer
-  - utter_ok
-  - utter_ask_continue
-  - utter_default
-  - utter_ask_cc_payment_form_confirm
-  - utter_ask_transfer_form_confirm
-  - utter_transfer_cancelled
-  - utter_cc_pay_cancelled
-  - utter_account_balance
-  - utter_changed_account_balance
-  - utter_ask_fuel_entity_form
-  - utter_add_fuel
+- utter_project_entity_id
+- utter_cell_entity_id
+- utter_currency
+- utter_wallet_balance_pre
+- utter_wallet_balance_post
+- utter_fee_type
+- utter_transaction_fee_ixo
+- utter_fuel_credit_amount
+- utter_fuel_credit_refund_policy
+- utter_ixo_currency_conversion
+- utter_fee_description_freehosting
+- utter_adding_fuel
+- utter_ask_confirm_hosting_offer
+- utter_ask_fuel_entity_form_from_wallet_address
+- utter_got_it
+- utter_ask_fuel_entity_form_to_wallet_address
+- utter_ask_fuel_entity_form_ixo_amount
+- utter_ask_fuel_entity_form_confirm
+- utter_ask_transfer_form_amount_of_money
+- utter_ask_transfer_form_PERSON
+- utter_goodbye
+- utter_greet
+- utter_noworries
+- utter_transfer_complete
+- utter_fuel_added
+- utter_transfer_charge
+- utter_ask_cc_payment_form_payment_amount
+- utter_ask_cc_payment_form_credit_card
+- utter_ask_cc_payment_form_time
+- utter_ask_transact_search_form_vendor_name
+- utter_ask_transact_search_form_time
+- utter_no_payment_amount
+- utter_no_paymentdate
+- utter_no_creditcard
+- utter_no_vendor_name
+- utter_no_transactdate
+- utter_cc_pay_scheduled
+- utter_searching_spend_transactions
+- utter_found_spend_transactions
+- utter_searching_deposit_transactions
+- utter_found_deposit_transactions
+- utter_ask_rephrase
+- utter_ask_switch_goal
+- utter_ask_back_to_transact
+- utter_ask_back_to_transfer
+- utter_ok
+- utter_ask_continue
+- utter_default
+- utter_ask_cc_payment_form_confirm
+- utter_ask_transfer_form_confirm
+- utter_transfer_cancelled
+- utter_cc_pay_cancelled
+- utter_account_balance
+- utter_changed_account_balance
+- utter_ask_fuel_entity_form
+- utter_add_fuel
+- utter_ask_affirm
 forms:
-  - cc_payment_form
-  - transfer_form
-  - transact_search_form
-  - fuel_entity_form
+- cc_payment_form
+- transfer_form
+- transact_search_form
+- fuel_entity_form
