@@ -114,6 +114,10 @@ class PayCCForm(FormAction):
             key = value.lower()
             amount = cc_balance.get(credit_card).get(key)
             amount_type = f" (your {key})"
+
+            if account_balance < float(amount):
+                dispatcher.utter_message(template="utter_insufficient_funds")
+                return {"payment_amount": None}
             return {
                 "payment_amount": f"{amount:.2f}",
                 "payment_amount_type": amount_type,
@@ -172,27 +176,23 @@ class PayCCForm(FormAction):
         amount_transferred = float(tracker.get_slot("amount_transferred"))
 
         if tracker.get_slot("confirm"):
-            if account_balance < payment_amount:
-                dispatcher.utter_message(template="utter_insufficient_funds")
-            else:
-                cc_balance[credit_card]["current balance"] -= payment_amount
-                account_balance = account_balance - payment_amount
-                dispatcher.utter_message(template="utter_cc_pay_scheduled")
+            cc_balance[credit_card]["current balance"] -= payment_amount
+            account_balance = account_balance - payment_amount
+            dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
-                return [
-                    SlotSet("credit_card", None),
-                    SlotSet("payment_amount", None),
-                    SlotSet("confirm", None),
-                    SlotSet("time", None),
-                    SlotSet("grain", None),
-                    SlotSet("amount_of_money", None),
-                    SlotSet(
-                        "amount_transferred",
-                        amount_transferred + payment_amount,
-                    ),
-                    SlotSet("account_balance", f"{account_balance:.2f}"),
-                    SlotSet("credit_card_balance", cc_balance),
-                ]
+            return [
+                SlotSet("credit_card", None),
+                SlotSet("payment_amount", None),
+                SlotSet("confirm", None),
+                SlotSet("time", None),
+                SlotSet("grain", None),
+                SlotSet("amount_of_money", None),
+                SlotSet(
+                    "amount_transferred", amount_transferred + payment_amount,
+                ),
+                SlotSet("account_balance", f"{account_balance:.2f}"),
+                SlotSet("credit_card_balance", cc_balance),
+            ]
         else:
             dispatcher.utter_message(template="utter_cc_pay_cancelled")
 
