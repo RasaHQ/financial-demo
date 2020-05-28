@@ -168,7 +168,7 @@ class PayCCForm(FormAction):
         amount_transferred = float(tracker.get_slot("amount_transferred"))
 
         if tracker.get_slot("confirm"):
-            if cc_balance[credit_card]["current balance"] < payment_amount:
+            if account_balance < payment_amount:
                 dispatcher.utter_message(template="utter_insufficient_funds")
             else:
                 cc_balance[credit_card]["current balance"] -= payment_amount
