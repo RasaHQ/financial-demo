@@ -169,7 +169,7 @@ responses:
   utter_known_recipients:
   - text: These are your known recipients {known_recipients}. 
   utter_credit_card_balance:
-  - text: The current balance for your {credit_card} account is {amount_of_money}. 
+  - text: The current balance for your {credit_card} account is {currency}{amount_of_money}. 
 
 actions:
 - action_account_balance
