@@ -192,7 +192,14 @@ class PayCCForm(FormAction):
         else:
             dispatcher.utter_message(template="utter_cc_pay_cancelled")
 
-        return None
+        return [
+            SlotSet("credit_card", None),
+            SlotSet("payment_amount", None),
+            SlotSet("confirm", None),
+            SlotSet("time", None),
+            SlotSet("grain", None),
+            SlotSet("amount_of_money", None),
+        ]
 
 
 class TransactSearchForm(FormAction):
@@ -487,7 +494,7 @@ class ActionCreditCardBalance(Action):
                 amount_of_money=f"{current_balance:.2f}",
             )
 
-        return
+        return []
 
 
 class ActionSessionStart(Action):
