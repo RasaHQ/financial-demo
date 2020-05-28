@@ -96,6 +96,7 @@ class PayCCForm(FormAction):
 
         credit_card = tracker.get_slot("credit_card")
         cc_balance = tracker.get_slot("credit_card_balance")
+        account_balance = float(tracker.get_slot("account_balance"))
         try:
             entity = get_entity_details(
                 tracker, "amount-of-money"
@@ -103,6 +104,9 @@ class PayCCForm(FormAction):
             amount_currency = parse_duckling_currency(entity)
             if not amount_currency:
                 raise (TypeError)
+            if account_balance < float(amount_currency.get("amount_of_money")):
+                dispatcher.utter_message(template="utter_insufficient_funds")
+                return {"payment_amount": None}
             return amount_currency
         except (TypeError, AttributeError):
             pass
@@ -408,6 +412,8 @@ class TransferForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
+
+        account_balance = float(tracker.get_slot("account_balance"))
         try:
             entity = get_entity_details(
                 tracker, "amount-of-money"
@@ -415,6 +421,9 @@ class TransferForm(FormAction):
             amount_currency = parse_duckling_currency(entity)
             if not amount_currency:
                 raise (TypeError)
+            if account_balance < float(amount_currency.get("amount_of_money")):
+                dispatcher.utter_message(template="utter_insufficient_funds")
+                return {"amount_of_money": None}
             return amount_currency
         except (TypeError, AttributeError):
             dispatcher.utter_message(template="utter_no_payment_amount")
@@ -424,14 +433,6 @@ class TransferForm(FormAction):
         if tracker.get_slot("confirm"):
             amount_of_money = float(tracker.get_slot("amount_of_money"))
             account_balance = float(tracker.get_slot("account_balance"))
-
-            if account_balance < amount_of_money:
-                dispatcher.utter_message(template="utter_insufficient_funds")
-                return [
-                    SlotSet("PERSON", None),
-                    SlotSet("amount_of_money", None),
-                    SlotSet("confirm", None),
-                ]
 
             updated_account_balance = account_balance - amount_of_money
 
