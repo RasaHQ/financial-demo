@@ -168,22 +168,31 @@ class PayCCForm(FormAction):
         amount_transferred = float(tracker.get_slot("amount_transferred"))
 
         if tracker.get_slot("confirm"):
-            cc_balance[credit_card]["current balance"] -= payment_amount
-            account_balance = account_balance - payment_amount
-            dispatcher.utter_message(template="utter_cc_pay_scheduled")
+            if cc_balance[credit_card]["current balance"] < payment_amount:
+                dispatcher.utter_message(template="utter_insufficient_funds")
+            else:
+                cc_balance[credit_card]["current balance"] -= payment_amount
+                account_balance = account_balance - payment_amount
+                dispatcher.utter_message(template="utter_cc_pay_scheduled")
+
+                return [
+                    SlotSet("credit_card", None),
+                    SlotSet("payment_amount", None),
+                    SlotSet("confirm", None),
+                    SlotSet("time", None),
+                    SlotSet("grain", None),
+                    SlotSet("amount_of_money", None),
+                    SlotSet(
+                        "amount_transferred",
+                        amount_transferred + payment_amount,
+                    ),
+                    SlotSet("account_balance", f"{account_balance:.2f}"),
+                    SlotSet("credit_card_balance", cc_balance),
+                ]
         else:
             dispatcher.utter_message(template="utter_cc_pay_cancelled")
-        return [
-            SlotSet("credit_card", None),
-            SlotSet("payment_amount", None),
-            SlotSet("confirm", None),
-            SlotSet("time", None),
-            SlotSet("grain", None),
-            SlotSet("amount_of_money", None),
-            SlotSet("amount_transferred", amount_transferred + payment_amount),
-            SlotSet("account_balance", f"{account_balance:.2f}"),
-            SlotSet("credit_card_balance", cc_balance),
-        ]
+
+        return None
 
 
 class TransactSearchForm(FormAction):
@@ -407,9 +416,18 @@ class TransferForm(FormAction):
     def submit(self, dispatcher, tracker, domain):
         if tracker.get_slot("confirm"):
             amount_of_money = float(tracker.get_slot("amount_of_money"))
-            account_balance = (
-                float(tracker.get_slot("account_balance")) - amount_of_money
-            )
+            account_balance = float(tracker.get_slot("account_balance"))
+
+            if account_balance < amount_of_money:
+                dispatcher.utter_message(template="utter_insufficient_funds")
+                return [
+                    SlotSet("PERSON", None),
+                    SlotSet("amount_of_money", None),
+                    SlotSet("confirm", None),
+                ]
+
+            updated_account_balance = account_balance - amount_of_money
+
             dispatcher.utter_message(template="utter_transfer_complete")
 
             amount_transferred = tracker.get_slot("amount_transferred")
@@ -420,7 +438,7 @@ class TransferForm(FormAction):
                 SlotSet(
                     "amount_transferred", amount_transferred + amount_of_money
                 ),
-                SlotSet("account_balance", f"{account_balance:.2f}"),
+                SlotSet("account_balance", f"{updated_account_balance:.2f}"),
             ]
         else:
             dispatcher.utter_message(template="utter_transfer_cancelled")
@@ -453,6 +471,23 @@ class ActionAccountBalance(Action):
                 init_account_balance=f"{account_balance:.2f}",
             )
             return [SlotSet("payment_amount", None)]
+
+
+class ActionCreditCardBalance(Action):
+    def name(self):
+        return "action_credit_card_balance"
+
+    def run(self, dispatcher, tracker, domain):
+        cc_balance = tracker.get_slot("credit_card_balance")
+        for cc in cc_balance.keys():
+            current_balance = cc_balance[cc]["current balance"]
+            dispatcher.utter_message(
+                template="utter_credit_card_balance",
+                credit_card=cc,
+                amount_of_money=f"{current_balance:.2f}",
+            )
+
+        return
 
 
 class ActionSessionStart(Action):

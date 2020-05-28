@@ -203,3 +203,20 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
+
+## intent:check_recipients
+- Who can I send money to?
+- Who are my known recipients
+- Show me my list of recipients
+- Show the recipient list
+- Show me people I can send money to
+- Who is a valid payee
+
+## intent:check_credit_card_balance
+- What's my credit card balance
+- What's my credit balance
+- How much money do I owe on my credit cards
+- Show me my credit card balance
+- What credit accounts do I have
+- Show me my credit accounts
+- Whats the balance on my credit account

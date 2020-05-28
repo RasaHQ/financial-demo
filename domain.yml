@@ -18,6 +18,8 @@ intents:
 - check_balance
 - check_earnings:
     use_entities: []
+- check_recipients
+- check_credit_card_balance
 entities:
 - amount-of-money
 - payment_amount
@@ -162,10 +164,17 @@ responses:
   - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments"
   utter_unknown_recipient:
   - text: Sorry, that person is not in your list of known recipients. 
+  utter_insufficient_funds:
+  - text: Sorry, you don't have enough money to do that!
+  utter_known_recipients:
+  - text: These are your known recipients {known_recipients}. 
+  utter_credit_card_balance:
+  - text: The current balance for your {credit_card} account is {amount_of_money}. 
 
 actions:
 - action_account_balance
 - action_session_start
+- action_credit_card_balance
 
 forms:
 - cc_payment_form
