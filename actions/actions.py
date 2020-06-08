@@ -399,8 +399,8 @@ class TransferForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
 
-        if value and value.lower() in tracker.get_slot("known_recipients"):
-            return {"PERSON": value}
+        if value and value.title() in tracker.get_slot("known_recipients"):
+            return {"PERSON": value.title()}
         else:
             dispatcher.utter_message(template="utter_unknown_recipient")
             return {"PERSON": None}
