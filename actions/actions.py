@@ -305,14 +305,14 @@ class TransactSearchForm(FormAction):
 
         time_range = tracker.get_slot("time")
 
-        if ("to" not in time_range) or ("from" not in time_range):
-            from_date = date.fromisoformat(time_range.split("T")[0])
-            to_date = date.today()
-        else:
+        if "to" in time_range and "from" in time_range:
             from_date = date.fromisoformat(
                 time_range.get("from").split("T")[0]
             )
             to_date = date.fromisoformat(time_range.get("to").split("T")[0])
+        else:
+            from_date = date.fromisoformat(time_range.split("T")[0])
+            to_date = date.today()
 
         for i in range(len(transactions) - 1, -1, -1):
             transaction = transactions[i]
@@ -486,16 +486,29 @@ class ActionCreditCardBalance(Action):
         return "action_credit_card_balance"
 
     def run(self, dispatcher, tracker, domain):
-        cc_balance = tracker.get_slot("credit_card_balance")
-        for cc in cc_balance.keys():
-            current_balance = cc_balance[cc]["current balance"]
+        credit_card_balance = tracker.get_slot("credit_card_balance")
+        credit_card = tracker.get_slot("credit_card")
+
+        if credit_card and credit_card.lower() in credit_card_balance:
+            current_balance = credit_card_balance[credit_card.lower()][
+                "current balance"
+            ]
             dispatcher.utter_message(
                 template="utter_credit_card_balance",
-                credit_card=cc,
+                credit_card=credit_card.title(),
                 amount_of_money=f"{current_balance:.2f}",
             )
+            return [SlotSet("credit_card", None)]
+        else:
+            for card in credit_card_balance.keys():
+                current_balance = credit_card_balance[card]["current balance"]
+                dispatcher.utter_message(
+                    template="utter_credit_card_balance",
+                    credit_card=card.title(),
+                    amount_of_money=f"{current_balance:.2f}",
+                )
 
-        return []
+            return []
 
 
 class ActionSessionStart(Action):
@@ -507,9 +520,9 @@ class ActionSessionStart(Action):
         """Fetch SlotSet events from tracker and carry over keys and values"""
 
         return [
-            SlotSet(key=event.key, value=event.value, metadata=event.metadata)
-            for event in tracker.applied_events()
-            if isinstance(event, SlotSet)
+            SlotSet(key=event.get("name"), value=event.get("value"),)
+            for event in tracker.events
+            if event.get("event") == "slot"
         ]
 
     async def run(

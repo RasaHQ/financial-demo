@@ -20,6 +20,7 @@ intents:
     use_entities: []
 - check_recipients
 - check_credit_card_balance
+- session_start
 entities:
 - amount-of-money
 - payment_amount
@@ -85,7 +86,7 @@ responses:
   utter_noworries:
   - text: You're welcome :)
   utter_transfer_complete:
-  - text: 'Successfully transferred {currency}{amount_of_money} to {PERSON}'
+  - text: 'Successfully transferred {currency}{amount_of_money} to {PERSON}.'
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
       charged. For subsequent transfers you will be charged 10 per transaction.
@@ -112,12 +113,12 @@ responses:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
   - text: 'Payment of {currency}{payment_amount}{payment_amount_type} towards your {credit_card}
-      account scheduled to be paid at {time}'
+      account scheduled to be paid at {time}.'
   utter_searching_spend_transactions:
   - text: Searching transactions{vendor_name} between {start_time}
       and {end_time}...
   utter_found_spend_transactions:
-  - text: 'I found {numtransacts} transactions{vendor_name} totalling {currency}{total}'
+  - text: 'I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.'
   utter_searching_deposit_transactions:
   - text: Searching deposits made to your account between {start_time}
       and {end_time}...
@@ -155,21 +156,21 @@ responses:
     - title: No, cancel the transaction
       payload: /deny
   utter_transfer_cancelled:
-  - text: Transfer cancelled
+  - text: Transfer cancelled.
   utter_cc_pay_cancelled:
-  - text: Credit card account payment cancelled
+  - text: Credit card account payment cancelled.
   utter_account_balance:
-  - text: "Your balance is {currency}{init_account_balance}"
+  - text: "Your balance is {currency}{init_account_balance}."
   utter_changed_account_balance:
-  - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments"
+  - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments."
   utter_unknown_recipient:
-  - text: Sorry, that person is not in your list of known recipients. 
+  - text: Sorry, that person is not in your list of known recipients.
   utter_insufficient_funds:
   - text: Sorry, you don't have enough money to do that!
   utter_known_recipients:
-  - text: These are your known recipients {known_recipients}. 
+  - text: These are your known recipients {known_recipients}.
   utter_credit_card_balance:
-  - text: The current balance for your {credit_card} account is {currency}{amount_of_money}. 
+  - text: The current balance for your {credit_card} account is {currency}{amount_of_money}.
 
 actions:
 - action_account_balance

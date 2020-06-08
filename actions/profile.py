@@ -18,7 +18,7 @@ def create_mock_profile():
     credit_card_db = [
         "iron bank",
         "credit all",
-        "gringots",
+        "gringotts",
         "justice bank",
     ]
     deposit_db = [
@@ -96,7 +96,7 @@ def create_mock_profile():
         "currency": currency,
         "transaction_history": transaction_history,
         "credit_card_balance": credit_card_balance,
-        "known_recipients": recipient_db,
+        "known_recipients": [recipient.title() for recipient in recipient_db],
         "vendor_list": vendor_db,
     }
     return mock_profile

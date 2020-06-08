@@ -222,3 +222,11 @@
 ## Show credit accounts
 * check_credit_card_balance
     - action_credit_card_balance
+
+## Show specific credit account
+* check_credit_card_balance{"credit_card":"gringotts"}
+    - action_credit_card_balance
+
+
+
+
