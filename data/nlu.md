@@ -43,6 +43,7 @@
 - check deposits for last week
 - total deposits over last year
 - how much was deposited in January
+- how much money have I earned?
 
 ## intent:deny
 - not really
