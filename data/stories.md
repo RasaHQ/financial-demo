@@ -214,3 +214,19 @@
     - utter_ask_back_to_transfer
 * deny
     - utter_ok
+
+## Show list of known recipients
+* check_recipients
+    - utter_known_recipients
+
+## Show credit accounts
+* check_credit_card_balance
+    - action_credit_card_balance
+
+## Show specific credit account
+* check_credit_card_balance{"credit_card":"gringotts"}
+    - action_credit_card_balance
+
+
+
+

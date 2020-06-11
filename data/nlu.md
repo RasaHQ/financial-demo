@@ -29,7 +29,8 @@
 - what is my account balance
 - what's my account balance?
 - what's my account balance
-- What's my account balance?
+- what's my balance?
+- whats my account balance
 
 ## intent:check_earnings
 - How much money went into my account last month?
@@ -42,6 +43,7 @@
 - check deposits for last week
 - total deposits over last year
 - how much was deposited in January
+- how much money have I earned?
 
 ## intent:deny
 - not really
@@ -100,31 +102,31 @@
 - the [minimum balance](payment_amount)
 - my [minimum balance](payment_amount)
 - my [current balance](payment_amount)
-- [gringots](credit_card) card
+- [gringotts](credit_card) card
 - [credit all](credit_card) card
 - [iron bank](credit_card) card
 - [justice bank](credit_card) card
-- [gringots](credit_card)
+- [gringotts](credit_card)
 - [credit all](credit_card)
 - [iron bank](credit_card)
 - [justice bank](credit_card)
-- [gringots](credit_card) account
+- [gringotts](credit_card) account
 - [credit all](credit_card) account
 - [iron bank](credit_card) account
 - [justice bank](credit_card) account
-- [gringots](credit_card) credit card
+- [gringotts](credit_card) credit card
 - [credit all](credit_card) credit card
 - [iron bank](credit_card) credit card
 - [justice bank](credit_card) credit card
-- my [gringots](credit_card) credit card
+- my [gringotts](credit_card) credit card
 - my [credit all](credit_card) credit card
 - my [iron bank](credit_card) credit card
 - my [justice bank](credit_card) credit card
-- my [gringots](credit_card) card
+- my [gringotts](credit_card) card
 - my [credit all](credit_card) card
 - my [iron bank](credit_card) card
 - my [justice bank](credit_card) card
-- towards my [gringots](credit_card) card
+- towards my [gringotts](credit_card) card
 - towards my [credit all](credit_card) card
 - towards my [iron bank](credit_card) card
 - towards my [justice bank](credit_card) card
@@ -132,7 +134,7 @@
 - for friday
 - for tomorrow
 - for saturday
-- I want to pay the [minimum balance](payment_amount) on my [gringots](credit_card) credit card today
+- I want to pay the [minimum balance](payment_amount) on my [gringotts](credit_card) credit card today
 - today
 
 ## intent:pay_cc
@@ -155,11 +157,11 @@
 - i want to pay off my credit card
 - I want to pay off my credit card
 - i want to pay my credit card
-- i want to pay off my [gringots](credit_card) credit card
-- I want to pay my [current balance](payment_amount) on my [gringots](credit_card) credit card
-- i want to pay my [current balance](payment_amount) on my [gringots](credit_card) credit card
-- I want to pay $500 on my [gringots](credit_card) credit card on Sunday
-- I want to pay my [current balance](payment_amount) on my [gringots](credit_card) credit card today
+- i want to pay off my [gringotts](credit_card) credit card
+- I want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card
+- i want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card
+- I want to pay $500 on my [gringotts](credit_card) credit card on Sunday
+- I want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card today
 
 ## intent:search_transactions
 - how much did I spend at [Target](vendor_name) this week?
@@ -203,3 +205,27 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
+
+## intent:check_recipients
+- Who can I send money to?
+- Who are my known recipients
+- Show me my list of recipients
+- Show the recipient list
+- Show me people I can send money to
+- Who is a valid payee
+
+## intent:check_credit_card_balance
+- What's my credit card balance
+- What's my credit balance
+- How much money do I owe on my credit cards
+- Show me my credit card balance
+- What credit accounts do I have
+- Show me my credit accounts
+- Whats the balance on my credit account
+- What's my credit account
+- What's my [credit all](credit_card) balance
+- What's my [gringotts](credit_card) card balance
+- What's the balance on the [credit all](credit_card) account
+- Show me my [iron bank](credit_card) balance
+- What's my [justice bank](credit_card) balance
+- What's the balance on the [justice bank](credit_card) account

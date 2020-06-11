@@ -140,3 +140,13 @@
 * form: inform: january 2020
     - form: transact_search_form
     - form{"name":null}
+
+
+## check credit account balance
+* check_credit_card_balance: What are my credit accounts
+    - action_credit_card_balance
+
+
+## check list of known recipients
+* check_recipients: Show me my list of recipients
+    - utter_known_recipients
