@@ -61,6 +61,12 @@ slots:
     type: unfeaturized
   time:
     type: unfeaturized
+  start_time_formatted:
+    type: unfeaturized
+  time_formatted:
+    type: unfeaturized
+  end_time_formatted:
+    type: unfeaturized
   grain:
     type: unfeaturized
   vendor_name:
@@ -115,15 +121,15 @@ responses:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
   - text: 'Payment of {currency}{payment_amount}{payment_amount_type} towards your {credit_card}
-      account scheduled to be paid at {time}.'
+      account scheduled to be paid at {time_formatted}.'
   utter_searching_spend_transactions:
-  - text: Searching transactions{vendor_name} between {start_time}
-      and {end_time}...
+  - text: Searching transactions{vendor_name} between {start_time_formatted}
+      and {end_time_formatted}...
   utter_found_spend_transactions:
   - text: 'I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.'
   utter_searching_deposit_transactions:
-  - text: Searching deposits made to your account between {start_time}
-      and {end_time}...
+  - text: Searching deposits made to your account between {start_time_formatted}
+      and {end_time_formatted}...
   utter_found_deposit_transactions:
   - text: 'I found {numtransacts} deposits made to your account totalling {currency}{total}'
   utter_ask_rephrase:
@@ -144,7 +150,7 @@ responses:
   - text: Sorry, I didn't get that. Could you rephrase?
   utter_ask_cc_payment_form_confirm:
   - text: 'Would you like to schedule a payment of {currency}{payment_amount}{payment_amount_type}
-      towards your {credit_card} account for {time}?'
+      towards your {credit_card} account for {time_formatted}?'
     buttons:
     - title: Yes
       payload: /affirm
