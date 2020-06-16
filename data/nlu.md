@@ -158,7 +158,7 @@
 - I want to pay off my credit card
 - i want to pay my credit card
 - i want to pay off my [gringotts](credit_card) credit card
-- I want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card
+- I want to pay my [current balance](payment_amount) on my [Gringtos](credit_card) credit card
 - i want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card
 - I want to pay $500 on my [gringotts](credit_card) credit card on Sunday
 - I want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card today
@@ -244,3 +244,15 @@
 - What is my [gringotts](credit_card) balance?
 - whats my [gringots](credit_card) card balance?
 - what's my [gringot](credit_card)'s card balance?
+
+## synonym:gringotts
+- gringots
+- Gringots
+- gringot's
+- gringot
+- Gringot
+- Gringott
+- gringott
+- gringott's
+- Gringtos
+- gringtos
