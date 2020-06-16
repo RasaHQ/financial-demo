@@ -206,7 +206,6 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
-- who can I transfer money to?
 
 ## intent:check_recipients
 - Who can I send money to?
@@ -218,6 +217,7 @@
 - who can I pay?
 - who can I transfer money?
 - who's in my recipient list?
+- who can I transfer money to?
 
 ## intent:check_credit_card_balance
 - What's my credit card balance
