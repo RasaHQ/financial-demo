@@ -8,6 +8,8 @@ from rasa_sdk.events import (
     EventType,
     ActionExecuted,
     SessionStarted,
+    Restarted,
+    FollowupAction
 )
 from actions.parsing import (
     parse_duckling_time_as_interval,
@@ -549,3 +551,17 @@ class ActionSessionStart(Action):
         events.append(ActionExecuted("action_listen"))
 
         return events
+
+
+class ActionRestart(Action):
+    def name(self) -> Text:
+        return "action_restart"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[EventType]:
+
+        return [Restarted(),FollowupAction("action_session_start")]

@@ -21,6 +21,8 @@ intents:
 - check_recipients
 - check_credit_card_balance
 - session_start
+- restart
+
 entities:
 - amount-of-money
 - payment_amount
@@ -175,6 +177,7 @@ responses:
 actions:
 - action_account_balance
 - action_session_start
+- action_restart
 - action_credit_card_balance
 
 forms:
