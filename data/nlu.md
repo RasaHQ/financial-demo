@@ -162,6 +162,7 @@
 - i want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card
 - I want to pay $500 on my [gringotts](credit_card) credit card on Sunday
 - I want to pay my [current balance](payment_amount) on my [gringotts](credit_card) credit card today
+- i need to pay off my [gringots](credit_card) credit card
 
 ## intent:search_transactions
 - how much did I spend at [Target](vendor_name) this week?
@@ -205,6 +206,7 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
+- who can I transfer money to?
 
 ## intent:check_recipients
 - Who can I send money to?
@@ -213,6 +215,9 @@
 - Show the recipient list
 - Show me people I can send money to
 - Who is a valid payee
+- who can I pay?
+- who can I transfer money?
+- who's in my recipient list?
 
 ## intent:check_credit_card_balance
 - What's my credit card balance
@@ -229,3 +234,13 @@
 - Show me my [iron bank](credit_card) balance
 - What's my [justice bank](credit_card) balance
 - What's the balance on the [justice bank](credit_card) account
+- what's my [gringots](credit_card) credit card balance?
+- what's my credit card balance?
+- what's my credit card account balance?
+- what credit cards do I have?
+- What is my [Gringotts](credit_card) card balance?
+- whats my credit card balance
+- What is my [gringotts](credit_card) card balance?
+- What is my [gringotts](credit_card) balance?
+- whats my [gringots](credit_card) card balance?
+- what's my [gringot](credit_card)'s card balance?
