@@ -11,7 +11,7 @@
 ## pay credit card happy path
 * greet: hi
     - utter_greet
-* pay_cc: i want to pay off my [gringots](credit_card) credit card
+* pay_cc: i want to pay off my [gringots]{"entity": "credit_card", "value": "gringotts"}
     - cc_payment_form
     - form{"name":"cc_payment_form"}
 * form: inform: my [current balance](payment_amount)
