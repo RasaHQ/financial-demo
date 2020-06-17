@@ -9,6 +9,12 @@ Run:
 pip install -r requirements.txt
 ```
 
+To install development dependencies:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
 ## To run the bot:
 
 Use `rasa train` to train a model.
