@@ -1,8 +1,23 @@
+
 # Financial Services Example Bot
 
 This is an example chatbot demonstrating how to build AI assistants for financial services and banking. This starter pack can be used as a base for your own development or as a reference guide for implementing common banking-industry features with Rasa. It includes pre-built intents, actions, and stories for handling conversation flows like checking spending history and transferring money to another account.
 
-## To install the dependencies:
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Install dependencies](#install-dependencies)
+- [Run the bot](#run-the-bot)
+- [Overview of the files](#overview-of-the-files)
+- [Things you can ask the bot](#things-you-can-ask-the-bot)
+- [Testing the bot](#testing-the-bot)
+- [Rasa X Deployment](#rasa-x-deployment)
+- [Action Server Image](#action-server-image)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Install dependencies
 
 Run:
 ```bash
@@ -13,9 +28,11 @@ To install development dependencies:
 
 ```bash
 pip install -r requirements-dev.txt
+pre-commit install
 ```
 
-## To run the bot:
+
+## Run the bot
 
 Use `rasa train` to train a model.
 
@@ -98,7 +115,7 @@ To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/)
 [one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and 
 configurations, and build or pull an action server image.
 
-### Action Server Image
+## Action Server Image
 
 You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use
 the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself. 
