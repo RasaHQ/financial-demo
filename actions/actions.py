@@ -565,4 +565,3 @@ class ActionRestart(Action):
     ) -> List[EventType]:
 
         return [Restarted(), FollowupAction("action_session_start")]
-       
