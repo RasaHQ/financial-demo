@@ -9,7 +9,7 @@ from rasa_sdk.events import (
     ActionExecuted,
     SessionStarted,
     Restarted,
-    FollowupAction
+    FollowupAction,
 )
 from actions.parsing import (
     parse_duckling_time_as_interval,
@@ -564,4 +564,5 @@ class ActionRestart(Action):
         domain: Dict[Text, Any],
     ) -> List[EventType]:
 
-        return [Restarted(),FollowupAction("action_session_start")]
+        return [Restarted(), FollowupAction("action_session_start")]
+       
