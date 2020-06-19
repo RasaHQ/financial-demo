@@ -244,6 +244,7 @@
 - What is my [gringotts](credit_card) balance?
 - whats my [gringots](credit_card) card balance?
 - what's my [gringot](credit_card)'s card balance?
+- what's my [gringots](credit_card) account balance?
 
 ## synonym:gringotts
 - gringots
