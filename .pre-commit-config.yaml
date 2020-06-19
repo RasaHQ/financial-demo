@@ -3,7 +3,4 @@ repos:
     rev: stable
     hooks:
     - id: black
--   repo: https://github.com/thlorenz/doctoc
-    rev: master
-    hooks:
-    -   id: doctoc
+
