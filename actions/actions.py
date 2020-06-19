@@ -517,6 +517,19 @@ class ActionCreditCardBalance(Action):
             return []
 
 
+class ActionRecipients(Action):
+    def name(self):
+        return "action_recipients"
+
+    def run(self, dispatcher, tracker, domain):
+        recipients = tracker.get_slot("known_recipients")
+        formatted_recipients = "\n".join(
+            [f"- {recipient}" for recipient in recipients]
+        )
+        dispatcher.utter_message(template=utter_recipients, formatted_recipients=formatted_recipients)
+        return []
+
+
 class ActionSessionStart(Action):
     def name(self) -> Text:
         return "action_session_start"

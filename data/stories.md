@@ -216,7 +216,7 @@
 
 ## Show list of known recipients
 * check_recipients
-    - utter_known_recipients
+    - action_recipients
 
 ## Show credit accounts
 * check_balance{"account_type":"credit"}
