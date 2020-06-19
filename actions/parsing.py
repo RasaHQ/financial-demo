@@ -7,26 +7,26 @@ def close_interval_duckling_time(
     timeinfo: Dict[Text, Any]
 ) -> Optional[Dict[Text, Any]]:
     grain = timeinfo.get("to", timeinfo.get("from", {})).get("grain")
-    start = timeinfo.get("to", {}).get("value")
-    end = timeinfo.get("from", {}).get("value")
-    if start or end:
-        if start and end:
+    start = timeinfo.get("from", {}).get("value")
+    end = timeinfo.get("to", {}).get("value")
+    if (start or end) and not (start and end):
+        deltaargs = {f"{grain}s": 1}
+        delta = relativedelta.relativedelta(**deltaargs)
+        if start:
             parsedstart = parser.isoparse(start)
+            parsedend = parsedstart + delta
+            end = parsedend.isoformat()
+        elif end:
             parsedend = parser.isoparse(end)
-        else:
-            deltaargs = {f"{grain}s": 1}
-            delta = relativedelta.relativedelta(**deltaargs)
-            if start:
-                parsedstart = parser.isoparse(start)
-                parsedend = parsedstart + delta
-            elif end:
-                parsedend = parser.isoparse(end)
-                parsedstart = parsedend - delta
-        return {
-            "start_time": format_time_by_grain(parsedstart, grain),
-            "end_time": format_time_by_grain(parsedend, grain),
-            "grain": grain,
-        }
+            parsedstart = parsedend - delta
+            start = parsedstart.isoformat()
+    return {
+        "start_time": start,
+        "start_time_formatted": format_isotime_by_grain(start, grain),
+        "end_time": end,
+        "end_time_formatted": format_isotime_by_grain(end, grain),
+        "grain": grain,
+    }
 
 
 def make_interval_from_value_duckling_time(
@@ -38,9 +38,12 @@ def make_interval_from_value_duckling_time(
     deltaargs = {f"{grain}s": 1}
     delta = relativedelta.relativedelta(**deltaargs)
     parsedend = parsedstart + delta
+    end = parsedend.isoformat()
     return {
-        "start_time": format_time_by_grain(parsedstart, grain),
-        "end_time": format_time_by_grain(parsedend, grain),
+        "start_time": start,
+        "start_time_formatted": format_isotime_by_grain(start, grain),
+        "end_time": end,
+        "end_time_formatted": format_isotime_by_grain(end, grain),
         "grain": grain,
     }
 
@@ -55,7 +58,8 @@ def parse_duckling_time_as_interval(
         return make_interval_from_value_duckling_time(timeinfo)
 
 
-def format_time_by_grain(time, grain=None):
+def format_isotime_by_grain(isotime, grain=None):
+    value = parser.isoparse(isotime)
     grain_format = {
         "second": "%I:%M:%S%p, %A %b %d, %Y",
         "day": "%A %b %d, %Y",
@@ -64,7 +68,8 @@ def format_time_by_grain(time, grain=None):
         "year": "%Y",
     }
     timeformat = grain_format.get(grain, "%I:%M%p, %A %b %d, %Y")
-    return time.strftime(timeformat)
+    time_formatted = value.strftime(timeformat)
+    return time_formatted
 
 
 def parse_duckling_time(
@@ -75,7 +80,8 @@ def parse_duckling_time(
         value = timeinfo.get("value")
         grain = timeinfo.get("grain")
         parsedtime = {
-            "time": format_time_by_grain(parser.isoparse(value), grain),
+            "time": value,
+            "time_formatted": format_isotime_by_grain(value, grain),
             "grain": grain,
         }
         return parsedtime

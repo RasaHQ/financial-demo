@@ -18,7 +18,7 @@ from actions.parsing import (
     parse_duckling_currency,
 )
 from actions.profile import create_mock_profile
-from datetime import date
+from dateutil import parser
 
 logger = logging.getLogger(__name__)
 
@@ -187,6 +187,11 @@ class PayCCForm(FormAction):
                 SlotSet("payment_amount", None),
                 SlotSet("confirm", None),
                 SlotSet("time", None),
+                SlotSet("time_formatted", None),
+                SlotSet("start_time", None),
+                SlotSet("end_time", None),
+                SlotSet("start_time_formatted", None),
+                SlotSet("end_time_formatted", None),
                 SlotSet("grain", None),
                 SlotSet("amount_of_money", None),
                 SlotSet(
@@ -203,6 +208,11 @@ class PayCCForm(FormAction):
             SlotSet("payment_amount", None),
             SlotSet("confirm", None),
             SlotSet("time", None),
+            SlotSet("time_formatted", None),
+            SlotSet("start_time", None),
+            SlotSet("end_time", None),
+            SlotSet("start_time_formatted", None),
+            SlotSet("end_time_formatted", None),
             SlotSet("grain", None),
             SlotSet("amount_of_money", None),
         ]
@@ -305,22 +315,14 @@ class TransactSearchForm(FormAction):
             ]
             vendor = ""
 
-        time_range = tracker.get_slot("time")
-
-        if "to" in time_range and "from" in time_range:
-            from_date = date.fromisoformat(
-                time_range.get("from").split("T")[0]
-            )
-            to_date = date.fromisoformat(time_range.get("to").split("T")[0])
-        else:
-            from_date = date.fromisoformat(time_range.split("T")[0])
-            to_date = date.today()
+        start_time = parser.isoparse(tracker.get_slot("start_time"))
+        end_time = parser.isoparse(tracker.get_slot("end_time"))
 
         for i in range(len(transactions) - 1, -1, -1):
             transaction = transactions[i]
-            transaction_date = date.fromisoformat(transaction.get("date"))
+            transaction_date = parser.isoparse(transaction.get("date"))
 
-            if transaction_date < from_date or transaction_date > to_date:
+            if transaction_date < start_time or transaction_date > end_time:
                 transactions.pop(i)
 
         numtransacts = len(transactions)
@@ -328,9 +330,8 @@ class TransactSearchForm(FormAction):
         slotvars = {
             "total": f"{total:.2f}",
             "numtransacts": numtransacts,
-            "start_time": tracker.get_slot("start_time"),
-            "end_time": tracker.get_slot("end_time"),
-            "grain": tracker.get_slot("grain"),
+            "start_time_formatted": tracker.get_slot("start_time_formatted"),
+            "end_time_formatted": tracker.get_slot("end_time_formatted"),
             "vendor_name": vendor,
         }
 
@@ -343,8 +344,11 @@ class TransactSearchForm(FormAction):
 
         return [
             SlotSet("time", None),
+            SlotSet("time_formatted", None),
             SlotSet("start_time", None),
             SlotSet("end_time", None),
+            SlotSet("start_time_formatted", None),
+            SlotSet("end_time_formatted", None),
             SlotSet("grain", None),
             SlotSet("search_type", None),
             SlotSet("vendor_name", None),
