@@ -1,6 +1,5 @@
 from random import (
     choice,
-    randint,
     randrange,
     sample,
 )
@@ -9,6 +8,7 @@ from datetime import datetime, timedelta
 import pytz
 
 utc = pytz.UTC
+
 
 def create_mock_profile():
     currency = "$"
@@ -50,7 +50,7 @@ def create_mock_profile():
     for vendor in vendor_db:
         rand_spend_amounts = sample(
             [round(amount, 2) for amount in list(arange(5, 50, 0.01))],
-            number_of_days//2,
+            number_of_days // 2,
         )
 
         rand_dates = [
@@ -69,13 +69,16 @@ def create_mock_profile():
     for deposit in deposit_db:
         if deposit == "interest":
             rand_deposit_amounts = sample(
-            [round(amount, 2) for amount in list(arange(5, 20, 0.01))],
-            number_of_days//30,
-        )
+                [round(amount, 2) for amount in list(arange(5, 20, 0.01))],
+                number_of_days // 30,
+            )
         else:
             rand_deposit_amounts = sample(
-                [round(amount, 2) for amount in list(arange(1000, 2000, 0.01))],
-                number_of_days//14,
+                [
+                    round(amount, 2)
+                    for amount in list(arange(1000, 2000, 0.01))
+                ],
+                number_of_days // 14,
             )
 
         rand_dates = [
@@ -89,7 +92,7 @@ def create_mock_profile():
             {"amount": amount, "date": date}
             for amount, date in zip(rand_deposit_amounts, rand_dates)
         ]
-        account_balance += sum(rand_deposit_amounts)-sum(rand_spend_amounts)
+        account_balance += sum(rand_deposit_amounts) - sum(rand_spend_amounts)
 
     for credit_card in credit_card_db:
         credit_card_balance[credit_card] = {

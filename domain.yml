@@ -172,7 +172,7 @@ responses:
   utter_changed_account_balance:
   - text: "Your balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments."
   utter_unknown_recipient:
-  - text: Sorry, that person is not in your list of known recipients.
+  - text: Sorry, {PERSON} is not in your list of known recipients.
   utter_insufficient_funds:
   - text: Sorry, you don't have enough money to do that!
   utter_known_recipients:
