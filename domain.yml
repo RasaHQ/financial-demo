@@ -99,7 +99,7 @@ responses:
   - text: 'Successfully transferred {currency}{amount_of_money} to {PERSON}.'
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
-      charged. For subsequent transfers you will be charged 10 per transaction.
+      charged. For subsequent transfers you will be charged {currency}10 per transaction.
   utter_ask_cc_payment_form_payment_amount:
   - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:

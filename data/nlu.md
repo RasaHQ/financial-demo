@@ -44,6 +44,8 @@
 
 ## intent:check_balance
 - How much money is on my account?
+- what's my balance?
+- what's my current balance?
 - What's left on that account?
 - How much do I have on that account?
 - What's the balance on that account?

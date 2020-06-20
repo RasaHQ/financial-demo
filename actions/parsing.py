@@ -75,7 +75,10 @@ def format_isotime_by_grain(isotime, grain=None):
 def parse_duckling_time(
     timeentity: Dict[Text, Any]
 ) -> Optional[Dict[Text, Any]]:
-    timeinfo = timeentity.get("additional_info", {})
+    try:
+        timeinfo = timeentity.get("additional_info", {})
+    except:
+        return {"time": None}
     if timeinfo.get("type") == "value":
         value = timeinfo.get("value")
         grain = timeinfo.get("grain")
