@@ -145,7 +145,8 @@
 * transfer_money
     - transfer_form
     - form{"name":"transfer_form"}
-* check_balance
+* check_balance{"payment_amount":"balance"}
+    - slot{"payment_amount":"balance"}
     - action_account_balance
     - transfer_form
     - form{"name":null}
@@ -219,14 +220,13 @@
     - utter_known_recipients
 
 ## Show credit accounts
-* check_balance{"account_type":"credit"}
+* check_credit_card_balance
     - action_credit_card_balance
 
 ## Show specific credit account
-* check_balance{"credit_card":"gringotts"}
+* check_credit_card_balance{"credit_card":"gringotts"}
     - action_credit_card_balance
 
-## Show credit accounts
-* check_balance{"account_type":"credit","credit_card":"gringotts"}
-    - action_credit_card_balance
+
+
 

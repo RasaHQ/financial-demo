@@ -15,11 +15,11 @@ intents:
 - ask_transfer_charge
 - search_transactions:
     use_entities: []
-- check_balance:
-    use_entities: ["account_type","credit_card"]
+- check_balance
 - check_earnings:
     use_entities: []
 - check_recipients
+- check_credit_card_balance
 - session_start
 - restart
 
@@ -32,8 +32,6 @@ entities:
 - time
 - PERSON
 - number
-- account_type
-
 slots:
   PERSON:
     type: unfeaturized
