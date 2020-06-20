@@ -523,10 +523,13 @@ class ActionRecipients(Action):
 
     def run(self, dispatcher, tracker, domain):
         recipients = tracker.get_slot("known_recipients")
-        formatted_recipients = "\n".join(
+        formatted_recipients = "\n" + "\n".join(
             [f"- {recipient}" for recipient in recipients]
         )
-        dispatcher.utter_message(template=utter_recipients, formatted_recipients=formatted_recipients)
+        dispatcher.utter_message(
+            template="utter_recipients",
+            formatted_recipients=formatted_recipients,
+        )
         return []
 
 

@@ -180,7 +180,7 @@ responses:
   utter_credit_card_balance:
   - text: The current balance for your {credit_card} account is {currency}{amount_of_money}.
   utter_recipients:
-  - text: These are your known recpients to whom you can send money:\n{formatted_recipients}
+  - text: These are your known recpients to whom you can send money:{formatted_recipients}
 actions:
 - action_account_balance
 - action_session_start
