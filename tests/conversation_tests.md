@@ -143,7 +143,7 @@
 
 
 ## check credit account balance
-* check_credit_card_balance: What are my credit accounts
+* check_balance: What are my [credit accounts]{"entity":"account_type","value":"credit"}
     - action_credit_card_balance
 
 
