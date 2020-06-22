@@ -1,25 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [intent:affirm](#intentaffirm)
-- [intent:ask_transfer_charge](#intentask_transfer_charge)
-- [intent:check_balance](#intentcheck_balance)
-- [intent:check_earnings](#intentcheck_earnings)
-- [intent:deny](#intentdeny)
-- [intent:goodbye](#intentgoodbye)
-- [intent:greet](#intentgreet)
-- [intent:inform](#intentinform)
-- [intent:pay_cc](#intentpay_cc)
-- [intent:search_transactions](#intentsearch_transactions)
-- [intent:thankyou](#intentthankyou)
-- [intent:transfer_money](#intenttransfer_money)
-- [intent:check_recipients](#intentcheck_recipients)
-- [synonym:gringotts](#synonymgringotts)
-- [synonym:credit](#synonymcredit)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## intent:affirm
 - indeed
 - correct
@@ -252,6 +230,7 @@
 - transfer money
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
+- I want to pay Paula Handy
 
 ## intent:check_recipients
 - Who can I send money to?
