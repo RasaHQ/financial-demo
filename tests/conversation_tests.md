@@ -149,4 +149,4 @@
 
 ## check list of known recipients
 * check_recipients: Show me my list of recipients
-    - utter_known_recipients
+    - action_recipients
