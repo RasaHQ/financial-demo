@@ -24,7 +24,7 @@
 
 
 ## pay credit card and check account balance inside form
-* pay_cc: i want to pay off my [justice bank](credit_card) credit card
+* pay_cc: i want to pay off my [justice bank](credit_card) [credit card]{"entity":"account_type","value":"credit"}
     - cc_payment_form
     - form{"name":"cc_payment_form"}
 * form: inform: my [current balance](payment_amount)
@@ -143,7 +143,7 @@
 
 
 ## check credit account balance
-* check_credit_card_balance: What are my credit accounts
+* check_balance: What are my [credit accounts]{"entity":"account_type","value":"credit"}
     - action_credit_card_balance
 
 
