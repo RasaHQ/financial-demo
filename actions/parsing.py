@@ -77,7 +77,7 @@ def parse_duckling_time(
 ) -> Optional[Dict[Text, Any]]:
     try:
         timeinfo = timeentity.get("additional_info", {})
-    except:
+    except AttributeError:
         return {"time": None}
     if timeinfo.get("type") == "value":
         value = timeinfo.get("value")
