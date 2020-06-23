@@ -112,9 +112,9 @@ class PayCCForm(FormAction):
             return amount_currency
         except (TypeError, AttributeError):
             pass
-        if value and value.lower() in cc_balance.get(credit_card):
+        if value and value.lower() in cc_balance.get(credit_card.lower()):
             key = value.lower()
-            amount = cc_balance.get(credit_card).get(key)
+            amount = cc_balance.get(credit_card.lower()).get(key)
             amount_type = f" (your {key})"
 
             if account_balance < float(amount):
@@ -141,7 +141,7 @@ class PayCCForm(FormAction):
 
         cc_balance = tracker.get_slot("credit_card_balance")
         if value and value.lower() in list(cc_balance.keys()):
-            return {"credit_card": value}
+            return {"credit_card": value.title()}
         else:
             dispatcher.utter_message(template="utter_no_creditcard")
             return {"credit_card": None}
@@ -178,7 +178,9 @@ class PayCCForm(FormAction):
         amount_transferred = float(tracker.get_slot("amount_transferred"))
 
         if tracker.get_slot("confirm"):
-            cc_balance[credit_card]["current balance"] -= payment_amount
+            cc_balance[credit_card.lower()][
+                "current balance"
+            ] -= payment_amount
             account_balance = account_balance - payment_amount
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
@@ -214,7 +216,6 @@ class PayCCForm(FormAction):
             SlotSet("start_time_formatted", None),
             SlotSet("end_time_formatted", None),
             SlotSet("grain", None),
-            SlotSet("amount_of_money", None),
         ]
 
 
@@ -506,15 +507,33 @@ class ActionCreditCardBalance(Action):
             )
             return [SlotSet("credit_card", None)]
         else:
-            for card in credit_card_balance.keys():
-                current_balance = credit_card_balance[card]["current balance"]
+            for credit_card in credit_card_balance.keys():
+                current_balance = credit_card_balance[credit_card][
+                    "current balance"
+                ]
                 dispatcher.utter_message(
                     template="utter_credit_card_balance",
-                    credit_card=card.title(),
+                    credit_card=credit_card.title(),
                     amount_of_money=f"{current_balance:.2f}",
                 )
 
             return []
+
+
+class ActionRecipients(Action):
+    def name(self):
+        return "action_recipients"
+
+    def run(self, dispatcher, tracker, domain):
+        recipients = tracker.get_slot("known_recipients")
+        formatted_recipients = "\n" + "\n".join(
+            [f"- {recipient}" for recipient in recipients]
+        )
+        dispatcher.utter_message(
+            template="utter_recipients",
+            formatted_recipients=formatted_recipients,
+        )
+        return []
 
 
 class ActionSessionStart(Action):

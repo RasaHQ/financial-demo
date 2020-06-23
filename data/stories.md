@@ -74,7 +74,152 @@
 * ask_transfer_charge
     - utter_transfer_charge
     - transfer_form
+    - form{"name": "transfer_form"}
     - form{"name": null}
+  
+## transfer money ask known recipients
+* transfer_money
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name": null}
+
+## transfer money ask known recipients and transfer charge
+* transfer_money
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name": null}
+
+## transfer money ask known recipients and transfer charge
+* transfer_money
+    - transfer_form
+    - form{"name": "transfer_form"}
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name": null}
+
+## transfer money ask account balance
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## transfer money ask account balance
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name": "transfer_form"}
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## transfer money ask account balance
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## transfer money ask account balance
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## transfer money ask account balance
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
+
+## transfer money ask account balance
+* transfer_money
+    - transfer_form
+    - form{"name":"transfer_form"}
+* check_recipients
+    - action_recipients
+    - transfer_form
+    - form{"name": "transfer_form"}
+* check_balance
+    - action_account_balance
+    - transfer_form
+    - form{"name": "transfer_form"} 
+* ask_transfer_charge
+    - utter_transfer_charge
+    - transfer_form
+    - form{"name": "transfer_form"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
 
 ## search transactions happy path
 * greet
@@ -177,17 +322,6 @@
     - form{"name": null}
     - slot{"requested_slot":null}
 
-## Transfer money ask account balance
-
-* transfer_money
-    - transfer_form
-    - form{"name":"transfer_form"}
-* check_balance
-    - action_account_balance
-    - transfer_form
-    - form{"name":null}
-    - slot{"requested_slot":null}
-
 ## Transfer money pay credit card
 * transfer_money
     - transfer_form
@@ -216,7 +350,7 @@
 
 ## Show list of known recipients
 * check_recipients
-    - utter_known_recipients
+    - action_recipients
 
 ## Show credit accounts
 * check_balance{"account_type":"credit"}

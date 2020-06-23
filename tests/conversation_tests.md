@@ -16,7 +16,7 @@
     - form{"name":"cc_payment_form"}
 * form: inform: my [current balance](payment_amount)
     - form: cc_payment_form
-* form: inform: [next week tuesday
+* form: inform: next week tuesday
     - form: cc_payment_form
 * form: affirm: /affirm
     - form: cc_payment_form
@@ -149,4 +149,4 @@
 
 ## check list of known recipients
 * check_recipients: Show me my list of recipients
-    - utter_known_recipients
+    - action_recipients
