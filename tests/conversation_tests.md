@@ -16,7 +16,7 @@
     - form{"name":"cc_payment_form"}
 * form: inform: my [current balance](payment_amount)
     - form: cc_payment_form
-* form: inform: [next week tuesday
+* form: inform: next week tuesday
     - form: cc_payment_form
 * form: affirm: /affirm
     - form: cc_payment_form
@@ -24,7 +24,7 @@
 
 
 ## pay credit card and check account balance inside form
-* pay_cc: i want to pay off my [justice bank](credit_card) credit card
+* pay_cc: i want to pay off my [justice bank](credit_card) [credit card]{"entity":"account_type","value":"credit"}
     - cc_payment_form
     - form{"name":"cc_payment_form"}
 * form: inform: my [current balance](payment_amount)
