@@ -357,10 +357,10 @@
     - action_credit_card_balance
 
 ## Show specific credit account
-* check_balance{"credit_card":"gringotts"}
+* check_balance{"credit_card":"emblem"}
     - action_credit_card_balance
 
 ## Show credit accounts
-* check_balance{"account_type":"credit","credit_card":"gringotts"}
+* check_balance{"account_type":"credit","credit_card":"emblem"}
     - action_credit_card_balance
 
