@@ -20,7 +20,7 @@ def create_mock_profile():
     credit_card_db = [
         "iron bank",
         "credit all",
-        "gringotts",
+        "emblem",
         "justice bank",
     ]
     deposit_db = [

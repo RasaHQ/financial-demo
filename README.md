@@ -31,7 +31,7 @@ pip install -r requirements-dev.txt
 pre-commit install
 ```
 
-> With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`. 
+> With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
 > If any changes are made by the hooks, you will need to re-add changed files and re-commit your changes.
 
 ## Run the bot
@@ -54,13 +54,13 @@ rasa shell --debug
 ```
 
 
-Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working 
+Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working
 under the hood. To simply talk to the bot, you can remove this flag.
 
 
 ## Overview of the files
 
-`data/core.md` - contains stories 
+`data/core.md` - contains stories
 
 `data/nlu.md` - contains NLU training data
 
@@ -86,7 +86,7 @@ It also has a limited ability to switch skills mid-transaction and then return t
 
 For the purposes of illustration, the bot recognises the following fictional credit card accounts:
 
-- `gringots`
+- `emblem`
 - `justice bank`
 - `credit all`
 - `iron bank`
@@ -106,21 +106,21 @@ You can change any of these by modifying `actions.py` and the corresponding NLU 
 
 ## Testing the bot
 
-You can test the bot on the test conversations by running  `rasa test`. 
-This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`. 
+You can test the bot on the test conversations by running  `rasa test`.
+This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`.
 
 Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! Since duckling entity extraction is not influenced by NLU training data, and since the values of `time` entities depend on when the tests are being run, these have been left unannotated in the conversation tests.
 
 ## Rasa X Deployment
 
-To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the 
-[one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and 
+To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the
+[one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and
 configurations, and build or pull an action server image.
 
 ## Action Server Image
 
 You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use
-the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself. 
+the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself.
 
 
 See the Dockerfile for what is included in the action server image,
