@@ -233,6 +233,14 @@
 - I want to transfer $100 to John
 - i want to transfer $400 to Akela
 - I want to pay Paula Handy
+- pay Katy Parrow $40 please
+- transfer $60 to John Jacob
+- pay Evan Oslo 
+- pay Lisa please
+- can I transfer money to Kyle Gardner?
+- Pay Karen 60 Euros
+- pay Lisa $60
+- transfer $60 to Sally
 
 ## intent:check_recipients
 - Who can I send money to?
