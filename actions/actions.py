@@ -405,11 +405,9 @@ class TransferForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        name = ""
+        name = value.title() if value else None
         known_recipients = tracker.get_slot("known_recipients")
         first_names = [name.split()[0] for name in known_recipients]
-        if value:
-            name = value.title()
         if name in known_recipients:
             return {"PERSON": name}
         elif name in first_names:
