@@ -28,14 +28,14 @@ def create_mock_profile():
         "interest",
     ]
     recipient_db = [
-        "emma",
-        "evan",
-        "william",
-        "karen",
-        "kyle",
-        "john",
-        "percy",
-        "lisa",
+        "katy parrow",
+        "evan oslo",
+        "william baker",
+        "karen lancaster",
+        "kyle gardner",
+        "john jacob",
+        "percy donald",
+        "lisa macintyre",
     ]
     vendor_db = [
         "target",

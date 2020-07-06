@@ -405,9 +405,15 @@ class TransferForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-
-        if value and value.title() in tracker.get_slot("known_recipients"):
-            return {"PERSON": value.title()}
+        name = value.title() if value else None
+        known_recipients = tracker.get_slot("known_recipients")
+        first_names = [name.split()[0] for name in known_recipients]
+        if name in known_recipients:
+            return {"PERSON": name}
+        elif name in first_names:
+            index = first_names.index(name)
+            fullname = known_recipients[index]
+            return {"PERSON": fullname}
         else:
             dispatcher.utter_message(template="utter_unknown_recipient")
             return {"PERSON": None}
