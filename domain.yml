@@ -24,7 +24,7 @@ intents:
 - check_recipients
 - session_start
 - restart
-- human_handoff:
+- trigger_handoff:
     triggers: utter_handoff
 - handoff:
     triggers: utter_whoami
