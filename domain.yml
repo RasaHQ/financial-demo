@@ -24,8 +24,8 @@ intents:
 - check_recipients
 - session_start
 - restart
-- trigger_handoff:
-    triggers: utter_handoff
+- trigger_handoff
+- human_handoff
 - handoff:
     triggers: utter_whoami
 
@@ -39,6 +39,7 @@ entities:
 - PERSON
 - number
 - account_type
+- handoff_to
 slots:
   PERSON:
     type: unfeaturized
@@ -87,6 +88,8 @@ slots:
   vendor_list:
     type: unfeaturized
   vendor_name:
+    type: unfeaturized
+  handoff_to:
     type: unfeaturized
 responses:
   utter_ask_transfer_form_amount_of_money:
@@ -185,55 +188,26 @@ responses:
   - text: The current balance for your {credit_card} account is {currency}{amount_of_money}.
   utter_recipients:
   - text: These are your known recpients to whom you can send money:{formatted_recipients}
-  utter_handoff: 
-  - text: /handoff
   utter_whoami:
   - text: Hi! I'm your Financial Assistant!
+  utter_ask_handoff:
+  - text: It looks like you want to be transferred to a human agent.
+  utter_handoff:
+  - text: Alright, I'll try to transfer you.
+  utter_wouldve_handed_off:
+  - text: If you were talking to me via chatroom, I would have handed you off to {handoffhost}. 
+  utter_no_handoff:
+  - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
+  utter_ask_whatelse:
+  - text: What else can I help you with?
 actions:
 - action_account_balance
 - action_session_start
 - action_restart
 - action_credit_card_balance
 - action_recipients
-- utter_ask_transfer_form_amount_of_money
-- utter_ask_transfer_form_PERSON
-- utter_goodbye
-- utter_greet
-- utter_noworries
-- utter_transfer_complete
-- utter_transfer_charge
-- utter_ask_cc_payment_form_payment_amount
-- utter_ask_cc_payment_form_credit_card
-- utter_ask_cc_payment_form_time
-- utter_ask_transact_search_form_vendor_name
-- utter_ask_transact_search_form_time
-- utter_no_payment_amount
-- utter_no_paymentdate
-- utter_no_creditcard
-- utter_no_vendor_name
-- utter_no_transactdate
-- utter_cc_pay_scheduled
-- utter_searching_spend_transactions
-- utter_found_spend_transactions
-- utter_searching_deposit_transactions
-- utter_found_deposit_transactions
-- utter_ask_rephrase
-- utter_ask_switch_goal
-- utter_ask_back_to_transact
-- utter_ask_back_to_transfer
-- utter_ok
-- utter_ask_continue
-- utter_default
-- utter_ask_cc_payment_form_confirm
-- utter_ask_transfer_form_confirm
-- utter_transfer_cancelled
-- utter_cc_pay_cancelled
-- utter_account_balance
-- utter_changed_account_balance
-- utter_unknown_recipient
-- utter_insufficient_funds
-- utter_credit_card_balance
-- utter_recipients
+- action_handoff
+- action_handoff_options
 forms:
 - cc_payment_form
 - transfer_form

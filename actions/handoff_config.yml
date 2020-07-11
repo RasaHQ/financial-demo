@@ -1,0 +1,7 @@
+handoff_hosts:
+    helpdesk_assistant:
+      title: "Helpdesk Assistant"
+      url: "http://localhost:5005"
+    moodbot:
+      title: "MoodBot"
+      url: "http://localhost:5007"

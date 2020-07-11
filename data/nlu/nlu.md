@@ -254,6 +254,16 @@
 - who's in my recipient list?
 - who can I transfer money to?
 
+
+## intent:human_handoff
+- I want a human 
+- can I speak to an agent
+- real agent please
+- real human 
+- chat with a live agent
+- give me a person please
+
+
 ## synonym:emblem
 - emblm
 - embelm
@@ -263,3 +273,4 @@
 - credit cards
 - credit account
 - credit accounts
+
