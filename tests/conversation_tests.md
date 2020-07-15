@@ -1,6 +1,7 @@
 ## greet/bye path
 * greet: hi
     - utter_greet
+    - utter_help
 * goodbye: bye
     - utter_goodbye
 
@@ -11,6 +12,7 @@
 ## pay credit card happy path
 * greet: hi
     - utter_greet
+    - utter_help
 * pay_cc: i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
     - cc_payment_form
     - form{"name":"cc_payment_form"}

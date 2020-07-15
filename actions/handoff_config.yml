@@ -2,6 +2,8 @@ handoff_hosts:
     helpdesk_assistant:
       title: "Helpdesk Assistant"
       url: "http://localhost:5005"
-    moodbot:
-      title: "MoodBot"
-      url: "http://localhost:5007"
+    ## you can add more handoff hosts to this list e.g.
+    # moodbot:
+    #   title: "MoodBot"
+    #   url: "http://localhost:5007"
+    

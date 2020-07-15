@@ -27,7 +27,8 @@ intents:
 - trigger_handoff
 - human_handoff
 - handoff:
-    triggers: utter_whoami
+    triggers: utter_greet
+- help
 
 entities:
 - amount-of-money
@@ -98,8 +99,6 @@ responses:
   - text: Who do you want to transfer money to?
   utter_goodbye:
   - text: Bye
-  utter_greet:
-  - text: Hi, how can I help you?
   utter_noworries:
   - text: You're welcome :)
   utter_transfer_complete:
@@ -188,7 +187,7 @@ responses:
   - text: The current balance for your {credit_card} account is {currency}{amount_of_money}.
   utter_recipients:
   - text: These are your known recpients to whom you can send money:{formatted_recipients}
-  utter_whoami:
+  utter_greet:
   - text: Hi! I'm your Financial Assistant!
   utter_ask_handoff:
   - text: It looks like you want to be transferred to a human agent.
@@ -200,6 +199,13 @@ responses:
   - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
   utter_ask_whatelse:
   - text: What else can I help you with?
+  utter_help:
+    - text: "I can help you with your financial accounts.
+        \nYou can ask me things like:
+        \n- What's my account balance?
+        \n- Pay off my credit card
+        \n- What did I spend at Target last month?
+        \n- I need to transfer money"
 actions:
 - action_account_balance
 - action_session_start
