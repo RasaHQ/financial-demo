@@ -13,6 +13,7 @@ This is an example chatbot demonstrating how to build AI assistants for financia
   - [Overview of the files](#overview-of-the-files)
   - [Things you can ask the bot](#things-you-can-ask-the-bot)
   - [Handoff](#handoff)
+    - [Try it out](#try-it-out)
     - [How it works](#how-it-works)
     - [Bot-side configuration](#bot-side-configuration)
   - [Testing the bot](#testing-the-bot)
@@ -118,6 +119,46 @@ could implement similar behaviour in another channel and then use that instead. 
 more details on channel-side configuration.
 
 
+Using the default set up, the handoff skill enables this kind of conversation with two bots:
+
+![handoff gif](handoff.gif)
+
+### Try it out
+
+The simplest way to use the handoff feature is to do the following:
+
+1. Clone [chatroom](https://github.com/RasaHQ/chatroom) and [Helpdesk-Assistant](https://github.com/RasaHQ/helpdesk-assistant) alongside this repo
+2. In the chatroom repo, install the dependencies:
+```bash
+yarn install
+```
+3. In the chatroom repo, build and serve chatroom:
+```bash
+yarn build
+yarn serve
+```
+4. In the Helpdesk-Assistant repo, install the dependencies and train a model (see the Helpdesk-Assistant README)
+5. In the Helpdesk-Assistant repo, run the rasa server and action server at the default ports (shown here for clarity)
+   In one terminal window:
+    ```bash
+    rasa run --enable-api --cors "*" --port 5005 --debug
+    ```
+    In another terminal window:
+    ```bash
+    rasa run actions --port 5055 --debug
+    ```
+6. In this repo, run the rasa server and action server at **the non-default ports shown below**
+   In one terminal window:
+    ```bash
+    rasa run --enable-api --cors "*" --port 5006 --debug
+    ```
+    In another terminal window:
+    ```bash
+    rasa run actions --port 5056 --debug
+    ```
+7. Open `chatroom_handoff.html` in a browser to see handoff in action
+
+
 ### How it works
 
 Using chatroom, the general approach is as follows:
@@ -143,10 +184,11 @@ Using chatroom, the general approach is as follows:
 
 ### Bot-side configuration
 
+The "try it out" section doesn't require any further configuration; this section is for those
+who want to change or further understand the set up.
+
 For this demo, the user can ask for a human, but they'll be offered a bot (or bots) instead, 
 so that the conversation looks like this:
-
-![handoff gif](handoff.gif)
 
 
 For handoff to work, you need at least one "handoff_host". You can specify any number of handoff hosts in the file `actions/hanodff_config.yml`.
@@ -168,7 +210,7 @@ who/what they are being handed off to.
 The [Helpdesk-Assistant](https://github.com/RasaHQ/helpdesk-assistant) bot has been set up to handle handoff in exactly the same way as Helpdesk-Assistant, 
 so the simplest way to see handoff in action is to clone Financial-Demo alongside this repo.
 
-If you list another locally running bot as a handoff host, make sure the ports on which the rasa servers & action servers are running do not conflict with each other.
+If you list other locally running bots as handoff hosts, make sure the ports on which the various rasa servers & action servers are running do not conflict with each other. 
 
 
 ## Testing the bot
