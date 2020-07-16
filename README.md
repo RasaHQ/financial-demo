@@ -147,7 +147,7 @@ yarn serve
     ```bash
     rasa run actions --port 5055 --debug
     ```
-6. In this repo, run the rasa server and action server at **the non-default ports shown below**
+6. In the Financial-Demo repo (i.e. this repo), run the rasa server and action server at **the non-default ports shown below**
    In one terminal window:
     ```bash
     rasa run --enable-api --cors "*" --port 5006 --debug
