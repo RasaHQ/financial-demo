@@ -3,8 +3,8 @@ from rasa_sdk.executor import CollectingDispatcher
 
 import ruamel.yaml
 import pathlib
-from typing import Dict, Text, Any, List, Union, Optional
-from rasa_sdk.events import SlotSet, EventType
+from typing import Dict, Text, Any, List
+from rasa_sdk.events import EventType
 
 here = pathlib.Path(__file__).parent.absolute()
 handoff_config = (
@@ -36,7 +36,8 @@ class ActionHandoffOptions(Action):
                 for bot, config in handoff_config.items()
             ]
             dispatcher.utter_message(
-                text="I can't transfer you to a human, but I can transfer you to one of these bots",
+                text="I can't transfer you to a human, \
+                     but I can transfer you to one of these bots",
                 buttons=buttons,
             )
         return []
