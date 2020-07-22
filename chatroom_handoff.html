@@ -1,0 +1,19 @@
+<head>
+  <link rel="stylesheet" href="http://127.0.0.1:8080/dist/Chatroom.css" />
+</head>
+<body>
+  <div class="chat-container"></div>
+
+  <script src="http://127.0.0.1:8080/dist/Chatroom.js"/></script>
+  <script type="text/javascript">
+    var chatroom = new window.Chatroom({
+      host: "http://localhost:5006",
+      title: "Financial Demo",
+      container: document.querySelector(".chat-container"),
+      welcomeMessage: "Hi, how may I help you?"
+      // speechRecognition: "en-US",
+      // voiceLang: "en-US"
+    });
+    chatroom.openChat();
+  </script>
+</body>
