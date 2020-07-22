@@ -74,13 +74,11 @@ class PayCCForm(FormAction):
             or a list of them, where a first match will be picked"""
 
         return {
-            "credit_card": self.from_entity(entity="credit_card"),
             "payment_amount": [
                 self.from_entity(entity="payment_amount"),
                 self.from_entity(entity="amount-of-money"),
                 self.from_entity(entity="number"),
             ],
-            "time": [self.from_entity(entity="time")],
             "confirm": [
                 self.from_intent(value=True, intent="affirm"),
                 self.from_intent(value=False, intent="deny"),
@@ -250,8 +248,6 @@ class TransactSearchForm(FormAction):
             or a list of them, where a first match will be picked"""
 
         return {
-            "vendor_name": self.from_entity(entity="vendor_name"),
-            "time": [self.from_entity(entity="time")],
             "search_type": [
                 self.from_trigger_intent(
                     intent="search_transactions", value="spend"
@@ -387,7 +383,6 @@ class TransferForm(FormAction):
             or a list of them, where a first match will be picked"""
 
         return {
-            "PERSON": [self.from_entity(entity="PERSON")],
             "amount_of_money": [
                 self.from_entity(entity="amount-of-money"),
                 self.from_entity(entity="number"),

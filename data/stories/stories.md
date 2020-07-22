@@ -1,20 +1,11 @@
 ## greet/bye path
 * greet
   - utter_greet
+  - utter_help
 
 ## say goodbye
 * goodbye
   - utter_goodbye
-
-## pay credit card happy path
-* greet
-    - utter_greet
-* pay_cc
-    - cc_payment_form
-    - form{"name": "cc_payment_form"}
-    - form{"name": null}
-* thankyou
-    - utter_noworries
 
 ## pay credit card and check account balance
 * pay_cc
@@ -46,6 +37,7 @@
 ## pay credit card happy path
 * greet
     - utter_greet
+    - utter_help
 * pay_cc
     - cc_payment_form
     - form{"name": "cc_payment_form"}
@@ -224,6 +216,7 @@
 ## search transactions happy path
 * greet
     - utter_greet
+    - utter_help
 * search_transactions
     - transact_search_form
     - form{"name": "transact_search_form"}
@@ -364,3 +357,6 @@
 * check_balance{"account_type":"credit","credit_card":"emblem"}
     - action_credit_card_balance
 
+## help
+* help
+    - utter_help
