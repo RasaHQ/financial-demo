@@ -48,8 +48,8 @@ class PayCCForm(FormAction):
 
     def name(self) -> Text:
         """Unique identifier of the form"""
-
-        return "cc_payment_form"
+        ##TODO: set the name of the form (cc_payment_form)
+        pass
 
     def request_next_slot(
         self,
@@ -81,8 +81,7 @@ class PayCCForm(FormAction):
                 self.from_entity(entity="number"),
             ],
             "confirm": [
-                self.from_intent(value=True, intent="affirm"),
-                self.from_intent(value=False, intent="deny"),
+                ##TODO: set the slot mapping for the slot "confirm" based on the intent value
             ],
         }
 
@@ -138,12 +137,8 @@ class PayCCForm(FormAction):
     ) -> Dict[Text, Any]:
         """Validate credit_card value."""
 
-        cc_balance = tracker.get_slot("credit_card_balance")
-        if value and value.lower() in list(cc_balance.keys()):
-            return {"credit_card": value.title()}
-        else:
-            dispatcher.utter_message(template="utter_no_creditcard")
-            return {"credit_card": None}
+        ## TODO: validate the credit card 
+        pass
 
 
     def validate_time(
@@ -220,6 +215,38 @@ class PayCCForm(FormAction):
         ]
 
 
+class ActionAccountBalance(Action):
+    def name(self):
+        ## TODO: Define custom action name
+        pass
+
+
+    def run(self, dispatcher, tracker, domain):
+        account_balance = float(tracker.get_slot("account_balance"))
+        ## TODO: return the value of the slot "amount_transferred"
+        #amount = 
+        if amount:
+            amount = float(tracker.get_slot("amount_transferred"))
+            ## TODO: calculate the new account balance
+            #init_account_balance = 
+
+            dispatcher.utter_message(
+                template="utter_changed_account_balance",
+                init_account_balance=f"{init_account_balance:.2f}",
+                account_balance=f"{account_balance:.2f}",
+            )
+            ## TODO: reset the value of the slot "payment_amount" to None
+            return pass
+
+        else:
+            dispatcher.utter_message(
+                template="utter_account_balance",
+                init_account_balance=f"{account_balance:.2f}",
+            )
+            return [SlotSet("payment_amount", None)]    
+    
+    
+    
 class TransactSearchForm(FormAction):
     """Transaction search form"""
 
@@ -468,31 +495,7 @@ class TransferForm(FormAction):
             ]
 
 
-class ActionAccountBalance(Action):
-    def name(self):
-        return "action_account_balance"
 
-
-    def run(self, dispatcher, tracker, domain):
-        account_balance = float(tracker.get_slot("account_balance"))
-        amount = tracker.get_slot("amount_transferred")
-        if amount:
-            amount = float(tracker.get_slot("amount_transferred"))
-            init_account_balance = account_balance + amount
-
-            dispatcher.utter_message(
-                template="utter_changed_account_balance",
-                init_account_balance=f"{init_account_balance:.2f}",
-                account_balance=f"{account_balance:.2f}",
-            )
-            return [SlotSet("payment_amount", None)]
-
-        else:
-            dispatcher.utter_message(
-                template="utter_account_balance",
-                init_account_balance=f"{account_balance:.2f}",
-            )
-            return [SlotSet("payment_amount", None)]
 
 
 class ActionCreditCardBalance(Action):
