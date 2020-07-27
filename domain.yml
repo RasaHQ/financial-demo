@@ -48,12 +48,7 @@ slots:
     type: unfeaturized
   amount_of_money:
     type: unfeaturized
-  amount_transferred:
-    type: unfeaturized
-    initial_value: 0
   confirm:
-    type: unfeaturized
-  credit_card:
     type: unfeaturized
   credit_card_balance:
     type: unfeaturized
@@ -106,8 +101,6 @@ responses:
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
       charged. For subsequent transfers you will be charged {currency}10 per transaction.
-  utter_ask_cc_payment_form_payment_amount:
-  - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
   - text: Towards which credit card account do you want to make a payment?
   utter_ask_transact_search_form_vendor_name:
@@ -205,7 +198,6 @@ responses:
         \n- What did I spend at Target last month?
         \n- I need to transfer money"
 actions:
-- action_account_balance
 - action_session_start
 - action_restart
 - action_credit_card_balance
