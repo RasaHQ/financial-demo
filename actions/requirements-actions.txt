@@ -1,1 +1,4 @@
 python-dateutil==2.8.1
+numpy~=1.18.3
+pytz~=2019.3
+ruamel.yaml
