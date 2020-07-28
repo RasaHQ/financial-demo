@@ -11,12 +11,6 @@ pipeline:
   - name: DIETClassifier
     epochs: 100
   - name: EntitySynonymMapper
-  - name: DucklingHTTPExtractor
-    url: http://localhost:8000
-    dimensions:
-    - amount-of-money
-    - time
-    - number
   - name: "SpacyNLP"
     model: "en_core_web_md"
   - name: "SpacyEntityExtractor"

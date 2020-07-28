@@ -470,23 +470,55 @@ class ActionAccountBalance(Action):
         return "action_account_balance"
 
     def run(self, dispatcher, tracker, domain):
-        account_balance = float(tracker.get_slot("account_balance"))
+        # hard coded balance for workshop day 1
+        init_account_balance = 150
         amount = tracker.get_slot("amount_transferred")
         if amount:
-            amount = float(tracker.get_slot("amount_transferred"))
-            init_account_balance = account_balance + amount
+            amount = int(tracker.get_slot("amount_transferred"))
+            account_balance = init_account_balance - amount
             dispatcher.utter_message(
                 template="utter_changed_account_balance",
-                init_account_balance=f"{init_account_balance:.2f}",
-                account_balance=f"{account_balance:.2f}",
+                init_account_balance=init_account_balance,
+                account_balance=account_balance,
             )
-            return [SlotSet("payment_amount", None)]
+            return [
+                SlotSet("account_balance", account_balance),
+                SlotSet("amount_transferred", None),
+            ]
         else:
             dispatcher.utter_message(
                 template="utter_account_balance",
-                init_account_balance=f"{account_balance:.2f}",
+                init_account_balance=init_account_balance,
             )
-            return [SlotSet("payment_amount", None)]
+            return []
+
+class ActionSearchTransact(Action):
+    def name(self):
+        return "action_search_transact"
+
+    def run(self, dispatcher, tracker, domain):
+        vendor_name = tracker.get_slot("vendor_name").upper()
+
+        if vendor_name == "STARBUCKS":
+            numtransacts = 3
+            total = 12.50
+        elif vendor_name == "AMAZON":
+            numtransacts = 5
+            total = 44.20
+        elif vendor_name == "TARGET":
+            numtransacts = 2
+            total = 23.75            
+        else:
+            numtransacts = 0
+            total = 0.00
+
+        dispatcher.utter_message(
+            template="utter_found_spend_transactions",
+            numtransacts=numtransacts,
+            total=total,
+            vendor_name=vendor_name,
+        )    
+        return []
 
 
 class ActionCreditCardBalance(Action):
