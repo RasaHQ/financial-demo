@@ -8,6 +8,7 @@
 - yeah
 - yes please
 - yes plz
+- that looks good
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
@@ -112,6 +113,9 @@
 - the past month
 - the past two days
 - the last two weeks
+- last month
+- a month ago
+- two weeks ago
 - at [amazon](vendor_name)
 - [starbucks](vendor_name)
 - at [target](vendor_name)
@@ -280,7 +284,7 @@
  - I have no clue where my card is
  - I can't find my [Disney](credit_card) debit card
  - I lost my card yesterday
-
+ - I lost my [credit card](account_type)
 
 ## synonym:emblem
 - emblm

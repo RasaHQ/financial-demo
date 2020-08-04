@@ -1,13 +1,12 @@
-## fraud story
+## happy path fraud story
 * card_lost
   - utter_card_locked
-  - utter_ask_when_card_lost
-* inform{"time": "time"}
-  - utter_review_transactions
-  - transact_search_form
+  - spending_history_form
+  - form{"name": "spending_history_form"}
+  - form{"name": null}
   - utter_ask_fraudulent_transactions
-* inform{"product": "Starbucks"}
-  - utter_dispute_fraudulent_transactions
+* inform{"vendor_name": "Starbucks"}
+  - action_update_fraudulent_transactions
 * affirm
   - utter_confirm_transaction_dispute
   - utter_replace_card

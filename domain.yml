@@ -47,6 +47,8 @@ slots:
     type: unfeaturized
   account_balance:
     type: unfeaturized
+  address:
+    type: unfeaturized
   amount_of_money:
     type: unfeaturized
   amount_transferred:
@@ -64,6 +66,8 @@ slots:
     type: unfeaturized
   end_time_formatted:
     type: unfeaturized
+  fraudulent_transactions:
+    type: unfeaturized
   grain:
     type: unfeaturized
   known_recipients:
@@ -74,6 +78,8 @@ slots:
     type: unfeaturized
     initial_value: ''
   requested_slot:
+    type: unfeaturized
+  reviewed_transactions:
     type: unfeaturized
   search_type:
     type: unfeaturized
@@ -118,6 +124,8 @@ responses:
       Amazon
   utter_ask_transact_search_form_time:
   - text: In which timeframe would you like to search for transactions?
+  utter_ask_spending_history_form_time:
+  - text: "When did you lose your card?"
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -210,8 +218,6 @@ responses:
   utter_card_locked:
     - text: "Sorry to hear you've lost your {credit_card} card. I've locked
     your card so that it can't be used by anyone while we sort out the details."
-  utter_ask_when_card_lost:
-    - text: "When did you lose your card?"
   utter_review_transactions:
     - text: "Let's review your transactions to make sure no one used your
     card without your permission."
@@ -219,7 +225,7 @@ responses:
     - text: "Are any of them fraudulent?"
   utter_dispute_fraudulent_transactions:
     - text: "Let me help you dispute those transactions. Can you confirm that
-    these are the ones you don't recognize? Transactions.."
+    these are the ones you don't recognize?"
   utter_confirm_transaction_dispute:
     - text: "I've disputed those transactions for you."
   utter_replace_card:
@@ -229,6 +235,12 @@ responses:
     - text: "Can you confirm the replacement card is going to {address}?"
   utter_sent_replacement:
     - text: "Ok, I've replaced your card and sent it to {address}."
+  utter_your_transactions:
+    - text: "Here are your transactions:"
+  utter_transaction_info:
+    - text: "{formatted_date} {vendor_name} {currency}{amount_of_money}"
+  utter_no_transactions:
+    - text: "I couldn't find any matching transactions."
 
 actions:
 - action_account_balance
@@ -238,8 +250,10 @@ actions:
 - action_recipients
 - action_handoff
 - action_handoff_options
+- action_update_fraudulent_transactions
 - utter_greet
 forms:
 - cc_payment_form
 - transfer_form
 - transact_search_form
+- spending_history_form

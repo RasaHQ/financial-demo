@@ -15,6 +15,7 @@ def create_mock_profile():
     account_balance = 0
 
     credit_card_balance = {}
+    address = "P Sherman 42 Wallaby Way, Sydney"
     transaction_history = {"spend": {}, "deposit": {}}
 
     credit_card_db = [
@@ -109,5 +110,6 @@ def create_mock_profile():
         "credit_card_balance": credit_card_balance,
         "known_recipients": [recipient.title() for recipient in recipient_db],
         "vendor_list": vendor_db,
+        "address": address,
     }
     return mock_profile

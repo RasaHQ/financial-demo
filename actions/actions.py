@@ -465,6 +465,118 @@ class TransferForm(FormAction):
             ]
 
 
+class SpendingHistoryForm(FormAction):
+    """Transaction search form"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "spending_history_form"
+
+    def request_next_slot(
+        self,
+        dispatcher: "CollectingDispatcher",
+        tracker: "Tracker",
+        domain: Dict[Text, Any],
+    ) -> Optional[List[EventType]]:
+
+        return custom_request_next_slot(self, dispatcher, tracker, domain)
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ["time"]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        """A dictionary to map required slots to
+            - an extracted entity
+            - intent: value pairs
+            - a whole message
+            or a list of them, where a first match will be picked"""
+
+        return {}
+
+    def validate_time(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate time value."""
+        timeentity = get_entity_details(tracker, "time")
+        parsedinterval = parse_duckling_time_as_interval(timeentity)
+        if not parsedinterval:
+            dispatcher.utter_message(template="utter_no_transactdate")
+            return {"time": None}
+
+        return parsedinterval
+
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+
+        search_type = "spend"
+
+        timeentity = get_entity_details(tracker, "time")
+        parsedinterval = parse_duckling_time_as_interval(timeentity)
+
+        transaction_history = tracker.get_slot("transaction_history")
+        transactions_subset = transaction_history.get(search_type, {})
+
+        transactions = []
+        for key in transactions_subset.keys():
+            for transaction in transactions_subset.get(key):
+                transaction["vendor_name"] = key
+                transactions.append(transaction)
+
+        start_time = parser.isoparse(tracker.get_slot("start_time"))
+        end_time = parser.isoparse(tracker.get_slot("end_time"))
+
+        for i in range(len(transactions) - 1, -1, -1):
+            transaction = transactions[i]
+            transaction_date = parser.isoparse(transaction.get("date"))
+
+            if transaction_date < start_time or transaction_date > end_time:
+                transactions.pop(i)
+
+        dispatcher.utter_message(template="utter_review_transactions")
+        dispatcher.utter_message(template="utter_your_transactions")
+
+        for transaction in transactions:
+            formatted_date = str(
+                parser.isoparse(transaction.get("date")).date()
+            ).replace("-", "/")
+            amount = transaction.get("amount")
+            slotvars = {
+                "formatted_date": formatted_date,
+                "vendor_name": transaction.get("vendor_name").title(),
+                "currency": tracker.get_slot("currency"),
+                "amount_of_money": f"{amount:.2f}",
+            }
+
+            dispatcher.utter_message(
+                template="utter_transaction_info", **slotvars
+            )
+
+        return [
+            SlotSet("reviewed_transactions", transactions),
+            SlotSet("time", None),
+            SlotSet("time_formatted", None),
+            SlotSet("start_time", None),
+            SlotSet("end_time", None),
+            SlotSet("start_time_formatted", None),
+            SlotSet("end_time_formatted", None),
+            SlotSet("grain", None),
+        ]
+
+
 class ActionAccountBalance(Action):
     def name(self):
         return "action_account_balance"
@@ -534,6 +646,65 @@ class ActionRecipients(Action):
             template="utter_recipients",
             formatted_recipients=formatted_recipients,
         )
+        return []
+
+
+class ActionUpdateFraudulentTransactions(Action):
+    def name(self):
+        return "action_update_fraudulent_transactions"
+
+    def run(self, dispatcher, tracker, domain):
+
+        fraudulent_transactions = (
+            tracker.get_slot("fraudulent_transactions")
+            if tracker.get_slot("fraudulent_transactions") is not None
+            else tracker.get_slot("reviewed_transactions")
+        )
+
+        if fraudulent_transactions:
+            vendor_names = [
+                v.lower()
+                for v in tracker.get_latest_entity_values("vendor_name")
+            ]
+
+            for i in range(len(fraudulent_transactions) - 1, -1, -1):
+                if (
+                    fraudulent_transactions[i].get("vendor_name")
+                    not in vendor_names
+                ):
+                    fraudulent_transactions.pop(i)
+
+            if fraudulent_transactions:
+                dispatcher.utter_message(
+                    template="utter_dispute_fraudulent_transactions"
+                )
+
+                for transaction in fraudulent_transactions:
+                    formatted_date = str(
+                        parser.isoparse(transaction.get("date")).date()
+                    ).replace("-", "/")
+                    amount = transaction.get("amount")
+                    slotvars = {
+                        "formatted_date": formatted_date,
+                        "vendor_name": transaction.get("vendor_name").title(),
+                        "currency": tracker.get_slot("currency"),
+                        "amount_of_money": f"{amount:.2f}",
+                    }
+
+                    dispatcher.utter_message(
+                        template="utter_transaction_info", **slotvars
+                    )
+
+                return [
+                    SlotSet("fraudulent_transactions", fraudulent_transactions)
+                ]
+
+            else:
+                dispatcher.utter_message(template="utter_no_transactions")
+
+        else:
+            dispatcher.utter_message(template="utter_no_transactions")
+
         return []
 
 
