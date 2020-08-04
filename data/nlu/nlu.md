@@ -235,7 +235,7 @@
 - I want to pay Paula Handy
 - pay Katy Parrow $40 please
 - transfer $60 to John Jacob
-- pay Evan Oslo 
+- pay Evan Oslo
 - pay Lisa please
 - can I transfer money to Kyle Gardner?
 - Pay Karen 60 Euros
@@ -265,13 +265,21 @@
 - how do I use this
 
 ## intent:human_handoff
-- I want a human 
+- I want a human
 - can I speak to an agent
 - real agent please
-- real human 
+- real human
 - chat with a live agent
 - give me a person please
 - i want to talk to a human
+
+## intent:card_lost
+ - I think someone stole my card
+ - I can't find my card
+ - I lost my card last night
+ - I have no clue where my card is
+ - I can't find my [Disney](credit_card) debit card
+ - I lost my card yesterday
 
 
 ## synonym:emblem
@@ -283,4 +291,3 @@
 - credit cards
 - credit account
 - credit accounts
-

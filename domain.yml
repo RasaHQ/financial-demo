@@ -29,6 +29,7 @@ intents:
 - handoff:
     triggers: utter_greet
 - help
+- card_lost
 
 entities:
 - amount-of-money
@@ -194,7 +195,7 @@ responses:
   utter_handoff:
   - text: Alright, I'll try to transfer you.
   utter_wouldve_handed_off:
-  - text: If you were talking to me via chatroom, I would have handed you off to {handoffhost}. 
+  - text: If you were talking to me via chatroom, I would have handed you off to {handoffhost}.
   utter_no_handoff:
   - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
   utter_ask_whatelse:
@@ -206,6 +207,29 @@ responses:
         \n- Pay off my credit card
         \n- What did I spend at Target last month?
         \n- I need to transfer money"
+  utter_card_locked:
+    - text: "Sorry to hear you've lost your {credit_card} card. I've locked
+    your card so that it can't be used by anyone while we sort out the details."
+  utter_ask_when_card_lost:
+    - text: "When did you lose your card?"
+  utter_review_transactions:
+    - text: "Let's review your transactions to make sure no one used your
+    card without your permission."
+  utter_ask_fraudulent_transactions:
+    - text: "Are any of them fraudulent?"
+  utter_dispute_fraudulent_transactions:
+    - text: "Let me help you dispute those transactions. Can you confirm that
+    these are the ones you don't recognize? Transactions.."
+  utter_confirm_transaction_dispute:
+    - text: "I've disputed those transactions for you."
+  utter_replace_card:
+    - text: "Since it looks like someone has used your card without permission,
+    I'm going to need to replace your card."
+  utter_confirm_address:
+    - text: "Can you confirm the replacement card is going to {address}?"
+  utter_sent_replacement:
+    - text: "Ok, I've replaced your card and sent it to {address}."
+
 actions:
 - action_account_balance
 - action_session_start
@@ -214,6 +238,7 @@ actions:
 - action_recipients
 - action_handoff
 - action_handoff_options
+- utter_greet
 forms:
 - cc_payment_form
 - transfer_form
