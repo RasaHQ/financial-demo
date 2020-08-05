@@ -31,7 +31,6 @@
 - what is my account balance
 - what's my account balance?
 - what's my account balance
-- what's my balance?
 - whats my account balance
 - What's my [credit card](account_type) balance
 - What's my [credit](account_type) balance
@@ -52,11 +51,11 @@
 - what's my [credit card](account_type) account balance?
 - What is my [emblem](credit_card) card balance?
 - whats my [credit card](account_type) balance
-- What is my [emblem](credit_card) card balance?
 - What is my [emblem](credit_card) balance?
 - whats my [emblm](credit_card) card balance?
 - what's my [embelm](credit_card)'s card balance?
 - what's my [emblm](credit_card) account balance?
+- What is my balance
 
 ## intent:check_earnings
 - How much money went into my account last month?
@@ -95,6 +94,7 @@
 - hey
 - good evening
 - hello
+- Hello
 
 ## intent:inform
 - $10
@@ -235,7 +235,7 @@
 - I want to pay Paula Handy
 - pay Katy Parrow $40 please
 - transfer $60 to John Jacob
-- pay Evan Oslo 
+- pay Evan Oslo
 - pay Lisa please
 - can I transfer money to Kyle Gardner?
 - Pay Karen 60 Euros
@@ -265,18 +265,13 @@
 - how do I use this
 
 ## intent:human_handoff
-- I want a human 
+- I want a human
 - can I speak to an agent
 - real agent please
-- real human 
+- real human
 - chat with a live agent
 - give me a person please
 - i want to talk to a human
-
-
-## synonym:emblem
-- emblm
-- embelm
 
 ## synonym:credit
 - credit card
@@ -284,3 +279,6 @@
 - credit account
 - credit accounts
 
+## synonym:emblem
+- emblm
+- embelm
