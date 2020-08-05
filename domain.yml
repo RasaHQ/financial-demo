@@ -214,7 +214,6 @@ actions:
 - action_recipients
 - action_handoff
 - action_handoff_options
-- utter_greet
 forms:
 - cc_payment_form
 - transfer_form
