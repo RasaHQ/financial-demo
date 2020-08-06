@@ -184,6 +184,8 @@
 - my address is [123 Main Street, Lewis Center, OH 43035](address)
 - I live at [143 Here Road, Utopia, WY 45987](address)
 - It's [42 Wallaby Way, Sydney](address)
+- My address is actually [123 Main Street, Lewis Center, OH 43035](address)
+- Can you update my address to [123 Pelton Street](address)
 
 ## intent:affirm+inform
 - Yeah, the [amazon](vendor_name) and [Starbucks](vendor_name) charges between July 30th and August 2nd are fraudulent
@@ -203,6 +205,8 @@
 - Nah, I live at [143 Here Road, Utopia, WY 45987](address)
 - Nope, it's [42 Wallaby Way, Sydney](address)
 - Nah, my address is [143 Here Road, Utopia, WY 45987](address)
+- No, my address is actually [123 Main Street, Lewis Center, OH 43035](address)
+- No, can you update my address to [123 Pelton Street](address)
 
 ## intent:pay_cc
 - I would like to pay the [minimum balance](payment_amount) on my [embelm](credit_card) card
@@ -322,6 +326,7 @@
  - I can't find my [Disney](credit_card) debit card
  - I lost my card yesterday
  - I lost my [credit card](account_type)
+ - Someone stole my [credit card](account_type)
 
 ## intent:delivery_time
  - How quickly will it get to me
@@ -346,6 +351,12 @@
  - I need it delivered faster
  - Can I get it faster
  - Can I get it sooner than that
+
+## intent:restart
+ - I want to start over
+ - Can we reset
+ - Reset the conversation
+ - start over
 
 ## synonym:emblem
 - emblm

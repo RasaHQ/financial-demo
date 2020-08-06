@@ -161,6 +161,8 @@ responses:
   - text: Would you like to go back to the transaction search now?
   utter_ask_back_to_transfer:
   - text: Would you like to go back to transferring money now?
+  utter_ask_pay_cc:
+  - text: "Would you like to make your credit card payment now?"
   utter_ok:
   - text: 👍
   - text: ok
@@ -218,7 +220,8 @@ responses:
         \n- What's my account balance?
         \n- Pay off my credit card
         \n- What did I spend at Target last month?
-        \n- I need to transfer money"
+        \n- I need to transfer money
+        \n- I lost my card"
   utter_card_locked:
     - text: "Sorry to hear you've lost your {credit_card} card. I've locked
     your card so that it can't be used by anyone while we sort out the details."
@@ -259,6 +262,8 @@ responses:
     - text: "Can I go ahead and send your replacement card?"
   utter_anything_else:
     - text: "Is there anything else I can help you with?"
+  utter_can_do:
+    - text: "Ok, I can help you with that - but before we do that,"
 
 actions:
 - action_account_balance
