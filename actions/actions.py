@@ -19,6 +19,7 @@ from actions.parsing import (
 )
 from actions.profile import create_mock_profile
 from dateutil import parser
+import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -549,6 +550,8 @@ class SpendingHistoryForm(FormAction):
         dispatcher.utter_message(template="utter_review_transactions")
         dispatcher.utter_message(template="utter_your_transactions")
 
+        transactions = sorted(transactions, key=lambda k: k["date"])
+
         for transaction in transactions:
             formatted_date = str(
                 parser.isoparse(transaction.get("date")).date()
@@ -649,37 +652,79 @@ class ActionRecipients(Action):
         return []
 
 
-class ActionUpdateFraudulentTransactions(Action):
+class ActionUpdateAddress(Action):
     def name(self):
-        return "action_update_fraudulent_transactions"
+        return "action_update_address"
+
+    def run(self, dispatcher, tracker, domain):
+        new_address = next(tracker.get_latest_entity_values("address"), None)
+
+        # validate new address
+        if new_address:
+            dispatcher.utter_message(template="utter_update_address")
+            return [SlotSet("address", new_address)]
+
+        return []
+
+
+class ActionUpdateTransactions(Action):
+    def name(self):
+        return "action_update_transactions"
 
     def run(self, dispatcher, tracker, domain):
 
-        fraudulent_transactions = (
-            tracker.get_slot("fraudulent_transactions")
-            if tracker.get_slot("fraudulent_transactions") is not None
-            else tracker.get_slot("reviewed_transactions")
-        )
+        reviewed_transactions = tracker.get_slot("reviewed_transactions")
 
-        if fraudulent_transactions:
+        if reviewed_transactions:
             vendor_names = [
                 v.lower()
                 for v in tracker.get_latest_entity_values("vendor_name")
             ]
 
-            for i in range(len(fraudulent_transactions) - 1, -1, -1):
-                if (
-                    fraudulent_transactions[i].get("vendor_name")
-                    not in vendor_names
-                ):
-                    fraudulent_transactions.pop(i)
+            timeentity = get_entity_details(tracker, "time")
 
-            if fraudulent_transactions:
-                dispatcher.utter_message(
-                    template="utter_dispute_fraudulent_transactions"
-                )
+            if vendor_names:
+                for i in range(len(reviewed_transactions) - 1, -1, -1):
+                    if (
+                        reviewed_transactions[i].get("vendor_name")
+                        not in vendor_names
+                    ):
+                        reviewed_transactions.pop(i)
 
-                for transaction in fraudulent_transactions:
+            if timeentity:
+                parsedinterval = parse_duckling_time_as_interval(timeentity)
+
+                start_date = parser.isoparse(
+                    parsedinterval.get("start_time")
+                ).date()
+                end_date = parser.isoparse(
+                    parsedinterval.get("end_time")
+                ).date()
+
+                # By default, Duckling will set the year to the future if not specified
+                # This sets the start_date and end_date years to the current year if
+                # year > current year
+                current_year = datetime.date.today().year
+                if start_date.year > current_year:
+                    start_date = start_date.replace(year=current_year)
+
+                if end_date.year > current_year:
+                    end_date = end_date.replace(year=current_year)
+
+                for i in range(len(reviewed_transactions) - 1, -1, -1):
+                    transaction_date = parser.isoparse(
+                        reviewed_transactions[i].get("date")
+                    ).date()
+                    if (
+                        transaction_date < start_date
+                        or transaction_date > end_date
+                    ):
+                        reviewed_transactions.pop(i)
+
+            if reviewed_transactions:
+                dispatcher.utter_message(template="utter_dispute_transactions")
+
+                for transaction in reviewed_transactions:
                     formatted_date = str(
                         parser.isoparse(transaction.get("date")).date()
                     ).replace("-", "/")
@@ -696,7 +741,8 @@ class ActionUpdateFraudulentTransactions(Action):
                     )
 
                 return [
-                    SlotSet("fraudulent_transactions", fraudulent_transactions)
+                    SlotSet("reviewed_transactions", reviewed_transactions),
+                    SlotSet("time", None),
                 ]
 
             else:

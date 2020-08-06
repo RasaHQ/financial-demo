@@ -166,6 +166,43 @@
 - for saturday
 - I want to pay the [minimum balance](payment_amount) on my [emblem](credit_card) [credit card](account_type) today
 - today
+- The ones after July 29th
+- Transactions in the last two days
+- All of them since yesterday
+- The charges on August 3rd
+- The transactions between January 2nd and 4th aren't mine
+- The ones between July 30th and August 2nd are fraudulent
+- The [amazon](vendor_name) and [Starbucks](vendor_name) charges between July 30th and August 2nd are fraudulent
+- The [amazon](vendor_name) and [Starbucks](vendor_name) charges in the last week
+- The [amazon](vendor_name) transaction isn't mine
+- The [target](vendor_name) transactions aren't mine
+- The [amazon](vendor_name) transactions yesterday
+- I didn't make any [starbucks](vendor_name) transactions
+- The [Starbucks](vendor_name) charge is fraudulent
+- The [Amazon](vendor_name) charges are fraudulent
+- The [target](vendor_name) charges
+- my address is [123 Main Street, Lewis Center, OH 43035](address)
+- I live at [143 Here Road, Utopia, WY 45987](address)
+- It's [42 Wallaby Way, Sydney](address)
+
+## intent:affirm+inform
+- Yeah, the [amazon](vendor_name) and [Starbucks](vendor_name) charges between July 30th and August 2nd are fraudulent
+- Yes, [amazon](vendor_name) and [Starbucks](vendor_name) charges in the last week
+- Yah, [amazon](vendor_name) transaction isn't mine
+- Yep, the [target](vendor_name) transactions aren't mine
+- Yes, [amazon](vendor_name) transactions yesterday
+- Yeah, the ones after July 29th
+- Yes, the transactions in the last two days
+- Yah, all of them since yesterday
+- Yep, the charges on August 3rd
+- Yeah, the transactions between January 2nd and 4th aren't mine
+- Yes, the ones between July 30th and August 2nd are fraudulent
+
+## intent:deny+inform
+- No, my address is [123 Main Street, Lewis Center, OH 43035](address)
+- Nah, I live at [143 Here Road, Utopia, WY 45987](address)
+- Nope, it's [42 Wallaby Way, Sydney](address)
+- Nah, my address is [143 Here Road, Utopia, WY 45987](address)
 
 ## intent:pay_cc
 - I would like to pay the [minimum balance](payment_amount) on my [embelm](credit_card) card
@@ -286,6 +323,30 @@
  - I lost my card yesterday
  - I lost my [credit card](account_type)
 
+## intent:delivery_time
+ - How quickly will it get to me
+ - How soon will my card arrive
+ - When will the card be delivered
+ - What is the replacement card shipping time
+ - What's the delivery time
+ - What is the delivery eta
+
+## intent:affirm+delivery_time
+ - Yes, how quickly will it get to me
+ - Yes, but how soon will my card arrive
+ - Yes, when will the card be delivered
+ - Yes, what's the delivery time
+ - Yeah, what's the delivery eta
+
+## intent:priority_delivery
+ - Can I get it delivered faster than that
+ - I think I'll need it faster, can you send it as priority mail
+ - I want a priority delivery
+ - I can't wait that long, can you do priority mail
+ - I need it delivered faster
+ - Can I get it faster
+ - Can I get it sooner than that
+
 ## synonym:emblem
 - emblm
 - embelm
@@ -295,3 +356,6 @@
 - credit cards
 - credit account
 - credit accounts
+
+## lookup:address
+data/nlu/lookups/address.txt

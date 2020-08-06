@@ -5,6 +5,8 @@ intents:
 - transfer_money:
     use_entities: []
 - inform
+- affirm+inform
+- deny+inform
 - pay_cc:
     use_entities: []
 - greet
@@ -30,8 +32,12 @@ intents:
     triggers: utter_greet
 - help
 - card_lost
+- delivery_time
+- affirm+delivery_time
+- priority_delivery
 
 entities:
+- address
 - amount-of-money
 - payment_amount
 - credit_card
@@ -65,8 +71,6 @@ slots:
   end_time:
     type: unfeaturized
   end_time_formatted:
-    type: unfeaturized
-  fraudulent_transactions:
     type: unfeaturized
   grain:
     type: unfeaturized
@@ -223,7 +227,7 @@ responses:
     card without your permission."
   utter_ask_fraudulent_transactions:
     - text: "Are any of them fraudulent?"
-  utter_dispute_fraudulent_transactions:
+  utter_dispute_transactions:
     - text: "Let me help you dispute those transactions. Can you confirm that
     these are the ones you don't recognize?"
   utter_confirm_transaction_dispute:
@@ -231,8 +235,14 @@ responses:
   utter_replace_card:
     - text: "Since it looks like someone has used your card without permission,
     I'm going to need to replace your card."
+  utter_missing_card:
+    - text: "To protect you from fraud, your card number is going to change."
   utter_confirm_address:
     - text: "Can you confirm the replacement card is going to {address}?"
+  utter_update_address:
+    - text: "Ok, I will update your address for you."
+  utter_ask_address:
+    - text: "Ok, what's the correct address?"
   utter_sent_replacement:
     - text: "Ok, I've replaced your card and sent it to {address}."
   utter_your_transactions:
@@ -241,6 +251,14 @@ responses:
     - text: "{formatted_date} {vendor_name} {currency}{amount_of_money}"
   utter_no_transactions:
     - text: "I couldn't find any matching transactions."
+  utter_delivery_time:
+    - text: "It should arrive within 3 - 5 business days."
+  utter_priority_delivery_time:
+    - text: "Yes, I can expedite the card to you. Your card will arrive in 2 business days."
+  utter_confirm_delivery:
+    - text: "Can I go ahead and send your replacement card?"
+  utter_anything_else:
+    - text: "Is there anything else I can help you with?"
 
 actions:
 - action_account_balance
@@ -250,7 +268,8 @@ actions:
 - action_recipients
 - action_handoff
 - action_handoff_options
-- action_update_fraudulent_transactions
+- action_update_address
+- action_update_transactions
 - utter_greet
 forms:
 - cc_payment_form
