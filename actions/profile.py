@@ -47,6 +47,7 @@ def create_mock_profile():
     start_date = utc.localize(datetime(2019, 1, 1))
     end_date = utc.localize(datetime.now())
     number_of_days = (end_date - start_date).days
+    num_recent_transact = 3
 
     for vendor in vendor_db:
         rand_spend_amounts = sample(
@@ -58,8 +59,17 @@ def create_mock_profile():
             (
                 start_date + timedelta(days=randrange(number_of_days))
             ).isoformat()
-            for x in range(0, len(rand_spend_amounts))
+            for x in range(0, len(rand_spend_amounts) - num_recent_transact)
         ]
+
+        rand_dates.extend(
+            [
+                (
+                    end_date - timedelta(days=randrange(1,3))
+                ).isoformat()
+                for x in range(0, num_recent_transact)
+            ]
+        )
 
         transaction_history["spend"][vendor] = [
             {"amount": amount, "date": date}

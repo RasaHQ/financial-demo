@@ -540,6 +540,14 @@ class SpendingHistoryForm(FormAction):
         start_time = parser.isoparse(tracker.get_slot("start_time"))
         end_time = parser.isoparse(tracker.get_slot("end_time"))
 
+        # By default, Duckling will set the year to the future if not specified
+        # This sets the start_date and end_date years to the current year if
+        # year > current year
+        current_year = datetime.date.today().year
+        if start_time.year > current_year or end_time.year > current_year:
+            start_time = start_time.replace(year=start_time.year - 1)
+            end_time = end_time.replace(year=end_time.year - 1)
+
         for i in range(len(transactions) - 1, -1, -1):
             transaction = transactions[i]
             transaction_date = parser.isoparse(transaction.get("date"))
@@ -547,37 +555,52 @@ class SpendingHistoryForm(FormAction):
             if transaction_date < start_time or transaction_date > end_time:
                 transactions.pop(i)
 
-        dispatcher.utter_message(template="utter_review_transactions")
-        dispatcher.utter_message(template="utter_your_transactions")
+        if transactions:
 
-        transactions = sorted(transactions, key=lambda k: k["date"])
+            dispatcher.utter_message(template="utter_review_transactions")
+            dispatcher.utter_message(template="utter_your_transactions")
 
-        for transaction in transactions:
-            formatted_date = str(
-                parser.isoparse(transaction.get("date")).date()
-            ).replace("-", "/")
-            amount = transaction.get("amount")
-            slotvars = {
-                "formatted_date": formatted_date,
-                "vendor_name": transaction.get("vendor_name").title(),
-                "currency": tracker.get_slot("currency"),
-                "amount_of_money": f"{amount:.2f}",
-            }
+            transactions = sorted(transactions, key=lambda k: k["date"])
 
-            dispatcher.utter_message(
-                template="utter_transaction_info", **slotvars
-            )
+            for transaction in transactions:
+                formatted_date = str(
+                    parser.isoparse(transaction.get("date")).date()
+                ).replace("-", "/")
+                amount = transaction.get("amount")
+                slotvars = {
+                    "formatted_date": formatted_date,
+                    "vendor_name": transaction.get("vendor_name").title(),
+                    "currency": tracker.get_slot("currency"),
+                    "amount_of_money": f"{amount:.2f}",
+                }
 
-        return [
-            SlotSet("reviewed_transactions", transactions),
-            SlotSet("time", None),
-            SlotSet("time_formatted", None),
-            SlotSet("start_time", None),
-            SlotSet("end_time", None),
-            SlotSet("start_time_formatted", None),
-            SlotSet("end_time_formatted", None),
-            SlotSet("grain", None),
-        ]
+                dispatcher.utter_message(
+                    template="utter_transaction_info", **slotvars
+                )
+
+            return [
+                SlotSet("reviewed_transactions", transactions),
+                SlotSet("time", None),
+                SlotSet("time_formatted", None),
+                SlotSet("start_time", None),
+                SlotSet("end_time", None),
+                SlotSet("start_time_formatted", None),
+                SlotSet("end_time_formatted", None),
+                SlotSet("grain", None),
+            ]
+
+        else:
+            dispatcher.utter_message(template="utter_no_transactions")
+            return [
+                SlotSet("reviewed_transactions", None),
+                SlotSet("time", None),
+                SlotSet("time_formatted", None),
+                SlotSet("start_time", None),
+                SlotSet("end_time", None),
+                SlotSet("start_time_formatted", None),
+                SlotSet("end_time_formatted", None),
+                SlotSet("grain", None),
+            ]
 
 
 class ActionAccountBalance(Action):
@@ -681,13 +704,23 @@ class ActionUpdateTransactions(Action):
                 for v in tracker.get_latest_entity_values("vendor_name")
             ]
 
+            negation = next(tracker.get_latest_entity_values("negation"), None)
+
             timeentity = get_entity_details(tracker, "time")
 
-            if vendor_names:
+            if vendor_names and not negation:
                 for i in range(len(reviewed_transactions) - 1, -1, -1):
                     if (
                         reviewed_transactions[i].get("vendor_name")
                         not in vendor_names
+                    ):
+                        reviewed_transactions.pop(i)
+
+            elif vendor_names and negation:
+                for i in range(len(reviewed_transactions) - 1, -1, -1):
+                    if (
+                        reviewed_transactions[i].get("vendor_name")
+                        in vendor_names
                     ):
                         reviewed_transactions.pop(i)
 
@@ -705,11 +738,9 @@ class ActionUpdateTransactions(Action):
                 # This sets the start_date and end_date years to the current year if
                 # year > current year
                 current_year = datetime.date.today().year
-                if start_date.year > current_year:
-                    start_date = start_date.replace(year=current_year)
-
-                if end_date.year > current_year:
-                    end_date = end_date.replace(year=current_year)
+                if start_date.year > current_year or end_date.year > current_year:
+                    start_date = start_date.replace(year=start_date.year - 1)
+                    end_date = end_date.replace(year=end_date.year - 1)
 
                 for i in range(len(reviewed_transactions) - 1, -1, -1):
                     transaction_date = parser.isoparse(
@@ -751,8 +782,10 @@ class ActionUpdateTransactions(Action):
         else:
             dispatcher.utter_message(template="utter_no_transactions")
 
-        return []
-
+        return [
+            SlotSet("reviewed_transactions", None),
+            SlotSet("time", None),
+        ]
 
 class ActionSessionStart(Action):
     def name(self) -> Text:

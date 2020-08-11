@@ -48,6 +48,7 @@ entities:
 - number
 - account_type
 - handoff_to
+- negation
 slots:
   PERSON:
     type: unfeaturized
@@ -84,7 +85,7 @@ slots:
   requested_slot:
     type: unfeaturized
   reviewed_transactions:
-    type: unfeaturized
+    type: list
   search_type:
     type: unfeaturized
   start_time:
@@ -223,13 +224,13 @@ responses:
         \n- I need to transfer money
         \n- I lost my card"
   utter_card_locked:
-    - text: "Sorry to hear you've lost your {credit_card} card. I've locked
+    - text: "Sorry to hear you've lost your card. I've locked
     your card so that it can't be used by anyone while we sort out the details."
   utter_review_transactions:
     - text: "Let's review your transactions to make sure no one used your
     card without your permission."
   utter_ask_fraudulent_transactions:
-    - text: "Are any of them fraudulent?"
+    - text: "Which of them are fraudulent?"
   utter_dispute_transactions:
     - text: "Let me help you dispute those transactions. Can you confirm that
     these are the ones you don't recognize?"

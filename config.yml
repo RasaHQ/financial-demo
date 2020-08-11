@@ -29,4 +29,4 @@ policies:
 - name: FormPolicy
 - name: MappingPolicy
 - name: TEDPolicy
-  epochs: 20
+  epochs: 50

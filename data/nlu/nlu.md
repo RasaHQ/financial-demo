@@ -9,6 +9,8 @@
 - yes please
 - yes plz
 - that looks good
+- that's right
+- that is correct
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
@@ -80,6 +82,12 @@
 - no way
 - nope
 - no thanks
+- no, I have a new address
+- none of them are fraudulent
+- none of the transactions
+- there are no fraudulent transactions
+- none
+- none of them
 
 ## intent:goodbye
 - see you later
@@ -105,6 +113,8 @@
 - $500
 - 100 dollars
 - 1000 dollars
+- january
+- february
 - tomorrow
 - next week
 - yesterday
@@ -169,6 +179,8 @@
 - The ones after July 29th
 - Transactions in the last two days
 - All of them since yesterday
+- All of them [except](negation) for [Amazon](vendor_name)
+- All of them [except](negation) [Starbucks](vendor_name)
 - The charges on August 3rd
 - The transactions between January 2nd and 4th aren't mine
 - The ones between July 30th and August 2nd are fraudulent
@@ -186,6 +198,7 @@
 - It's [42 Wallaby Way, Sydney](address)
 - My address is actually [123 Main Street, Lewis Center, OH 43035](address)
 - Can you update my address to [123 Pelton Street](address)
+- [42 Wallaby Way, Sydney](address)
 
 ## intent:affirm+inform
 - Yeah, the [amazon](vendor_name) and [Starbucks](vendor_name) charges between July 30th and August 2nd are fraudulent
@@ -199,6 +212,7 @@
 - Yep, the charges on August 3rd
 - Yeah, the transactions between January 2nd and 4th aren't mine
 - Yes, the ones between July 30th and August 2nd are fraudulent
+- Yes, all of them
 
 ## intent:deny+inform
 - No, my address is [123 Main Street, Lewis Center, OH 43035](address)
@@ -319,6 +333,7 @@
 - i want to talk to a human
 
 ## intent:card_lost
+ - My card is missing
  - I think someone stole my card
  - I can't find my card
  - I lost my card last night
@@ -327,6 +342,8 @@
  - I lost my card yesterday
  - I lost my [credit card](account_type)
  - Someone stole my [credit card](account_type)
+ - I think I lost my [credit card](account_type) yesterday
+ - Where is my card
 
 ## intent:delivery_time
  - How quickly will it get to me

@@ -1,4 +1,5 @@
 123 Pelton Street
+123 Pendlay Street
 993 East Poplar St.
 7006 SE. Campfire St.
 2 NE. Bishop Ave.
@@ -18,3 +19,5 @@
 3 Brickell Rd. Cranston, RI 02920
 792 Annadale Avenue Hamden, CT 06514
 7613 Thorne Drive North Andover, MA 0184
+405 Sherman Way
+333 Tallahassee Street
