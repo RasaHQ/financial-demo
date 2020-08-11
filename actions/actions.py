@@ -20,6 +20,9 @@ from actions.parsing import (
 from actions.profile import create_mock_profile
 from dateutil import parser
 import datetime
+import pytz
+
+utc = pytz.UTC
 
 logger = logging.getLogger(__name__)
 
@@ -538,15 +541,14 @@ class SpendingHistoryForm(FormAction):
                 transactions.append(transaction)
 
         start_time = parser.isoparse(tracker.get_slot("start_time"))
-        end_time = parser.isoparse(tracker.get_slot("end_time"))
+        end_time = utc.localize(datetime.datetime.now())
 
         # By default, Duckling will set the year to the future if not specified
-        # This sets the start_date and end_date years to the current year if
+        # This sets the start_date year to the current year if
         # year > current year
         current_year = datetime.date.today().year
-        if start_time.year > current_year or end_time.year > current_year:
+        if start_time.year > current_year:
             start_time = start_time.replace(year=start_time.year - 1)
-            end_time = end_time.replace(year=end_time.year - 1)
 
         for i in range(len(transactions) - 1, -1, -1):
             transaction = transactions[i]

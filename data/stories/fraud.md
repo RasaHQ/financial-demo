@@ -176,6 +176,11 @@
   - utter_missing_card
   - utter_confirm_address
 
+## denies fraudulent transactions prompt
+  - utter_ask_fraudulent_transactions
+* deny{"number": "0"}
+  - utter_missing_card
+  - utter_confirm_address
 
 ## fraudulent transaction list is not correct, reprompt for transactions
   - action_update_transactions
