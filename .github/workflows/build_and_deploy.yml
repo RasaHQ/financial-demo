@@ -84,7 +84,7 @@ jobs:
       id: cvnlu
       if: |
           ( contains(github.event.pull_request.labels.*.name, 'nlu_testing_required') 
-          && contains(  steps.files.outputs.all, 'data/nlu.md' ) )
+          && contains(  steps.files.outputs.all, 'data/nlu/nlu.md' ) )
           || contains(  steps.files.outputs.all, 'config.yml' )
       run: |  
           rasa test nlu -f 3 --cross-validation
