@@ -365,23 +365,6 @@
 - transfer to a human
 - Please give me to a human
 
-## intent:out_of_scope_domain
-- What account?
-- Which account is this?
-- do I have any bills?
-- id like to pay my bill
-- how many accounts do I have?
-- What bills do I have?
-- how do I add Jane smith to my list of recipients?
-- How many accounts do I have?
-- I would like to transfer $1400 to my savings account
-- which [credit card accounts](account_type) do I have?
-- which ones do I have?
-- What accounts do I have?
-- Woah!!!! Is that US Dollars? Or some low-value currency so it's worth only a few Euro cents?
-- Is that in US Dollars?
-- vendor list please
-- What is the list of vendors?
 
 ## synonym:credit
 - credit card
