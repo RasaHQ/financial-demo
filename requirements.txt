@@ -1,3 +1,4 @@
 -r actions/requirements-actions.txt
-rasa[spacy]~=1.10.0
+rasa[spacy]==1.10.8
+rasa[convert]==1.10.8
 rasa-sdk~=1.10.0
