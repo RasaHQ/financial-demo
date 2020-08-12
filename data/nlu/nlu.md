@@ -9,6 +9,11 @@
 - yeah
 - yes please
 - yes plz
+- Sure
+- Ok
+- sweet
+- cool,
+- yes...
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
@@ -32,7 +37,6 @@
 - what is my account balance
 - what's my account balance?
 - what's my account balance
-- what's my balance?
 - whats my account balance
 - What's my [credit card](account_type) balance
 - What's my [credit](account_type) balance
@@ -53,11 +57,23 @@
 - what's my [credit card](account_type) account balance?
 - What is my [emblem](credit_card) card balance?
 - whats my [credit card](account_type) balance
-- What is my [emblem](credit_card) card balance?
 - What is my [emblem](credit_card) balance?
 - whats my [emblm](credit_card) card balance?
 - what's my [embelm](credit_card)'s card balance?
 - what's my [emblm](credit_card) account balance?
+- How much money have i spent lately>
+- I should check my [credit card]{"entity": "account_type", "value": "credit"} balance [first](account_type)
+- check my [credit card]{"entity": "account_type", "value": "credit"} balance
+- check my [credit card]{"entity": "account_type", "value": "credit"} balance [first](account_type)
+- Can you tell me my account balance?
+- Hello, I would like to know how much money is in much money is in my account
+- hi, whats my account bal please
+- so.... what's my balance?
+- whats my [current balance](payment_amount)
+- What's my balance?
+- How much money do I have?
+- Yeah, I like coffee 👀 But how much money do I have?
+- Yeah, I know 😀 Since it's so nice: How much money do I have?
 
 ## intent:check_earnings
 - How much money went into my account last month?
@@ -71,6 +87,8 @@
 - total deposits over last year
 - how much was deposited in January
 - how much money have I earned?
+- what did I earn?
+- How much have i earned?
 
 ## intent:deny
 - not really
@@ -80,6 +98,9 @@
 - no way
 - nope
 - no thanks
+- I dunno
+- Nothing!
+- nevermind
 
 ## intent:goodbye
 - see you later
@@ -88,6 +109,10 @@
 - quit
 - stop
 - bye
+- Adios
+- BYEE
+- GOODBYE
+- Thanks a lot. See ya later
 
 ## intent:greet
 - good morning
@@ -96,6 +121,20 @@
 - hey
 - good evening
 - hello
+- Hey RASA!
+- Hello?
+- Hey Sara!
+- HEY
+- hello are you still there
+- hallo
+- HI
+- Hey
+- Hi
+- hi!
+- hello there
+- hi there
+- Hello
+- hello its ella
 
 ## intent:inform
 - $10
@@ -163,6 +202,19 @@
 - for saturday
 - I want to pay the [minimum balance](payment_amount) on my [emblem](credit_card) [credit card](account_type) today
 - today
+- Please schedule it for the first of next month
+- a hundred dollars
+- [mastercard](credit_card)
+- [visa](credit_card)
+- my [rasa](credit_card) account
+- my [credit card]{"entity": "account_type", "value": "credit"} account ending in 4321
+- My [Visa](credit_card) account
+- A friend.
+- Alexandra?
+- Ok, so [Iron Bank](credit_card) and then [Credit All](credit_card)
+- today please
+- [Iron Bank](credit_card)
+- My [visa](credit_card)
 
 ## intent:pay_cc
 - I would like to pay the [minimum balance](payment_amount) on my [embelm](credit_card) card
@@ -190,6 +242,14 @@
 - I want to pay $500 on my [emblem](credit_card) [credit card](account_type) on Sunday
 - I want to pay my [current balance](payment_amount) on my [emblem](credit_card) [credit card](account_type) today
 - i need to pay off my [emblm](credit_card) [credit card](account_type)
+- Please schedule  a payment towards my credit card for April 12th
+- Can I schedule a payment towards my credit card for tomorrow?
+- Pay off my [minimum balance](payment_amount) please
+- i would like to pay $1200 to my [credit card]{"entity": "account_type", "value": "credit"}
+- I would also like to pay my [visa](credit_card) bill
+- Pay off my [credit card]{"entity": "account_type", "value": "credit"}, please
+- I guess it is. Since it's so much, let's pay off my [credit](account_type)
+- Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
 
 ## intent:search_transactions
 - how much did I spend at [Target](vendor_name) this week?
@@ -206,6 +266,15 @@
 - can I look at past transactions
 - I want to search my transactions with [amazon](vendor_name)
 - can i seem my transactions with [target](vendor_name)
+- how much did i spend at [starbucks](vendor_name) last month?
+- what did i spend last month?
+- How much did I spend last month?
+- What did I spend at [Legoland](vendor_name) last month?
+- What did I spend at [Legoland](vendor_name) last year?
+- how much did i spend at [starbucks](vendor_name) last year
+- Yes! How much did I spend on [Starbucks](vendor_name) last month?
+- How much did I spend at Burger King last month?
+- what places have I spent money?
 
 ## intent:thankyou
 - thank you goodbye
@@ -218,6 +287,7 @@
 - thanks
 - thanks goodbye
 - thank you and good bye
+- Thanks!
 
 ## intent:transfer_money
 - I want to pay John
@@ -236,12 +306,26 @@
 - I want to pay Paula Handy
 - pay Katy Parrow $40 please
 - transfer $60 to John Jacob
-- pay Evan Oslo 
+- pay Evan Oslo
 - pay Lisa please
 - can I transfer money to Kyle Gardner?
 - Pay Karen 60 Euros
 - pay Lisa $60
 - transfer $60 to Sally
+- need to transfer money
+- II want to transfer to Kelly
+- Pay Percy $50
+- Pay $50 to Percy
+- Ok pay Emma
+- pay Emma
+- i want to transfer $100 to Jane smith
+- i want to transfer $100 to my daughter
+- i want to transfer money please
+- i mean i want to transfer money
+- I need to pay a friend.
+- transfer money to evan oslo
+- transfer money to sara
+- I need to transfer money to my grandma Judith.
 
 ## intent:check_recipients
 - Who can I send money to?
@@ -254,6 +338,9 @@
 - who can I transfer money?
 - who's in my recipient list?
 - who can I transfer money to?
+- Who is on your list?
+- who is in my list of kown recipients?
+- Can we please start over?
 
 ## intent:help
 - help
@@ -264,20 +351,37 @@
 - help me
 - help, what do you do
 - how do I use this
+- how can you help me
+- What are the things that you can do?
 
 ## intent:human_handoff
-- I want a human 
+- I want a human
 - can I speak to an agent
 - real agent please
-- real human 
+- real human
 - chat with a live agent
 - give me a person please
 - i want to talk to a human
+- transfer to a human
+- Please give me to a human
 
-
-## synonym:emblem
-- emblm
-- embelm
+## intent:out_of_scope_domain
+- What account?
+- Which account is this?
+- do I have any bills?
+- id like to pay my bill
+- how many accounts do I have?
+- What bills do I have?
+- how do I add Jane smith to my list of recipients?
+- How many accounts do I have?
+- I would like to transfer $1400 to my savings account
+- which [credit card accounts](account_type) do I have?
+- which ones do I have?
+- What accounts do I have?
+- Woah!!!! Is that US Dollars? Or some low-value currency so it's worth only a few Euro cents?
+- Is that in US Dollars?
+- vendor list please
+- What is the list of vendors?
 
 ## synonym:credit
 - credit card
@@ -285,3 +389,6 @@
 - credit account
 - credit accounts
 
+## synonym:emblem
+- emblm
+- embelm
