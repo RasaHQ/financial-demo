@@ -13,10 +13,6 @@ pipeline:
     - amount-of-money
     - time
     - number
-  - name: "SpacyNLP"
-    model: "en_core_web_md"
-  - name: "SpacyEntityExtractor"
-    dimensions: ["PERSON"]
 
 policies:
 - name: FallbackPolicy
