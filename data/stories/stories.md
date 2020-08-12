@@ -360,3 +360,15 @@
 ## help
 * help
     - utter_help
+
+## acknowledge balance
+* greet
+    - utter_greet
+    - utter_help
+* check_balance
+    - action_account_balance
+    - slot{"payment_amount":null}
+* affirm
+    - utter_ok
+* transfer_money
+    - transfer_form    
