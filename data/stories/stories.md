@@ -371,4 +371,23 @@
 * affirm
     - utter_ok
 * transfer_money
-    - transfer_form    
+    - transfer_form
+
+
+## from Rasa X 56efe3eaf7c0456db86a6669421f885c
+* help
+    - action_default_fallback
+* greet
+    - utter_greet
+    - utter_help
+* thankyou
+    - utter_noworries
+
+## from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
+* help
+    - action_default_fallback
+* greet
+    - utter_greet
+    - utter_help
+* affirm
+    - utter_ok
