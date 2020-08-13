@@ -241,14 +241,20 @@ responses:
     I'm going to need to replace your card."
   utter_missing_card:
     - text: "To protect you from fraud, your card number is going to change."
+  utter_ask_mailing_address_form_address:
+    - text: "Ok, what's the correct address?"
+  utter_ask_mailing_address_form_confirm:
+    - text: "Can you confirm the replacement card is going to {address}?"
   utter_confirm_address:
     - text: "Can you confirm the replacement card is going to {address}?"
   utter_update_address:
     - text: "Ok, I will update your address for you."
   utter_ask_address:
     - text: "Ok, what's the correct address?"
+  utter_invalid_address:
+    - text: "Sorry, the address you've entered is invalid."
   utter_sent_replacement:
-    - text: "Ok, I've replaced your card and sent it to {address}."
+    - text: "I've replaced your card and sent it to {address}."
   utter_your_transactions:
     - text: "Here are your transactions:"
   utter_transaction_info:
@@ -282,3 +288,4 @@ forms:
 - transfer_form
 - transact_search_form
 - spending_history_form
+- mailing_address_form

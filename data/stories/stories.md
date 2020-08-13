@@ -68,7 +68,7 @@
     - transfer_form
     - form{"name": "transfer_form"}
     - form{"name": null}
-  
+
 ## transfer money ask known recipients
 * transfer_money
     - transfer_form
@@ -205,7 +205,7 @@
 * check_balance
     - action_account_balance
     - transfer_form
-    - form{"name": "transfer_form"} 
+    - form{"name": "transfer_form"}
 * ask_transfer_charge
     - utter_transfer_charge
     - transfer_form
@@ -344,6 +344,10 @@
 ## Show list of known recipients
 * check_recipients
     - action_recipients
+
+## Check account balance
+* check_balance
+    - action_account_balance
 
 ## Show credit accounts
 * check_balance{"account_type":"credit"}

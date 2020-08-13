@@ -24,6 +24,7 @@
 - how much is the transfer fee
 
 ## intent:check_balance
+- Can I see my balance?
 - How much money is on my account?
 - what's my balance?
 - what's my current balance?
@@ -88,6 +89,8 @@
 - there are no fraudulent transactions
 - none
 - none of them
+- that's not correct
+- that is incorrect
 
 ## intent:goodbye
 - see you later
@@ -181,6 +184,7 @@
 - All of them since yesterday
 - All of them [except](negation) for [Amazon](vendor_name)
 - All of them [except](negation) [Starbucks](vendor_name)
+- I've only used my card with [Amazon](vendor_name), the other one's aren't mine
 - The charges on August 3rd
 - The transactions between January 2nd and 4th aren't mine
 - The ones between July 30th and August 2nd are fraudulent
@@ -200,20 +204,6 @@
 - Can you update my address to [123 Pelton Street](address)
 - [42 Wallaby Way, Sydney](address)
 
-## intent:affirm+inform
-- Yeah, the [amazon](vendor_name) and [Starbucks](vendor_name) charges between July 30th and August 2nd are fraudulent
-- Yes, [amazon](vendor_name) and [Starbucks](vendor_name) charges in the last week
-- Yah, [amazon](vendor_name) transaction isn't mine
-- Yep, the [target](vendor_name) transactions aren't mine
-- Yes, [amazon](vendor_name) transactions yesterday
-- Yeah, the ones after July 29th
-- Yes, the transactions in the last two days
-- Yah, all of them since yesterday
-- Yep, the charges on August 3rd
-- Yeah, the transactions between January 2nd and 4th aren't mine
-- Yes, the ones between July 30th and August 2nd are fraudulent
-- Yes, all of them
-
 ## intent:deny+inform
 - No, my address is [123 Main Street, Lewis Center, OH 43035](address)
 - Nah, I live at [143 Here Road, Utopia, WY 45987](address)
@@ -227,7 +217,7 @@
 - I want to pay my [credit card](account_type)
 - I want to pay my card
 - Pay my card
-- Pay my [credit all](credit_card) card
+- Pay my [credit all](credit_card) credit card](account_type)
 - I want to pay my [justice bank](credit_card) bill
 - Pay my discover
 - I want to pay my [iron bank](credit_card) bill

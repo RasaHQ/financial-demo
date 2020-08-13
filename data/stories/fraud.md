@@ -20,7 +20,11 @@
   - form{"name": null}
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 
 ## happy path fraud story, no transactions found initially
@@ -31,7 +35,11 @@
   - form{"name": null}
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## happy path fraud story, no transactions found initially
 * card_lost{"account_type": "credit"}
@@ -41,7 +49,11 @@
   - form{"name": null}
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## happy path fraud story, no transactions found initially
 * card_lost{"time": "2020-08-10T00:00:00.000-07:00"}
@@ -51,7 +63,11 @@
   - form{"name": null}
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## happy path fraud story
 * card_lost
@@ -96,7 +112,11 @@
   - action_update_transactions
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 
 ## no transactions found in search
@@ -105,7 +125,11 @@
   - action_update_transactions
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 
 ## no transactions found in search
@@ -114,7 +138,11 @@
   - action_update_transactions
   - slot{"reviewed_transactions": null}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 
 ## search transactions by time & vendor
@@ -125,7 +153,11 @@
 * affirm
   - utter_confirm_transaction_dispute
   - utter_replace_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## search transactions by time
   - utter_ask_fraudulent_transactions
@@ -135,7 +167,11 @@
 * affirm
   - utter_confirm_transaction_dispute
   - utter_replace_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## search transactions by vendor
   - utter_ask_fraudulent_transactions
@@ -145,7 +181,11 @@
 * affirm
   - utter_confirm_transaction_dispute
   - utter_replace_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 
 ## inform all transactions
@@ -156,8 +196,11 @@
 * affirm
   - utter_confirm_transaction_dispute
   - utter_replace_card
-  - utter_confirm_address
-
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## search transactions by negation
   - utter_ask_fraudulent_transactions
@@ -167,20 +210,32 @@
 * affirm
   - utter_confirm_transaction_dispute
   - utter_replace_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 
 ## denies fraudulent transactions prompt
   - utter_ask_fraudulent_transactions
 * deny
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## denies fraudulent transactions prompt
   - utter_ask_fraudulent_transactions
 * deny{"number": "0"}
   - utter_missing_card
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## fraudulent transaction list is not correct, reprompt for transactions
   - action_update_transactions
@@ -193,78 +248,33 @@
   - utter_ask_fraudulent_transactions
 
 ## user asks for delivery time
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
 * delivery_time
   - utter_delivery_time
-  - utter_confirm_address
-
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## user confirms address and asks for delivery time
-  - utter_confirm_address
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
 * affirm+delivery_time
   - utter_delivery_time
-  - utter_confirm_delivery
-* affirm
+  - mailing_address_form
+  - form{"name": null}
   - utter_sent_replacement
   - utter_anything_else
 
 
-## user confirms address, asks for delivery time, and asks for priority delivery
-  - utter_confirm_address
-* affirm+delivery_time
-  - utter_delivery_time
-  - utter_confirm_delivery
+## user asks for priority delivery
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
 * priority_delivery
   - utter_priority_delivery_time
-  - utter_confirm_delivery
-* affirm
+  - mailing_address_form
+  - form{"name": null}
   - utter_sent_replacement
   - utter_anything_else
 
-## user affirms address
-  - utter_confirm_address
-* affirm
-  - utter_sent_replacement
-  - utter_anything_else
-
-## user corrects their address
-  - utter_confirm_address
-* inform{"address": "123 Main Street, Lewis Center, OH 43035"}
-  - action_update_address
-  - utter_confirm_address
-
-## user corrects their address
-  - utter_confirm_address
-* inform{"address": "123 Main Street, Lewis Center, OH 43035", "number": "123"}
-  - action_update_address
-  - utter_confirm_address
-
-## user denies prompt and then corrects their address
-  - utter_confirm_address
-* deny
-  - utter_ask_address
-* inform{"address": "123 Main Street, Lewis Center, OH 43035"}
-  - action_update_address
-  - utter_confirm_address
-
-## user denies prompt and then corrects their address
-  - utter_confirm_address
-* deny
-  - utter_ask_address
-* inform{"address": "123 Main Street, Lewis Center, OH 43035", "number": "123"}
-  - action_update_address
-  - utter_confirm_address
-
-
-## user denies and corrects their address in single response
-  - utter_confirm_address
-* deny+inform{"address": "123 Main Street, Lewis Center, OH 43035"}
-  - action_update_address
-  - utter_confirm_address
-
-
-## user denies and corrects their address in single response
-  - utter_confirm_address
-* deny+inform{"address": "123 Main Street, Lewis Center, OH 43035", "number": "123"}
-  - action_update_address
-  - utter_confirm_address

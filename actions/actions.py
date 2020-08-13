@@ -605,6 +605,86 @@ class SpendingHistoryForm(FormAction):
             ]
 
 
+class MailingAddressForm(FormAction):
+    """Transaction search form"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "mailing_address_form"
+
+    def request_next_slot(
+        self,
+        dispatcher: "CollectingDispatcher",
+        tracker: "Tracker",
+        domain: Dict[Text, Any],
+    ) -> Optional[List[EventType]]:
+
+        return custom_request_next_slot(self, dispatcher, tracker, domain)
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ["address", "confirm"]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        """A dictionary to map required slots to
+            - an extracted entity
+            - intent: value pairs
+            - a whole message
+            or a list of them, where a first match will be picked"""
+
+        return {
+            "address": [
+                self.from_entity(entity="address"),
+                self.from_text(intent="inform"),
+            ],
+            "confirm": [
+                self.from_intent(value=True, intent="affirm"),
+                self.from_intent(value=False, intent="deny"),
+            ],
+        }
+
+    def validate_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        if not value:
+            return {"address": None, "confirm": None}
+        else:
+            return {"confirm": value}
+
+    def validate_address(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Placeholder for validating address."""
+
+        if value:
+            return {"address": value}
+        else:
+            dispatcher.utter_message(template="utter_invalid_address")
+            return {"address": None}
+
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+
+        dispatcher.utter_message(template="utter_update_address")
+
+        return [SlotSet("confirm", None)]
+
+
 class ActionAccountBalance(Action):
     def name(self):
         return "action_account_balance"
@@ -740,7 +820,10 @@ class ActionUpdateTransactions(Action):
                 # This sets the start_date and end_date years to the current year if
                 # year > current year
                 current_year = datetime.date.today().year
-                if start_date.year > current_year or end_date.year > current_year:
+                if (
+                    start_date.year > current_year
+                    or end_date.year > current_year
+                ):
                     start_date = start_date.replace(year=start_date.year - 1)
                     end_date = end_date.replace(year=end_date.year - 1)
 
@@ -788,6 +871,7 @@ class ActionUpdateTransactions(Action):
             SlotSet("reviewed_transactions", None),
             SlotSet("time", None),
         ]
+
 
 class ActionSessionStart(Action):
     def name(self) -> Text:
