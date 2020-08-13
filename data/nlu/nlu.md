@@ -181,6 +181,7 @@
 - today
 - The ones after July 29th
 - Transactions in the last two days
+- All of them
 - All of them since yesterday
 - All of them [except](negation) for [Amazon](vendor_name)
 - All of them [except](negation) [Starbucks](vendor_name)
@@ -203,6 +204,7 @@
 - My address is actually [123 Main Street, Lewis Center, OH 43035](address)
 - Can you update my address to [123 Pelton Street](address)
 - [42 Wallaby Way, Sydney](address)
+- [322 W John St., Dallas TX 11032](address)
 
 ## intent:deny+inform
 - No, my address is [123 Main Street, Lewis Center, OH 43035](address)

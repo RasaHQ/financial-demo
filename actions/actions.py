@@ -637,8 +637,8 @@ class MailingAddressForm(FormAction):
 
         return {
             "address": [
-                self.from_entity(entity="address"),
                 self.from_text(intent="inform"),
+                self.from_entity(entity="address"),
             ],
             "confirm": [
                 self.from_intent(value=True, intent="affirm"),

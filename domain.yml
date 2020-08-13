@@ -230,7 +230,7 @@ responses:
     - text: "Let's review your transactions to make sure no one used your
     card without your permission."
   utter_ask_fraudulent_transactions:
-    - text: "Which of them are fraudulent?"
+    - text: "Are any of these transactions fraudulent and, if so, which ones?"
   utter_dispute_transactions:
     - text: "Let me help you dispute those transactions. Can you confirm that
     these are the ones you don't recognize?"
