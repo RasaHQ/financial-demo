@@ -360,3 +360,34 @@
 ## help
 * help
     - utter_help
+
+## acknowledge balance
+* greet
+    - utter_greet
+    - utter_help
+* check_balance
+    - action_account_balance
+    - slot{"payment_amount":null}
+* affirm
+    - utter_ok
+* transfer_money
+    - transfer_form
+
+
+## from Rasa X 56efe3eaf7c0456db86a6669421f885c
+* help
+    - utter_help
+* greet
+    - utter_greet
+    - utter_help
+* thankyou
+    - utter_noworries
+
+## from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
+* help
+    - utter_help
+* greet
+    - utter_greet
+    - utter_help
+* affirm
+    - utter_ok
