@@ -1,3 +1,5 @@
+version: '2'
+
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
@@ -26,6 +28,7 @@ intents:
 - restart
 - trigger_handoff
 - human_handoff
+- handoff
 - help
 
 entities:

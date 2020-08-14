@@ -1,3 +1,5 @@
+version: '2'
+
 nlu:
 - intent: affirm
   examples: |

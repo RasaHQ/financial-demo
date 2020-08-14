@@ -1,3 +1,5 @@
+version: '2'
+
 rules:
 
 - rule: Greet the user upon handoff
