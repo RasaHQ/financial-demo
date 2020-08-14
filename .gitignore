@@ -114,3 +114,6 @@ models/
 *.dot
 terms/
 results/
+
+# Secret files
+secret/
