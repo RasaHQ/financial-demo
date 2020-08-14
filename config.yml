@@ -23,10 +23,7 @@ pipeline:
     dimensions: ["PERSON"]
 
 policies:
-- name: FallbackPolicy
-  nlu_threshold: 0.75
 - name: AugmentedMemoizationPolicy
-- name: FormPolicy
-- name: MappingPolicy
+- name: RulePolicy
 - name: TEDPolicy
   epochs: 20
