@@ -11,6 +11,8 @@
 - that looks good
 - that's right
 - that is correct
+- sure is
+- yep
 
 ## intent:ask_transfer_charge
 - Will I be charged for transferring money
@@ -181,6 +183,8 @@
 - today
 - The ones after July 29th
 - Transactions in the last two days
+- every one of them
+- everyone
 - All of them
 - All of them since yesterday
 - All of them [except](negation) for [Amazon](vendor_name)

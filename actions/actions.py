@@ -681,7 +681,6 @@ class MailingAddressForm(FormAction):
     ) -> List[Dict]:
 
         dispatcher.utter_message(template="utter_update_address")
-
         return [SlotSet("confirm", None)]
 
 

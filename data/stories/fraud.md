@@ -202,6 +202,20 @@
   - utter_sent_replacement
   - utter_anything_else
 
+## inform all (every one) transactions
+  - utter_ask_fraudulent_transactions
+* inform{"number": "1"}
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
+
 ## search transactions by negation
   - utter_ask_fraudulent_transactions
 * inform{"negation": "except", "vendor_name": "starbucks"}
