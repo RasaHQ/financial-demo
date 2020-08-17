@@ -292,3 +292,73 @@
   - utter_sent_replacement
   - utter_anything_else
 
+## user asks for delivery time and then for priority delivery
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+* delivery_time
+  - utter_delivery_time
+  - mailing_address_form
+* priority_delivery
+  - utter_priority_delivery_time
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
+
+## Follow-on intent for paying credit card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+* pay_cc
+  - utter_can_do
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_ask_pay_cc
+
+## Affirm credit card payment prompt
+  - utter_ask_pay_cc
+* affirm
+  - cc_payment_form
+  - form{"name": "cc_payment_form"}
+  - form{"name": null}
+
+## Deny credit card payment prompt
+  - utter_ask_pay_cc
+* deny
+  - utter_ok
+  - utter_anything_else
+
+## Follow-on story for paying credit card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+* pay_cc
+  - utter_can_do
+  - mailing_address_form
+* delivery_time
+  - utter_delivery_time
+  - mailing_address_form
+* priority_delivery
+  - utter_priority_delivery_time
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_ask_pay_cc
+
+
+## Follow-on story for paying credit card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+* pay_cc
+  - utter_can_do
+  - mailing_address_form
+* affirm+delivery_time
+  - utter_delivery_time
+  - mailing_address_form
+* priority_delivery
+  - utter_priority_delivery_time
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_ask_pay_cc
+
+

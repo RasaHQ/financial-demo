@@ -364,3 +364,21 @@
 ## help
 * help
     - utter_help
+
+## Show most recent transactions
+* recent_transactions
+  - action_recent_transactions
+
+## Show most recent transactions
+* recent_transactions{"number": "10"}
+  - action_recent_transactions
+
+## Search transactions with follow up
+  - transact_search_form
+  - form{"name": "transact_search_form"}
+  - form{"name": null}
+* inform{"vendor_name": "starbucks"} OR inform{"vendor_name": "Target", "PERSON": "Target"}
+  - transact_search_form
+  - form{"name": "transact_search_form"}
+  - form{"name": null}
+

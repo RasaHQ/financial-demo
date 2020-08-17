@@ -348,6 +348,7 @@
  - What is the replacement card shipping time
  - What's the delivery time
  - What is the delivery eta
+ - How long will it take to arrive?
 
 ## intent:affirm+delivery_time
  - Yes, how quickly will it get to me
@@ -355,6 +356,7 @@
  - Yes, when will the card be delivered
  - Yes, what's the delivery time
  - Yeah, what's the delivery eta
+ - Yep, how long will it take to arrive
 
 ## intent:priority_delivery
  - Can I get it delivered faster than that
@@ -364,6 +366,14 @@
  - I need it delivered faster
  - Can I get it faster
  - Can I get it sooner than that
+
+## intent:recent_transactions
+ - Show me my last 10 transactions
+ - Can you display my last 3 transactions
+ - What are the last 6 things I bought
+ - Show me my last 5 transactions
+ - What are my last 7 transactions
+
 
 ## intent:restart
  - I want to start over

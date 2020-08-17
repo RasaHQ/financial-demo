@@ -285,6 +285,23 @@ class TransactSearchForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate time value."""
+
+        parsed_interval_slots = [
+            "time",
+            "start_time",
+            "start_time_formatted",
+            "end_time",
+            "end_time_formatted",
+            "grain",
+        ]
+
+        interval_slots_exist = [
+            True if tracker.get_slot(slot_name) else False for slot_name in parsed_interval_slots
+        ]
+
+        if sum(interval_slots_exist) == len(interval_slots_exist):
+            return {"time": value}
+
         timeentity = get_entity_details(tracker, "time")
         parsedinterval = parse_duckling_time_as_interval(timeentity)
         if not parsedinterval:
@@ -333,7 +350,7 @@ class TransactSearchForm(FormAction):
             "numtransacts": numtransacts,
             "start_time_formatted": tracker.get_slot("start_time_formatted"),
             "end_time_formatted": tracker.get_slot("end_time_formatted"),
-            "vendor_name": vendor,
+            "vendor_name": vendor.title(),
         }
 
         dispatcher.utter_message(
@@ -344,14 +361,14 @@ class TransactSearchForm(FormAction):
         )
 
         return [
-            SlotSet("time", None),
-            SlotSet("time_formatted", None),
-            SlotSet("start_time", None),
-            SlotSet("end_time", None),
-            SlotSet("start_time_formatted", None),
-            SlotSet("end_time_formatted", None),
-            SlotSet("grain", None),
-            SlotSet("search_type", None),
+            ## SlotSet("time", None),
+            ## SlotSet("time_formatted", None),
+            ## SlotSet("start_time", None),
+            ## SlotSet("end_time", None),
+            ## SlotSet("start_time_formatted", None),
+            ## SlotSet("end_time_formatted", None),
+            ## SlotSet("grain", None),
+            ## SlotSet("search_type", None),
             SlotSet("vendor_name", None),
         ]
 
@@ -509,8 +526,13 @@ class SpendingHistoryForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate time value."""
-        timeentity = get_entity_details(tracker, "time")
-        parsedinterval = parse_duckling_time_as_interval(timeentity)
+
+        try:
+            timeentity = get_entity_details(tracker, "time")
+            parsedinterval = parse_duckling_time_as_interval(timeentity)
+        except:
+            return {"time": None}
+
         if not parsedinterval:
             dispatcher.utter_message(template="utter_no_transactdate")
             return {"time": None}
@@ -739,6 +761,58 @@ class ActionCreditCardBalance(Action):
 
             return []
 
+
+class ActionRecentTransactions(Action):
+    def name(self):
+        return "action_recent_transactions"
+
+    def run(self, dispatcher, tracker, domain):
+        search_type = "spend"
+
+        num_transactions = next(tracker.get_latest_entity_values("number"), None)
+
+        transaction_history = tracker.get_slot("transaction_history")
+        transactions_subset = transaction_history.get(search_type, {})
+
+        ## Show last 10 transactions by default
+        if not num_transactions or num_transactions <= 0:
+            num_transactions = 10
+
+        transactions = []
+        for key in transactions_subset.keys():
+            for transaction in transactions_subset.get(key):
+                transaction["vendor_name"] = key
+                transactions.append(transaction)
+
+        if transactions:
+
+            dispatcher.utter_message(template="utter_your_transactions")
+
+            transactions = sorted(transactions, key=lambda k: k["date"], reverse=True)
+
+            if num_transactions < len(transactions):
+                transactions = transactions[0:num_transactions]
+
+            for transaction in transactions:
+                formatted_date = str(
+                    parser.isoparse(transaction.get("date")).date()
+                ).replace("-", "/")
+                amount = transaction.get("amount")
+                slotvars = {
+                    "formatted_date": formatted_date,
+                    "vendor_name": transaction.get("vendor_name").title(),
+                    "currency": tracker.get_slot("currency"),
+                    "amount_of_money": f"{amount:.2f}",
+                }
+
+                dispatcher.utter_message(
+                    template="utter_transaction_info", **slotvars
+                )
+
+        else:
+            dispatcher.utter_message(template="utter_no_transactions")
+
+        return []
 
 class ActionRecipients(Action):
     def name(self):

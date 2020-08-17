@@ -26,6 +26,7 @@ intents:
 - check_recipients
 - session_start
 - restart
+- recent_transactions
 - trigger_handoff
 - human_handoff
 - handoff:
@@ -276,6 +277,7 @@ actions:
 - action_account_balance
 - action_session_start
 - action_restart
+- action_recent_transactions
 - action_credit_card_balance
 - action_recipients
 - action_handoff
