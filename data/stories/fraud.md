@@ -230,6 +230,19 @@
   - utter_sent_replacement
   - utter_anything_else
 
+## search transactions by negation
+  - utter_ask_fraudulent_transactions
+* inform{"negation": "except", "vendor_name": "starbucks", "number": "1"}
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_anything_else
 
 ## denies fraudulent transactions prompt
   - utter_ask_fraudulent_transactions
@@ -261,7 +274,15 @@
   - slot{"reviewed_transactions": ["target", "starbucks"]}
   - utter_ask_fraudulent_transactions
 
+
 ## user asks for delivery time
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
   - mailing_address_form
   - form{"name": "mailing_address_form"}
 * delivery_time
@@ -271,7 +292,14 @@
   - utter_sent_replacement
   - utter_anything_else
 
-## user confirms address and asks for delivery time
+## user asks for delivery time
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
   - mailing_address_form
   - form{"name": "mailing_address_form"}
 * affirm+delivery_time
@@ -281,18 +309,14 @@
   - utter_sent_replacement
   - utter_anything_else
 
-
 ## user asks for priority delivery
-  - mailing_address_form
-  - form{"name": "mailing_address_form"}
-* priority_delivery
-  - utter_priority_delivery_time
-  - mailing_address_form
-  - form{"name": null}
-  - utter_sent_replacement
-  - utter_anything_else
-
-## user asks for delivery time and then for priority delivery
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
   - mailing_address_form
   - form{"name": "mailing_address_form"}
 * delivery_time
@@ -304,6 +328,29 @@
   - form{"name": null}
   - utter_sent_replacement
   - utter_anything_else
+
+## user asks to pay cc and then for priority delivery
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+* pay_cc
+  - utter_can_do
+  - mailing_address_form
+* delivery_time
+  - utter_delivery_time
+  - mailing_address_form
+* priority_delivery
+  - utter_priority_delivery_time
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_ask_pay_cc
 
 ## Follow-on intent for paying credit card
   - mailing_address_form
@@ -329,6 +376,13 @@
   - utter_anything_else
 
 ## Follow-on story for paying credit card
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
   - mailing_address_form
   - form{"name": "mailing_address_form"}
 * pay_cc
@@ -344,15 +398,41 @@
   - utter_sent_replacement
   - utter_ask_pay_cc
 
-
 ## Follow-on story for paying credit card
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
   - mailing_address_form
   - form{"name": "mailing_address_form"}
 * pay_cc
   - utter_can_do
   - mailing_address_form
-* affirm+delivery_time
+* delivery_time
   - utter_delivery_time
+  - mailing_address_form
+  - form{"name": null}
+  - utter_sent_replacement
+  - utter_ask_pay_cc
+
+## Follow-on story for paying credit card
+  - utter_ask_fraudulent_transactions
+* inform
+  - action_update_transactions
+  - slot{"reviewed_transactions": ["target", "starbucks"]}
+* affirm
+  - utter_confirm_transaction_dispute
+  - utter_replace_card
+  - mailing_address_form
+  - form{"name": "mailing_address_form"}
+* delivery_time
+  - utter_delivery_time
+  - mailing_address_form
+* pay_cc
+  - utter_can_do
   - mailing_address_form
 * priority_delivery
   - utter_priority_delivery_time
@@ -360,5 +440,3 @@
   - form{"name": null}
   - utter_sent_replacement
   - utter_ask_pay_cc
-
-

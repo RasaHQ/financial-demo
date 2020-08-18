@@ -209,6 +209,8 @@
 - Can you update my address to [123 Pelton Street](address)
 - [42 Wallaby Way, Sydney](address)
 - [322 W John St., Dallas TX 11032](address)
+- What about [target](vendor_name)
+- How about [amazon](vendor_name)
 
 ## intent:deny+inform
 - No, my address is [123 Main Street, Lewis Center, OH 43035](address)
@@ -373,6 +375,7 @@
  - What are the last 6 things I bought
  - Show me my last 5 transactions
  - What are my last 7 transactions
+ - Show me my 4 most recent transactions
 
 
 ## intent:restart
