@@ -58,9 +58,16 @@ Then to talk to the bot, run:
 rasa shell --debug
 ```
 
-
 Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working
 under the hood. To simply talk to the bot, you can remove this flag.
+
+
+You can also try out your bot locally using Rasa X by running
+```
+rasa x
+```
+
+Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financial-demo/wiki/Using-Rasa-X-with-the-Financial-Demo)for how to get started with Rasa X in local mode.
 
 
 ## Overview of the files
@@ -227,7 +234,6 @@ To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/)
 [one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and
 configurations, and build or pull an action server image.
 
-For running Rasa X in local mode, you can refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financial-demo/wiki/Using-Rasa-X-with-the-Financial-Demo) for how to get started.
 
 ## Action Server Image
 
