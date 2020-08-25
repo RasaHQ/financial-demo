@@ -58,9 +58,16 @@ Then to talk to the bot, run:
 rasa shell --debug
 ```
 
-
 Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working
 under the hood. To simply talk to the bot, you can remove this flag.
+
+
+You can also try out your bot locally using Rasa X by running
+```
+rasa x
+```
+
+Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financial-demo/wiki/Using-Rasa-X-with-the-Financial-Demo) for how to get started with Rasa X in local mode.
 
 
 ## Overview of the files
@@ -113,7 +120,7 @@ If configured, the bot can also hand off to another bot in response to the user 
 
 ## Handoff
 
-This bot includes a simple skill for handing off the conversation to another bot or a human. 
+This bot includes a simple skill for handing off the conversation to another bot or a human.
 This demo relies on [this fork of chatroom](https://github.com/RasaHQ/chatroom) to work, however you
 could implement similar behaviour in another channel and then use that instead. See the chatroom README for
 more details on channel-side configuration.
@@ -164,8 +171,8 @@ yarn serve
 
 Using chatroom, the general approach is as follows:
 
-1. User asks original bot for a handoff. 
-2. The original bot handles the request and eventually 
+1. User asks original bot for a handoff.
+2. The original bot handles the request and eventually
    sends a message with the following custom json payload:
     ```
         {
@@ -175,7 +182,7 @@ Using chatroom, the general approach is as follows:
     ```
     This message is not displayed in the Chatroom window.
 3. Chatroom switches the host to the specified `handoff_host`
-4. The original bot no longer receives any messages. 
+4. The original bot no longer receives any messages.
 5. The handoff host receives the message `/handoff{"from_host":"<original bot url">}`
 6. The handoff host should be configured to respond to this message with something like,
    "Hi, I'm <so and so>, how can I help you??"
@@ -188,7 +195,7 @@ Using chatroom, the general approach is as follows:
 The "try it out" section doesn't require any further configuration; this section is for those
 who want to change or further understand the set up.
 
-For this demo, the user can ask for a human, but they'll be offered a bot (or bots) instead, 
+For this demo, the user can ask for a human, but they'll be offered a bot (or bots) instead,
 so that the conversation looks like this:
 
 
@@ -204,14 +211,14 @@ handoff_hosts:
     #   url: "http://localhost:5007"
 ```
 
-Handoff hosts can be other locally running rasa bots, or anything that serves responses in the format that chatroom 
-accepts. If a handoff host is not a rasa bot, you will of course want to update the response text to tell the user 
+Handoff hosts can be other locally running rasa bots, or anything that serves responses in the format that chatroom
+accepts. If a handoff host is not a rasa bot, you will of course want to update the response text to tell the user
 who/what they are being handed off to.
 
-The [Helpdesk-Assistant](https://github.com/RasaHQ/helpdesk-assistant) bot has been set up to handle handoff in exactly the same way as Helpdesk-Assistant, 
+The [Helpdesk-Assistant](https://github.com/RasaHQ/helpdesk-assistant) bot has been set up to handle handoff in exactly the same way as Helpdesk-Assistant,
 so the simplest way to see handoff in action is to clone Financial-Demo alongside this repo.
 
-If you list other locally running bots as handoff hosts, make sure the ports on which the various rasa servers & action servers are running do not conflict with each other. 
+If you list other locally running bots as handoff hosts, make sure the ports on which the various rasa servers & action servers are running do not conflict with each other.
 
 
 ## Testing the bot
@@ -226,6 +233,7 @@ Note that if duckling is running when you do this, you'll probably see some "fai
 To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the
 [one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and
 configurations, and build or pull an action server image.
+
 
 ## Action Server Image
 
