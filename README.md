@@ -67,7 +67,7 @@ You can also try out your bot locally using Rasa X by running
 rasa x
 ```
 
-Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financial-demo/wiki/Using-Rasa-X-with-the-Financial-Demo)for how to get started with Rasa X in local mode.
+Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financial-demo/wiki/Using-Rasa-X-with-the-Financial-Demo) for how to get started with Rasa X in local mode.
 
 
 ## Overview of the files
