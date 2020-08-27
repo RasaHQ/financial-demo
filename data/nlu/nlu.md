@@ -77,7 +77,7 @@
 - what places have I spent money?
 - Wait, I'll have to check my balance first. Can you do that please?
 - Hi, I need to know how much money is in my checking account
-- Balance please
+- Balance please.
 - What is my account balance?
 - what is my account balance?
 - what's my account balance right now
