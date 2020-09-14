@@ -81,7 +81,7 @@
 
 
 ## search transactions happy path no greet or thanks
-* check_earnings: how much did I earn in Jan 2019?
+* check_earnings: how much did I earn [in Jan 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}?
     - transact_search_form
     - form{"name":"transact_search_form"}
     - form{"name":null}
