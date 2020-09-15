@@ -74,15 +74,15 @@ stories:
   - action: utter_help
   - intent: affirm
   - action: utter_ok
-#- story: pay credit card and check account balance
-#  steps:
-#  - checkpoint: STORY_START
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - active_loop: null
-#  - intent: check_balance
-#  - action: action_account_balance
+- story: pay credit card and check account balance
+  steps:
+  - checkpoint: STORY_START
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - intent: check_balance
+  - action: action_account_balance
 #- story: pay credit card and check account balance inside form
 #  steps:
 #  - checkpoint: STORY_START
