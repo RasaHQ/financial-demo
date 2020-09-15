@@ -1,5 +1,4 @@
-version: '2'
-
+version: "2.0"
 nlu:
 - intent: affirm
   examples: |
@@ -18,7 +17,6 @@ nlu:
     - sweet
     - cool,
     - yes...
-
 - intent: ask_transfer_charge
   examples: |
     - Will I be charged for transferring money
@@ -30,7 +28,6 @@ nlu:
     - is there a transfer fee
     - is there a xfer fee
     - how much is the transfer fee
-
 - intent: check_balance
   examples: |
     - How much money is on my account?
@@ -80,7 +77,6 @@ nlu:
     - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
     - Yeah, I know 😀 Since it's so nice: How much money do I have?
-
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -96,7 +92,6 @@ nlu:
     - how much money have I earned?
     - what did I earn?
     - How much have i earned?
-
 - intent: deny
   examples: |
     - not really
@@ -109,7 +104,6 @@ nlu:
     - I dunno
     - Nothing!
     - nevermind
-
 - intent: goodbye
   examples: |
     - see you later
@@ -122,7 +116,6 @@ nlu:
     - BYEE
     - GOODBYE
     - Thanks a lot. See ya later
-
 - intent: greet
   examples: |
     - good morning
@@ -145,7 +138,6 @@ nlu:
     - hi there
     - Hello
     - hello its ella
-
 - intent: inform
   examples: |
     - $10
@@ -226,7 +218,6 @@ nlu:
     - today please
     - [Iron Bank](credit_card)
     - My [visa](credit_card)
-
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](payment_amount) on my [embelm](credit_card) card
@@ -262,7 +253,6 @@ nlu:
     - Pay off my [credit card]{"entity": "account_type", "value": "credit"}, please
     - I guess it is. Since it's so much, let's pay off my [credit](account_type)
     - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
-
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -288,7 +278,6 @@ nlu:
     - Yes! How much did I spend on [Starbucks](vendor_name) last month?
     - How much did I spend at Burger King last month?
     - what places have I spent money?
-
 - intent: thankyou
   examples: |
     - thank you goodbye
@@ -302,7 +291,6 @@ nlu:
     - thanks goodbye
     - thank you and good bye
     - Thanks!
-
 - intent: transfer_money
   examples: |
     - I want to pay John
@@ -341,7 +329,6 @@ nlu:
     - transfer money to evan oslo
     - transfer money to sara
     - I need to transfer money to my grandma Judith.
-
 - intent: check_recipients
   examples: |
     - Who can I send money to?
@@ -357,7 +344,6 @@ nlu:
     - Who is on your list?
     - who is in my list of kown recipients?
     - Can we please start over?
-
 - intent: help
   examples: |
     - help
@@ -370,7 +356,6 @@ nlu:
     - how do I use this
     - how can you help me
     - What are the things that you can do?
-
 - intent: human_handoff
   examples: |
     - I want a human
@@ -382,15 +367,12 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
-
-
 - synonym: credit
   examples: |
     - credit card
     - credit cards
     - credit account
     - credit accounts
-
 - synonym: emblem
   examples: |
     - emblm

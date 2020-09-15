@@ -1,0 +1,94 @@
+version: "2.0"
+stories:
+- story: greet/bye path
+  steps:
+  - user: |
+      hi
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      bye
+    intent: goodbye
+  - action: utter_goodbye
+
+- story: say goodbye
+  steps:
+  - user: |
+      bye
+    intent: goodbye
+  - action: utter_goodbye
+
+- story: help
+  steps:
+  - user: |
+      how do I use this
+    intent: help
+  - action: utter_help
+  
+- story: is there a transfer charge
+  steps:
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: utter_transfer_charge
+
+- story: Show list of known recipients
+  steps:
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_recipients
+  
+- story: Show credit accounts
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_credit_card_balance
+
+- story: Show specific credit account
+  steps:
+  - user: |
+      What's my [emblem](credit_card) card balance
+    intent: check_balance
+  - action: action_credit_card_balance
+  
+- story: check credit account balance
+  steps:
+  - user: |
+      What are my [credit accounts]{"entity":"account_type","value":"credit"}
+    intent: check_balance
+  - action: action_credit_card_balance
+
+- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c
+  steps:
+  - user: |
+      help
+    intent: help
+  - action: utter_help
+  - user: |
+      hello
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      Thanks!
+    intent: thankyou
+  - action: utter_noworries
+
+- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
+  steps:
+  - user: |
+      help
+    intent: help
+  - action: utter_help
+  - user: |
+      hello
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      Tthat sounds good
+    intent: affirm
+  - action: utter_ok

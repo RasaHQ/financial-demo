@@ -1,27 +1,28 @@
-version: '2'
-
+version: "2.0"
 stories:
-
-- story: human handoff requested and user types something unexpected
+- story: handoff
   steps:
+  - checkpoint: STORY_START
   - intent: human_handoff
   - action: utter_ask_handoff
   - action: action_handoff_options
   - intent: trigger_handoff
   - action: action_handoff
-
-- story: human handoff requested and user selects another bot
+- story: handoff
   steps:
+  - checkpoint: STORY_START
   - intent: human_handoff
   - action: utter_ask_handoff
   - action: action_handoff_options
   - intent: trigger_handoff
+    user: |-
+      trigger_handoff{"handoff_to":"financial_demo"}
     entities:
-    - handoff_to: helpdesk_assistant
+    - handoff_to: financial_demo
   - action: action_handoff
-
-- story: human handoff requested but then user denies the options given
+- story: handoff deny
   steps:
+  - checkpoint: STORY_START
   - intent: human_handoff
   - action: utter_ask_handoff
   - action: action_handoff_options

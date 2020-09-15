@@ -1,5 +1,4 @@
-version: '2'
-
+version: "2.0"
 language: en
 pipeline:
   - name: WhitespaceTokenizer

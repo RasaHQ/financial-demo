@@ -1,0 +1,490 @@
+version: "2.0"
+stories:
+- story: greet/bye path
+  steps:
+  - checkpoint: STORY_START
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+- story: say goodbye
+  steps:
+  - checkpoint: STORY_START
+  - intent: goodbye
+  - action: utter_goodbye
+- story: help
+  steps:
+  - checkpoint: STORY_START
+  - intent: help
+  - action: utter_help
+- story: is there a transfer charge
+  steps:
+  - checkpoint: STORY_START
+  - intent: ask_transfer_charge
+  - action: utter_transfer_charge
+- story: Show list of known recipients
+  steps:
+  - checkpoint: STORY_START
+  - intent: check_recipients
+  - action: action_recipients
+- story: Show credit accounts
+  steps:
+  - checkpoint: STORY_START
+  - intent: check_balance
+    user: |-
+      check_balance{"account_type":"credit"}
+    entities:
+    - account_type: credit
+  - action: action_credit_card_balance
+- story: Show specific credit account
+  steps:
+  - checkpoint: STORY_START
+  - intent: check_balance
+    user: |-
+      check_balance{"credit_card":"emblem"}
+    entities:
+    - credit_card: emblem
+  - action: action_credit_card_balance
+- story: Show credit accounts
+  steps:
+  - checkpoint: STORY_START
+  - intent: check_balance
+    user: |-
+      check_balance{"account_type":"credit","credit_card":"emblem"}
+    entities:
+    - account_type: credit
+    - credit_card: emblem
+  - action: action_credit_card_balance
+- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c
+  steps:
+  - checkpoint: STORY_START
+  - intent: help
+  - action: utter_help
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - intent: thankyou
+  - action: utter_noworries
+- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
+  steps:
+  - checkpoint: STORY_START
+  - intent: help
+  - action: utter_help
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - intent: affirm
+  - action: utter_ok
+#- story: pay credit card and check account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#  - intent: check_balance
+#  - action: action_account_balance
+#- story: pay credit card and check account balance inside form
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: utter_ask_continue
+#  - intent: affirm
+#  - action: cc_payment_form
+#  - active_loop: null
+#- story: pay cc happy path no greet
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#  - intent: thankyou
+#  - action: utter_noworries
+#- story: pay credit card happy path
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: greet
+#  - action: utter_greet
+#  - action: utter_help
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#- story: pay credit card no greet or thanks
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#- story: transfer money
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#- story: transfer money ask transfer charge
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#- story: transfer money ask known recipients
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#- story: transfer money ask known recipients and transfer charge
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#- story: transfer money ask known recipients and transfer charge
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#- story: transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_recipients
+#  - action: action_recipients
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: ask_transfer_charge
+#  - action: utter_transfer_charge
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: search transactions happy path
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: greet
+#  - action: utter_greet
+#  - action: utter_help
+#  - intent: search_transactions
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - active_loop: null
+#  - intent: thankyou
+#  - action: utter_noworries
+#- story: search transactions happy path no greet
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: search_transactions
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - active_loop: null
+#  - intent: thankyou
+#  - action: utter_noworries
+#- story: search transactions happy path no greet or thanks
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: search_transactions
+#  - checkpoint: GENR_OR_2a7dd
+#- story: search transactions happy path no greet or thanks
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: check_earnings
+#  - checkpoint: GENR_OR_2a7dd
+#- story: search transactions happy path no greet or thanks
+#  steps:
+#  - checkpoint: GENR_OR_2a7dd
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - active_loop: null
+#- story: search transactions switch to transfer money
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: search_transactions
+#  - checkpoint: GENR_OR_503b5
+#- story: search transactions switch to transfer money
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: check_earnings
+#  - checkpoint: GENR_OR_503b5
+#- story: search transactions switch to transfer money
+#  steps:
+#  - checkpoint: GENR_OR_503b5
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - intent: transfer_money
+#  - action: utter_ask_switch_goal
+#  - intent: affirm
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - action: utter_ask_back_to_transact
+#  - intent: affirm
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - active_loop: null
+#- story: search transactions switch to transfer money, deny
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: search_transactions
+#  - checkpoint: GENR_OR_418ad
+#- story: search transactions switch to transfer money, deny
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: check_earnings
+#  - checkpoint: GENR_OR_418ad
+#- story: search transactions switch to transfer money, deny
+#  steps:
+#  - checkpoint: GENR_OR_418ad
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - intent: transfer_money
+#  - action: utter_ask_switch_goal
+#  - intent: deny
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - active_loop: null
+#- story: search transactions switch to transfer money, don't continue transactions
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: search_transactions
+#  - checkpoint: GENR_OR_1b3ff
+#- story: search transactions switch to transfer money, don't continue transactions
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: check_earnings
+#  - checkpoint: GENR_OR_1b3ff
+#- story: search transactions switch to transfer money, don't continue transactions
+#  steps:
+#  - checkpoint: GENR_OR_1b3ff
+#  - action: transact_search_form
+#  - active_loop: transact_search_form
+#  - intent: transfer_money
+#  - action: utter_ask_switch_goal
+#  - intent: affirm
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#  - action: utter_ask_back_to_transact
+#  - intent: deny
+#  - action: utter_ok
+#- story: Transfer money ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: transfer_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: Pay CC ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: utter_ask_continue
+#  - intent: deny
+#  - action: utter_ok
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: Pay CC ask account balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - action: utter_ask_continue
+#  - intent: affirm
+#  - action: cc_payment_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#- story: Transfer money pay credit card
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#  - action: utter_ask_back_to_transfer
+#  - intent: affirm
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - active_loop: null
+#- story: Transfer money pay credit card
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: transfer_money
+#  - action: transfer_form
+#  - active_loop: transfer_form
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#  - action: utter_ask_back_to_transfer
+#  - intent: deny
+#  - action: utter_ok
+#- story: acknowledge balance
+#  steps:
+#  - checkpoint: STORY_START
+#  - intent: greet
+#  - action: utter_greet
+#  - action: utter_help
+#  - intent: check_balance
+#  - action: action_account_balance
+#  - slot_was_set:
+#    - payment_amount: null
+#  - intent: affirm
+#  - action: utter_ok
+#  - intent: transfer_money
+#  - action: transfer_form
