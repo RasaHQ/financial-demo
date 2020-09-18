@@ -118,9 +118,16 @@ class ValidatePayCCForm(Action):
     ) -> List[EventType]:
         """Custom validates the filled slots
 
-        TODO: Filling the slot payment_amount from entity amount-of-money
+        TODO 1: Filling the slot payment_amount from entity amount-of-money
         EG. I want to pay 100 dollars on my emblem credit card on Sunday
         https://www.notion.so/rasa/Feedback-on-2-0-4574eaacc0764967ac0b8b82fbc72904#704ed937b4854e6dab1ab9e93e91930f
+        
+        TODO 2: Figure out why this is not working:
+        pay emblem card tomorrow
+        -> bot does not ask for date
+        -> but date is not properly filled either...
+        It results in: 
+        Would you like to schedule a payment of $100 towards your emblem account for None?
         """
         extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
 
