@@ -40,12 +40,12 @@ stories:
     intent: check_recipients
   - action: action_recipients
   
-- story: Show credit accounts
+- story: Show account balance
   steps:
   - user: |
       How much money is on my account?
     intent: check_balance
-  - action: action_credit_card_balance
+  - action: action_account_balance
 
 - story: Show specific credit account
   steps:
@@ -105,11 +105,4 @@ stories:
     intent: pay_cc
   - action: cc_payment_form
   - active_loop: cc_payment_form
-    - form{"name":"cc_payment_form"}
-* form: inform: my [current balance](payment_amount)
-    - form: cc_payment_form
-* form: inform: next week tuesday
-    - form: cc_payment_form
-* form: affirm: /affirm
-    - form: cc_payment_form
-    - form{"name":null}
+  - active_loop: null
