@@ -62,7 +62,7 @@ class ActionPayCC(Action):
         payment_amount = float(tracker.get_slot("payment_amount"))
         amount_transferred = float(tracker.get_slot("amount_transferred"))
 
-        if tracker.get_slot("confirm"):
+        if tracker.get_slot("confirm") == 'yes':
             cc_balance[credit_card.lower()]["current balance"] -= payment_amount
             account_balance = account_balance - payment_amount
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
