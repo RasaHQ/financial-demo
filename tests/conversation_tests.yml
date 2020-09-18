@@ -92,3 +92,24 @@ stories:
       Tthat sounds good
     intent: affirm
   - action: utter_ok
+  
+- story: pay credit card happy path
+  steps:
+  - user: |
+      hi
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+    - form{"name":"cc_payment_form"}
+* form: inform: my [current balance](payment_amount)
+    - form: cc_payment_form
+* form: inform: next week tuesday
+    - form: cc_payment_form
+* form: affirm: /affirm
+    - form: cc_payment_form
+    - form{"name":null}

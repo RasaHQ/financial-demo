@@ -214,7 +214,26 @@ actions:
 - action_recipients
 - action_handoff
 - action_handoff_options
+- validate_cc_payment_form
 forms:
-- cc_payment_form
-- transfer_form
-- transact_search_form
+  cc_payment_form:
+    credit_card:
+    - type: from_entity
+      entity: credit_card
+    payment_amount:
+    - type: from_entity
+      entity: payment_amount
+    - type: from_entity
+      entity: amount-of-money
+    - type: from_entity
+      entity: number
+    time:
+    - type: from_entity
+      entity: time
+    confirm:
+    - type: from_intent
+      intent:
+      - affirm
+      - deny
+#  transfer_form
+#  transact_search_form

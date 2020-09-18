@@ -245,14 +245,15 @@ nlu:
     - I want to pay $500 on my [emblem](credit_card) [credit card](account_type) on Sunday
     - I want to pay my [current balance](payment_amount) on my [emblem](credit_card) [credit card](account_type) today
     - i need to pay off my [emblm](credit_card) [credit card](account_type)
-    - Please schedule  a payment towards my credit card for April 12th
-    - Can I schedule a payment towards my credit card for tomorrow?
+    - Please schedule  a payment towards my [credit card](account_type) for April 12th
+    - Can I schedule a payment towards my [credit card](account_type) for tomorrow?
     - Pay off my [minimum balance](payment_amount) please
     - i would like to pay $1200 to my [credit card]{"entity": "account_type", "value": "credit"}
     - I would also like to pay my [visa](credit_card) bill
     - Pay off my [credit card]{"entity": "account_type", "value": "credit"}, please
     - I guess it is. Since it's so much, let's pay off my [credit](account_type)
     - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
+    - I want to pay 100 dollars toward my [Emblem](credit_card) [card](account_type), tomorrow
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -373,7 +374,10 @@ nlu:
     - credit cards
     - credit account
     - credit accounts
+    - card
+    - cards
 - synonym: emblem
   examples: |
     - emblm
     - embelm
+    - Emblem

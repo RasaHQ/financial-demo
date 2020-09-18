@@ -108,6 +108,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# pytype
+.pytype/
+
 # Rasa stuff
 models/
 *.db*
