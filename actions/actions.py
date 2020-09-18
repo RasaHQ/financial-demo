@@ -42,12 +42,12 @@ logger = logging.getLogger(__name__)
 ##    return None
 
 
-class PayCCForm(Action):
-    """Pay credit card form..."""
+class ActionPayCC(Action):
+    """Pay credit card..."""
 
     def name(self) -> Text:
-        """Unique identifier of the form"""
-        return "cc_payment_form"
+        """Unique identifier of the action"""
+        return "action_pay_cc"
 
     async def run(
         self,
@@ -55,8 +55,7 @@ class PayCCForm(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict]:
-        """Defines what the form has to do
-        after all required slots are filled"""
+        """Executes the action"""
         account_balance = float(tracker.get_slot("account_balance"))
         credit_card = tracker.get_slot("credit_card")
         cc_balance = tracker.get_slot("credit_card_balance")
@@ -209,6 +208,19 @@ class ValidatePayCCForm(Action):
             dispatcher.utter_message(template="utter_no_transactdate")
             return {"time": None}
         return parsedtime
+    
+    async def validate_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates confirm value."""
+        if value in ["yes", "no"]:
+            return {"confirm": value}
+        else:
+            return {"confirm": None}    
 
 
 class TransactSearchForm(FormAction):

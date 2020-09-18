@@ -6,3 +6,21 @@ rules:
   steps:
   - intent: handoff
   - action: utter_greet
+
+- rule: Activate cc_payment_form
+  steps:
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  
+- rule: Submit cc_payment_form
+  condition:
+  # Condition that form is active.
+  - active_loop: cc_payment_form
+  steps:
+  - action: cc_payment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The action we want to run when the form is submitted.
+  - action: action_pay_cc

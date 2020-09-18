@@ -215,6 +215,7 @@ actions:
 - action_handoff
 - action_handoff_options
 - validate_cc_payment_form
+- action_pay_cc
 forms:
   cc_payment_form:
     credit_card:
@@ -232,8 +233,10 @@ forms:
       entity: time
     confirm:
     - type: from_intent
-      intent:
-      - affirm
-      - deny
+      value: yes
+      intent: affirm
+    - type: from_intent
+      value: no
+      intent: deny
 #  transfer_form
 #  transact_search_form
