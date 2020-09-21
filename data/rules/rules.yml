@@ -2,10 +2,58 @@ version: '2'
 
 rules:
 
+- rule: greet
+  conversation_start: true
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+  
 - rule: Greet the user upon handoff
   steps:
   - intent: handoff
   - action: utter_greet
+
+- rule: say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  
+- rule: help
+  steps:
+  - intent: help
+  - action: utter_help
+  
+- rule: is there a transfer charge
+  steps:
+  - intent: ask_transfer_charge
+  - action: utter_transfer_charge
+  
+- rule: Show list of known recipients
+  steps:
+  - intent: check_recipients
+  - action: action_recipients
+  
+- rule: Show account balance
+  steps:
+  - intent: check_balance
+  - action: action_account_balance
+    
+- rule: Show credit accounts
+  condition:
+  - slot_was_set:
+    - account_type: credit
+  steps:
+  - intent: check_balance
+  - action: action_credit_card_balance
+  
+- rule: Show specific credit account
+  condition:
+  - slot_was_set:
+    - credit_card: emblem
+  steps:
+  - intent: check_balance
+  - action: action_credit_card_balance
 
 - rule: Activate cc_payment_form
   steps:

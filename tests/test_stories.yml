@@ -99,6 +99,7 @@ stories:
       Tthat sounds good
     intent: affirm
   - action: utter_ok
+
   
 - story: pay credit card happy path
   steps:
@@ -112,15 +113,16 @@ stories:
     intent: pay_cc
   - action: cc_payment_form
   - active_loop: cc_payment_form
-  - user: |
-      100 dollars
-    intent: inform
-  - action: cc_payment_form
-  - user: |
-      tomorrow
-    intent: inform
-  - user: |
-      yes
-    intent: affirm
+#  - user: |
+#      100 dollars
+#    intent: inform
+#  - action: cc_payment_form
+#  - user: |
+#      tomorrow
+#    intent: inform
+#  - user: |
+#      yes
+#    intent: affirm
   - active_loop: null
+  - action: action_pay_cc
   

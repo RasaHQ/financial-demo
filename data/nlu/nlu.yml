@@ -72,7 +72,7 @@ nlu:
     - Hello, I would like to know how much money is in much money is in my account
     - hi, whats my account bal please
     - so.... what's my balance?
-    - whats my [current balance](payment_amount)
+    - whats my [current balance](amount-of-money)
     - What's my balance?
     - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
@@ -163,14 +163,14 @@ nlu:
     - [Amazon](vendor_name)
     - [Starbucks](vendor_name)
     - [Target](vendor_name)
-    - I want to pay the [current balance](payment_amount)
-    - [current balance](payment_amount)
-    - [minimum balance](payment_amount)
-    - I want to pay the [minimum balance](payment_amount)
-    - the [current balance](payment_amount)
-    - the [minimum balance](payment_amount)
-    - my [minimum balance](payment_amount)
-    - my [current balance](payment_amount)
+    - I want to pay the [current balance](amount-of-money)
+    - [current balance](amount-of-money)
+    - [minimum balance](amount-of-money)
+    - I want to pay the [minimum balance](amount-of-money)
+    - the [current balance](amount-of-money)
+    - the [minimum balance](amount-of-money)
+    - my [minimum balance](amount-of-money)
+    - my [current balance](amount-of-money)
     - [emblem](credit_card) card
     - [credit all](credit_card) card
     - [iron bank](credit_card) card
@@ -203,7 +203,7 @@ nlu:
     - for friday
     - for tomorrow
     - for saturday
-    - I want to pay the [minimum balance](payment_amount) on my [emblem](credit_card) [credit card](account_type) today
+    - I want to pay the [minimum balance](amount-of-money) on my [emblem](credit_card) [credit card](account_type) today
     - today
     - Please schedule it for the first of next month
     - a hundred dollars
@@ -220,7 +220,7 @@ nlu:
     - My [visa](credit_card)
 - intent: pay_cc
   examples: |
-    - I would like to pay the [minimum balance](payment_amount) on my [embelm](credit_card) card
+    - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) card
     - I want to pay my [credit card](account_type)
     - I want to pay my card
     - Pay my card
@@ -233,21 +233,21 @@ nlu:
     - Pay my mastercard
     - I want to pay my MasterCard bill
     - I want to pay my [credit card](account_type) bill
-    - I want to pay the [current balance](payment_amount) on my [credit card](account_type)
-    - can you help me pay the [current balance](payment_amount) on my [credit card](account_type)
+    - I want to pay the [current balance](amount-of-money) on my [credit card](account_type)
+    - can you help me pay the [current balance](amount-of-money) on my [credit card](account_type)
     - i want to pay off my [credit all](credit_card) [credit card](account_type)
     - i want to pay off my [credit card](account_type)
     - I want to pay off my [credit card](account_type)
     - i want to pay my [credit card](account_type)
     - i want to pay off my [emblem](credit_card) [credit card](account_type)
-    - I want to pay my [current balance](payment_amount) on my [embelm](credit_card) [credit card](account_type)
-    - i want to pay my [current balance](payment_amount) on my [emblem](credit_card) [credit card](account_type)
+    - I want to pay my [current balance](amount-of-money) on my [embelm](credit_card) [credit card](account_type)
+    - i want to pay my [current balance](amount-of-money) on my [emblem](credit_card) [credit card](account_type)
     - I want to pay $500 on my [emblem](credit_card) [credit card](account_type) on Sunday
-    - I want to pay my [current balance](payment_amount) on my [emblem](credit_card) [credit card](account_type) today
+    - I want to pay my [current balance](amount-of-money) on my [emblem](credit_card) [credit card](account_type) today
     - i need to pay off my [emblm](credit_card) [credit card](account_type)
     - Please schedule  a payment towards my [credit card](account_type) for April 12th
     - Can I schedule a payment towards my [credit card](account_type) for tomorrow?
-    - Pay off my [minimum balance](payment_amount) please
+    - Pay off my [minimum balance](amount-of-money) please
     - i would like to pay $1200 to my [credit card]{"entity": "account_type", "value": "credit"}
     - I would also like to pay my [visa](credit_card) bill
     - Pay off my [credit card]{"entity": "account_type", "value": "credit"}, please

@@ -105,7 +105,7 @@ def parse_duckling_currency(
     if entity.get("entity") == "amount-of-money":
         amount = entity.get("additional_info", {}).get("value")
         currency = entity.get("additional_info", {}).get("unit")
-        return {"amount_of_money": f"{amount:.2f}", "currency": currency}
+        return {"amount-of-money": f"{amount:.2f}", "currency": currency}
     elif entity.get("entity") == "number":
         amount = entity.get("value")
-        return {"amount_of_money": f"{amount:.2f}", "currency": "$"}
+        return {"amount-of-money": f"{amount:.2f}", "currency": "$"}

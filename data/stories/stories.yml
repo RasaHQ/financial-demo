@@ -1,58 +1,8 @@
 version: "2.0"
 
 stories:
-- story: greet/bye path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - action: utter_help
   
-- story: say goodbye
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
-  
-- story: help
-  steps:
-  - intent: help
-  - action: utter_help
-  
-- story: is there a transfer charge
-  steps:
-  - intent: ask_transfer_charge
-  - action: utter_transfer_charge
-  
-- story: Show list of known recipients
-  steps:
-  - intent: check_recipients
-  - action: action_recipients
-  
-- story: Show account balance
-  steps:
-  - intent: check_balance
-  - action: action_account_balance
-  
-- story: Show credit accounts
-  steps:
-  - intent: check_balance
-    entities:
-    - account_type: credit
-  - action: action_credit_card_balance
-  
-- story: Show specific credit account
-  steps:
-  - intent: check_balance
-    entities:
-    - credit_card: emblem
-  - action: action_credit_card_balance
 
-- story: Show credit accounts
-  steps:
-  - intent: check_balance
-    entities:
-    - account_type: credit
-    - credit_card: emblem
-  - action: action_credit_card_balance
   
   
 - story: from Rasa X 56efe3eaf7c0456db86a6669421f885c

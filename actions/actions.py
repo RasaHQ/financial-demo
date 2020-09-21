@@ -59,17 +59,17 @@ class ActionPayCC(Action):
         account_balance = float(tracker.get_slot("account_balance"))
         credit_card = tracker.get_slot("credit_card")
         cc_balance = tracker.get_slot("credit_card_balance")
-        payment_amount = float(tracker.get_slot("payment_amount"))
+        amount_of_money = float(tracker.get_slot("amount-of-money"))
         amount_transferred = float(tracker.get_slot("amount_transferred"))
 
-        if tracker.get_slot("confirm") == 'yes':
-            cc_balance[credit_card.lower()]["current balance"] -= payment_amount
-            account_balance = account_balance - payment_amount
+        if tracker.get_slot("confirm") == "yes":
+            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
+            account_balance = account_balance - amount_of_money
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
             return [
                 SlotSet("credit_card", None),
-                SlotSet("payment_amount", None),
+                SlotSet("amount-of-money", None),
                 SlotSet("confirm", None),
                 SlotSet("time", None),
                 SlotSet("time_formatted", None),
@@ -78,11 +78,10 @@ class ActionPayCC(Action):
                 SlotSet("start_time_formatted", None),
                 SlotSet("end_time_formatted", None),
                 SlotSet("grain", None),
-                SlotSet("amount_of_money", None),
                 SlotSet("number", None),
                 SlotSet(
                     "amount_transferred",
-                    amount_transferred + payment_amount,
+                    amount_transferred + amount_of_money,
                 ),
                 SlotSet("account_balance", f"{account_balance:.2f}"),
                 SlotSet("credit_card_balance", cc_balance),
@@ -92,7 +91,7 @@ class ActionPayCC(Action):
 
         return [
             SlotSet("credit_card", None),
-            SlotSet("payment_amount", None),
+            SlotSet("amount-of-money", None),
             SlotSet("confirm", None),
             SlotSet("time", None),
             SlotSet("time_formatted", None),
@@ -101,38 +100,36 @@ class ActionPayCC(Action):
             SlotSet("start_time_formatted", None),
             SlotSet("end_time_formatted", None),
             SlotSet("grain", None),
-            SlotSet("amount_of_money", None),
             SlotSet("number", None),
         ]
 
 
 class ValidatePayCCForm(Action):
-    """Validates Pay credit card form slots..."""
+    """Validates Slots of the cc_payment_form"""
 
     def name(self) -> Text:
-        """Unique identifier of the form"""
+        """Unique identifier of the action"""
         return "validate_cc_payment_form"
 
     async def run(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
-        """Custom validates the filled slots
-
-        TODO 1: Filling the slot payment_amount from entity amount-of-money
-        EG. I want to pay 100 dollars on my emblem credit card on Sunday
-        https://www.notion.so/rasa/Feedback-on-2-0-4574eaacc0764967ac0b8b82fbc72904#704ed937b4854e6dab1ab9e93e91930f
-        
-        TODO 2: Figure out why this is not working:
-        pay emblem card tomorrow
-        -> bot does not ask for date
-        -> but date is not properly filled either...
-        It results in: 
-        Would you like to schedule a payment of $100 towards your emblem account for None?
-        """
+        """Custom validates the filled slots"""
         extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
 
+        # Force a validation for slots extracted from entities of the initial sentence
+        if not extracted_slots:
+            for slot in ["credit_card", "amount-of-money", "time", "confirm"]:
+                value = tracker.get_slot(slot)
+                if value:
+                    extracted_slots.update({slot: value})
+
         for slot, value in list(extracted_slots.items()):
-            validate_func = getattr(self, f"validate_{slot}", lambda *x: {slot: value})
+            validate_func = getattr(
+                self,
+                f"validate_{slot.replace('-','_')}",
+                lambda *x: {slot: value},
+            )
             #
             # The custom validation methods returns a dictionary, with:
             # - the value of the slot, possibly modified, and 'None' if invalid
@@ -144,14 +141,14 @@ class ValidatePayCCForm(Action):
         # Return SlotSet events that set the slots to the validated values
         return [SlotSet(slot, value) for slot, value in extracted_slots.items()]
 
-    async def validate_payment_amount(
+    async def validate_amount_of_money(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates payment amount value."""
+        """Validates amount-of-money value."""
         credit_card = tracker.get_slot("credit_card")
         cc_balance = tracker.get_slot("credit_card_balance")
         account_balance = float(tracker.get_slot("account_balance"))
@@ -162,9 +159,9 @@ class ValidatePayCCForm(Action):
             amount_currency = parse_duckling_currency(entity)
             if not amount_currency:
                 raise (TypeError)
-            if account_balance < float(amount_currency.get("amount_of_money")):
+            if account_balance < float(amount_currency.get("amount-of-money")):
                 dispatcher.utter_message(template="utter_insufficient_funds")
-                return {"payment_amount": None}
+                return {"amount-of-money": None}
             return amount_currency
         except (TypeError, AttributeError):
             pass
@@ -175,16 +172,16 @@ class ValidatePayCCForm(Action):
 
             if account_balance < float(amount):
                 dispatcher.utter_message(template="utter_insufficient_funds")
-                return {"payment_amount": None}
+                return {"amount-of-money": None}
             return {
-                "payment_amount": f"{amount:.2f}",
+                "amount-of-money": f"{amount:.2f}",
                 "payment_amount_type": amount_type,
                 "currency": "$",
             }
 
         else:
             dispatcher.utter_message(template="utter_no_payment_amount")
-            return {"payment_amount": None}
+            return {"amount-of-money": None}
 
     async def validate_credit_card(
         self,
@@ -215,7 +212,7 @@ class ValidatePayCCForm(Action):
             dispatcher.utter_message(template="utter_no_transactdate")
             return {"time": None}
         return parsedtime
-    
+
     async def validate_confirm(
         self,
         value: Text,
@@ -227,7 +224,7 @@ class ValidatePayCCForm(Action):
         if value in ["yes", "no"]:
             return {"confirm": value}
         else:
-            return {"confirm": None}    
+            return {"confirm": None}
 
 
 class TransactSearchForm(FormAction):
@@ -373,7 +370,7 @@ class TransferForm(FormAction):
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        return ["PERSON", "amount_of_money", "confirm"]
+        return ["PERSON", "amount-of-money", "confirm"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -382,7 +379,7 @@ class TransferForm(FormAction):
         - a whole message
         or a list of them, where a first match will be picked"""
         return {
-            "amount_of_money": [
+            "amount-of-money": [
                 self.from_entity(entity="amount-of-money"),
                 self.from_entity(entity="number"),
             ],
@@ -420,7 +417,7 @@ class TransferForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates amount_of_money value."""
+        """Validates amount-of-money value."""
         account_balance = float(tracker.get_slot("account_balance"))
         try:
             entity = get_entity_details(
@@ -429,19 +426,19 @@ class TransferForm(FormAction):
             amount_currency = parse_duckling_currency(entity)
             if not amount_currency:
                 raise (TypeError)
-            if account_balance < float(amount_currency.get("amount_of_money")):
+            if account_balance < float(amount_currency.get("amount-of-money")):
                 dispatcher.utter_message(template="utter_insufficient_funds")
-                return {"amount_of_money": None}
+                return {"amount-of-money": None}
             return amount_currency
         except (TypeError, AttributeError):
             dispatcher.utter_message(template="utter_no_payment_amount")
-            return {"amount_of_money": None}
+            return {"amount-of-money": None}
 
     def submit(self, dispatcher, tracker, domain):
         """Defines what the form has to do
         after all required slots are filled"""
         if tracker.get_slot("confirm"):
-            amount_of_money = float(tracker.get_slot("amount_of_money"))
+            amount_of_money = float(tracker.get_slot("amount-of-money"))
             account_balance = float(tracker.get_slot("account_balance"))
 
             updated_account_balance = account_balance - amount_of_money
@@ -451,7 +448,8 @@ class TransferForm(FormAction):
             amount_transferred = tracker.get_slot("amount_transferred")
             return [
                 SlotSet("PERSON", None),
-                SlotSet("amount_of_money", None),
+                SlotSet("amount-of-money", None),
+                SlotSet("number", None),
                 SlotSet("confirm", None),
                 SlotSet("amount_transferred", amount_transferred + amount_of_money),
                 SlotSet("account_balance", f"{updated_account_balance:.2f}"),
@@ -460,7 +458,8 @@ class TransferForm(FormAction):
             dispatcher.utter_message(template="utter_transfer_cancelled")
             return [
                 SlotSet("PERSON", None),
-                SlotSet("amount_of_money", None),
+                SlotSet("amount-of-money", None),
+                SlotSet("number", None),
                 SlotSet("confirm", None),
             ]
 
@@ -482,13 +481,13 @@ class ActionAccountBalance(Action):
                 init_account_balance=f"{init_account_balance:.2f}",
                 account_balance=f"{account_balance:.2f}",
             )
-            return [SlotSet("payment_amount", None)]
+            return [SlotSet("amount-of-money", None)]
         else:
             dispatcher.utter_message(
                 template="utter_account_balance",
                 init_account_balance=f"{account_balance:.2f}",
             )
-            return [SlotSet("payment_amount", None)]
+            return [SlotSet("amount-of-money", None)]
 
 
 class ActionCreditCardBalance(Action):
@@ -507,8 +506,10 @@ class ActionCreditCardBalance(Action):
             ]
             dispatcher.utter_message(
                 template="utter_credit_card_balance",
-                credit_card=credit_card.title(),
-                amount_of_money=f"{current_balance:.2f}",
+                **{
+                    "credit_card": credit_card.title(),
+                    "amount-of-money": f"{current_balance:.2f}",
+                },
             )
             return [SlotSet("credit_card", None)]
         else:
@@ -516,8 +517,10 @@ class ActionCreditCardBalance(Action):
                 current_balance = credit_card_balance[credit_card]["current balance"]
                 dispatcher.utter_message(
                     template="utter_credit_card_balance",
-                    credit_card=credit_card.title(),
-                    amount_of_money=f"{current_balance:.2f}",
+                    **{
+                        "credit_card": credit_card.title(),
+                        "amount-of-money": f"{current_balance:.2f}",
+                    },
                 )
 
             return []
