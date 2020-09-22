@@ -63,12 +63,26 @@ rules:
   
 - rule: Submit cc_payment_form
   condition:
-  # Condition that form is active.
   - active_loop: cc_payment_form
   steps:
   - action: cc_payment_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  # The action we want to run when the form is submitted.
   - action: action_pay_cc
+  
+- rule: Activate transfer_money_form
+  steps:
+  - intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  
+- rule: Submit transfer_money_form
+  condition:
+  - active_loop: transfer_money_form
+  steps:
+  - action: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money

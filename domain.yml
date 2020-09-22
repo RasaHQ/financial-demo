@@ -96,9 +96,9 @@ slots:
   handoff_to:
     type: unfeaturized
 responses:
-  utter_ask_transfer_form_amount-of-money:
+  utter_ask_transfer_money_form_amount-of-money:
   - text: How much money do you want to transfer?
-  utter_ask_transfer_form_PERSON:
+  utter_ask_transfer_money_form_PERSON:
   - text: Who do you want to transfer money to?
   utter_goodbye:
   - text: Bye
@@ -166,7 +166,7 @@ responses:
       title: No, cancel the transaction
     text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
       towards your {credit_card} account for {time_formatted}?
-  utter_ask_transfer_form_confirm:
+  utter_ask_transfer_money_form_confirm:
   - buttons:
     - payload: /affirm
       title: Yes
@@ -217,8 +217,8 @@ actions:
 - action_recipients
 - action_handoff
 - action_handoff_options
-- validate_cc_payment_form
 - action_pay_cc
+- action_transfer_money
 forms:
   cc_payment_form:
     credit_card:
@@ -239,5 +239,20 @@ forms:
     - type: from_intent
       value: no
       intent: deny
-#  transfer_form
+  transfer_money_form:
+    PERSON:
+    - type: from_entity
+      entity: PERSON
+    amount-of-money:
+    - type: from_entity
+      entity: amount-of-money
+    - type: from_entity
+      entity: number
+    confirm:
+    - type: from_intent
+      value: yes
+      intent: affirm
+    - type: from_intent
+      value: no
+      intent: deny
 #  transact_search_form

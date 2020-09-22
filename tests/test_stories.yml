@@ -47,17 +47,17 @@ stories:
     intent: check_balance
   - action: action_account_balance
 
-- story: Show specific credit account
+- story: Show specific credit account - test story method 1
   steps:
   - user: |
-      What's my [emblem](credit_card) card balance
+      What's my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"} [balance]{"entity": "amount-of-money", "value": "current balance"}
     intent: check_balance
   - action: action_credit_card_balance
   
 - story: check credit account balance
   steps:
   - user: |
-      What are my [credit accounts]{"entity":"account_type","value":"credit"}
+      What are my [credit](account_type) accounts
     intent: check_balance
   - action: action_credit_card_balance
   
@@ -100,29 +100,36 @@ stories:
     intent: affirm
   - action: utter_ok
 
-  
 - story: pay credit card happy path
   steps:
-  - user: |
-      hi
-    intent: greet
-  - action: utter_greet
-  - action: utter_help
   - user: |
       i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
     intent: pay_cc
   - action: cc_payment_form
   - active_loop: cc_payment_form
-#  - user: |
-#      100 dollars
-#    intent: inform
-#  - action: cc_payment_form
-#  - user: |
-#      tomorrow
-#    intent: inform
-#  - user: |
-#      yes
-#    intent: affirm
   - active_loop: null
   - action: action_pay_cc
+
+- story: transfer money happy path
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
   
+- story: transfer money happy path
+  steps:
+  - user: |
+      i want to transfer money to John
+    intent: transfer_money
+    entities:
+    - PERSON: John
+  - slot_was_set:
+    - PERSON: John
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money

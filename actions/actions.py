@@ -23,27 +23,8 @@ from dateutil import parser
 logger = logging.getLogger(__name__)
 
 
-##def custom_request_next_slot(
-##    form,
-##    dispatcher: "CollectingDispatcher",
-##    tracker: "Tracker",
-##    domain: Dict[Text, Any],
-##) -> Optional[List[EventType]]:
-##    """Requests the next slot and utter template if needed,
-##    else returns None"""
-##    for slot in form.required_slots(tracker):
-##        if form._should_request_slot(tracker, slot):
-##            logger.debug(f"Request next slot '{slot}'")
-##            dispatcher.utter_message(
-##                template=f"utter_ask_{form.name()}_{slot}", **tracker.slots
-##            )
-##            return [SlotSet(REQUESTED_SLOT, slot)]
-##
-##    return None
-
-
 class ActionPayCC(Action):
-    """Pay credit card..."""
+    """Pay credit card."""
 
     def name(self) -> Text:
         """Unique identifier of the action"""
@@ -56,13 +37,13 @@ class ActionPayCC(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Executes the action"""
-        account_balance = float(tracker.get_slot("account_balance"))
-        credit_card = tracker.get_slot("credit_card")
-        cc_balance = tracker.get_slot("credit_card_balance")
-        amount_of_money = float(tracker.get_slot("amount-of-money"))
-        amount_transferred = float(tracker.get_slot("amount_transferred"))
-
         if tracker.get_slot("confirm") == "yes":
+            account_balance = float(tracker.get_slot("account_balance"))
+            credit_card = tracker.get_slot("credit_card")
+            cc_balance = tracker.get_slot("credit_card_balance")
+            amount_of_money = float(tracker.get_slot("amount-of-money"))
+            amount_transferred = float(tracker.get_slot("amount_transferred"))
+
             cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
             account_balance = account_balance - amount_of_money
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
@@ -86,9 +67,8 @@ class ActionPayCC(Action):
                 SlotSet("account_balance", f"{account_balance:.2f}"),
                 SlotSet("credit_card_balance", cc_balance),
             ]
-        else:
-            dispatcher.utter_message(template="utter_cc_pay_cancelled")
 
+        dispatcher.utter_message(template="utter_cc_pay_cancelled")
         return [
             SlotSet("credit_card", None),
             SlotSet("amount-of-money", None),
@@ -165,6 +145,7 @@ class ValidatePayCCForm(Action):
             return amount_currency
         except (TypeError, AttributeError):
             pass
+        # check if user asked to pay the full or the minimum balance
         if value and value.lower() in cc_balance.get(credit_card.lower()):
             key = value.lower()
             amount = cc_balance.get(credit_card.lower()).get(key)
@@ -351,45 +332,80 @@ class TransactSearchForm(FormAction):
         ]
 
 
-class TransferForm(FormAction):
-    """Transfer money form..."""
+class ActionTransferMoney(Action):
+    """Transfer Money."""
 
     def name(self) -> Text:
         """Unique identifier of the form"""
-        return "transfer_form"
+        return "action_transfer_money"
 
-    ##    def request_next_slot(
-    ##        self,
-    ##        dispatcher: "CollectingDispatcher",
-    ##        tracker: "Tracker",
-    ##        domain: Dict[Text, Any],
-    ##    ) -> Optional[List[EventType]]:
-    ##
-    ##        return custom_request_next_slot(self, dispatcher, tracker, domain)
+    async def run(self, dispatcher, tracker, domain):
+        """Executes the action"""
+        if tracker.get_slot("confirm") == "yes":
+            amount_of_money = float(tracker.get_slot("amount-of-money"))
+            account_balance = float(tracker.get_slot("account_balance"))
 
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        """A list of required slots that the form has to fill"""
-        return ["PERSON", "amount-of-money", "confirm"]
+            updated_account_balance = account_balance - amount_of_money
 
-    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-        """A dictionary to map required slots to
-        - an extracted entity
-        - intent: value pairs
-        - a whole message
-        or a list of them, where a first match will be picked"""
-        return {
-            "amount-of-money": [
-                self.from_entity(entity="amount-of-money"),
-                self.from_entity(entity="number"),
-            ],
-            "confirm": [
-                self.from_intent(value=True, intent="affirm"),
-                self.from_intent(value=False, intent="deny"),
-            ],
-        }
+            dispatcher.utter_message(template="utter_transfer_complete")
 
-    def validate_PERSON(
+            amount_transferred = tracker.get_slot("amount_transferred")
+            return [
+                SlotSet("PERSON", None),
+                SlotSet("amount-of-money", None),
+                SlotSet("number", None),
+                SlotSet("confirm", None),
+                SlotSet("amount_transferred", amount_transferred + amount_of_money),
+                SlotSet("account_balance", f"{updated_account_balance:.2f}"),
+            ]
+
+        dispatcher.utter_message(template="utter_transfer_cancelled")
+        return [
+            SlotSet("PERSON", None),
+            SlotSet("amount-of-money", None),
+            SlotSet("number", None),
+            SlotSet("confirm", None),
+        ]
+
+
+class ValidateTransferMoneyForm(Action):
+    """Validates Slots of the transfer_money_form"""
+
+    def name(self) -> Text:
+        """Unique identifier of the action"""
+        return "validate_transfer_money_form"
+
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        """Custom validates the filled slots"""
+        extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
+
+        # Force a validation for slots extracted from entities of the initial sentence
+        if not extracted_slots:
+            for slot in ["PERSON", "amount-of-money", "confirm"]:
+                value = tracker.get_slot(slot)
+                if value:
+                    extracted_slots.update({slot: value})
+
+        for slot, value in list(extracted_slots.items()):
+            validate_func = getattr(
+                self,
+                f"validate_{slot.replace('-','_')}",
+                lambda *x: {slot: value},
+            )
+            #
+            # The custom validation methods returns a dictionary, with:
+            # - the value of the slot, possibly modified, and 'None' if invalid
+            # - additional slots that need to be set
+            validation_output = await validate_func(value, dispatcher, tracker, domain)
+
+            extracted_slots.update(validation_output)
+
+        # Return SlotSet events that set the slots to the validated values
+        return [SlotSet(slot, value) for slot, value in extracted_slots.items()]
+
+    async def validate_PERSON(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
@@ -410,7 +426,7 @@ class TransferForm(FormAction):
             dispatcher.utter_message(template="utter_unknown_recipient")
             return {"PERSON": None}
 
-    def validate_amount_of_money(
+    async def validate_amount_of_money(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
@@ -433,35 +449,6 @@ class TransferForm(FormAction):
         except (TypeError, AttributeError):
             dispatcher.utter_message(template="utter_no_payment_amount")
             return {"amount-of-money": None}
-
-    def submit(self, dispatcher, tracker, domain):
-        """Defines what the form has to do
-        after all required slots are filled"""
-        if tracker.get_slot("confirm"):
-            amount_of_money = float(tracker.get_slot("amount-of-money"))
-            account_balance = float(tracker.get_slot("account_balance"))
-
-            updated_account_balance = account_balance - amount_of_money
-
-            dispatcher.utter_message(template="utter_transfer_complete")
-
-            amount_transferred = tracker.get_slot("amount_transferred")
-            return [
-                SlotSet("PERSON", None),
-                SlotSet("amount-of-money", None),
-                SlotSet("number", None),
-                SlotSet("confirm", None),
-                SlotSet("amount_transferred", amount_transferred + amount_of_money),
-                SlotSet("account_balance", f"{updated_account_balance:.2f}"),
-            ]
-        else:
-            dispatcher.utter_message(template="utter_transfer_cancelled")
-            return [
-                SlotSet("PERSON", None),
-                SlotSet("amount-of-money", None),
-                SlotSet("number", None),
-                SlotSet("confirm", None),
-            ]
 
 
 class ActionAccountBalance(Action):
