@@ -110,7 +110,7 @@ stories:
   - active_loop: null
   - action: action_pay_cc
 
-- story: transfer money happy path
+- story: transfer money happy path w/o recipient
   steps:
   - user: |
       i want to transfer money
@@ -120,7 +120,7 @@ stories:
   - active_loop: null
   - action: action_transfer_money
   
-- story: transfer money happy path
+- story: transfer money happy path w/ recipient
   steps:
   - user: |
       i want to transfer money to John
@@ -133,3 +133,23 @@ stories:
   - active_loop: transfer_money_form
   - active_loop: null
   - action: action_transfer_money
+  
+- story: check earnings happy path
+  steps:
+  - user: |
+      how much did I earn [in Jan 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - action: action_transaction_search
+  
+- story: search transactions happy path
+  steps:
+  - user: |
+      I want to search my spending history'
+    intent: search_transactions
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - action: action_transaction_search

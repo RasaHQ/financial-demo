@@ -115,10 +115,10 @@ responses:
   - text: Towards which credit card account do you want to make a payment?
   utter_ask_cc_payment_form_time:
   - text: For which date would you like to schedule the payment?
-  utter_ask_transact_search_form_vendor_name:
+  utter_ask_transaction_search_form_vendor_name:
   - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
       Amazon
-  utter_ask_transact_search_form_time:
+  utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
@@ -219,6 +219,10 @@ actions:
 - action_handoff_options
 - action_pay_cc
 - action_transfer_money
+- action_transaction_search
+- validate_cc_payment_form
+- validate_transfer_money_form
+- validate_transaction_search_form
 forms:
   cc_payment_form:
     credit_card:
@@ -234,11 +238,11 @@ forms:
       entity: time
     confirm:
     - type: from_intent
-      value: yes
       intent: affirm
+      value: yes
     - type: from_intent
-      value: no
       intent: deny
+      value: no
   transfer_money_form:
     PERSON:
     - type: from_entity
@@ -250,9 +254,19 @@ forms:
       entity: number
     confirm:
     - type: from_intent
-      value: yes
       intent: affirm
+      value: yes
     - type: from_intent
-      value: no
       intent: deny
-#  transact_search_form
+      value: no
+  transaction_search_form:
+    search_type:
+    - type: from_trigger_intent
+      intent: search_transactions
+      value: "spend"
+    - type: from_trigger_intent
+      intent: check_earnings
+      value: "deposit"
+    time:
+    - type: from_entity
+      entity: time

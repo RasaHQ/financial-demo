@@ -86,3 +86,25 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_transfer_money
+
+- rule: Activate transaction_search_form from search_transactions intent
+  steps:
+  - intent: search_transactions
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+
+- rule: Activate transaction_search_form from check_earnings intent
+  steps:
+  - intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+- rule: Submit transaction_search_form
+  condition:
+  - active_loop: transaction_search_form
+  steps:
+  - action: transaction_search_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transaction_search

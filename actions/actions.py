@@ -44,7 +44,9 @@ class ActionPayCC(Action):
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             amount_transferred = float(tracker.get_slot("amount_transferred"))
 
-            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
+            cc_balance[credit_card.lower()][
+                "current balance"
+            ] -= amount_of_money
             account_balance = account_balance - amount_of_money
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
@@ -114,12 +116,16 @@ class ValidatePayCCForm(Action):
             # The custom validation methods returns a dictionary, with:
             # - the value of the slot, possibly modified, and 'None' if invalid
             # - additional slots that need to be set
-            validation_output = await validate_func(value, dispatcher, tracker, domain)
+            validation_output = await validate_func(
+                value, dispatcher, tracker, domain
+            )
 
             extracted_slots.update(validation_output)
 
         # Return SlotSet events that set the slots to the validated values
-        return [SlotSet(slot, value) for slot, value in extracted_slots.items()]
+        return [
+            SlotSet(slot, value) for slot, value in extracted_slots.items()
+        ]
 
     async def validate_amount_of_money(
         self,
@@ -208,89 +214,33 @@ class ValidatePayCCForm(Action):
             return {"confirm": None}
 
 
-class TransactSearchForm(FormAction):
-    """Transaction search form"""
+class ActionTransactionSearch(Action):
+    """Searches for a transaction"""
 
     def name(self) -> Text:
-        """Unique identifier of the form"""
-        return "transact_search_form"
+        """Unique identifier of the action"""
+        return "action_transaction_search"
 
-    ##    def request_next_slot(
-    ##        self,
-    ##        dispatcher: "CollectingDispatcher",
-    ##        tracker: "Tracker",
-    ##        domain: Dict[Text, Any],
-    ##    ) -> Optional[List[EventType]]:
-    ##
-    ##        return custom_request_next_slot(self, dispatcher, tracker, domain)
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        """A list of required slots that the form has to fill"""
-        return ["search_type", "time"]
-
-    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-        """A dictionary to map required slots to
-        - an extracted entity
-        - intent: value pairs
-        - a whole message
-        or a list of them, where a first match will be picked"""
-        return {
-            "search_type": [
-                self.from_trigger_intent(intent="search_transactions", value="spend"),
-                self.from_trigger_intent(intent="check_earnings", value="deposit"),
-            ],
-        }
-
-    def validate_vendor_name(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        """Validates vendor_name value."""
-        if value and value.lower() in tracker.get_slot("vendor_list"):
-            return {"vendor_name": value}
-        else:
-            dispatcher.utter_message(template="utter_no_vendor_name")
-            return {"vendor_name": None}
-
-    def validate_time(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        """Validates time value."""
-        timeentity = get_entity_details(tracker, "time")
-        parsedinterval = parse_duckling_time_as_interval(timeentity)
-        if not parsedinterval:
-            dispatcher.utter_message(template="utter_no_transactdate")
-            return {"time": None}
-
-        return parsedinterval
-
-    def submit(
+    async def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict]:
-        """Defines what the form has to do
-        after all required slots are filled"""
+        """Executes the action"""
         search_type = tracker.get_slot("search_type")
         transaction_history = tracker.get_slot("transaction_history")
         transactions_subset = transaction_history.get(search_type, {})
-        vendor = tracker.get_slot("vendor_name")
+        vendor_name = tracker.get_slot("vendor_name")
 
-        if vendor:
-            transactions = transactions_subset.get(vendor.lower())
-            vendor = f" with {vendor}"
+        if vendor_name:
+            transactions = transactions_subset.get(vendor_name.lower())
+            vendor_name = f" with {vendor_name}"
         else:
-            transactions = [v for k in list(transactions_subset.values()) for v in k]
-            vendor = ""
+            transactions = [
+                v for k in list(transactions_subset.values()) for v in k
+            ]
+            vendor_name = ""
 
         start_time = parser.isoparse(tracker.get_slot("start_time"))
         end_time = parser.isoparse(tracker.get_slot("end_time"))
@@ -309,7 +259,7 @@ class TransactSearchForm(FormAction):
             "numtransacts": numtransacts,
             "start_time_formatted": tracker.get_slot("start_time_formatted"),
             "end_time_formatted": tracker.get_slot("end_time_formatted"),
-            "vendor_name": vendor,
+            "vendor_name": vendor_name,
         }
 
         dispatcher.utter_message(
@@ -332,11 +282,105 @@ class TransactSearchForm(FormAction):
         ]
 
 
-class ActionTransferMoney(Action):
-    """Transfer Money."""
+class ValidateTransactionSearchForm(Action):
+    """Validates Slots of the transaction_search_form"""
 
     def name(self) -> Text:
         """Unique identifier of the form"""
+        return "validate_transaction_search_form"
+
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        """Custom validates the filled slots"""
+        extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
+
+        # Force a validation for slots extracted from entities of the initial sentence
+        if not extracted_slots:
+            for slot in ["search_type", "time"]:
+                value = tracker.get_slot(slot)
+                if value:
+                    extracted_slots.update({slot: value})
+
+        for slot, value in list(extracted_slots.items()):
+            validate_func = getattr(
+                self,
+                f"validate_{slot.replace('-','_')}",
+                lambda *x: {slot: value},
+            )
+            #
+            # The custom validation methods returns a dictionary, with:
+            # - the value of the slot, possibly modified, and 'None' if invalid
+            # - additional slots that need to be set
+            validation_output = await validate_func(
+                value, dispatcher, tracker, domain
+            )
+
+            extracted_slots.update(validation_output)
+
+        # Return SlotSet events that set the slots to the validated values
+        events = [
+            SlotSet(slot, value) for slot, value in extracted_slots.items()
+        ]
+
+        # For search_transactions we need to know the vendor_name
+        search_type = tracker.get_slot("search_type")
+        if search_type == "spend":
+            vendor_name = tracker.get_slot("vendor_name")
+            if not vendor_name:
+                events.append(SlotSet("requested_slot", "vendor_name"))
+
+        return events
+
+    async def validate_search_type(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates search_type value."""
+        if value in ["spend", "deposit"]:
+            return {"search_type": value}
+        else:
+            return {"search_type": None}
+
+    async def validate_vendor_name(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates vendor_name value."""
+        if value and value.lower() in tracker.get_slot("vendor_list"):
+            return {"vendor_name": value}
+        else:
+            dispatcher.utter_message(template="utter_no_vendor_name")
+            return {"vendor_name": None}
+
+    async def validate_time(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates time value."""
+        timeentity = get_entity_details(tracker, "time")
+        parsedinterval = parse_duckling_time_as_interval(timeentity)
+        if not parsedinterval:
+            dispatcher.utter_message(template="utter_no_transactdate")
+            return {"time": None}
+
+        return parsedinterval
+
+
+class ActionTransferMoney(Action):
+    """Transfers Money."""
+
+    def name(self) -> Text:
+        """Unique identifier of the action"""
         return "action_transfer_money"
 
     async def run(self, dispatcher, tracker, domain):
@@ -355,7 +399,9 @@ class ActionTransferMoney(Action):
                 SlotSet("amount-of-money", None),
                 SlotSet("number", None),
                 SlotSet("confirm", None),
-                SlotSet("amount_transferred", amount_transferred + amount_of_money),
+                SlotSet(
+                    "amount_transferred", amount_transferred + amount_of_money
+                ),
                 SlotSet("account_balance", f"{updated_account_balance:.2f}"),
             ]
 
@@ -398,12 +444,16 @@ class ValidateTransferMoneyForm(Action):
             # The custom validation methods returns a dictionary, with:
             # - the value of the slot, possibly modified, and 'None' if invalid
             # - additional slots that need to be set
-            validation_output = await validate_func(value, dispatcher, tracker, domain)
+            validation_output = await validate_func(
+                value, dispatcher, tracker, domain
+            )
 
             extracted_slots.update(validation_output)
 
         # Return SlotSet events that set the slots to the validated values
-        return [SlotSet(slot, value) for slot, value in extracted_slots.items()]
+        return [
+            SlotSet(slot, value) for slot, value in extracted_slots.items()
+        ]
 
     async def validate_PERSON(
         self,
@@ -449,6 +499,19 @@ class ValidateTransferMoneyForm(Action):
         except (TypeError, AttributeError):
             dispatcher.utter_message(template="utter_no_payment_amount")
             return {"amount-of-money": None}
+
+    async def validate_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates confirm value."""
+        if value in ["yes", "no"]:
+            return {"confirm": value}
+        else:
+            return {"confirm": None}
 
 
 class ActionAccountBalance(Action):
@@ -501,7 +564,9 @@ class ActionCreditCardBalance(Action):
             return [SlotSet("credit_card", None)]
         else:
             for credit_card in credit_card_balance.keys():
-                current_balance = credit_card_balance[credit_card]["current balance"]
+                current_balance = credit_card_balance[credit_card][
+                    "current balance"
+                ]
                 dispatcher.utter_message(
                     template="utter_credit_card_balance",
                     **{
