@@ -59,12 +59,7 @@ slots:
   confirm:
     type: unfeaturized
   credit_card:
-    type: categorical
-    values:
-      - emblem
-      - justice bank
-      - credit all
-      - iron bank
+    type: text
   credit_card_balance:
     type: unfeaturized
   currency:
@@ -101,7 +96,7 @@ slots:
   handoff_to:
     type: unfeaturized
 responses:
-  utter_ask_transfer_form_amount_of_money:
+  utter_ask_transfer_form_amount-of-money:
   - text: How much money do you want to transfer?
   utter_ask_transfer_form_PERSON:
   - text: Who do you want to transfer money to?
@@ -114,7 +109,7 @@ responses:
   utter_transfer_charge:
   - text: You are entitled to six transfers within a statement cycle before being
       charged. For subsequent transfers you will be charged {currency}10 per transaction.
-  utter_ask_cc_payment_form_payment_amount:
+  utter_ask_cc_payment_form_amount-of-money:
   - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
   - text: Towards which credit card account do you want to make a payment?
