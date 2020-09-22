@@ -31,49 +31,47 @@ nlu:
 - intent: check_balance
   examples: |
     - How much money is on my account?
-    - what's my balance?
-    - what's my current balance?
+    - what's my [balance](amount-of-money)?
+    - what's my [current balance](amount-of-money)?
     - What's left on that account?
     - How much do I have on that account?
-    - What's the balance on that account?
+    - What's the [balance](amount-of-money) on that account?
     - How much money is left on that account?
-    - what is my account balance
-    - what's my account balance?
-    - what's my account balance
-    - whats my account balance
-    - What's my [credit card](account_type) balance
-    - What's my [credit](account_type) balance
+    - what is my account [balance](amount-of-money)
+    - what's my account [balance](amount-of-money)?
+    - what's my account [balance](amount-of-money)
+    - whats my account [balance](amount-of-money)
+    - What's my [credit card](account_type) [balance](amount-of-money)
+    - What's my [credit](account_type) [balance](amount-of-money)
     - How much money do I owe on my [credit cards](account_type)
-    - Show me my [credit card](account_type) balance
-    - What [credit accounts](account_type) do I have
-    - Show me my [credit accounts](account_type)
-    - Whats the balance on my [credit account](account_type)
-    - What's my [credit account](account_type)
-    - What's my [credit all](credit_card) balance
-    - What's my [emblem](credit_card) card balance
-    - What's the balance on the [credit all](credit_card) account
-    - Show me my [iron bank](credit_card) balance
-    - What's my [justice bank](credit_card) balance
-    - What's the balance on the [justice bank](credit_card) account
-    - what's my [emblm](credit_card) [credit card](account_type) balance?
-    - what's my [credit card](account_type) balance?
-    - what's my [credit card](account_type) account balance?
-    - What is my [emblem](credit_card) card balance?
-    - whats my [credit card](account_type) balance
-    - What is my [emblem](credit_card) balance?
-    - whats my [emblm](credit_card) card balance?
-    - what's my [embelm](credit_card)'s card balance?
-    - what's my [emblm](credit_card) account balance?
+    - Show me my [credit card](account_type) [balance](amount-of-money)
+    - What [credit](account_type) accounts do I have
+    - Show me my [credit](account_type) accounts
+    - Whats the [balance](amount-of-money) on my [credit](account_type) account
+    - What's my [credit](account_type) account
+    - What's my [emblem](credit_card) [card](account_type) [balance](amount-of-money)
+    - Show me my [iron bank](credit_card) [balance](amount-of-money)
+    - What's my [justice bank](credit_card) [balance](amount-of-money)
+    - What's the [balance](amount-of-money) on the [justice bank](credit_card) account
+    - what's my [emblm](credit_card) [credit card](account_type) [balance](amount-of-money)?
+    - what's my [credit card](account_type) [balance](amount-of-money)?
+    - what's my [credit card](account_type) account [balance](amount-of-money)?
+    - What is my [emblem](credit_card) [card](account_type) [balance](amount-of-money)?
+    - whats my [credit card](account_type) [balance](amount-of-money)
+    - What is my [emblem](credit_card) [balance](amount-of-money)?
+    - whats my [emblm](credit_card) [card](account_type) [balance](amount-of-money)?
+    - what's my [embelm](credit_card)'s [card](account_type) [balance](amount-of-money)?
+    - what's my [emblm](credit_card) account [balance](amount-of-money)?
     - How much money have i spent lately>
-    - I should check my [credit card]{"entity": "account_type", "value": "credit"} balance [first](account_type)
-    - check my [credit card]{"entity": "account_type", "value": "credit"} balance
-    - check my [credit card]{"entity": "account_type", "value": "credit"} balance [first](account_type)
-    - Can you tell me my account balance?
+    - I should check my [credit card]{"entity": "account_type", "value": "credit"} [balance](amount-of-money) [first](account_type)
+    - check my [credit card]{"entity": "account_type", "value": "credit"} [balance](amount-of-money)
+    - check my [credit card]{"entity": "account_type", "value": "credit"} [balance](amount-of-money) [first](account_type)
+    - Can you tell me my account [balance](amount-of-money)?
     - Hello, I would like to know how much money is in much money is in my account
     - hi, whats my account bal please
-    - so.... what's my balance?
+    - so.... what's my [balance](amount-of-money)?
     - whats my [current balance](amount-of-money)
-    - What's my balance?
+    - What's my [balance](amount-of-money)?
     - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
     - Yeah, I know 😀 Since it's so nice: How much money do I have?
@@ -171,34 +169,28 @@ nlu:
     - the [minimum balance](amount-of-money)
     - my [minimum balance](amount-of-money)
     - my [current balance](amount-of-money)
-    - [emblem](credit_card) card
-    - [credit all](credit_card) card
-    - [iron bank](credit_card) card
-    - [justice bank](credit_card) card
+    - [emblem](credit_card) [card](account_type)
+    - all [cards](account_type)
+    - [iron bank](credit_card) [card](account_type)
+    - [justice bank](credit_card) [card](account_type)
     - [emblem](credit_card)
-    - [credit all](credit_card)
     - [iron bank](credit_card)
     - [justice bank](credit_card)
     - [emblem](credit_card) account
-    - [credit all](credit_card) account
     - [iron bank](credit_card) account
     - [justice bank](credit_card) account
     - [emblem](credit_card) [credit card](account_type)
-    - [credit all](credit_card) [credit card](account_type)
     - [iron bank](credit_card) [credit card](account_type)
     - [justice bank](credit_card) [credit card](account_type)
     - my [emblem](credit_card) [credit card](account_type)
-    - my [credit all](credit_card) [credit card](account_type)
     - my [iron bank](credit_card) [credit card](account_type)
     - my [justice bank](credit_card) [credit card](account_type)
-    - my [emblem](credit_card) card
-    - my [credit all](credit_card) card
-    - my [iron bank](credit_card) card
-    - my [justice bank](credit_card) card
-    - towards my [emblem](credit_card) card
-    - towards my [credit all](credit_card) card
-    - towards my [iron bank](credit_card) card
-    - towards my [justice bank](credit_card) card
+    - my [emblem](credit_card) [card](account_type)
+    - my [iron bank](credit_card) [card](account_type)
+    - my [justice bank](credit_card) [card](account_type)
+    - towards my [emblem](credit_card) [card](account_type)
+    - towards my [iron bank](credit_card) [card](account_type)
+    - towards my [justice bank](credit_card) [card](account_type)
     - for sunday
     - for friday
     - for tomorrow
@@ -214,28 +206,25 @@ nlu:
     - My [Visa](credit_card) account
     - A friend.
     - Alexandra?
-    - Ok, so [Iron Bank](credit_card) and then [Credit All](credit_card)
     - today please
     - [Iron Bank](credit_card)
     - My [visa](credit_card)
 - intent: pay_cc
   examples: |
-    - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) card
+    - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
     - I want to pay my [credit card](account_type)
-    - I want to pay my card
-    - Pay my card
-    - Pay my [credit all](credit_card) card
+    - I want to pay my [card](account_type)
+    - Pay my [card](account_type)
     - I want to pay my [justice bank](credit_card) bill
-    - Pay my discover
+    - Pay my [discover](credit_card)
     - I want to pay my [iron bank](credit_card) bill
-    - Pay my visa
-    - I want to pay my visa bill
-    - Pay my mastercard
-    - I want to pay my MasterCard bill
+    - Pay my [visa](credit_card)
+    - I want to pay my [visa](credit_card) bill
+    - Pay my [mastercard](credit_card)
+    - I want to pay my [MasterCard](credit_card) bill
     - I want to pay my [credit card](account_type) bill
     - I want to pay the [current balance](amount-of-money) on my [credit card](account_type)
     - can you help me pay the [current balance](amount-of-money) on my [credit card](account_type)
-    - i want to pay off my [credit all](credit_card) [credit card](account_type)
     - i want to pay off my [credit card](account_type)
     - I want to pay off my [credit card](account_type)
     - i want to pay my [credit card](account_type)
@@ -381,3 +370,6 @@ nlu:
     - emblm
     - embelm
     - Emblem
+- synonym: current balance
+  examples: |
+    - balance
