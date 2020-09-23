@@ -1,20 +1,8 @@
 version: "2.0"
 
 stories:
-  
 
-  
-  
-- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c
-  steps:
-  - intent: help
-  - action: utter_help
-  - intent: greet
-  - action: utter_greet
-  - action: utter_help
-  - intent: thankyou
-  - action: utter_noworries
-  
+# Do we need this one?  
 - story: from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
   steps:
   - intent: help
@@ -25,217 +13,7 @@ stories:
   - intent: affirm
   - action: utter_ok
 
-#- story: pay credit card and check account balance
-#  steps:
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - active_loop: null
-#  - intent: check_balance
-#  - action: action_account_balance
-  
 
-#- story: pay credit card and check account balance inside form
-#  steps:
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: utter_ask_continue
-#  - intent: affirm
-#  - action: cc_payment_form
-#  - active_loop: null
-#- story: pay cc happy path no greet
-#  steps:
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - active_loop: null
-#  - intent: thankyou
-#  - action: utter_noworries
-#- story: pay credit card happy path
-#  steps:
-#  - intent: greet
-#  - action: utter_greet
-#  - action: utter_help
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - active_loop: null
-#- story: pay credit card no greet or thanks
-#  steps:
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - active_loop: null
-#- story: transfer money
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#
-#- story: transfer money ask transfer charge
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#- story: transfer money ask known recipients
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#- story: transfer money ask known recipients and transfer charge
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#- story: transfer money ask known recipients and transfer charge
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#- story: transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#- story: transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#- story: transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#- story: transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#- story: transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#- story: transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_recipients
-#  - action: action_recipients
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: ask_transfer_charge
-#  - action: utter_transfer_charge
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
 #- story: search transactions happy path
 #  steps:
 #  - intent: greet
@@ -310,17 +88,20 @@ stories:
 #  - action: utter_ask_back_to_transact
 #  - intent: deny
 #  - action: utter_ok
-#- story: Transfer money ask account balance
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_form
-#  - active_loop: transfer_form
-#  - intent: check_balance
-#  - action: action_account_balance
-#  - action: transfer_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
+
+- story: Deactivate cc_payment_form, when denying to continue after asking account balance
+  steps:
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - intent: check_balance
+  - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
+  - action: utter_ask_continue
+  - intent: deny
+  - action: utter_ok
+  - active_loop: null
 #- story: Pay CC ask account balance
 #  steps:
 #  - intent: pay_cc

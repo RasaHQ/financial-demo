@@ -40,12 +40,14 @@ stories:
     intent: check_recipients
   - action: action_recipients
   
-- story: Show account balance
+- story: Show bank account balance
   steps:
   - user: |
       How much money is on my account?
     intent: check_balance
   - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
 
 - story: Show specific credit account - test story method 1
   steps:
@@ -53,6 +55,8 @@ stories:
       What's my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"} [balance]{"entity": "amount-of-money", "value": "current balance"}
     intent: check_balance
   - action: action_credit_card_balance
+  - slot_was_set:
+    - account_type: null
   
 - story: check credit account balance
   steps:
@@ -60,6 +64,8 @@ stories:
       What are my [credit](account_type) accounts
     intent: check_balance
   - action: action_credit_card_balance
+  - slot_was_set:
+    - account_type: null
   
 - story: check list of known recipients
   steps:
@@ -109,6 +115,10 @@ stories:
   - active_loop: cc_payment_form
   - active_loop: null
   - action: action_pay_cc
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
 
 - story: transfer money happy path w/o recipient
   steps:
@@ -153,3 +163,122 @@ stories:
   - active_loop: transaction_search_form
   - active_loop: null
   - action: action_transaction_search
+  
+- story: pay credit card and afterwards check account balance
+  steps:
+  - user: |
+      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - action: action_pay_cc
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
+  
+- story: pay credit card, while in form check account balance
+  steps:
+  - user: |
+      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      How much money is on my [bank]{"entity": "account_type", "value": "bank"} account?
+    intent: check_balance
+  - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
+  - action: cc_payment_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_pay_cc
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
+  
+  
+- story: transfer money happy path, while in form ask transfer charge
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: utter_transfer_charge
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+    
+- story: transfer money happy path, while in form ask known recipients
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_recipients
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+
+- story: transfer money happy path, while in form ask account
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      What is my account [balance]{"entity": "amount-of-money", "value": "current balance"}?
+    intent: check_balance
+  - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: transfer money happy path, while in form ask known recipients and transfer charge
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_recipients
+  - action: transfer_money_form
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: utter_transfer_charge
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money

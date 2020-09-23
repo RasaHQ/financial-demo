@@ -118,5 +118,6 @@ models/
 terms/
 results/
 
-# Secret files
+# Secret & local files
 secret/
+run_rasa*

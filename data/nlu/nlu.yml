@@ -31,6 +31,7 @@ nlu:
 - intent: check_balance
   examples: |
     - How much money is on my account?
+    - How much money is on my [bank](account_type) account?
     - what's my [balance](amount-of-money)?
     - what's my [current balance](amount-of-money)?
     - What's left on that account?
@@ -41,6 +42,10 @@ nlu:
     - what's my account [balance](amount-of-money)?
     - what's my account [balance](amount-of-money)
     - whats my account [balance](amount-of-money)
+    - what is my [bank](account_type) account [balance](amount-of-money)
+    - what's my [bank](account_type) account [balance](amount-of-money)?
+    - what's my [bank](account_type) account [balance](amount-of-money)
+    - whats my [bank](account_type) account [balance](amount-of-money)
     - What's my [credit card](account_type) [balance](amount-of-money)
     - What's my [credit](account_type) [balance](amount-of-money)
     - How much money do I owe on my [credit cards](account_type)
@@ -243,6 +248,7 @@ nlu:
     - I guess it is. Since it's so much, let's pay off my [credit](account_type)
     - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
     - I want to pay 100 dollars toward my [Emblem](credit_card) [card](account_type), tomorrow
+    - pay 100 towards [emblem](credit_card) [card](account_type), tomorrow
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?

@@ -24,6 +24,11 @@ rules:
   - intent: help
   - action: utter_help
   
+- rule: thankyou
+  steps:
+  - intent: thankyou
+  - action: utter_noworries
+  
 - rule: is there a transfer charge
   steps:
   - intent: ask_transfer_charge
@@ -34,27 +39,48 @@ rules:
   - intent: check_recipients
   - action: action_recipients
   
-- rule: Show account balance
+- rule: Show bank account balance when account_type is not set
+  condition:
+  - slot_was_set:
+    - account_type: null
   steps:
   - intent: check_balance
   - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
+  
+- rule: Show bank account balance when account_type is 'bank'
+  condition:
+  - slot_was_set:
+    - account_type: bank
+  steps:
+  - intent: check_balance
+  - action: action_account_balance
+  - slot_was_set:
+    - account_type: null
     
-- rule: Show credit accounts
+- rule: Show balance of all credit cards when account_type is 'credit'
   condition:
   - slot_was_set:
     - account_type: credit
   steps:
   - intent: check_balance
   - action: action_credit_card_balance
+  - slot_was_set:
+    - account_type: null
   
-- rule: Show specific credit account
+- rule: Show balance of a specific credit card when account_type is not set
   condition:
   - slot_was_set:
-    - credit_card: emblem
+    - account_type: null
+  - slot_was_set:
+    - credit_card: some value
   steps:
   - intent: check_balance
   - action: action_credit_card_balance
-
+  - slot_was_set:
+    - account_type: null
+    
 - rule: Activate cc_payment_form
   steps:
   - intent: pay_cc
@@ -68,8 +94,14 @@ rules:
   - action: cc_payment_form
   - active_loop: null
   - slot_was_set:
+    - credit_card: some value
+  - slot_was_set:
     - requested_slot: null
   - action: action_pay_cc
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
   
 - rule: Activate transfer_money_form
   steps:
@@ -77,7 +109,7 @@ rules:
   - action: transfer_money_form
   - active_loop: transfer_money_form
   
-- rule: Submit transfer_money_form
+- rule: Submit transfer_money_form after all slots are filled
   condition:
   - active_loop: transfer_money_form
   steps:

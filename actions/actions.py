@@ -44,14 +44,13 @@ class ActionPayCC(Action):
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             amount_transferred = float(tracker.get_slot("amount_transferred"))
 
-            cc_balance[credit_card.lower()][
-                "current balance"
-            ] -= amount_of_money
+            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
             account_balance = account_balance - amount_of_money
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
             return [
                 SlotSet("credit_card", None),
+                SlotSet("account_type", None),
                 SlotSet("amount-of-money", None),
                 SlotSet("confirm", None),
                 SlotSet("time", None),
@@ -62,10 +61,7 @@ class ActionPayCC(Action):
                 SlotSet("end_time_formatted", None),
                 SlotSet("grain", None),
                 SlotSet("number", None),
-                SlotSet(
-                    "amount_transferred",
-                    amount_transferred + amount_of_money,
-                ),
+                SlotSet("amount_transferred", amount_transferred + amount_of_money,),
                 SlotSet("account_balance", f"{account_balance:.2f}"),
                 SlotSet("credit_card_balance", cc_balance),
             ]
@@ -73,6 +69,7 @@ class ActionPayCC(Action):
         dispatcher.utter_message(template="utter_cc_pay_cancelled")
         return [
             SlotSet("credit_card", None),
+            SlotSet("account_type", None),
             SlotSet("amount-of-money", None),
             SlotSet("confirm", None),
             SlotSet("time", None),
@@ -99,6 +96,7 @@ class ValidatePayCCForm(Action):
         """Custom validates the filled slots"""
         extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
 
+        # TODO: remove this once https://github.com/RasaHQ/rasa-sdk/pull/276 is merged
         # Force a validation for slots extracted from entities of the initial sentence
         if not extracted_slots:
             for slot in ["credit_card", "amount-of-money", "time", "confirm"]:
@@ -108,24 +106,18 @@ class ValidatePayCCForm(Action):
 
         for slot, value in list(extracted_slots.items()):
             validate_func = getattr(
-                self,
-                f"validate_{slot.replace('-','_')}",
-                lambda *x: {slot: value},
+                self, f"validate_{slot.replace('-','_')}", lambda *x: {slot: value},
             )
             #
             # The custom validation methods returns a dictionary, with:
             # - the value of the slot, possibly modified, and 'None' if invalid
             # - additional slots that need to be set
-            validation_output = await validate_func(
-                value, dispatcher, tracker, domain
-            )
+            validation_output = await validate_func(value, dispatcher, tracker, domain)
 
             extracted_slots.update(validation_output)
 
         # Return SlotSet events that set the slots to the validated values
-        return [
-            SlotSet(slot, value) for slot, value in extracted_slots.items()
-        ]
+        return [SlotSet(slot, value) for slot, value in extracted_slots.items()]
 
     async def validate_amount_of_money(
         self,
@@ -237,9 +229,7 @@ class ActionTransactionSearch(Action):
             transactions = transactions_subset.get(vendor_name.lower())
             vendor_name = f" with {vendor_name}"
         else:
-            transactions = [
-                v for k in list(transactions_subset.values()) for v in k
-            ]
+            transactions = [v for k in list(transactions_subset.values()) for v in k]
             vendor_name = ""
 
         start_time = parser.isoparse(tracker.get_slot("start_time"))
@@ -295,6 +285,7 @@ class ValidateTransactionSearchForm(Action):
         """Custom validates the filled slots"""
         extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
 
+        # TODO: remove this once https://github.com/RasaHQ/rasa-sdk/pull/276 is merged
         # Force a validation for slots extracted from entities of the initial sentence
         if not extracted_slots:
             for slot in ["search_type", "time"]:
@@ -304,24 +295,18 @@ class ValidateTransactionSearchForm(Action):
 
         for slot, value in list(extracted_slots.items()):
             validate_func = getattr(
-                self,
-                f"validate_{slot.replace('-','_')}",
-                lambda *x: {slot: value},
+                self, f"validate_{slot.replace('-','_')}", lambda *x: {slot: value},
             )
             #
             # The custom validation methods returns a dictionary, with:
             # - the value of the slot, possibly modified, and 'None' if invalid
             # - additional slots that need to be set
-            validation_output = await validate_func(
-                value, dispatcher, tracker, domain
-            )
+            validation_output = await validate_func(value, dispatcher, tracker, domain)
 
             extracted_slots.update(validation_output)
 
         # Return SlotSet events that set the slots to the validated values
-        events = [
-            SlotSet(slot, value) for slot, value in extracted_slots.items()
-        ]
+        events = [SlotSet(slot, value) for slot, value in extracted_slots.items()]
 
         # For search_transactions we need to know the vendor_name
         search_type = tracker.get_slot("search_type")
@@ -399,9 +384,7 @@ class ActionTransferMoney(Action):
                 SlotSet("amount-of-money", None),
                 SlotSet("number", None),
                 SlotSet("confirm", None),
-                SlotSet(
-                    "amount_transferred", amount_transferred + amount_of_money
-                ),
+                SlotSet("amount_transferred", amount_transferred + amount_of_money),
                 SlotSet("account_balance", f"{updated_account_balance:.2f}"),
             ]
 
@@ -427,6 +410,7 @@ class ValidateTransferMoneyForm(Action):
         """Custom validates the filled slots"""
         extracted_slots: Dict[Text, Any] = tracker.form_slots_to_validate()
 
+        # TODO: remove this once https://github.com/RasaHQ/rasa-sdk/pull/276 is merged
         # Force a validation for slots extracted from entities of the initial sentence
         if not extracted_slots:
             for slot in ["PERSON", "amount-of-money", "confirm"]:
@@ -436,24 +420,18 @@ class ValidateTransferMoneyForm(Action):
 
         for slot, value in list(extracted_slots.items()):
             validate_func = getattr(
-                self,
-                f"validate_{slot.replace('-','_')}",
-                lambda *x: {slot: value},
+                self, f"validate_{slot.replace('-','_')}", lambda *x: {slot: value},
             )
             #
             # The custom validation methods returns a dictionary, with:
             # - the value of the slot, possibly modified, and 'None' if invalid
             # - additional slots that need to be set
-            validation_output = await validate_func(
-                value, dispatcher, tracker, domain
-            )
+            validation_output = await validate_func(value, dispatcher, tracker, domain)
 
             extracted_slots.update(validation_output)
 
         # Return SlotSet events that set the slots to the validated values
-        return [
-            SlotSet(slot, value) for slot, value in extracted_slots.items()
-        ]
+        return [SlotSet(slot, value) for slot, value in extracted_slots.items()]
 
     async def validate_PERSON(
         self,
@@ -531,13 +509,13 @@ class ActionAccountBalance(Action):
                 init_account_balance=f"{init_account_balance:.2f}",
                 account_balance=f"{account_balance:.2f}",
             )
-            return [SlotSet("amount-of-money", None)]
         else:
             dispatcher.utter_message(
                 template="utter_account_balance",
                 init_account_balance=f"{account_balance:.2f}",
             )
-            return [SlotSet("amount-of-money", None)]
+
+        return [SlotSet("amount-of-money", None), SlotSet("account_type", None)]
 
 
 class ActionCreditCardBalance(Action):
@@ -561,12 +539,9 @@ class ActionCreditCardBalance(Action):
                     "amount-of-money": f"{current_balance:.2f}",
                 },
             )
-            return [SlotSet("credit_card", None)]
         else:
             for credit_card in credit_card_balance.keys():
-                current_balance = credit_card_balance[credit_card][
-                    "current balance"
-                ]
+                current_balance = credit_card_balance[credit_card]["current balance"]
                 dispatcher.utter_message(
                     template="utter_credit_card_balance",
                     **{
@@ -575,7 +550,7 @@ class ActionCreditCardBalance(Action):
                     },
                 )
 
-            return []
+        return [SlotSet("account_type", None)]
 
 
 class ActionRecipients(Action):
@@ -590,8 +565,7 @@ class ActionRecipients(Action):
             [f"- {recipient}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
         return []
 
@@ -602,15 +576,10 @@ class ActionSessionStart(Action):
         return "action_session_start"
 
     @staticmethod
-    def _slot_set_events_from_tracker(
-        tracker: "Tracker",
-    ) -> List["SlotSet"]:
+    def _slot_set_events_from_tracker(tracker: "Tracker",) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
         return [
-            SlotSet(
-                key=event.get("name"),
-                value=event.get("value"),
-            )
+            SlotSet(key=event.get("name"), value=event.get("value"),)
             for event in tracker.events
             if event.get("event") == "slot"
         ]

@@ -45,6 +45,7 @@ slots:
     type: categorical
     values:
       - credit
+      - bank
   PERSON:
     type: unfeaturized
   account_balance:
@@ -178,9 +179,9 @@ responses:
   utter_cc_pay_cancelled:
   - text: Credit card account payment cancelled.
   utter_account_balance:
-  - text: Your balance is {currency}{init_account_balance}.
+  - text: Your bank account balance is {currency}{init_account_balance}.
   utter_changed_account_balance:
-  - text: Your balance was {currency}{init_account_balance} and is now {currency}{account_balance}
+  - text: Your bank account balance was {currency}{init_account_balance} and is now {currency}{account_balance}
       after transfers and payments.
   utter_unknown_recipient:
   - text: Sorry, {PERSON} is not in your list of known recipients.
@@ -231,8 +232,14 @@ forms:
     amount-of-money:
     - type: from_entity
       entity: amount-of-money
+      not_intent: 
+      - check_balance
+      - check_earnings
     - type: from_entity
       entity: number
+      not_intent: 
+      - check_balance
+      - check_earnings
     time:
     - type: from_entity
       entity: time
@@ -250,8 +257,14 @@ forms:
     amount-of-money:
     - type: from_entity
       entity: amount-of-money
+      not_intent: 
+      - check_balance
+      - check_earnings
     - type: from_entity
       entity: number
+      not_intent: 
+      - check_balance
+      - check_earnings
     confirm:
     - type: from_intent
       intent: affirm
