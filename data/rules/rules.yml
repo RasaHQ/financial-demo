@@ -39,48 +39,13 @@ rules:
   - intent: check_recipients
   - action: action_recipients
   
-- rule: Show bank account balance when account_type is not set
-  condition:
-  - slot_was_set:
-    - account_type: null
+- rule: Show balance (bank account or credit card, based on account_type)
   steps:
   - intent: check_balance
-  - action: action_account_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
-  
-- rule: Show bank account balance when account_type is 'bank'
-  condition:
-  - slot_was_set:
-    - account_type: bank
-  steps:
-  - intent: check_balance
-  - action: action_account_balance
-  - slot_was_set:
-    - account_type: null
-    
-- rule: Show balance of all credit cards when account_type is 'credit'
-  condition:
-  - slot_was_set:
-    - account_type: credit
-  steps:
-  - intent: check_balance
-  - action: action_credit_card_balance
-  - slot_was_set:
-    - account_type: null
-  
-- rule: Show balance of a specific credit card when account_type is not set
-  condition:
-  - slot_was_set:
-    - account_type: null
-  - slot_was_set:
-    - credit_card: some value
-  steps:
-  - intent: check_balance
-  - action: action_credit_card_balance
-  - slot_was_set:
-    - account_type: null
-    
+        
 - rule: Activate cc_payment_form
   steps:
   - intent: pay_cc

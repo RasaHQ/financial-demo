@@ -45,7 +45,7 @@ stories:
   - user: |
       How much money is on my account?
     intent: check_balance
-  - action: action_account_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
 
@@ -54,7 +54,7 @@ stories:
   - user: |
       What's my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"} [balance]{"entity": "amount-of-money", "value": "current balance"}
     intent: check_balance
-  - action: action_credit_card_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
   
@@ -63,7 +63,7 @@ stories:
   - user: |
       What are my [credit](account_type) accounts
     intent: check_balance
-  - action: action_credit_card_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
   
@@ -180,7 +180,7 @@ stories:
   - user: |
       How much money is on my account?
     intent: check_balance
-  - action: action_account_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
   
@@ -194,7 +194,7 @@ stories:
   - user: |
       How much money is on my [bank]{"entity": "account_type", "value": "bank"} account?
     intent: check_balance
-  - action: action_account_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
   - action: cc_payment_form
@@ -252,7 +252,7 @@ stories:
   - user: |
       What is my account [balance]{"entity": "amount-of-money", "value": "current balance"}?
     intent: check_balance
-  - action: action_account_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
   - action: transfer_money_form

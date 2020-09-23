@@ -492,56 +492,24 @@ class ValidateTransferMoneyForm(Action):
             return {"confirm": None}
 
 
-class ActionAccountBalance(Action):
+class ActionShowBalance(Action):
     def name(self):
         """Unique identifier of the action"""
-        return "action_account_balance"
+        return "action_show_balance"
 
     def run(self, dispatcher, tracker, domain):
         """Executes the custom action"""
-        account_balance = float(tracker.get_slot("account_balance"))
-        amount = tracker.get_slot("amount_transferred")
-        if amount:
-            amount = float(tracker.get_slot("amount_transferred"))
-            init_account_balance = account_balance + amount
-            dispatcher.utter_message(
-                template="utter_changed_account_balance",
-                init_account_balance=f"{init_account_balance:.2f}",
-                account_balance=f"{account_balance:.2f}",
-            )
-        else:
-            dispatcher.utter_message(
-                template="utter_account_balance",
-                init_account_balance=f"{account_balance:.2f}",
-            )
+        account_type = float(tracker.get_slot("account_type"))
 
-        return [SlotSet("amount-of-money", None), SlotSet("account_type", None)]
+        if account_type == "credit":
+            # show credit card balance
+            credit_card_balance = tracker.get_slot("credit_card_balance")
+            credit_card = tracker.get_slot("credit_card")
 
-
-class ActionCreditCardBalance(Action):
-    def name(self):
-        """Unique identifier of the action"""
-        return "action_credit_card_balance"
-
-    def run(self, dispatcher, tracker, domain):
-        """Executes the custom action"""
-        credit_card_balance = tracker.get_slot("credit_card_balance")
-        credit_card = tracker.get_slot("credit_card")
-
-        if credit_card and credit_card.lower() in credit_card_balance:
-            current_balance = credit_card_balance[credit_card.lower()][
-                "current balance"
-            ]
-            dispatcher.utter_message(
-                template="utter_credit_card_balance",
-                **{
-                    "credit_card": credit_card.title(),
-                    "amount-of-money": f"{current_balance:.2f}",
-                },
-            )
-        else:
-            for credit_card in credit_card_balance.keys():
-                current_balance = credit_card_balance[credit_card]["current balance"]
+            if credit_card and credit_card.lower() in credit_card_balance:
+                current_balance = credit_card_balance[credit_card.lower()][
+                    "current balance"
+                ]
                 dispatcher.utter_message(
                     template="utter_credit_card_balance",
                     **{
@@ -549,8 +517,37 @@ class ActionCreditCardBalance(Action):
                         "amount-of-money": f"{current_balance:.2f}",
                     },
                 )
+            else:
+                for credit_card in credit_card_balance.keys():
+                    current_balance = credit_card_balance[credit_card][
+                        "current balance"
+                    ]
+                    dispatcher.utter_message(
+                        template="utter_credit_card_balance",
+                        **{
+                            "credit_card": credit_card.title(),
+                            "amount-of-money": f"{current_balance:.2f}",
+                        },
+                    )
+        else:
+            # show bank account balance
+            account_balance = float(tracker.get_slot("account_balance"))
+            amount = tracker.get_slot("amount_transferred")
+            if amount:
+                amount = float(tracker.get_slot("amount_transferred"))
+                init_account_balance = account_balance + amount
+                dispatcher.utter_message(
+                    template="utter_changed_account_balance",
+                    init_account_balance=f"{init_account_balance:.2f}",
+                    account_balance=f"{account_balance:.2f}",
+                )
+            else:
+                dispatcher.utter_message(
+                    template="utter_account_balance",
+                    init_account_balance=f"{account_balance:.2f}",
+                )
 
-        return [SlotSet("account_type", None)]
+        return [SlotSet("amount-of-money", None), SlotSet("account_type", None)]
 
 
 class ActionRecipients(Action):

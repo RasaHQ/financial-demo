@@ -95,7 +95,7 @@ stories:
   - action: cc_payment_form
   - active_loop: cc_payment_form
   - intent: check_balance
-  - action: action_account_balance
+  - action: action_show_balance
   - slot_was_set:
     - account_type: null
   - action: utter_ask_continue
@@ -108,7 +108,7 @@ stories:
 #  - action: cc_payment_form
 #  - active_loop: cc_payment_form
 #  - intent: check_balance
-#  - action: action_account_balance
+#  - action: action_show_balance
 #  - action: utter_ask_continue
 #  - intent: deny
 #  - action: utter_ok
@@ -121,7 +121,7 @@ stories:
 #  - action: cc_payment_form
 #  - active_loop: cc_payment_form
 #  - intent: check_balance
-#  - action: action_account_balance
+#  - action: action_show_balance
 #  - action: utter_ask_continue
 #  - intent: affirm
 #  - action: cc_payment_form
@@ -164,7 +164,7 @@ stories:
 #  - action: utter_greet
 #  - action: utter_help
 #  - intent: check_balance
-#  - action: action_account_balance
+#  - action: action_show_balance
 #  - slot_was_set:
 #    - payment_amount: null
 #  - intent: affirm

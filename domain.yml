@@ -211,10 +211,9 @@ responses:
         \n- What did I spend at Target last month?
         \n- I need to transfer money"
 actions:
-- action_account_balance
+- action_show_balance
 - action_session_start
 - action_restart
-- action_credit_card_balance
 - action_recipients
 - action_handoff
 - action_handoff_options
