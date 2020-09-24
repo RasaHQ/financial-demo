@@ -49,7 +49,7 @@ stories:
   - slot_was_set:
     - account_type: null
 
-- story: Show specific credit account - test story method 1
+- story: Show specific credit card account balance
   steps:
   - user: |
       What's my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"} [balance]{"entity": "amount-of-money", "value": "current balance"}
@@ -58,7 +58,7 @@ stories:
   - slot_was_set:
     - account_type: null
   
-- story: check credit account balance
+- story: Show all credit cards account balances
   steps:
   - user: |
       What are my [credit](account_type) accounts
@@ -102,7 +102,7 @@ stories:
   - action: utter_greet
   - action: utter_help
   - user: |
-      Tthat sounds good
+      That sounds good
     intent: affirm
   - action: utter_ok
 
@@ -164,6 +164,81 @@ stories:
   - active_loop: null
   - action: action_transaction_search
   
+- story: greet + search transactions happy path + thankyou
+  steps:
+  - user: |
+      hi
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      I want to search my spending history'
+    intent: search_transactions
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - action: action_transaction_search
+  - user: |
+      Thanks!
+    intent: thankyou
+  - action: utter_noworries
+
+- story: Show bank account balance + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - slot_was_set:
+    - account_type: null
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: Show bank account balance + thankyou + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - slot_was_set:
+    - account_type: null
+  - user: |
+      Thanks!
+    intent: thankyou
+  - action: utter_noworries
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: Show bank account balance + ok + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - slot_was_set:
+    - account_type: null
+  - user: |
+      Ok
+    intent: affirm
+  - action: utter_ok
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+    
 - story: pay credit card and afterwards check account balance
   steps:
   - user: |

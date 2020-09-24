@@ -2,45 +2,37 @@ version: "2.0"
 
 stories:
 
-# Do we need this one?  
-- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
+- story: Pay CC, while active user asks account balance, ask continue
   steps:
-  - intent: help
-  - action: utter_help
-  - intent: greet
-  - action: utter_greet
-  - action: utter_help
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - intent: check_balance
+  - action: action_show_balance
+  - slot_was_set:
+    - account_type: null
+  - action: utter_ask_continue
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+
+- story: Deny continuation of cc_payment_form
+  steps:
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+  - intent: deny
+  # Cancels cc payment & cleans out the slots
+  - action: action_pay_cc
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
+  - active_loop: null
+  
+- story: Affirm continuation of cc_payment_form
+  steps:
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
   - intent: affirm
-  - action: utter_ok
+  - action: cc_payment_form
 
 
-#- story: search transactions happy path
-#  steps:
-#  - intent: greet
-#  - action: utter_greet
-#  - action: utter_help
-#  - intent: search_transactions
-#  - action: transact_search_form
-#  - active_loop: transact_search_form
-#  - active_loop: null
-#  - intent: thankyou
-#  - action: utter_noworries
-#- story: search transactions happy path no greet
-#  steps:
-#  - intent: search_transactions
-#  - action: transact_search_form
-#  - active_loop: transact_search_form
-#  - active_loop: null
-#  - intent: thankyou
-#  - action: utter_noworries
-#- story: search transactions happy path no greet or thanks
-#  steps:
-#  - or:
-#    - intent: search_transactions
-#    - intent: check_earnings
-#  - action: transact_search_form
-#  - active_loop: transact_search_form
-#  - active_loop: null
 #- story: search transactions switch to transfer money
 #  steps:
 #  - or:
@@ -89,50 +81,7 @@ stories:
 #  - intent: deny
 #  - action: utter_ok
 
-- story: Pay CC, while active user asks account balance, ask continue
-  steps:
-  - intent: pay_cc
-  - action: cc_payment_form
-  - active_loop: cc_payment_form
-  - intent: check_balance
-  - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
-  - action: utter_ask_continue
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
 
-- story: Deny continuation of cc_payment_form
-  steps:
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  - intent: deny
-  # Cancels cc payment & cleans out the slots
-  - action: action_pay_cc
-  - slot_was_set:
-    - credit_card: null
-  - slot_was_set:
-    - account_type: null
-  - active_loop: null
-  
-- story: Affirm continuation of cc_payment_form
-  steps:
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  - intent: affirm
-  - action: cc_payment_form
-
-
-#- story: Pay CC ask account balance
-#  steps:
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - intent: check_balance
-#  - action: action_show_balance
-#  - action: utter_ask_continue
-#  - intent: affirm
-#  - action: cc_payment_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
 #- story: Transfer money pay credit card
 #  steps:
 #  - intent: transfer_money
@@ -160,20 +109,4 @@ stories:
 #  - intent: deny
 #  - action: utter_ok
 #
-#
-#
-#
-#- story: acknowledge balance
-#  steps:
-#  - intent: greet
-#  - action: utter_greet
-#  - action: utter_help
-#  - intent: check_balance
-#  - action: action_show_balance
-#  - slot_was_set:
-#    - payment_amount: null
-#  - intent: affirm
-#  - action: utter_ok
-#  - intent: transfer_money
-#  - action: transfer_form
-#
+
