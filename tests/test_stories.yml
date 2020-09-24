@@ -184,7 +184,7 @@ stories:
   - slot_was_set:
     - account_type: null
   
-- story: pay credit card, while in form check account balance
+- story: Pay CC, while active user asks account balance, ask continue
   steps:
   - user: |
       i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
@@ -197,16 +197,30 @@ stories:
   - action: action_show_balance
   - slot_was_set:
     - account_type: null
-  - action: cc_payment_form
-  - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
+  - action: utter_ask_continue
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+  
+- story: Deny continuation of cc_payment_form
+  steps:
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+  - user: |
+      No
+    intent: deny
+  # Cancels cc payment & cleans out the slots
   - action: action_pay_cc
   - slot_was_set:
     - credit_card: null
   - slot_was_set:
     - account_type: null
-  
+  - active_loop: null
+
+- story: Affirm continuation of cc_payment_form
+  steps:
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+  - user: |
+      Yes
+    intent: affirm
+  - action: cc_payment_form
   
 - story: transfer money happy path, while in form ask transfer charge
   steps:
