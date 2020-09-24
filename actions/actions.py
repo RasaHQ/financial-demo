@@ -308,7 +308,7 @@ class ValidateTransactionSearchForm(Action):
         # Return SlotSet events that set the slots to the validated values
         events = [SlotSet(slot, value) for slot, value in extracted_slots.items()]
 
-        # For search_transactions we need to know the vendor_name
+        # For 'spend' type transactions we need to know the vendor_name
         search_type = tracker.get_slot("search_type")
         if search_type == "spend":
             vendor_name = tracker.get_slot("vendor_name")
@@ -499,7 +499,7 @@ class ActionShowBalance(Action):
 
     def run(self, dispatcher, tracker, domain):
         """Executes the custom action"""
-        account_type = float(tracker.get_slot("account_type"))
+        account_type = tracker.get_slot("account_type")
 
         if account_type == "credit":
             # show credit card balance

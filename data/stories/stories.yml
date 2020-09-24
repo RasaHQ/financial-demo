@@ -89,7 +89,7 @@ stories:
 #  - intent: deny
 #  - action: utter_ok
 
-- story: Deactivate cc_payment_form, when denying to continue after asking account balance
+- story: Pay CC, while active user asks account balance, ask continue
   steps:
   - intent: pay_cc
   - action: cc_payment_form
@@ -99,22 +99,27 @@ stories:
   - slot_was_set:
     - account_type: null
   - action: utter_ask_continue
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+
+- story: Deny continuation of cc_payment_form
+  steps:
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
   - intent: deny
-  - action: utter_ok
+  # Cancels cc payment & cleans out the slots
+  - action: action_pay_cc
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
   - active_loop: null
-#- story: Pay CC ask account balance
-#  steps:
-#  - intent: pay_cc
-#  - action: cc_payment_form
-#  - active_loop: cc_payment_form
-#  - intent: check_balance
-#  - action: action_show_balance
-#  - action: utter_ask_continue
-#  - intent: deny
-#  - action: utter_ok
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
+  
+- story: Affirm continuation of cc_payment_form
+  steps:
+  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
+  - intent: affirm
+  - action: cc_payment_form
+
+
 #- story: Pay CC ask account balance
 #  steps:
 #  - intent: pay_cc
