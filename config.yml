@@ -27,4 +27,4 @@ policies:
 - name: AugmentedMemoizationPolicy
 - name: RulePolicy
 - name: TEDPolicy
-  epochs: 20
+  epochs: 40

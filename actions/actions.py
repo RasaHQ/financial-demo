@@ -37,37 +37,7 @@ class ActionPayCC(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Executes the action"""
-        if tracker.get_slot("confirm") == "yes":
-            account_balance = float(tracker.get_slot("account_balance"))
-            credit_card = tracker.get_slot("credit_card")
-            cc_balance = tracker.get_slot("credit_card_balance")
-            amount_of_money = float(tracker.get_slot("amount-of-money"))
-            amount_transferred = float(tracker.get_slot("amount_transferred"))
-
-            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
-            account_balance = account_balance - amount_of_money
-            dispatcher.utter_message(template="utter_cc_pay_scheduled")
-
-            return [
-                SlotSet("credit_card", None),
-                SlotSet("account_type", None),
-                SlotSet("amount-of-money", None),
-                SlotSet("confirm", None),
-                SlotSet("time", None),
-                SlotSet("time_formatted", None),
-                SlotSet("start_time", None),
-                SlotSet("end_time", None),
-                SlotSet("start_time_formatted", None),
-                SlotSet("end_time_formatted", None),
-                SlotSet("grain", None),
-                SlotSet("number", None),
-                SlotSet("amount_transferred", amount_transferred + amount_of_money,),
-                SlotSet("account_balance", f"{account_balance:.2f}"),
-                SlotSet("credit_card_balance", cc_balance),
-            ]
-
-        dispatcher.utter_message(template="utter_cc_pay_cancelled")
-        return [
+        events = [
             SlotSet("credit_card", None),
             SlotSet("account_type", None),
             SlotSet("amount-of-money", None),
@@ -81,6 +51,31 @@ class ActionPayCC(Action):
             SlotSet("grain", None),
             SlotSet("number", None),
         ]
+
+        if tracker.get_slot("confirm") == "yes":
+            account_balance = float(tracker.get_slot("account_balance"))
+            credit_card = tracker.get_slot("credit_card")
+            cc_balance = tracker.get_slot("credit_card_balance")
+            amount_of_money = float(tracker.get_slot("amount-of-money"))
+            amount_transferred = float(tracker.get_slot("amount_transferred"))
+
+            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
+            account_balance = account_balance - amount_of_money
+            dispatcher.utter_message(template="utter_cc_pay_scheduled")
+
+            events.extend(
+                [
+                    SlotSet(
+                        "amount_transferred", amount_transferred + amount_of_money,
+                    ),
+                    SlotSet("account_balance", f"{account_balance:.2f}"),
+                    SlotSet("credit_card_balance", cc_balance),
+                ]
+            )
+        else:
+            dispatcher.utter_message(template="utter_cc_pay_cancelled")
+
+        return events
 
 
 class ValidatePayCCForm(Action):
@@ -370,6 +365,13 @@ class ActionTransferMoney(Action):
 
     async def run(self, dispatcher, tracker, domain):
         """Executes the action"""
+        events = [
+            SlotSet("PERSON", None),
+            SlotSet("amount-of-money", None),
+            SlotSet("number", None),
+            SlotSet("confirm", None),
+        ]
+
         if tracker.get_slot("confirm") == "yes":
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             account_balance = float(tracker.get_slot("account_balance"))
@@ -379,22 +381,18 @@ class ActionTransferMoney(Action):
             dispatcher.utter_message(template="utter_transfer_complete")
 
             amount_transferred = tracker.get_slot("amount_transferred")
-            return [
-                SlotSet("PERSON", None),
-                SlotSet("amount-of-money", None),
-                SlotSet("number", None),
-                SlotSet("confirm", None),
-                SlotSet("amount_transferred", amount_transferred + amount_of_money),
-                SlotSet("account_balance", f"{updated_account_balance:.2f}"),
-            ]
+            events.extend(
+                [
+                    SlotSet(
+                        "amount_transferred", amount_transferred + amount_of_money,
+                    ),
+                    SlotSet("account_balance", f"{updated_account_balance:.2f}"),
+                ]
+            )
+        else:
+            dispatcher.utter_message(template="utter_transfer_cancelled")
 
-        dispatcher.utter_message(template="utter_transfer_cancelled")
-        return [
-            SlotSet("PERSON", None),
-            SlotSet("amount-of-money", None),
-            SlotSet("number", None),
-            SlotSet("confirm", None),
-        ]
+        return events
 
 
 class ValidateTransferMoneyForm(Action):
@@ -547,7 +545,10 @@ class ActionShowBalance(Action):
                     init_account_balance=f"{account_balance:.2f}",
                 )
 
-        return [SlotSet("amount-of-money", None), SlotSet("account_type", None)]
+        return [
+            SlotSet("amount-of-money", None),
+            SlotSet("account_type", None),
+        ]
 
 
 class ActionRecipients(Action):

@@ -1,0 +1,9 @@
+version: '2'
+
+rules:
+
+- rule: Greet the user upon handoff
+  steps:
+  - intent: handoff
+  - action: utter_greet
+  

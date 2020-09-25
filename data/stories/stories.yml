@@ -2,7 +2,7 @@ version: "2.0"
 
 stories:
 
-- story: Pay CC, while active user asks account balance, ask continue
+- story: In cc_payment_form user asks account balance, ask continue
   steps:
   - intent: pay_cc
   - action: cc_payment_form
@@ -30,6 +30,7 @@ stories:
   steps:
   - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
   - intent: affirm
+  - action: utter_ok
   - action: cc_payment_form
 
 

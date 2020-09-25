@@ -8,11 +8,6 @@ rules:
   - intent: greet
   - action: utter_greet
   - action: utter_help
-  
-- rule: Greet the user upon handoff
-  steps:
-  - intent: handoff
-  - action: utter_greet
 
 - rule: say goodbye
   steps:
@@ -28,6 +23,11 @@ rules:
   steps:
   - intent: thankyou
   - action: utter_noworries
+
+- rule: Always utter_ok after an affirm
+  steps:
+  - intent: affirm
+  - action: utter_ok
   
 - rule: is there a transfer charge
   steps:

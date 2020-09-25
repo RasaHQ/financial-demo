@@ -17,6 +17,7 @@ nlu:
     - sweet
     - cool,
     - yes...
+    - y
 - intent: ask_transfer_charge
   examples: |
     - Will I be charged for transferring money
@@ -107,6 +108,7 @@ nlu:
     - I dunno
     - Nothing!
     - nevermind
+    - n
 - intent: goodbye
   examples: |
     - see you later
@@ -168,6 +170,9 @@ nlu:
     - [Target](vendor_name)
     - I want to pay the [current balance](amount-of-money)
     - [current balance](amount-of-money)
+    - [full](amount-of-money)
+    - in [full](amount-of-money)
+    - the [full balance](amount-of-money)
     - [minimum balance](amount-of-money)
     - I want to pay the [minimum balance](amount-of-money)
     - the [current balance](amount-of-money)
@@ -206,6 +211,7 @@ nlu:
     - a hundred dollars
     - [mastercard](credit_card)
     - [visa](credit_card)
+    - [american express](credit_card)
     - my [rasa](credit_card) account
     - my [credit card]{"entity": "account_type", "value": "credit"} account ending in 4321
     - My [Visa](credit_card) account
@@ -371,6 +377,7 @@ nlu:
     - credit accounts
     - card
     - cards
+    - credit card account
 - synonym: emblem
   examples: |
     - emblm
@@ -379,3 +386,5 @@ nlu:
 - synonym: current balance
   examples: |
     - balance
+    - full
+    - full balance

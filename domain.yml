@@ -228,6 +228,10 @@ forms:
     credit_card:
     - type: from_entity
       entity: credit_card
+    # TODO: re-evaluate if this is needed to enforce going into validation logic
+    # Slack thread: https://rasa-hq.slack.com/archives/C7FCS16SD/p1600952555013300?thread_ts=1600216452.354900&cid=C7FCS16SD
+    - type: from_text
+      intent: inform
     amount-of-money:
     - type: from_entity
       entity: amount-of-money
@@ -239,9 +243,15 @@ forms:
       not_intent: 
       - check_balance
       - check_earnings
+    # TODO: see above
+    - type: from_text
+      intent: inform
     time:
     - type: from_entity
       entity: time
+    # TODO: see above
+    - type: from_text
+      intent: inform
     confirm:
     - type: from_intent
       intent: affirm
@@ -249,10 +259,16 @@ forms:
     - type: from_intent
       intent: deny
       value: no
+    # TODO: see above
+    - type: from_text
+      intent: inform
   transfer_money_form:
     PERSON:
     - type: from_entity
       entity: PERSON
+    # TODO: see above
+    - type: from_text
+      intent: inform
     amount-of-money:
     - type: from_entity
       entity: amount-of-money
@@ -264,6 +280,9 @@ forms:
       not_intent: 
       - check_balance
       - check_earnings
+    # TODO: see above
+    - type: from_text
+      intent: inform
     confirm:
     - type: from_intent
       intent: affirm
@@ -271,6 +290,9 @@ forms:
     - type: from_intent
       intent: deny
       value: no
+    # TODO: see above
+    - type: from_text
+      intent: inform
   transaction_search_form:
     search_type:
     - type: from_trigger_intent
@@ -282,3 +304,6 @@ forms:
     time:
     - type: from_entity
       entity: time
+    # TODO: see above
+    - type: from_text
+      intent: inform

@@ -295,6 +295,7 @@ stories:
   - user: |
       Yes
     intent: affirm
+  - action: utter_ok
   - action: cc_payment_form
   
 - story: transfer money happy path, while in form ask transfer charge
