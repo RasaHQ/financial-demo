@@ -3,7 +3,6 @@ version: '2'
 rules:
 
 - rule: greet
-  conversation_start: true
   steps:
   - intent: greet
   - action: utter_greet
@@ -43,8 +42,6 @@ rules:
   steps:
   - intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
         
 - rule: Activate cc_payment_form
   steps:
@@ -59,14 +56,8 @@ rules:
   - action: cc_payment_form
   - active_loop: null
   - slot_was_set:
-    - credit_card: some value
-  - slot_was_set:
     - requested_slot: null
   - action: action_pay_cc
-  - slot_was_set:
-    - credit_card: null
-  - slot_was_set:
-    - account_type: null
   
 - rule: Activate transfer_money_form
   steps:

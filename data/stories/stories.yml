@@ -2,38 +2,6 @@ version: "2.0"
 
 stories:
 
-- story: In cc_payment_form user asks account balance, ask continue
-  steps:
-  - intent: pay_cc
-  - action: cc_payment_form
-  - active_loop: cc_payment_form
-  - intent: check_balance
-  - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
-  - action: utter_ask_continue
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-
-- story: Deny continuation of cc_payment_form
-  steps:
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  - intent: deny
-  # Cancels cc payment & cleans out the slots
-  - action: action_pay_cc
-  - slot_was_set:
-    - credit_card: null
-  - slot_was_set:
-    - account_type: null
-  - active_loop: null
-  
-- story: Affirm continuation of cc_payment_form
-  steps:
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  - intent: affirm
-  - action: utter_ok
-  - action: cc_payment_form
-
-
 #- story: search transactions switch to transfer money
 #  steps:
 #  - or:

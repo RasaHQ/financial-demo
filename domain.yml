@@ -41,61 +41,62 @@ entities:
 - account_type
 - handoff_to
 slots:
+  repeated_validation_failures:
+    type: any
   account_type:
-    type: categorical
-    values:
-      - credit
-      - bank
+    type: any
   PERSON:
-    type: unfeaturized
+    type: any
   account_balance:
-    type: unfeaturized
+    type: any
   amount-of-money:
-    type: unfeaturized
+    type: any
   number:
-    type: unfeaturized
+    type: any
   amount_transferred:
-    type: unfeaturized
+    type: any
     initial_value: 0
+  continue:
+    type: any
   confirm:
-    type: unfeaturized
+    type: any
   credit_card:
-    type: text
+    type: any
   credit_card_balance:
-    type: unfeaturized
+    type: any
   currency:
-    type: unfeaturized
+    type: any
   end_time:
-    type: unfeaturized
+    type: any
   end_time_formatted:
-    type: unfeaturized
+    type: any
   grain:
-    type: unfeaturized
+    type: any
   known_recipients:
-    type: unfeaturized
+    type: any
   payment_amount_type:
-    type: unfeaturized
+    type: any
     initial_value: ''
   requested_slot:
-    type: unfeaturized
+    type: any
   search_type:
-    type: unfeaturized
+    type: any
   start_time:
-    type: unfeaturized
+    type: any
   start_time_formatted:
-    type: unfeaturized
+    type: any
   time:
-    type: unfeaturized
+    type: any
   time_formatted:
-    type: unfeaturized
+    type: any
   transaction_history:
-    type: unfeaturized
+    type: any
   vendor_list:
-    type: unfeaturized
+    type: any
   vendor_name:
-    type: unfeaturized
+    type: any
   handoff_to:
-    type: unfeaturized
+    type: any
 responses:
   utter_ask_transfer_money_form_amount-of-money:
   - text: How much money do you want to transfer?
@@ -159,6 +160,13 @@ responses:
   - text: Would you like to continue?
   utter_default:
   - text: Sorry, I didn't get that. Could you rephrase?
+  utter_ask_cc_payment_form_continue:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transaction
+    text: Would you like to continue scheduling the credit card payment?
   utter_ask_cc_payment_form_confirm:
   - buttons:
     - payload: /affirm
@@ -225,11 +233,18 @@ actions:
 - validate_transaction_search_form
 forms:
   cc_payment_form:
+    continue:
+    - type: from_intent
+      intent: affirm
+      value: yes
+    - type: from_intent
+      intent: deny
+      value: no
+    - type: from_text
+      intent: inform
     credit_card:
     - type: from_entity
       entity: credit_card
-    # TODO: re-evaluate if this is needed to enforce going into validation logic
-    # Slack thread: https://rasa-hq.slack.com/archives/C7FCS16SD/p1600952555013300?thread_ts=1600216452.354900&cid=C7FCS16SD
     - type: from_text
       intent: inform
     amount-of-money:
@@ -243,13 +258,11 @@ forms:
       not_intent: 
       - check_balance
       - check_earnings
-    # TODO: see above
     - type: from_text
       intent: inform
     time:
     - type: from_entity
       entity: time
-    # TODO: see above
     - type: from_text
       intent: inform
     confirm:
@@ -259,14 +272,12 @@ forms:
     - type: from_intent
       intent: deny
       value: no
-    # TODO: see above
     - type: from_text
       intent: inform
   transfer_money_form:
     PERSON:
     - type: from_entity
       entity: PERSON
-    # TODO: see above
     - type: from_text
       intent: inform
     amount-of-money:
@@ -280,7 +291,6 @@ forms:
       not_intent: 
       - check_balance
       - check_earnings
-    # TODO: see above
     - type: from_text
       intent: inform
     confirm:
@@ -290,7 +300,6 @@ forms:
     - type: from_intent
       intent: deny
       value: no
-    # TODO: see above
     - type: from_text
       intent: inform
   transaction_search_form:
@@ -304,6 +313,5 @@ forms:
     time:
     - type: from_entity
       entity: time
-    # TODO: see above
     - type: from_text
       intent: inform

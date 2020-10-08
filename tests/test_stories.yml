@@ -46,8 +46,6 @@ stories:
       How much money is on my account?
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
 
 - story: Show specific credit card account balance
   steps:
@@ -55,8 +53,6 @@ stories:
       What's my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"} [balance]{"entity": "amount-of-money", "value": "current balance"}
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   
 - story: Show all credit cards account balances
   steps:
@@ -64,8 +60,6 @@ stories:
       What are my [credit](account_type) accounts
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   
 - story: check list of known recipients
   steps:
@@ -115,10 +109,6 @@ stories:
   - active_loop: cc_payment_form
   - active_loop: null
   - action: action_pay_cc
-  - slot_was_set:
-    - credit_card: null
-  - slot_was_set:
-    - account_type: null
 
 - story: transfer money happy path w/o recipient
   steps:
@@ -189,8 +179,6 @@ stories:
       How much money is on my account?
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   - user: |
       i want to transfer money
     intent: transfer_money
@@ -205,8 +193,6 @@ stories:
       How much money is on my account?
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   - user: |
       Thanks!
     intent: thankyou
@@ -225,8 +211,6 @@ stories:
       How much money is on my account?
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   - user: |
       Ok
     intent: affirm
@@ -248,56 +232,51 @@ stories:
   - active_loop: cc_payment_form
   - active_loop: null
   - action: action_pay_cc
-  - slot_was_set:
-    - credit_card: null
-  - slot_was_set:
-    - account_type: null
   - user: |
       How much money is on my account?
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   
-- story: Pay CC, while active user asks account balance, ask continue
+- story: Pay CC, while active user asks account balance, deny continue
   steps:
   - user: |
-      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+      pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: cc_payment_form
   - active_loop: cc_payment_form
+  - slot_was_set:
+    - continue: yes
+  - slot_was_set:
+    - requested_slot: credit_card
   - user: |
       How much money is on my [bank]{"entity": "account_type", "value": "bank"} account?
     intent: check_balance
+  - slot_was_set:
+    - account_type: bank
   - action: action_show_balance
   - slot_was_set:
-    - account_type: null
-  - action: utter_ask_continue
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  
-- story: Deny continuation of cc_payment_form
-  steps:
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  - user: |
-      No
-    intent: deny
-  # Cancels cc payment & cleans out the slots
-  - action: action_pay_cc
-  - slot_was_set:
-    - credit_card: null
+    - amount-of-money: null
   - slot_was_set:
     - account_type: null
-  - active_loop: null
-
-- story: Affirm continuation of cc_payment_form
-  steps:
-  - checkpoint: while-cc_payment_form-action_show_balance-ask_continue
-  - user: |
-      Yes
-    intent: affirm
-  - action: utter_ok
+  - slot_was_set:
+    - continue: null
   - action: cc_payment_form
+  - slot_was_set:
+    - requested_slot: continue
+  - slot_was_set:
+    - continue: no
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - confirm: no
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_pay_cc
   
+
 - story: transfer money happy path, while in form ask transfer charge
   steps:
   - user: |
@@ -343,8 +322,6 @@ stories:
       What is my account [balance]{"entity": "amount-of-money", "value": "current balance"}?
     intent: check_balance
   - action: action_show_balance
-  - slot_was_set:
-    - account_type: null
   - action: transfer_money_form
   - slot_was_set:
     - requested_slot: null
