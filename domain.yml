@@ -174,6 +174,13 @@ responses:
     - payload: /deny
       title: No, cancel the transfer
     text: Would you like to continue scheduling the money transfer?
+  utter_ask_transaction_search_form_continue_form:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the search
+    text: Would you like to continue the transaction search?
   utter_ask_cc_payment_form_confirm:
   - buttons:
     - payload: /affirm
@@ -189,10 +196,12 @@ responses:
     - payload: /deny
       title: No, cancel the transaction
     text: Would you like to transfer {currency}{amount-of-money} to {PERSON}?
-  utter_transfer_cancelled:
-  - text: Transfer cancelled.
   utter_cc_pay_cancelled:
   - text: Credit card account payment cancelled.
+  utter_transfer_cancelled:
+  - text: Transfer cancelled.
+  utter_transaction_search_cancelled:
+  - text: Transaction search cancelled.
   utter_account_balance:
   - text: Your bank account balance is {currency}{init_account_balance}.
   utter_changed_account_balance:
@@ -235,6 +244,7 @@ actions:
 - action_pay_cc
 - action_transfer_money
 - action_transaction_search
+- action_ask_transaction_search_form_confirm
 - validate_cc_payment_form
 - validate_transfer_money_form
 - validate_transaction_search_form
@@ -319,6 +329,15 @@ forms:
     - type: from_text
       intent: inform
   transaction_search_form:
+    continue_form:
+    - type: from_intent
+      intent: affirm
+      value: yes
+    - type: from_intent
+      intent: deny
+      value: no
+    - type: from_text
+      intent: inform
     search_type:
     - type: from_trigger_intent
       intent: search_transactions
@@ -329,5 +348,14 @@ forms:
     time:
     - type: from_entity
       entity: time
+    - type: from_text
+      intent: inform
+    confirm:
+    - type: from_intent
+      intent: affirm
+      value: yes
+    - type: from_intent
+      intent: deny
+      value: no
     - type: from_text
       intent: inform

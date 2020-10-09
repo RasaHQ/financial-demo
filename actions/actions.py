@@ -32,6 +32,23 @@ logger = logging.getLogger(__name__)
 MAX_VALIDATION_FAILURES = 1
 
 
+async def shared_validate_continue_form(value: Text) -> Dict[Text, Any]:
+    """Validates value of 'continue_form' slot, which is identical for all the forms"""
+    if value == "yes":
+        return {"continue_form": value}
+
+    if value == "no":
+        # This will activate rule 'Submit ---_form' to cancel the operation
+        return {
+            "requested_slot": None,
+            "confirm": "no",
+            "continue_form": value,
+        }
+
+    # The user's answer was not valid. Just re-set it to None.
+    return {"continue_form": None}
+
+
 class MyFormValidationAction(FormValidationAction):
     """Tracks repeated validation failures"""
 
@@ -195,10 +212,10 @@ class ActionPayCC(Action):
 
         slots = {
             "continue_form": None,
+            "confirm": None,
             "credit_card": None,
             "account_type": None,
             "amount-of-money": None,
-            "confirm": None,
             "time": None,
             "time_formatted": None,
             "start_time": None,
@@ -244,18 +261,7 @@ class ValidatePayCCForm(MyFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'continue_form' slot"""
-        if value == "yes":
-            return {"continue_form": value}
-
-        if value == "no":
-            # This will activate rule 'Submit cc_payment_form' to cancel payment
-            return {
-                "requested_slot": None,
-                "confirm": "no",
-                "continue_form": value,
-            }
-
-        return {"continue_form": None}
+        return await shared_validate_continue_form(value)
 
     async def validate_amount_of_money(
         self,
@@ -378,56 +384,66 @@ class ActionTransactionSearch(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Executes the action"""
-        search_type = tracker.get_slot("search_type")
-        transaction_history = tracker.get_slot("transaction_history")
-        transactions_subset = transaction_history.get(search_type, {})
-        vendor_name = tracker.get_slot("vendor_name")
-
-        if vendor_name:
-            transactions = transactions_subset.get(vendor_name.lower())
-            vendor_name = f" with {vendor_name}"
-        else:
-            transactions = [v for k in list(transactions_subset.values()) for v in k]
-            vendor_name = ""
-
-        start_time = parser.isoparse(tracker.get_slot("start_time"))
-        end_time = parser.isoparse(tracker.get_slot("end_time"))
-
-        for i in range(len(transactions) - 1, -1, -1):
-            transaction = transactions[i]
-            transaction_date = parser.isoparse(transaction.get("date"))
-
-            if transaction_date < start_time or transaction_date > end_time:
-                transactions.pop(i)
-
-        numtransacts = len(transactions)
-        total = sum([t.get("amount") for t in transactions])
-        slotvars = {
-            "total": f"{total:.2f}",
-            "numtransacts": numtransacts,
-            "start_time_formatted": tracker.get_slot("start_time_formatted"),
-            "end_time_formatted": tracker.get_slot("end_time_formatted"),
-            "vendor_name": vendor_name,
+        slots = {
+            "continue_form": None,
+            "confirm": None,
+            "time": None,
+            "time_formatted": None,
+            "start_time": None,
+            "end_time": None,
+            "start_time_formatted": None,
+            "end_time_formatted": None,
+            "grain": None,
+            "search_type": None,
+            "vendor_name": None,
         }
 
-        dispatcher.utter_message(
-            template=f"utter_searching_{search_type}_transactions", **slotvars
-        )
-        dispatcher.utter_message(
-            template=f"utter_found_{search_type}_transactions", **slotvars
-        )
+        if tracker.get_slot("confirm") == "yes":
+            search_type = tracker.get_slot("search_type")
+            transaction_history = tracker.get_slot("transaction_history")
+            transactions_subset = transaction_history.get(search_type, {})
+            vendor_name = tracker.get_slot("vendor_name")
 
-        return [
-            SlotSet("time", None),
-            SlotSet("time_formatted", None),
-            SlotSet("start_time", None),
-            SlotSet("end_time", None),
-            SlotSet("start_time_formatted", None),
-            SlotSet("end_time_formatted", None),
-            SlotSet("grain", None),
-            SlotSet("search_type", None),
-            SlotSet("vendor_name", None),
-        ]
+            if vendor_name:
+                transactions = transactions_subset.get(vendor_name.lower())
+                vendor_name = f" with {vendor_name}"
+            else:
+                transactions = [
+                    v for k in list(transactions_subset.values()) for v in k
+                ]
+                vendor_name = ""
+
+            start_time = parser.isoparse(tracker.get_slot("start_time"))
+            end_time = parser.isoparse(tracker.get_slot("end_time"))
+
+            for i in range(len(transactions) - 1, -1, -1):
+                transaction = transactions[i]
+                transaction_date = parser.isoparse(transaction.get("date"))
+
+                if transaction_date < start_time or transaction_date > end_time:
+                    transactions.pop(i)
+
+            numtransacts = len(transactions)
+            total = sum([t.get("amount") for t in transactions])
+            slotvars = {
+                "total": f"{total:.2f}",
+                "numtransacts": numtransacts,
+                "start_time_formatted": tracker.get_slot("start_time_formatted"),
+                "end_time_formatted": tracker.get_slot("end_time_formatted"),
+                "vendor_name": vendor_name,
+            }
+
+            dispatcher.utter_message(
+                template=f"utter_searching_{search_type}_transactions",
+                **slotvars,
+            )
+            dispatcher.utter_message(
+                template=f"utter_found_{search_type}_transactions", **slotvars
+            )
+        else:
+            dispatcher.utter_message(template="utter_transaction_search_cancelled")
+
+        return [SlotSet(slot, value) for slot, value in slots.items()]
 
 
 class ValidateTransactionSearchForm(MyFormValidationAction):
@@ -451,6 +467,16 @@ class ValidateTransactionSearchForm(MyFormValidationAction):
                 events.append(SlotSet("requested_slot", "vendor_name"))
 
         return events
+
+    async def validate_continue_form(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates value of 'continue_form' slot"""
+        return await shared_validate_continue_form(value)
 
     async def validate_search_type(
         self,
@@ -507,10 +533,10 @@ class ActionTransferMoney(Action):
         """Executes the action"""
         slots = {
             "continue_form": None,
+            "confirm": None,
             "PERSON": None,
             "amount-of-money": None,
             "number": None,
-            "confirm": None,
         }
 
         if tracker.get_slot("confirm") == "yes":
@@ -545,18 +571,7 @@ class ValidateTransferMoneyForm(MyFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'continue_form' slot"""
-        if value == "yes":
-            return {"continue_form": value}
-
-        if value == "no":
-            # This will activate rule 'Submit transfer_money_form' to cancel transfer
-            return {
-                "requested_slot": None,
-                "confirm": "no",
-                "continue_form": value,
-            }
-
-        return {"continue_form": None}
+        return await shared_validate_continue_form(value)
 
     async def validate_PERSON(
         self,
@@ -786,3 +801,48 @@ class ActionRestart(Action):
     ) -> List[EventType]:
         """Executes the custom action"""
         return [Restarted(), FollowupAction("action_session_start")]
+
+
+class ActionAskTransactionSearchFormConfirm(Action):
+    """Asks for the 'confirm' slot of 'transaction_search_form'
+
+    A custom action is used instead of an 'utter_ask' response because a different
+    question is asked based on 'search_type' and 'vendor_name' slots.
+    """
+
+    def name(self) -> Text:
+        return "action_ask_transaction_search_form_confirm"
+
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        """Executes the custom action"""
+        search_type = tracker.get_slot("search_type")
+        vendor_name = tracker.get_slot("vendor_name")
+        start_time_formatted = tracker.get_slot("start_time_formatted")
+        end_time_formatted = tracker.get_slot("end_time_formatted")
+
+        if vendor_name:
+            vendor_name = f" with {vendor_name}"
+        else:
+            vendor_name = ""
+
+        if search_type == "spend":
+            text = (
+                f"Do you want to search for transactions{vendor_name} between "
+                f"{start_time_formatted} and {end_time_formatted}?"
+            )
+        elif search_type == "deposit":
+            text = (
+                f"Do you want to search deposits made to your account between "
+                f"{start_time_formatted} and {end_time_formatted}?"
+            )
+
+        buttons = [
+            {"payload": "/affirm", "title": "Yes"},
+            {"payload": "/deny", "title": "No"},
+        ]
+
+        dispatcher.utter_message(text=text, buttons=buttons)
+
+        return []
