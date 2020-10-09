@@ -38,7 +38,7 @@ stories:
   - user: |
       Who can I send money to?
     intent: check_recipients
-  - action: action_recipients
+  - action: action_show_recipients
   
 - story: Show bank account balance
   steps:
@@ -66,7 +66,7 @@ stories:
   - user: |
       Show me my list of recipients
     intent: check_recipients
-  - action: action_recipients
+  - action: action_show_recipients
 
 - story: from Rasa X 56efe3eaf7c0456db86a6669421f885c
   steps:
@@ -245,7 +245,7 @@ stories:
   - action: cc_payment_form
   - active_loop: cc_payment_form
   - slot_was_set:
-    - continue: yes
+    - continue_form: yes
   - slot_was_set:
     - requested_slot: credit_card
   - user: |
@@ -259,12 +259,12 @@ stories:
   - slot_was_set:
     - account_type: null
   - slot_was_set:
-    - continue: null
+    - continue_form: null
   - action: cc_payment_form
   - slot_was_set:
-    - requested_slot: continue
+    - requested_slot: continue_form
   - slot_was_set:
-    - continue: no
+    - continue_form: no
   - slot_was_set:
     - requested_slot: null
   - slot_was_set:
@@ -304,7 +304,7 @@ stories:
   - user: |
       Who can I send money to?
     intent: check_recipients
-  - action: action_recipients
+  - action: action_show_recipients
   - action: transfer_money_form
   - slot_was_set:
     - requested_slot: null
@@ -338,7 +338,7 @@ stories:
   - user: |
       Who can I send money to?
     intent: check_recipients
-  - action: action_recipients
+  - action: action_show_recipients
   - action: transfer_money_form
   - user: |
       is there a transfer charge

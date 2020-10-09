@@ -54,8 +54,8 @@ class MyFormValidationAction(FormValidationAction):
         """
         events = []
 
-        if not tracker.get_slot("continue"):
-            events.append(SlotSet("continue", "yes"))
+        if not tracker.get_slot("continue_form"):
+            events.append(SlotSet("continue_form", "yes"))
 
         events.extend(await super().validate(dispatcher, tracker, domain))
 
@@ -126,8 +126,8 @@ class MyFormValidationAction(FormValidationAction):
             # reset counter
             rvf = 0
 
-            # Trigger question to continue with the form or not
-            rvf_events.append(SlotSet("continue", None))
+            # Triggers 'utter_ask_{form}_continue_form'
+            rvf_events.append(SlotSet("continue_form", None))
 
         rvf_events.append(SlotSet("repeated_validation_failures", rvf))
         return rvf_events
@@ -194,7 +194,7 @@ class ActionPayCC(Action):
         """Executes the action"""
 
         slots = {
-            "continue": None,
+            "continue_form": None,
             "credit_card": None,
             "account_type": None,
             "amount-of-money": None,
@@ -236,22 +236,26 @@ class ValidatePayCCForm(MyFormValidationAction):
         """Unique identifier of the action"""
         return "validate_cc_payment_form"
 
-    async def validate_continue(
+    async def validate_continue_form(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates value of 'continue' slot"""
+        """Validates value of 'continue_form' slot"""
         if value == "yes":
-            return {"continue": value}
+            return {"continue_form": value}
 
         if value == "no":
             # This will activate rule 'Submit cc_payment_form' to cancel payment
-            return {"requested_slot": None, "confirm": "no", "continue": value}
+            return {
+                "requested_slot": None,
+                "confirm": "no",
+                "continue_form": value,
+            }
 
-        return {"continue": None}
+        return {"continue_form": None}
 
     async def validate_amount_of_money(
         self,
@@ -501,12 +505,13 @@ class ActionTransferMoney(Action):
 
     async def run(self, dispatcher, tracker, domain):
         """Executes the action"""
-        events = [
-            SlotSet("PERSON", None),
-            SlotSet("amount-of-money", None),
-            SlotSet("number", None),
-            SlotSet("confirm", None),
-        ]
+        slots = {
+            "continue_form": None,
+            "PERSON": None,
+            "amount-of-money": None,
+            "number": None,
+            "confirm": None,
+        }
 
         if tracker.get_slot("confirm") == "yes":
             amount_of_money = float(tracker.get_slot("amount-of-money"))
@@ -517,19 +522,12 @@ class ActionTransferMoney(Action):
             dispatcher.utter_message(template="utter_transfer_complete")
 
             amount_transferred = float(tracker.get_slot("amount_transferred"))
-            events.extend(
-                [
-                    SlotSet(
-                        "amount_transferred",
-                        amount_transferred + amount_of_money,
-                    ),
-                    SlotSet("account_balance", f"{updated_account_balance:.2f}"),
-                ]
-            )
+            slots["amount_transferred"] = amount_transferred + amount_of_money
+            slots["account_balance"] = f"{updated_account_balance:.2f}"
         else:
             dispatcher.utter_message(template="utter_transfer_cancelled")
 
-        return events
+        return [SlotSet(slot, value) for slot, value in slots.items()]
 
 
 class ValidateTransferMoneyForm(MyFormValidationAction):
@@ -538,6 +536,27 @@ class ValidateTransferMoneyForm(MyFormValidationAction):
     def name(self) -> Text:
         """Unique identifier of the action"""
         return "validate_transfer_money_form"
+
+    async def validate_continue_form(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates value of 'continue_form' slot"""
+        if value == "yes":
+            return {"continue_form": value}
+
+        if value == "no":
+            # This will activate rule 'Submit transfer_money_form' to cancel transfer
+            return {
+                "requested_slot": None,
+                "confirm": "no",
+                "continue_form": value,
+            }
+
+        return {"continue_form": None}
 
     async def validate_PERSON(
         self,
@@ -560,6 +579,24 @@ class ValidateTransferMoneyForm(MyFormValidationAction):
 
         dispatcher.utter_message(template="utter_unknown_recipient")
         return {"PERSON": None}
+
+    async def explain_PERSON(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Explains 'PERSON' slot"""
+        recipients = tracker.get_slot("known_recipients")
+        formatted_recipients = "\n" + "\n".join(
+            [f"- {recipient}" for recipient in recipients]
+        )
+        dispatcher.utter_message(
+            template="utter_recipients",
+            formatted_recipients=formatted_recipients,
+        )
+        return {}
 
     async def validate_amount_of_money(
         self,
@@ -656,21 +693,21 @@ class ActionShowBalance(Action):
                     init_account_balance=f"{account_balance:.2f}",
                 )
 
-        # Seting slot 'continue' to None will trigger utter_ask_{form}_continue if
-        # this action was predicted while a form is active.
+        # Seting slot 'continue_form' to None will trigger
+        # utter_ask_{form}_continue_form if this action was during an active form.
         return [
             SlotSet("amount-of-money", None),
             SlotSet("account_type", None),
-            SlotSet("continue", None),
+            SlotSet("continue_form", None),
         ]
 
 
-class ActionRecipients(Action):
+class ActionShowRecipients(Action):
     """Lists the contents of then known_recipients slot"""
 
     def name(self):
         """Unique identifier of the action"""
-        return "action_recipients"
+        return "action_show_recipients"
 
     async def run(self, dispatcher, tracker, domain):
         """Executes the custom action"""
@@ -682,7 +719,9 @@ class ActionRecipients(Action):
             template="utter_recipients",
             formatted_recipients=formatted_recipients,
         )
-        return []
+        # Seting slot 'continue_form' to None will trigger
+        # utter_ask_{form}_continue_form if this action was during an active form.
+        return [SlotSet("continue_form", None)]
 
 
 class ActionSessionStart(Action):

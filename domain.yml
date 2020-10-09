@@ -56,7 +56,7 @@ slots:
   amount_transferred:
     type: any
     initial_value: 0
-  continue:
+  continue_form:
     type: any
   confirm:
     type: any
@@ -160,13 +160,20 @@ responses:
   - text: Would you like to continue?
   utter_default:
   - text: Sorry, I didn't get that. Could you rephrase?
-  utter_ask_cc_payment_form_continue:
+  utter_ask_cc_payment_form_continue_form:
   - buttons:
     - payload: /affirm
       title: Yes
     - payload: /deny
       title: No, cancel the transaction
     text: Would you like to continue scheduling the credit card payment?
+  utter_ask_transfer_money_form_continue_form:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transfer
+    text: Would you like to continue scheduling the money transfer?
   utter_ask_cc_payment_form_confirm:
   - buttons:
     - payload: /affirm
@@ -222,7 +229,7 @@ actions:
 - action_show_balance
 - action_session_start
 - action_restart
-- action_recipients
+- action_show_recipients
 - action_handoff
 - action_handoff_options
 - action_pay_cc
@@ -233,7 +240,7 @@ actions:
 - validate_transaction_search_form
 forms:
   cc_payment_form:
-    continue:
+    continue_form:
     - type: from_intent
       intent: affirm
       value: yes
@@ -275,6 +282,15 @@ forms:
     - type: from_text
       intent: inform
   transfer_money_form:
+    continue_form:
+    - type: from_intent
+      intent: affirm
+      value: yes
+    - type: from_intent
+      intent: deny
+      value: no
+    - type: from_text
+      intent: inform
     PERSON:
     - type: from_entity
       entity: PERSON

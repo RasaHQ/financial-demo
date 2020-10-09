@@ -36,7 +36,7 @@ rules:
 - rule: Show list of known recipients
   steps:
   - intent: check_recipients
-  - action: action_recipients
+  - action: action_show_recipients
   
 - rule: Show balance (bank account or credit card, based on account_type)
   steps:
@@ -65,7 +65,7 @@ rules:
   - action: transfer_money_form
   - active_loop: transfer_money_form
   
-- rule: Submit transfer_money_form after all slots are filled
+- rule: Submit transfer_money_form
   condition:
   - active_loop: transfer_money_form
   steps:
