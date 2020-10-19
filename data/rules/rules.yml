@@ -1,4 +1,4 @@
-version: '2'
+version: "2.0"
 
 rules:
 
@@ -22,16 +22,11 @@ rules:
   steps:
   - intent: thankyou
   - action: utter_noworries
-
-- rule: Always utter_ok after an affirm
-  steps:
-  - intent: affirm
-  - action: utter_ok
   
 - rule: is there a transfer charge
   steps:
   - intent: ask_transfer_charge
-  - action: utter_transfer_charge
+  - action: action_show_transfer_charge
   
 - rule: Show list of known recipients
   steps:
@@ -43,56 +38,73 @@ rules:
   - intent: check_balance
   - action: action_show_balance
         
-- rule: Activate cc_payment_form
+- rule: Activate cc_payment_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
   steps:
   - intent: pay_cc
   - action: cc_payment_form
   - active_loop: cc_payment_form
   
-- rule: Submit cc_payment_form
+- rule: Activate transfer_money_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
+  steps:
+  - intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  
+- rule: Activate transaction_search_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
+  steps:
+  - or:
+    - intent: search_transactions
+    - intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+- rule: Submit cc_payment_form while not switched from previous form
   condition:
   - active_loop: cc_payment_form
+  - slot_was_set:
+    - previous_form_name: null
   steps:
   - action: cc_payment_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: action_pay_cc
+  # allows the switch-back stories to predict next action
+  #wait_for_user_input: false
   
-- rule: Activate transfer_money_form
-  steps:
-  - intent: transfer_money
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
-  
-- rule: Submit transfer_money_form
+- rule: Submit transfer_money_form while not switched from previous form
   condition:
   - active_loop: transfer_money_form
+  - slot_was_set:
+    - previous_form_name: null
   steps:
   - action: transfer_money_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: action_transfer_money
-
-- rule: Activate transaction_search_form from search_transactions intent
-  steps:
-  - intent: search_transactions
-  - action: transaction_search_form
-  - active_loop: transaction_search_form
-
-- rule: Activate transaction_search_form from check_earnings intent
-  steps:
-  - intent: check_earnings
-  - action: transaction_search_form
-  - active_loop: transaction_search_form
+  # allows the switch-back stories to predict next action
+  #wait_for_user_input: false
   
-- rule: Submit transaction_search_form
+- rule: Submit transaction_search_form while not switched from previous form
   condition:
   - active_loop: transaction_search_form
+  - slot_was_set:
+    - previous_form_name: null
   steps:
   - action: transaction_search_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: action_transaction_search
+  # allows the switch-back stories to predict next action
+  #wait_for_user_input: false

@@ -31,7 +31,7 @@ stories:
   - user: |
       is there a transfer charge
     intent: ask_transfer_charge
-  - action: utter_transfer_charge
+  - action: action_show_transfer_charge
 
 - story: Show list of known recipients
   steps:
@@ -237,7 +237,7 @@ stories:
     intent: check_balance
   - action: action_show_balance
   
-- story: Pay CC, while active user asks account balance, deny continue
+- story: Pay CC, while in form ask account balance
   steps:
   - user: |
       pay [credit card]{"entity": "account_type", "value": "credit"}
@@ -254,30 +254,14 @@ stories:
   - slot_was_set:
     - account_type: bank
   - action: action_show_balance
-  - slot_was_set:
-    - amount-of-money: null
-  - slot_was_set:
-    - account_type: null
-  - slot_was_set:
-    - continue_form: null
   - action: cc_payment_form
-  - slot_was_set:
-    - requested_slot: continue_form
-  - slot_was_set:
-    - continue_form: no
-  - slot_was_set:
-    - requested_slot: null
-  - slot_was_set:
-    - confirm: no
-  - slot_was_set:
-    - repeated_validation_failures: 0
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: action_pay_cc
   
 
-- story: transfer money happy path, while in form ask transfer charge
+- story: transfer money, while in form ask transfer charge
   steps:
   - user: |
       i want to transfer money
@@ -287,14 +271,14 @@ stories:
   - user: |
       is there a transfer charge
     intent: ask_transfer_charge
-  - action: utter_transfer_charge
+  - action: action_show_transfer_charge
   - action: transfer_money_form
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: action_transfer_money
     
-- story: transfer money happy path, while in form ask known recipients
+- story: transfer money, while in form ask known recipients
   steps:
   - user: |
       i want to transfer money
@@ -311,7 +295,7 @@ stories:
   - active_loop: null
   - action: action_transfer_money
 
-- story: transfer money happy path, while in form ask account
+- story: transfer money, while in form ask balance
   steps:
   - user: |
       i want to transfer money
@@ -328,7 +312,7 @@ stories:
   - active_loop: null
   - action: action_transfer_money
   
-- story: transfer money happy path, while in form ask known recipients and transfer charge
+- story: transfer money, while in form ask known recipients and transfer charge
   steps:
   - user: |
       i want to transfer money
@@ -343,9 +327,91 @@ stories:
   - user: |
       is there a transfer charge
     intent: ask_transfer_charge
-  - action: utter_transfer_charge
+  - action: action_show_transfer_charge
   - action: transfer_money_form
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: action_transfer_money
+
+- story: search transactions + switch to transfer money, deny
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - intent: deny
+  - action: action_switch_forms_deny
+  - action: transaction_search_form
+  - active_loop: transaction_search_form  
+
+- story: search transactions + switch to transfer money, affirm + switch back, deny
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - user: |
+      Yes
+    intent: affirm
+  - action: utter_ok
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - user: |
+      No
+    intent: deny
+  - action: utter_ask_whatelse  
+  
+- story: search transactions + switch to transfer money, affirm + switch back, affirm
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - user: |
+      Yes
+    intent: affirm
+  - action: utter_ok
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - user: |
+      Yes
+    intent: affirm
+  - action: utter_ok
+  - action: transaction_search_form
+  - active_loop: transaction_search_form

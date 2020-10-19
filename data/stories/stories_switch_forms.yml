@@ -1,0 +1,103 @@
+version: "2.0"
+
+stories:
+
+- story: search transactions + switch to transfer money, deny
+  steps:
+  - or:
+    - intent: search_transactions
+    - intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - intent: transfer_money
+  - action: action_switch_forms_ask
+  - intent: deny
+  - action: action_switch_forms_deny
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+- story: search transactions + switch to transfer money, affirm + switch back, deny
+  steps:
+  - or:
+    - intent: search_transactions
+    - intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - intent: transfer_money
+  - action: action_switch_forms_ask
+  - intent: affirm
+  - action: utter_ok
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: deny
+  - action: utter_ask_whatelse
+
+- story: search transactions + switch to transfer money, affirm + switch back, affirm
+  steps:
+  - or:
+    - intent: search_transactions
+    - intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - intent: transfer_money
+  - action: action_switch_forms_ask
+  - intent: affirm
+  - action: utter_ok
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: utter_ok
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+
+
+
+#- story: Transfer money pay credit card
+#  steps:
+#  - intent: transfer_money
+#  - action: transfer_money_form
+#  - active_loop: transfer_money_form
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#  - action: utter_ask_back_to_transfer
+#  - intent: affirm
+#  - action: transfer_money_form
+#  - active_loop: transfer_money_form
+#  - active_loop: null
+#- story: Transfer money pay credit card
+#  steps:
+#  - intent: transfer_money
+#  - action: transfer_money_form
+#  - active_loop: transfer_money_form
+#  - intent: pay_cc
+#  - action: cc_payment_form
+#  - active_loop: cc_payment_form
+#  - active_loop: null
+#  - action: utter_ask_back_to_transfer
+#  - intent: deny
+#  - action: utter_ok
+#
+

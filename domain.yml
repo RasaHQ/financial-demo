@@ -41,6 +41,11 @@ entities:
 - account_type
 - handoff_to
 slots:
+  next_form_name:
+    type: any
+  previous_form_name:
+    type: text
+    influence_conversation: true
   repeated_validation_failures:
     type: any
   account_type:
@@ -146,16 +151,8 @@ responses:
   - text: I found {numtransacts} deposits made to your account totalling {currency}{total}
   utter_ask_rephrase:
   - text: I didn't quite understand that. Can you rephrase?
-  utter_ask_switch_goal:
-  - text: We haven't completed the transaction search yet. Are you sure you want to
-      switch to transfer money?
-  utter_ask_back_to_transact:
-  - text: Would you like to go back to the transaction search now?
-  utter_ask_back_to_transfer:
-  - text: Would you like to go back to transferring money now?
   utter_ok:
   - text: 👍
-  - text: ok
   utter_ask_continue:
   - text: Would you like to continue?
   utter_default:
@@ -235,16 +232,21 @@ responses:
         \n- What did I spend at Target last month?
         \n- I need to transfer money"
 actions:
-- action_show_balance
 - action_session_start
 - action_restart
+- action_show_balance
 - action_show_recipients
+- action_show_transfer_charge
 - action_handoff
 - action_handoff_options
 - action_pay_cc
 - action_transfer_money
 - action_transaction_search
 - action_ask_transaction_search_form_confirm
+- action_switch_forms_ask
+- action_switch_forms_deny
+- action_switch_forms_affirm
+- action_switch_back_ask
 - validate_cc_payment_form
 - validate_transfer_money_form
 - validate_transaction_search_form
@@ -258,12 +260,16 @@ forms:
       intent: deny
       value: no
     - type: from_text
-      intent: inform
+      intent: 
+      - inform
+      - cc_payment_form
     credit_card:
     - type: from_entity
       entity: credit_card
     - type: from_text
-      intent: inform
+      intent: 
+      - inform
+      - cc_payment_form
     amount-of-money:
     - type: from_entity
       entity: amount-of-money
@@ -276,12 +282,16 @@ forms:
       - check_balance
       - check_earnings
     - type: from_text
-      intent: inform
+      intent: 
+      - inform
+      - cc_payment_form
     time:
     - type: from_entity
       entity: time
     - type: from_text
-      intent: inform
+      intent: 
+      - inform
+      - cc_payment_form
     confirm:
     - type: from_intent
       intent: affirm
@@ -290,7 +300,9 @@ forms:
       intent: deny
       value: no
     - type: from_text
-      intent: inform
+      intent: 
+      - inform
+      - cc_payment_form
   transfer_money_form:
     continue_form:
     - type: from_intent
@@ -300,12 +312,16 @@ forms:
       intent: deny
       value: no
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transfer_money_form
     PERSON:
     - type: from_entity
       entity: PERSON
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transfer_money_form
     amount-of-money:
     - type: from_entity
       entity: amount-of-money
@@ -318,7 +334,9 @@ forms:
       - check_balance
       - check_earnings
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transfer_money_form
     confirm:
     - type: from_intent
       intent: affirm
@@ -327,7 +345,9 @@ forms:
       intent: deny
       value: no
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transfer_money_form
   transaction_search_form:
     continue_form:
     - type: from_intent
@@ -337,7 +357,9 @@ forms:
       intent: deny
       value: no
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transaction_search_form
     search_type:
     - type: from_trigger_intent
       intent: search_transactions
@@ -349,7 +371,9 @@ forms:
     - type: from_entity
       entity: time
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transaction_search_form
     confirm:
     - type: from_intent
       intent: affirm
@@ -358,4 +382,6 @@ forms:
       intent: deny
       value: no
     - type: from_text
-      intent: inform
+      intent:
+      - inform
+      - transaction_search_form
