@@ -26,8 +26,8 @@ intents:
 - session_start
 - restart
 - trigger_handoff
-- human_handoff
 - handoff
+- human_handoff
 - help
 
 entities:

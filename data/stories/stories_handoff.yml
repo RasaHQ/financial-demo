@@ -5,27 +5,22 @@ stories:
 #
 #- story: handoff
 #  steps:
-#  - checkpoint: STORY_START
 #  - intent: human_handoff
 #  - action: utter_ask_handoff
 #  - action: action_handoff_options
 #  - intent: trigger_handoff
 #  - action: action_handoff
-#- story: handoff
+#- story: Handoff to helpdesk
 #  steps:
-#  - checkpoint: STORY_START
 #  - intent: human_handoff
 #  - action: utter_ask_handoff
 #  - action: action_handoff_options
 #  - intent: trigger_handoff
-#    user: |-
-#      trigger_handoff{"handoff_to":"financial_demo"}
 #    entities:
-#    - handoff_to: financial_demo
+#    - handoff_to: helpdesk_assistant
 #  - action: action_handoff
 #- story: handoff deny
 #  steps:
-#  - checkpoint: STORY_START
 #  - intent: human_handoff
 #  - action: utter_ask_handoff
 #  - action: action_handoff_options

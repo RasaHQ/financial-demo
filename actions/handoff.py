@@ -23,9 +23,7 @@ class ActionHandoffOptions(Action):
         domain: Dict[Text, Any],
     ) -> List[EventType]:
 
-        if not any(
-            [config.get("url") for bot, config in handoff_config.items()]
-        ):
+        if not any([config.get("url") for bot, config in handoff_config.items()]):
             dispatcher.utter_message(template="utter_no_handoff")
         else:
             buttons = [
@@ -36,8 +34,10 @@ class ActionHandoffOptions(Action):
                 for bot, config in handoff_config.items()
             ]
             dispatcher.utter_message(
-                text="I can't transfer you to a human, \
-                     but I can transfer you to one of these bots",
+                text=(
+                    "I can't transfer you to a human, "
+                    "but I can transfer you to one of these bots"
+                ),
                 buttons=buttons,
             )
         return []

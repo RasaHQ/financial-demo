@@ -1,9 +1,26 @@
-version: '2'
+version: "2.0"
 
 rules:
 
-- rule: Greet the user upon handoff
+- rule: Greet user upon handoff from another bot
   steps:
   - intent: handoff
   - action: utter_greet
   
+- rule: Provide handoff options
+  steps:
+  - intent: human_handoff
+  - action: utter_ask_handoff
+  - action: action_handoff_options
+  
+- rule: Execute handoff
+  steps:
+  - action: action_handoff_options
+  - intent: trigger_handoff
+  - action: action_handoff
+
+- rule: Deny handoff
+  steps:
+  - action: action_handoff_options
+  - intent: deny
+  - action: utter_ask_whatelse

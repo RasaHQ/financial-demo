@@ -360,6 +360,8 @@ nlu:
     - What are the things that you can do?
 - intent: human_handoff
   examples: |
+    - handoff
+    - operator
     - I want a human
     - can I speak to an agent
     - real agent please
