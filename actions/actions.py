@@ -103,11 +103,11 @@ class MyFormValidationAction(FormValidationAction):
         domain: Dict,
         events: List[EventType],
     ) -> List[EventType]:
-        """Updates the slot repeated_validation_failures, and throws
-        ActionExecutionRejection when the threshold is reached.
+        """Updates the slot repeated_validation_failures, and sets required form slot
+        `continue_form` to None when the threshold is reached.
 
-        This allows other policies to predict another action, for example, based on
-        a rule or a story.
+        This will trigger utter_ask_{form}_continue_form, asking the user if they want
+        to continue with this form or not.
         """
         rvf_events = []
         requested_slot = tracker.get_slot("requested_slot")
