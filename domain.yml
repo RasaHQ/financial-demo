@@ -42,7 +42,8 @@ entities:
 - handoff_to
 slots:
   next_form_name:
-    type: any
+    type: text
+    influence_conversation: true
   previous_form_name:
     type: text
     influence_conversation: true

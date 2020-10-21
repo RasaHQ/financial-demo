@@ -123,7 +123,7 @@ stories:
 - story: transfer money happy path w/ recipient
   steps:
   - user: |
-      i want to transfer money to [John](PERSON)[John](PERSON)
+      i want to transfer money to [Latisha](PERSON)
     intent: transfer_money
     entities:
     - PERSON: John
@@ -137,7 +137,7 @@ stories:
 - story: check earnings happy path
   steps:
   - user: |
-      how much did I earn [in Jan 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}
+      how much did I earn [in jan 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}
     intent: check_earnings
   - action: transaction_search_form
   - active_loop: transaction_search_form
@@ -397,8 +397,12 @@ stories:
       transfer money
     intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: cc_payment_form
   - active_loop: cc_payment_form
 
@@ -413,8 +417,12 @@ stories:
       check earnings
     intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: cc_payment_form
   - active_loop: cc_payment_form
   
@@ -429,8 +437,12 @@ stories:
       transfer money
     intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: transaction_search_form
   - active_loop: transaction_search_form  
   
@@ -445,8 +457,12 @@ stories:
       pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: transaction_search_form
   - active_loop: transaction_search_form
   
@@ -461,8 +477,12 @@ stories:
       check earnings
     intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: transfer_money_form
   - active_loop: transfer_money_form
 
@@ -477,8 +497,12 @@ stories:
       pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: transfer_money_form
   - active_loop: transfer_money_form
 
@@ -493,8 +517,12 @@ stories:
       check earnings
     intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transaction_search_form
@@ -520,8 +548,12 @@ stories:
       transfer money
     intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transfer_money_form
@@ -547,10 +579,14 @@ stories:
       transfer money
     intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - user: |
       Yes
     intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transaction_search_form
   - action: transfer_money_form
@@ -578,8 +614,12 @@ stories:
       pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transaction_search_form
   - action: cc_payment_form
@@ -605,8 +645,12 @@ stories:
       check earnings
     intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transfer_money_form
   - action: transaction_search_form
@@ -632,8 +676,12 @@ stories:
       pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transfer_money_form
   - action: cc_payment_form
@@ -659,8 +707,12 @@ stories:
       check earnings
     intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transaction_search_form
@@ -687,8 +739,12 @@ stories:
       transfer money
     intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transfer_money_form
@@ -715,10 +771,14 @@ stories:
       transfer money
     intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - user: |
       Yes
     intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transaction_search_form
   - action: transfer_money_form
@@ -747,8 +807,12 @@ stories:
       pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transaction_search_form
   - action: cc_payment_form
@@ -775,8 +839,12 @@ stories:
       check earnings
     intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transfer_money_form
   - action: transaction_search_form
@@ -803,8 +871,12 @@ stories:
       pay [credit card]{"entity": "account_type", "value": "credit"}
     intent: pay_cc
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: transfer_money_form
   - action: cc_payment_form
@@ -819,15 +891,21 @@ stories:
   - intent: affirm
   - action: transfer_money_form
   - active_loop: transfer_money_form
-
-- story: providing a name must be inform intent
-  steps:
-  - user: |
-      [Lisa](PERSON)
-    intent: inform
     
 - story: providing a name must be inform intent
   steps:
   - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - continue_form: yes
+  - slot_was_set:
+    - requested_slot: PERSON
+  - user: |
       [lisa](PERSON)
     intent: inform
+  - slot_was_set:
+    - requested_slot: amount-of-money
+  - action: transfer_money_form

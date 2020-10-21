@@ -12,8 +12,12 @@ stories:
     - intent: check_earnings
     - intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: another form
   - intent: deny
   - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
   - action: cc_payment_form
   - active_loop: cc_payment_form
     
@@ -26,9 +30,12 @@ stories:
     - intent: search_transactions
     - intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: affirm
-  - action: utter_ok
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transaction_search_form
@@ -50,8 +57,12 @@ stories:
   - active_loop: cc_payment_form
   - intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transfer_money_form
@@ -75,8 +86,12 @@ stories:
     - intent: search_transactions
     - intent: check_earnings
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transaction_search_form
@@ -99,8 +114,12 @@ stories:
   - active_loop: cc_payment_form
   - intent: transfer_money
   - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
   - intent: affirm
   - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
   - slot_was_set:
     - previous_form_name: cc_payment_form
   - action: transfer_money_form
