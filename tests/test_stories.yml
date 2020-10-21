@@ -123,7 +123,7 @@ stories:
 - story: transfer money happy path w/ recipient
   steps:
   - user: |
-      i want to transfer money to John
+      i want to transfer money to [John](PERSON)
     intent: transfer_money
     entities:
     - PERSON: John
