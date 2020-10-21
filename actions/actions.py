@@ -595,6 +595,11 @@ class ValidateTransferMoneyForm(MyFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'PERSON' slot"""
+        # It is possible that both Spacy & DIET extracted the PERSON
+        # Just pick the first one
+        if isinstance(value, list):
+            value = value[0]
+
         name = value.title() if value else None
         known_recipients = tracker.get_slot("known_recipients")
         first_names = [name.split()[0] for name in known_recipients]
