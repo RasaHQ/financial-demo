@@ -310,8 +310,8 @@ nlu:
     - I want to pay someone
     - can I pay someone
     - I need to transfer money to a friend
-    - can I transfer money to [my mom](PERSON)
-    - I want to pay [Bill](PERSON)
+    - can I transfer money to my [mom](PERSON)
+    - I want to pay [Bert](PERSON)
     - pay my friend
     - transfer money
     - I want to transfer $100 to [Tommy](PERSON)
@@ -339,6 +339,7 @@ nlu:
     - transfer money to [ethan oswald](PERSON)
     - transfer money to [sara](PERSON)
     - I need to transfer money to my grandma [Judith](PERSON).
+    - i want to transfer money to [Latisha](PERSON)
 - intent: check_recipients
   examples: |
     - Who can I send money to?

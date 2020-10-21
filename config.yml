@@ -30,6 +30,6 @@ pipeline:
   - name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
-- name: RulePolicy
 - name: TEDPolicy
   epochs: 40
+- name: RulePolicy

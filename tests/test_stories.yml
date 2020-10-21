@@ -126,9 +126,9 @@ stories:
       i want to transfer money to [Latisha](PERSON)
     intent: transfer_money
     entities:
-    - PERSON: John
+    - PERSON: Latisha
   - slot_was_set:
-    - PERSON: John
+    - PERSON: Latisha
   - action: transfer_money_form
   - active_loop: transfer_money_form
   - active_loop: null
@@ -137,7 +137,7 @@ stories:
 - story: check earnings happy path
   steps:
   - user: |
-      how much did I earn [in jan 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}
+      how much did I earn [in January 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}
     intent: check_earnings
   - action: transaction_search_form
   - active_loop: transaction_search_form
