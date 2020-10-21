@@ -2,26 +2,26 @@ version: "2.0"
 
 stories:
 
-- story: transfer money + switch to search transactions or pay credit card, deny
+- story: pay credit card + switch to search transactions or transfer money, deny
   steps:
-  - intent: transfer_money
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
   - or:
     - intent: search_transactions
     - intent: check_earnings
-    - intent: pay_cc
+    - intent: transfer_money
   - action: action_switch_forms_ask
   - intent: deny
   - action: action_switch_forms_deny
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
-
-- story: transfer money + switch to search transactions, affirm + switch back, deny
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+    
+- story: pay credit card + switch to search transactions, affirm + switch back, deny
   steps:
-  - intent: transfer_money
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
   - or:
     - intent: search_transactions
     - intent: check_earnings
@@ -30,7 +30,7 @@ stories:
   - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
-    - previous_form_name: transfer_money_form
+    - previous_form_name: cc_payment_form
   - action: transaction_search_form
   - active_loop: transaction_search_form
   - active_loop: null
@@ -43,35 +43,35 @@ stories:
   - intent: deny
   - action: utter_ask_whatelse
 
-- story: transfer money + switch to pay credit card, affirm + switch back, deny
+- story: pay credit card + switch to transfer money, affirm + switch back, deny
   steps:
-  - intent: transfer_money
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
   - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - intent: transfer_money
   - action: action_switch_forms_ask
   - intent: affirm
   - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
-    - previous_form_name: transfer_money_form
-  - action: cc_payment_form
-  - active_loop: cc_payment_form
+    - previous_form_name: cc_payment_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - action: action_pay_cc
+  - action: action_transfer_money
   - action: action_switch_back_ask
   - slot_was_set:
     - previous_form_name: null
   - intent: deny
   - action: utter_ask_whatelse
   
-- story: transfer money+ switch to search transactions, affirm + switch back, affirm
+- story: pay credit card + switch to search transactions, affirm + switch back, affirm
   steps:
-  - intent: transfer_money
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
   - or:
     - intent: search_transactions
     - intent: check_earnings
@@ -80,7 +80,7 @@ stories:
   - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
-    - previous_form_name: transfer_money_form
+    - previous_form_name: cc_payment_form
   - action: transaction_search_form
   - active_loop: transaction_search_form
   - active_loop: null
@@ -92,31 +92,31 @@ stories:
     - previous_form_name: null
   - intent: affirm
   - action: utter_ok
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
-
-- story: transfer money+ switch to pay credit card, affirm + switch back, affirm
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  
+- story: pay credit card + switch to transfer money, affirm + switch back, affirm
   steps:
-  - intent: transfer_money
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
   - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - intent: transfer_money
   - action: action_switch_forms_ask
   - intent: affirm
   - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
-    - previous_form_name: transfer_money_form
-  - action: cc_payment_form
-  - active_loop: cc_payment_form
+    - previous_form_name: cc_payment_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - action: action_pay_cc
+  - action: action_transfer_money
   - action: action_switch_back_ask
   - slot_was_set:
     - previous_form_name: null
   - intent: affirm
   - action: utter_ok
-  - action: transfer_money_form
-  - active_loop: transfer_money_form
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
