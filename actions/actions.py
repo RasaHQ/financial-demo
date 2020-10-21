@@ -30,7 +30,7 @@ from actions.profile import create_mock_profile
 logger = logging.getLogger(__name__)
 
 
-MAX_VALIDATION_FAILURES = 1
+MAX_VALIDATION_FAILURES = 2
 
 NEXT_FORM_NAME = {
     "pay_cc": "cc_payment_form",
