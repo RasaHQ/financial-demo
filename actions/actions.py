@@ -722,12 +722,11 @@ class ActionShowBalance(Action):
                     init_account_balance=f"{account_balance:.2f}",
                 )
 
-        # Make sure this action, which is triggered by a rule, is not influencing any
-        # story predictions.
-        events = [UserUtteranceReverted()]
-
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
+            # When in a form, make sure this action, which is triggered by a rule, is
+            # not influencing the story predictions.
+            events = [UserUtteranceReverted()]
             # Always continue with the form
             events.append(FollowupAction(active_form_name))
             # Trigger utter_ask_{form}_continue_form
@@ -754,12 +753,11 @@ class ActionShowRecipients(Action):
             formatted_recipients=formatted_recipients,
         )
 
-        # Make sure this action, which is triggered by a rule, is not influencing any
-        # story predictions.
-        events = [UserUtteranceReverted()]
-
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
+            # When in a form, make sure this action, which is triggered by a rule, is
+            # not influencing the story predictions.
+            events = [UserUtteranceReverted()]
             # Always continue with the form
             events.append(FollowupAction(active_form_name))
             # Trigger utter_ask_{form}_continue_form
@@ -779,12 +777,11 @@ class ActionShowTransferCharge(Action):
         """Executes the custom action"""
         dispatcher.utter_message(template="utter_transfer_charge")
 
-        # Make sure this action, which is triggered by a rule, is not influencing any
-        # story predictions.
-        events = [UserUtteranceReverted()]
-
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
+            # When in a form, make sure this action, which is triggered by a rule, is
+            # not influencing the story predictions.
+            events = [UserUtteranceReverted()]
             # Always continue with the form
             events.append(FollowupAction(active_form_name))
             # Trigger utter_ask_{form}_continue_form
