@@ -11,18 +11,23 @@ pipeline:
     max_ngram: 4
   - name: DIETClassifier
     epochs: 100
-  - name: EntitySynonymMapper
   - name: DucklingEntityExtractor
     url: http://localhost:8000
     dimensions:
     - amount-of-money
     - time
     - number
-  - name: "SpacyNLP"
+  - name: SpacyNLP
     model: "en_core_web_md"
+    case_sensitive: false
   - name: "SpacyEntityExtractor"
+    # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in 
+    #       combination with the WhitespaceTokenizer, and as a result the
+    #       PERSON extraction by Spacy is not very robust.
+    #       Because of this, the nlu training data is annotated as well, and the
+    #       DIETClassifier will also extract PERSON entities.
     dimensions: ["PERSON"]
-
+  - name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
 - name: RulePolicy

@@ -129,9 +129,7 @@ nlu:
     - hey
     - good evening
     - hello
-    - Hey RASA!
     - Hello?
-    - Hey Sara!
     - HEY
     - hello are you still there
     - hallo
@@ -216,10 +214,20 @@ nlu:
     - my [credit card]{"entity": "account_type", "value": "credit"} account ending in 4321
     - My [Visa](credit_card) account
     - A friend.
-    - Alexandra?
+    - [Alexandra](PERSON)?
     - today please
     - [Iron Bank](credit_card)
     - My [visa](credit_card)
+    - [Bob](PERSON)
+    - [bill](PERSON)
+    - [anusha](PERSON)
+    - [John](PERSON)
+    - [gary](PERSON)
+    - [Claire](PERSON)
+    - [Imani](PERSON)
+    - [darnell](PERSON)
+    - [Guangchen](PERSON)
+    - [cheng](PERSON)
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -295,42 +303,42 @@ nlu:
     - Thanks!
 - intent: transfer_money
   examples: |
-    - I want to pay John
-    - I want to transfer $100 to Bob
-    - can i transfer money to Sally
+    - I want to pay [John](PERSON)
+    - I want to transfer $100 to [Bob](PERSON)
+    - can i transfer money to [Sally](PERSON)
     - I want to transfer money
     - I want to pay someone
     - can I pay someone
     - I need to transfer money to a friend
-    - can I transfer money to my mom
-    - I want to pay Bill
+    - can I transfer money to [my mom](PERSON)
+    - I want to pay [Bill](PERSON)
     - pay my friend
     - transfer money
-    - I want to transfer $100 to John
-    - i want to transfer $400 to Akela
-    - I want to pay Paula Handy
+    - I want to transfer $100 to [Tommy](PERSON)
+    - i want to transfer $400 to [Akela](PERSON)
+    - I want to pay [Paula Handy](PERSON)
     - pay Katy Parrow $40 please
-    - transfer $60 to John Jacob
-    - pay Evan Oslo
-    - pay Lisa please
-    - can I transfer money to Kyle Gardner?
-    - Pay Karen 60 Euros
-    - pay Lisa $60
-    - transfer $60 to Sally
+    - transfer $60 to [Jason Jacob](PERSON)
+    - pay [Evan Oslo](PERSON)
+    - pay [Lisa](PERSON) please
+    - can I transfer money to [Kyle Gardner](PERSON)?
+    - Pay [Karen](PERSON) 60 Euros
+    - pay [Mona](PERSON) $60
+    - transfer $60 to [Sally](PERSON)
     - need to transfer money
-    - II want to transfer to Kelly
-    - Pay Percy $50
-    - Pay $50 to Percy
-    - Ok pay Emma
-    - pay Emma
-    - i want to transfer $100 to Jane smith
-    - i want to transfer $100 to my daughter
+    - II want to transfer to [Kelly](PERSON)
+    - Pay [Percy](PERSON) $50
+    - Pay $50 to [Pat](PERSON)
+    - Ok pay [Emma](PERSON)
+    - pay [Emanual](PERSON)
+    - i want to transfer $100 to [Jane smith](PERSON)
+    - i want to transfer $100 to [my daughter](PERSON)
     - i want to transfer money please
     - i mean i want to transfer money
     - I need to pay a friend.
-    - transfer money to evan oslo
-    - transfer money to sara
-    - I need to transfer money to my grandma Judith.
+    - transfer money to [ethan oswald](PERSON)
+    - transfer money to [sara](PERSON)
+    - I need to transfer money to my grandma [Judith](PERSON).
 - intent: check_recipients
   examples: |
     - Who can I send money to?

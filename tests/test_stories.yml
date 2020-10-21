@@ -123,7 +123,7 @@ stories:
 - story: transfer money happy path w/ recipient
   steps:
   - user: |
-      i want to transfer money to [John](PERSON)
+      i want to transfer money to [John](PERSON)[John](PERSON)
     intent: transfer_money
     entities:
     - PERSON: John
@@ -819,3 +819,15 @@ stories:
   - intent: affirm
   - action: transfer_money_form
   - active_loop: transfer_money_form
+
+- story: providing a name must be inform intent
+  steps:
+  - user: |
+      [Lisa](PERSON)
+    intent: inform
+    
+- story: providing a name must be inform intent
+  steps:
+  - user: |
+      [lisa](PERSON)
+    intent: inform
