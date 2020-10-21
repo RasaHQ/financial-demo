@@ -17,7 +17,7 @@ rules:
   steps:
   - intent: help
   - action: utter_help
-  
+
 - rule: thankyou
   steps:
   - intent: thankyou
