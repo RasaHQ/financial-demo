@@ -27,7 +27,6 @@ stories:
     - intent: check_earnings
   - action: action_switch_forms_ask
   - intent: affirm
-  - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
     - previous_form_name: transfer_money_form
@@ -51,7 +50,6 @@ stories:
   - intent: pay_cc
   - action: action_switch_forms_ask
   - intent: affirm
-  - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
     - previous_form_name: transfer_money_form
@@ -77,7 +75,6 @@ stories:
     - intent: check_earnings
   - action: action_switch_forms_ask
   - intent: affirm
-  - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
     - previous_form_name: transfer_money_form
@@ -91,7 +88,6 @@ stories:
   - slot_was_set:
     - previous_form_name: null
   - intent: affirm
-  - action: utter_ok
   - action: transfer_money_form
   - active_loop: transfer_money_form
 
@@ -103,7 +99,6 @@ stories:
   - intent: pay_cc
   - action: action_switch_forms_ask
   - intent: affirm
-  - action: utter_ok
   - action: action_switch_forms_affirm
   - slot_was_set:
     - previous_form_name: transfer_money_form
@@ -117,6 +112,5 @@ stories:
   - slot_was_set:
     - previous_form_name: null
   - intent: affirm
-  - action: utter_ok
   - action: transfer_money_form
   - active_loop: transfer_money_form
