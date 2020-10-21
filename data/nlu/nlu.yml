@@ -228,6 +228,9 @@ nlu:
     - [darnell](PERSON)
     - [Guangchen](PERSON)
     - [cheng](PERSON)
+    - to my [brother](PERSON)
+    - to my [sister](PERSON)
+    - my [dad](PERSON)
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)

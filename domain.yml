@@ -157,7 +157,7 @@ responses:
   utter_ask_continue:
   - text: Would you like to continue?
   utter_default:
-  - text: Sorry, I didn't get that. Could you rephrase?
+  - text: I didn't quite understand that. Could you rephrase?
   utter_ask_cc_payment_form_continue_form:
   - buttons:
     - payload: /affirm
