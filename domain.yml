@@ -23,6 +23,7 @@ intents:
 - check_earnings:
     use_entities: []
 - check_recipients
+- out_of_scope
 - session_start
 - restart
 - trigger_handoff
@@ -104,6 +105,8 @@ slots:
   handoff_to:
     type: any
 responses:
+  utter_out_of_scope:
+  - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
   utter_ask_transfer_money_form_amount-of-money:
   - text: How much money do you want to transfer?
   utter_ask_transfer_money_form_PERSON:

@@ -25,6 +25,13 @@ stories:
       how do I use this
     intent: help
   - action: utter_help
+
+- story: out of scope
+  steps:
+  - user: |
+      I want to order a pizza
+    intent: out_of_scope
+  - action: utter_out_of_scope
   
 - story: is there a transfer charge
   steps:

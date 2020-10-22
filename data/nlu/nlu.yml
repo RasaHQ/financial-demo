@@ -383,6 +383,20 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
+- intent: out_of_scope
+  examples: |
+    - what is the square root of 5
+    - I want to know the weather
+    - what is the meaning of life.
+    - Fridge Isn't Running
+    - my tv isn't working
+    - I want a pizza
+    - my washing machine isn't working
+    - what year is it
+    - order a pizza
+    - I want to order a pizza
+    - what is the weather today
+    - what is the weather
 - synonym: credit
   examples: |
     - credit card

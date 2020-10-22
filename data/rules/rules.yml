@@ -6,6 +6,11 @@ rules:
   steps:
   - intent: nlu_fallback
   - action: utter_default
+
+- rule: answer out of scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
     
 - rule: greet
   steps:
