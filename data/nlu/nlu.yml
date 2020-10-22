@@ -335,7 +335,7 @@ nlu:
     - Ok pay [Emma](PERSON)
     - pay [Emanual](PERSON)
     - i want to transfer $100 to [Jane smith](PERSON)
-    - i want to transfer $100 to [my daughter](PERSON)
+    - i want to transfer $100 to my [daughter](PERSON)
     - i want to transfer money please
     - i mean i want to transfer money
     - I need to pay a friend.

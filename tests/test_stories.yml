@@ -1,5 +1,6 @@
 version: "2.0"
 stories:
+  
 - story: greet/bye path
   steps:
   - user: |
@@ -766,6 +767,7 @@ stories:
   - intent: affirm
   - action: cc_payment_form
   - active_loop: cc_payment_form
+
   
 - story: search transactions + switch to transfer money, affirm + switch back, affirm
   steps:
@@ -916,3 +918,4 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+  
