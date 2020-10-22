@@ -611,7 +611,7 @@ class ValidateTransferMoneyForm(MyFormValidationAction):
             fullname = known_recipients[index]
             return {"PERSON": fullname}
 
-        dispatcher.utter_message(template="utter_unknown_recipient")
+        dispatcher.utter_message(template="utter_unknown_recipient", PERSON=value)
         return {"PERSON": None}
 
     async def explain_PERSON(
