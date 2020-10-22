@@ -91,9 +91,7 @@ class MyFormValidationAction(FormValidationAction):
         events.extend(await super().validate(dispatcher, tracker, domain))
 
         events.extend(
-            await self.repeated_validation_failures(
-                dispatcher, tracker, domain, events
-            )
+            await self.repeated_validation_failures(dispatcher, tracker, domain, events)
         )
 
         return events
@@ -203,9 +201,7 @@ class MyFormValidationAction(FormValidationAction):
                 slot_value, dispatcher, tracker, domain
             )
         else:
-            explanation_output = explain_func(
-                slot_value, dispatcher, tracker, domain
-            )
+            explanation_output = explain_func(slot_value, dispatcher, tracker, domain)
 
         if explanation_output:
             slots.update(explanation_output)
@@ -251,9 +247,7 @@ class ActionPayCC(Action):
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             amount_transferred = float(tracker.get_slot("amount_transferred"))
 
-            cc_balance[credit_card.lower()][
-                "current balance"
-            ] -= amount_of_money
+            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
             account_balance = account_balance - amount_of_money
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
@@ -351,9 +345,7 @@ class ValidatePayCCForm(MyFormValidationAction):
         dispatcher.utter_message("You have the following credits cards:")
         credit_card_balance = tracker.get_slot("credit_card_balance")
         for credit_card in credit_card_balance.keys():
-            current_balance = credit_card_balance[credit_card][
-                "current balance"
-            ]
+            current_balance = credit_card_balance[credit_card]["current balance"]
             dispatcher.utter_message(
                 template="utter_credit_card_balance",
                 **{
@@ -442,10 +434,7 @@ class ActionTransactionSearch(Action):
                 transaction = transactions[i]
                 transaction_date = parser.isoparse(transaction.get("date"))
 
-                if (
-                    transaction_date < start_time
-                    or transaction_date > end_time
-                ):
+                if transaction_date < start_time or transaction_date > end_time:
                     transactions.pop(i)
 
             numtransacts = len(transactions)
@@ -453,9 +442,7 @@ class ActionTransactionSearch(Action):
             slotvars = {
                 "total": f"{total:.2f}",
                 "numtransacts": numtransacts,
-                "start_time_formatted": tracker.get_slot(
-                    "start_time_formatted"
-                ),
+                "start_time_formatted": tracker.get_slot("start_time_formatted"),
                 "end_time_formatted": tracker.get_slot("end_time_formatted"),
                 "vendor_name": vendor_name,
             }
@@ -468,9 +455,7 @@ class ActionTransactionSearch(Action):
                 template=f"utter_found_{search_type}_transactions", **slotvars
             )
         else:
-            dispatcher.utter_message(
-                template="utter_transaction_search_cancelled"
-            )
+            dispatcher.utter_message(template="utter_transaction_search_cancelled")
 
         return [SlotSet(slot, value) for slot, value in slots.items()]
 
@@ -543,9 +528,7 @@ class ValidateTransactionSearchForm(MyFormValidationAction):
     ) -> Dict[Text, Any]:
         """Validates value of 'time' slot"""
         timeentity = get_entity_details(tracker, "time")
-        parsedinterval = timeentity and parse_duckling_time_as_interval(
-            timeentity
-        )
+        parsedinterval = timeentity and parse_duckling_time_as_interval(timeentity)
         if not parsedinterval:
             dispatcher.utter_message(template="utter_no_transactdate")
             return {"time": None}
@@ -747,11 +730,6 @@ class ActionShowBalance(Action):
         events = []
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
-            # When in a form, make sure this action, which is triggered by a rule, is
-            # not influencing the story predictions.
-            events.append(UserUtteranceReverted())
-            # Always continue with the form
-            events.append(FollowupAction(active_form_name))
             # Trigger utter_ask_{form}_continue_form
             events.append(SlotSet("continue_form", None))
 
@@ -779,11 +757,6 @@ class ActionShowRecipients(Action):
         events = []
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
-            # When in a form, make sure this action, which is triggered by a rule, is
-            # not influencing the story predictions.
-            events.append(UserUtteranceReverted())
-            # Always continue with the form
-            events.append(FollowupAction(active_form_name))
             # Trigger utter_ask_{form}_continue_form
             events.append(SlotSet("continue_form", None))
 
@@ -804,11 +777,6 @@ class ActionShowTransferCharge(Action):
         events = []
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
-            # When in a form, make sure this action, which is triggered by a rule, is
-            # not influencing the story predictions.
-            events.append(UserUtteranceReverted())
-            # Always continue with the form
-            events.append(FollowupAction(active_form_name))
             # Trigger utter_ask_{form}_continue_form
             events.append(SlotSet("continue_form", None))
 
