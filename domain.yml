@@ -50,6 +50,8 @@ slots:
     influence_conversation: true
   repeated_validation_failures:
     type: any
+  continue_form:
+    type: any
   account_type:
     type: any
   PERSON:
@@ -63,8 +65,6 @@ slots:
   amount_transferred:
     type: any
     initial_value: 0
-  continue_form:
-    type: any
   confirm:
     type: any
   credit_card:
