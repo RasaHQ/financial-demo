@@ -88,8 +88,6 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_pay_cc
-  # allows the switch-back stories to predict next action
-  #wait_for_user_input: false
   
 - rule: Submit transfer_money_form while not switched from previous form
   condition:
@@ -102,8 +100,6 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_transfer_money
-  # allows the switch-back stories to predict next action
-  #wait_for_user_input: false
   
 - rule: Submit transaction_search_form while not switched from previous form
   condition:
@@ -116,5 +112,3 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_transaction_search
-  # allows the switch-back stories to predict next action
-  #wait_for_user_input: false
