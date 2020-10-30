@@ -54,9 +54,7 @@ def create_mock_profile():
         )
 
         rand_dates = [
-            (
-                start_date + timedelta(days=randrange(number_of_days))
-            ).isoformat()
+            (start_date + timedelta(days=randrange(number_of_days))).isoformat()
             for x in range(0, len(rand_spend_amounts))
         ]
 
@@ -74,17 +72,12 @@ def create_mock_profile():
             )
         else:
             rand_deposit_amounts = sample(
-                [
-                    round(amount, 2)
-                    for amount in list(arange(1000, 2000, 0.01))
-                ],
+                [round(amount, 2) for amount in list(arange(1000, 2000, 0.01))],
                 number_of_days // 14,
             )
 
         rand_dates = [
-            (
-                start_date + timedelta(days=randrange(number_of_days))
-            ).isoformat()
+            (start_date + timedelta(days=randrange(number_of_days))).isoformat()
             for x in range(0, len(rand_deposit_amounts))
         ]
 
