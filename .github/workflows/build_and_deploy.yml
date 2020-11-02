@@ -121,7 +121,6 @@ jobs:
       run: |
         rasa train
     - name: Test Training Stories
-      uses: docker://rasa/duckling
       if: |
           contains(  steps.files.outputs.all, 'data/stories.md' ) 
           || contains(  steps.files.outputs.all, 'config.yml' ) 
