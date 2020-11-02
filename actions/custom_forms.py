@@ -1,5 +1,5 @@
 """Customization to deal nicely with repeated slot validation failures."""
-from abc import abstractmethod
+import abc
 from typing import Dict, Text, Any, List
 import logging
 import pathlib
@@ -30,7 +30,7 @@ custom_forms_config = (
 MAX_VALIDATION_FAILURES = custom_forms_config.get("max_validation_failures", 2)
 
 
-class CustomFormValidationAction(FormValidationAction):
+class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
     """Validates if slot values are valid and handles repeated validation failures.
 
     To use, you add the following to your bot:
@@ -103,7 +103,7 @@ class CustomFormValidationAction(FormValidationAction):
     """
 
     # Avoids registering this class as a custom action
-    @abstractmethod
+    @abc.abstractmethod
     def name(self) -> Text:
         """Unique identifier of the CustomFormValidationAction"""
 
