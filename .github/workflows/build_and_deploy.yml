@@ -12,17 +12,10 @@ jobs:
       # duckling is used by `rasa test` command
       # Label used to access the service container
       duckling:
-        # Docker Hub image
         image: rasa/duckling
-        # Set health checks to wait until duckling has started
-        options: >-
-          --health-cmd "curl http://localhost:8000/"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
         ports:
-          # Maps port 8000 on service container to the host
-          - 8000:8000
+        # Maps port 8000 on service container to the host VM where actions run
+        - 8000:8000
           
     steps:
     - uses: actions/checkout@v1
