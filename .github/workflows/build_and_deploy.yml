@@ -6,6 +6,24 @@ jobs:
   lint-testing:
     name: Code Formatting Tests
     runs-on: ubuntu-latest
+    
+    # Service containers to run with `lint-testing` job
+    services:
+      # duckling is used by `rasa test` command
+      # Label used to access the service container
+      duckling:
+        # Docker Hub image
+        image: rasa/duckling
+        # Set health checks to wait until duckling has started
+        options: >-
+          --health-cmd "curl http://localhost:8000/"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 8000 on service container to the host
+          - 8000:8000
+          
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.7
@@ -103,6 +121,7 @@ jobs:
       run: |
         rasa train
     - name: Test Training Stories
+      uses: docker://rasa/duckling
       if: |
           contains(  steps.files.outputs.all, 'data/stories.md' ) 
           || contains(  steps.files.outputs.all, 'config.yml' ) 
