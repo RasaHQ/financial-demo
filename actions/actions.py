@@ -1,10 +1,7 @@
 """Custom actions"""
 from typing import Dict, Text, Any, List
 import logging
-from abc import abstractmethod
 from dateutil import parser
-from rasa_sdk import utils
-from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.interfaces import Action
 from rasa_sdk.events import (
     SlotSet,
@@ -360,7 +357,9 @@ class ActionTransferMoney(Action):
         """Unique identifier of the action"""
         return "action_transfer_money"
 
-    async def run(self, dispatcher, tracker, domain):
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
         """Executes the action"""
         slots = {
             "continue_form": None,
@@ -480,11 +479,13 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
 class ActionShowBalance(Action):
     """Shows the balance of bank or credit card accounts"""
 
-    def name(self):
+    def name(self) -> Text:
         """Unique identifier of the action"""
         return "action_show_balance"
 
-    async def run(self, dispatcher, tracker, domain):
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
         """Executes the custom action"""
         account_type = tracker.get_slot("account_type")
 
@@ -537,8 +538,12 @@ class ActionShowBalance(Action):
         events = []
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
-            # Trigger utter_ask_{form}_continue_form
+            # keep the tracker clean for the predictions with form switch stories
+            events.append(UserUtteranceReverted())
+            # trigger utter_ask_{form}_continue_form, by making it the requested_slot
             events.append(SlotSet("continue_form", None))
+            # avoid that bot goes in listen mode after UserUtteranceReverted
+            events.append(FollowupAction(active_form_name))
 
         return events
 
@@ -546,11 +551,13 @@ class ActionShowBalance(Action):
 class ActionShowRecipients(Action):
     """Lists the contents of then known_recipients slot"""
 
-    def name(self):
+    def name(self) -> Text:
         """Unique identifier of the action"""
         return "action_show_recipients"
 
-    async def run(self, dispatcher, tracker, domain):
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
         """Executes the custom action"""
         recipients = tracker.get_slot("known_recipients")
         formatted_recipients = "\n" + "\n".join(
@@ -564,8 +571,12 @@ class ActionShowRecipients(Action):
         events = []
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
-            # Trigger utter_ask_{form}_continue_form
+            # keep the tracker clean for the predictions with form switch stories
+            events.append(UserUtteranceReverted())
+            # trigger utter_ask_{form}_continue_form, by making it the requested_slot
             events.append(SlotSet("continue_form", None))
+            # # avoid that bot goes in listen mode after UserUtteranceReverted
+            events.append(FollowupAction(active_form_name))
 
         return events
 
@@ -573,19 +584,25 @@ class ActionShowRecipients(Action):
 class ActionShowTransferCharge(Action):
     """Lists the transfer charges"""
 
-    def name(self):
+    def name(self) -> Text:
         """Unique identifier of the action"""
         return "action_show_transfer_charge"
 
-    async def run(self, dispatcher, tracker, domain):
+    async def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
         """Executes the custom action"""
         dispatcher.utter_message(template="utter_transfer_charge")
 
         events = []
         active_form_name = tracker.active_form.get("name")
         if active_form_name:
-            # Trigger utter_ask_{form}_continue_form
+            # keep the tracker clean for the predictions with form switch stories
+            events.append(UserUtteranceReverted())
+            # trigger utter_ask_{form}_continue_form, by making it the requested_slot
             events.append(SlotSet("continue_form", None))
+            # # avoid that bot goes in listen mode after UserUtteranceReverted
+            events.append(FollowupAction(active_form_name))
 
         return events
 
