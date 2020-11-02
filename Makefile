@@ -19,11 +19,11 @@ clean:
 	rm -rf docs/_build
 
 formatter:
-	black --line-length 79 actions
+	black actions
 
 lint:
 	flake8 actions
-	black --line-length 79 --check actions 
+	black --check actions 
 
 types:
 	pytype --keep-going actions
