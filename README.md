@@ -1,3 +1,9 @@
+# Notes on Rasa `1.x / 2.0`
+
+1. You are looking the bot for  **Rasa 1.x**
+2. The bot for **Rasa 2.0** can be found in the [rasa-2-0 branch](https://github.com/RasaHQ/financial-demo/tree/rasa-2-0).
+
+
 
 # Financial Services Example Bot
 
