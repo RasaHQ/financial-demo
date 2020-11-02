@@ -105,7 +105,9 @@ class CustomFormValidationAction(FormValidationAction):
     # Avoids registering this class as a custom action
     @abstractmethod
     def name(self) -> Text:
-        pass
+        """Unique identifier of the CustomFormValidationAction"""
+
+        raise NotImplementedError("A CustomFormValidationAction must implement a name")
 
     async def validate(
         self,
