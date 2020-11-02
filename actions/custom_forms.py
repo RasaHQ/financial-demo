@@ -195,7 +195,7 @@ class CustomFormValidationAction(FormValidationAction):
 
         if rvf >= MAX_VALIDATION_FAILURES:
             rvf_events.extend(
-                await self.explain_requested_slot(dispatcher, tracker, events)
+                await self.explain_requested_slot(dispatcher, tracker, domain)
             )
             # reset counter
             rvf = 0
