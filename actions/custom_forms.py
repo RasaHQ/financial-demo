@@ -9,6 +9,8 @@ from rasa_sdk.forms import FormValidationAction
 from rasa_sdk.events import (
     SlotSet,
     EventType,
+    LoopInterrupted,
+    ActionExecutionRejected,
 )
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -161,6 +163,25 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
         if not requested_slot:
             return rvf_events
 
+        # if the requested slot was not extracted, interupt the form
+        interrupt_form = False
+        if not events:
+            interrupt_form = True
+        else:
+            for event in events:
+                if event["event"] == "slot" and event["name"] == "requested_slot":
+                    interrupt_form = True
+
+        if interrupt_form:
+            # Sending LoopInterrupted will prevent rasa.core from asking for the slot
+            rvf_events.append(LoopInterrupted(is_interrupted=True))
+
+            # Sending ActionExecutionRejected will allow rasa.core to predict
+            # something else before continuing with the form
+            rvf_events.append(ActionExecutionRejected(action_name=self.form_name()))
+
+            return rvf_events
+
         # Skip if validate_{slot} turned off the form by setting requested_slot to None
         for event in events:
             if (
@@ -179,14 +200,14 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
             rvf = 0
 
         # check if validation of the requested_slot failed
-        validation_failed = False
+        validation_failed = True
         for event in events:
             if (
                 event["event"] == "slot"
                 and event["name"] == requested_slot
-                and not event["value"]
+                and event["value"]
             ):
-                validation_failed = True
+                validation_failed = False
                 break
 
         # keep track of repeated validation failures
@@ -230,23 +251,20 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
 
         slot_value = tracker.get_slot(slot_name)
 
-        function_name = f"explain_{slot_name.replace('-','_')}"
-        explain_func = getattr(self, function_name, None)
+        method_name = f"explain_{slot_name.replace('-','_')}"
+        explain_method = getattr(self, method_name, None)
 
-        if not explain_func:
+        if not explain_method:
             logger.debug(
                 f"Skipping explanation for `{slot_name}`: there is no explanation "
-                "function specified."
+                "method specified."
             )
             return []
 
         slots = {}
-        if utils.is_coroutine_action(explain_func):
-            explanation_output = await explain_func(
-                slot_value, dispatcher, tracker, domain
-            )
-        else:
-            explanation_output = explain_func(slot_value, dispatcher, tracker, domain)
+        explanation_output = await utils.call_potential_coroutine(
+            explain_method(slot_value, dispatcher, tracker, domain)
+        )
 
         if explanation_output:
             slots.update(explanation_output)
