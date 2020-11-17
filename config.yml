@@ -10,7 +10,7 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 100
+    epochs: 40
   - name: FallbackClassifier
     confidence_threshold: 0.7
   - name: DucklingEntityExtractor
@@ -32,8 +32,6 @@ pipeline:
   - name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
-- name: TEDPolicy
-  epochs: 40
 - name: RulePolicy
   core_fallback_threshold: 0.4
   core_fallback_action_name: "action_default_fallback"
