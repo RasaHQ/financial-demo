@@ -13,8 +13,6 @@ intents:
 - deny
 - thankyou
 - ask_transfer_charge
-- search_transactions:
-    use_entities: []
 - check_balance:
     use_entities:
     - credit_card

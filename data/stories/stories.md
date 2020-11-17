@@ -213,16 +213,6 @@
     - form{"name":null}
     - slot{"requested_slot":null}
 
-## search transactions happy path
-* greet
-    - utter_greet
-    - utter_help
-* search_transactions
-    - transact_search_form
-    - form{"name": "transact_search_form"}
-    - form{"name": null}
-* thankyou
-    - utter_noworries
 
 ## search transactions happy path no greet
 * search_transactions
