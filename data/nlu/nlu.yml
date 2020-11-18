@@ -343,6 +343,13 @@ nlu:
     - transfer money to [sara](PERSON)
     - I need to transfer money to my grandma [Judith](PERSON).
     - i want to transfer money to [Latisha](PERSON)
+    - i want to make a transfer
+    - i want to transfer money
+    - I want to transfer money to percy
+    - I want to transfer money to Percy
+    - i need to transfer money
+    - transfer to bob
+    - bob
 - intent: check_recipients
   examples: |
     - Who can I send money to?
