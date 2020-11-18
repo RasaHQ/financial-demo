@@ -10,7 +10,7 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 100
+    epochs: 130
   - name: FallbackClassifier
     confidence_threshold: 0.7
   - name: DucklingEntityExtractor

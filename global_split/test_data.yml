@@ -1,0 +1,126 @@
+version: "2.0"
+nlu:
+- intent: ask_transfer_charge
+  examples: |
+    - Will I be charged for transferring money
+    - how much is the transfer fee
+- intent: goodbye
+  examples: |
+    - see you later
+    - i'm done
+- intent: help
+  examples: |
+    - what do you do?
+    - help, what do you do
+- intent: deny
+  examples: |
+    - nope
+    - Nothing!
+- intent: thankyou
+  examples: |
+    - thank you
+    - thanks
+    - Thanks!
+- intent: human_handoff
+  examples: |
+    - real human
+    - transfer to a human
+- intent: out_of_scope
+  examples: |
+    - what is the weather today
+    - what is the meaning of life.
+- intent: check_earnings
+  examples: |
+    - how much was deposited in my account in the last two weeks?
+    - how much money have I earned?
+    - How much money went into my account last month?
+- intent: check_recipients
+  examples: |
+    - who is in my list of kown recipients?
+    - who can I pay?
+- intent: affirm
+  examples: |
+    - cool,
+    - yup
+    - Ok
+    - Sure
+- intent: greet
+  examples: |
+    - hey there
+    - Hi
+    - hallo
+- intent: search_transactions
+  examples: |
+    - what is my typical spending at [Amazon](vendor_name)?
+    - How much did I spend last month?
+    - I want to check my spending history at [starbucks](vendor_name)
+    - How much did I spend at Burger King last month?
+    - how much did I spend at [Target](vendor_name) this week?
+- intent: pay_cc
+  examples: |
+    - i want to pay off my [emblem](credit_card) [credit card](account_type)
+    - Pay my [mastercard](credit_card)
+    - I guess it is. Since it's so much, let's pay off my [credit](account_type)
+    - Pay my [discover](credit_card)
+    - I want to pay my [iron bank](credit_card) bill
+    - i want to pay my [current balance](amount-of-money) on my [emblem](credit_card) [credit card](account_type)
+- intent: transfer_money
+  examples: |
+    - I need to transfer money to a friend
+    - i want to transfer $400 to [Akela](PERSON)
+    - transfer money to [ethan oswald](PERSON)
+    - pay [Emanual](PERSON)
+    - Pay [Karen](PERSON) 60 Euros
+    - I need to pay a friend.
+    - i want to transfer money to [Latisha](PERSON)
+    - pay [Lisa](PERSON) please
+- intent: check_balance
+  examples: |
+    - whats my [emblm](credit_card) [card](account_type) [balance](amount-of-money)?
+    - what's my [bank](account_type) account [balance](amount-of-money)?
+    - check my [credit card]{"entity": "account_type", "value": "credit"} [balance](amount-of-money) [first](account_type)
+    - what's my [credit card](account_type) account [balance](amount-of-money)?
+    - How much money is left on that account?
+    - Can you tell me my account [balance](amount-of-money)?
+    - What's the [balance](amount-of-money) on that account?
+    - What's my [credit card](account_type) [balance](amount-of-money)
+    - whats my [credit card](account_type) [balance](amount-of-money)
+    - what is my [bank](account_type) account [balance](amount-of-money)
+- intent: inform
+  examples: |
+    - [iron bank](credit_card)
+    - [justice bank](credit_card) account
+    - towards my [justice bank](credit_card) [card](account_type)
+    - 5000
+    - [Bob](PERSON)
+    - at [starbucks](vendor_name)
+    - my [emblem](credit_card) [card](account_type)
+    - to my [sister](PERSON)
+    - [iron bank](credit_card) [card](account_type)
+    - my [rasa](credit_card) account
+    - tomorrow
+    - for sunday
+    - 1000 dollars
+    - [cheng](PERSON)
+    - for friday
+    - [current balance](amount-of-money)
+    - my [minimum balance](amount-of-money)
+- synonym: credit
+  examples: |
+    - credit card
+    - credit cards
+    - credit account
+    - credit accounts
+    - card
+    - cards
+    - credit card account
+- synonym: emblem
+  examples: |
+    - emblm
+    - embelm
+    - Emblem
+- synonym: current balance
+  examples: |
+    - balance
+    - full
+    - full balance
