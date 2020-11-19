@@ -273,7 +273,7 @@
 - What did I spend at [Legoland](vendor_name) last year?
 - how much did i spend at [starbucks](vendor_name) last year
 - Yes! How much did I spend on [Starbucks](vendor_name) last month?
-- How much did I spend at Burger King last month?
+- How much did I spend at [Burger King](vendor_name) last month?
 - what places have I spent money?
 
 ## intent:thankyou
