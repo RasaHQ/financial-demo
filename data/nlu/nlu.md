@@ -135,6 +135,7 @@
 - hi there
 - Hello
 - hello its ella
+- hi how are you
 
 ## intent:inform
 - $10
@@ -250,6 +251,7 @@
 - Pay off my [credit card]{"entity": "account_type", "value": "credit"}, please
 - I guess it is. Since it's so much, let's pay off my [credit](account_type)
 - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
+- pay it  off
 
 ## intent:search_transactions
 - how much did I spend at [Target](vendor_name) this week?
@@ -275,6 +277,7 @@
 - Yes! How much did I spend on [Starbucks](vendor_name) last month?
 - How much did I spend at Burger King last month?
 - what places have I spent money?
+- how much did i spend
 
 ## intent:thankyou
 - thank you goodbye
@@ -326,6 +329,8 @@
 - transfer money to evan oslo
 - transfer money to sara
 - I need to transfer money to my grandma Judith.
+- I want to make a transfer
+- I want to transfer money.
 
 ## intent:check_recipients
 - Who can I send money to?
@@ -364,7 +369,8 @@
 - i want to talk to a human
 - transfer to a human
 - Please give me to a human
-
+- agent
+- I want to speak an agent
 
 ## synonym:credit
 - credit card
