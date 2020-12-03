@@ -305,7 +305,7 @@ stories:
   - action: cc_payment_form
   - active_loop: cc_payment_form
   - slot_was_set:
-    - continue_form: yes
+    - AA_CONTINUE_FORM: yes
   - slot_was_set:
     - requested_slot: credit_card
   - user: |
@@ -909,7 +909,7 @@ stories:
   - action: transfer_money_form
   - active_loop: transfer_money_form
   - slot_was_set:
-    - continue_form: yes
+    - AA_CONTINUE_FORM: yes
   - slot_was_set:
     - requested_slot: PERSON
   - user: |

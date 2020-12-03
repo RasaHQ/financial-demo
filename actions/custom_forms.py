@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 # these slots are used to store information needed to nicely deal with
 # repeated slot validation failures
 RVF_SLOT = "repeated_validation_failures"
-CF_SLOT = "continue_form"
+CF_SLOT = "AA_CONTINUE_FORM"
 
 
 here = pathlib.Path(__file__).parent.absolute()
@@ -46,16 +46,16 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
         slots:
           repeated_validation_failures:
             type: any
-          continue_form:
+          AA_CONTINUE_FORM:
             type: any
 
-    (-) In domain.yml, for each form, declare 'continue_form' as first required slot.
+    (-) In domain.yml, for each form, declare 'AA_CONTINUE_FORM' as first required slot.
 
         For example:
 
         forms:
           cc_payment_form:
-            continue_form:
+            AA_CONTINUE_FORM:
             - type: from_intent
               intent: affirm
               value: yes
@@ -67,12 +67,12 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
               - inform
               - cc_payment_form
 
-    (-) In domain.yml, for each form, define the 'utter_{form}_continue_form' response,
+    (-) In domain.yml, for each form, define the 'utter_{form}_AA_CONTINUE_FORM' response,
         using /affirm & /deny buttons.
 
         For example:
 
-        utter_ask_cc_payment_form_continue_form:
+        utter_ask_cc_payment_form_AA_CONTINUE_FORM:
         - buttons:
           - payload: /affirm
             title: Yes
@@ -120,8 +120,8 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
         """Validates slots by calling a validation function for each slot.
 
         Calls an explain function for the requested slot when validation fails
-        MAX_VALIDATION_FAILURES in a row, and sets 'continue_form' slot to None, which
-        triggers the bot to utter the 'utter_ask_{form}_continue_form' template.
+        MAX_VALIDATION_FAILURES in a row, and sets 'AA_CONTINUE_FORM' slot to None, which
+        triggers the bot to utter the 'utter_ask_{form}_AA_CONTINUE_FORM' template.
 
         Args:
             dispatcher: the dispatcher which is used to send messages back to the user.
@@ -151,9 +151,9 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
         events: List[EventType],
     ) -> List[EventType]:
         """Updates the slot repeated_validation_failures, and sets required form slot
-        `continue_form` to None when the threshold is reached.
+        `AA_CONTINUE_FORM` to None when the threshold is reached.
 
-        This will trigger utter_ask_{form}_continue_form, asking the user if they want
+        This will trigger utter_ask_{form}_AA_CONTINUE_FORM, asking the user if they want
         to continue with this form or not.
         """
         rvf_events: List[EventType] = []
@@ -223,7 +223,7 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
             # reset counter
             rvf = 0
 
-            # Triggers 'utter_ask_{form}_continue_form'
+            # Triggers 'utter_ask_{form}_AA_CONTINUE_FORM'
             rvf_events.append(SlotSet(CF_SLOT, None))
 
         rvf_events.append(SlotSet(RVF_SLOT, rvf))
@@ -271,14 +271,14 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
 
         return [SlotSet(slot, value) for slot, value in slots.items()]
 
-    async def validate_continue_form(
+    async def validate_AA_CONTINUE_FORM(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates value of 'continue_form' slot"""
+        """Validates value of 'AA_CONTINUE_FORM' slot"""
         if value == "yes":
             return {CF_SLOT: value}
 
@@ -286,7 +286,7 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
             # This will activate rule 'Submit ---_form' to cancel the operation
             return {
                 "requested_slot": None,
-                "confirm": "no",
+                "zz_confirm_form": "no",
                 CF_SLOT: value,
             }
 

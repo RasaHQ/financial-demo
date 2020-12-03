@@ -10,6 +10,8 @@ __pycache__/
 .vscode/
 .history
 *.DS_Store
+*.wpr
+*.wpu
 
 # Distribution / packaging
 .Python

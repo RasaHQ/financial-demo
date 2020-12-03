@@ -59,8 +59,8 @@ class ActionPayCC(Action):
         """Executes the action"""
 
         slots = {
-            "continue_form": None,
-            "confirm": None,
+            "AA_CONTINUE_FORM": None,
+            "zz_confirm_form": None,
             "credit_card": None,
             "account_type": None,
             "amount-of-money": None,
@@ -74,7 +74,7 @@ class ActionPayCC(Action):
             "number": None,
         }
 
-        if tracker.get_slot("confirm") == "yes":
+        if tracker.get_slot("zz_confirm_form") == "yes":
             account_balance = float(tracker.get_slot("account_balance"))
             credit_card = tracker.get_slot("credit_card")
             cc_balance = tracker.get_slot("credit_card_balance")
@@ -194,18 +194,18 @@ class ValidatePayCCForm(CustomFormValidationAction):
             return {"time": None}
         return parsedtime
 
-    async def validate_confirm(
+    async def validate_zz_confirm_form(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates value of 'confirm' slot"""
+        """Validates value of 'zz_confirm_form' slot"""
         if value in ["yes", "no"]:
-            return {"confirm": value}
+            return {"zz_confirm_form": value}
 
-        return {"confirm": None}
+        return {"zz_confirm_form": None}
 
 
 class ActionTransactionSearch(Action):
@@ -223,8 +223,8 @@ class ActionTransactionSearch(Action):
     ) -> List[Dict]:
         """Executes the action"""
         slots = {
-            "continue_form": None,
-            "confirm": None,
+            "AA_CONTINUE_FORM": None,
+            "zz_confirm_form": None,
             "time": None,
             "time_formatted": None,
             "start_time": None,
@@ -236,7 +236,7 @@ class ActionTransactionSearch(Action):
             "vendor_name": None,
         }
 
-        if tracker.get_slot("confirm") == "yes":
+        if tracker.get_slot("zz_confirm_form") == "yes":
             search_type = tracker.get_slot("search_type")
             transaction_history = tracker.get_slot("transaction_history")
             transactions_subset = transaction_history.get(search_type, {})
@@ -362,14 +362,14 @@ class ActionTransferMoney(Action):
     ) -> List[EventType]:
         """Executes the action"""
         slots = {
-            "continue_form": None,
-            "confirm": None,
+            "AA_CONTINUE_FORM": None,
+            "zz_confirm_form": None,
             "PERSON": None,
             "amount-of-money": None,
             "number": None,
         }
 
-        if tracker.get_slot("confirm") == "yes":
+        if tracker.get_slot("zz_confirm_form") == "yes":
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             account_balance = float(tracker.get_slot("account_balance"))
 
@@ -462,18 +462,18 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             dispatcher.utter_message(template="utter_no_payment_amount")
             return {"amount-of-money": None}
 
-    async def validate_confirm(
+    async def validate_zz_confirm_form(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates value of 'confirm' slot"""
+        """Validates value of 'zz_confirm_form' slot"""
         if value in ["yes", "no"]:
-            return {"confirm": value}
+            return {"zz_confirm_form": value}
 
-        return {"confirm": None}
+        return {"zz_confirm_form": None}
 
 
 class ActionShowBalance(Action):
@@ -540,8 +540,8 @@ class ActionShowBalance(Action):
         if active_form_name:
             # keep the tracker clean for the predictions with form switch stories
             events.append(UserUtteranceReverted())
-            # trigger utter_ask_{form}_continue_form, by making it the requested_slot
-            events.append(SlotSet("continue_form", None))
+            # trigger utter_ask_{form}_AA_CONTINUE_FORM, by making it the requested_slot
+            events.append(SlotSet("AA_CONTINUE_FORM", None))
             # avoid that bot goes in listen mode after UserUtteranceReverted
             events.append(FollowupAction(active_form_name))
 
@@ -573,8 +573,8 @@ class ActionShowRecipients(Action):
         if active_form_name:
             # keep the tracker clean for the predictions with form switch stories
             events.append(UserUtteranceReverted())
-            # trigger utter_ask_{form}_continue_form, by making it the requested_slot
-            events.append(SlotSet("continue_form", None))
+            # trigger utter_ask_{form}_AA_CONTINUE_FORM, by making it the requested_slot
+            events.append(SlotSet("AA_CONTINUE_FORM", None))
             # # avoid that bot goes in listen mode after UserUtteranceReverted
             events.append(FollowupAction(active_form_name))
 
@@ -599,8 +599,8 @@ class ActionShowTransferCharge(Action):
         if active_form_name:
             # keep the tracker clean for the predictions with form switch stories
             events.append(UserUtteranceReverted())
-            # trigger utter_ask_{form}_continue_form, by making it the requested_slot
-            events.append(SlotSet("continue_form", None))
+            # trigger utter_ask_{form}_AA_CONTINUE_FORM, by making it the requested_slot
+            events.append(SlotSet("AA_CONTINUE_FORM", None))
             # # avoid that bot goes in listen mode after UserUtteranceReverted
             events.append(FollowupAction(active_form_name))
 
@@ -672,14 +672,14 @@ class ActionRestart(Action):
 
 
 class ActionAskTransactionSearchFormConfirm(Action):
-    """Asks for the 'confirm' slot of 'transaction_search_form'
+    """Asks for the 'zz_confirm_form' slot of 'transaction_search_form'
 
     A custom action is used instead of an 'utter_ask' response because a different
     question is asked based on 'search_type' and 'vendor_name' slots.
     """
 
     def name(self) -> Text:
-        return "action_ask_transaction_search_form_confirm"
+        return "action_ask_transaction_search_form_zz_confirm_form"
 
     async def run(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
