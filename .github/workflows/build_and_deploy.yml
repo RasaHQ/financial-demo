@@ -46,6 +46,7 @@ jobs:
       - name: Rasa Train and Test GitHub Action
         uses: RasaHQ/rasa-train-test-gha@main
         with:
+          rasa_version: '2.1.3'
           requirements_file: requirements-dev.txt
           test_type: all
           data_validate: true
