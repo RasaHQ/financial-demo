@@ -1,4 +1,6 @@
 python-dateutil==2.8.1
 numpy~=1.18.3
 pytz~=2019.3
+opentracing~=2.4.0
+jaeger-client~=4.3.0
 ruamel.yaml
