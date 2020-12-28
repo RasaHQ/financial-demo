@@ -8,7 +8,8 @@ logger = logging.getLogger(__name__)
 logging.getLogger("").handlers = []
 logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
-def init_tracer(service):
+def init_tracer(service_name):
+    logger.debug(f"initializing tracer with Jaeger client config, service_name: {service_name}")
     config = Config(
         config={ # usually read from some yaml config
             'sampler': {
@@ -18,7 +19,7 @@ def init_tracer(service):
             'logging': True,
             'reporter_batch_size': 1,
         },
-        service_name=service,
+        service_name=service_name,
     )
 
     # this call also sets opentracing.tracer
@@ -44,7 +45,7 @@ def extract_start_span(tracer, domain, name, attributes=None):
         #        span.span.set_tag(k, v)
         return span
     else:
-        logger.debug(f"extract_start_span, no header, domain: {domain}")
+        logger.debug(f"extract_start_span, no header, name: {name}")
         return contextlib.nullcontext()
 
 def inject(tracer, url):
