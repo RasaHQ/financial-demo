@@ -63,9 +63,6 @@ slots:
   credit_card:
     type: any
     influence_conversation: false
-  credit_card_balance:
-    type: any
-    influence_conversation: false
   currency:
     type: any
     influence_conversation: false
@@ -79,9 +76,6 @@ slots:
     type: any
     influence_conversation: false
   handoff_to:
-    type: any
-    influence_conversation: false
-  known_recipients:
     type: any
     influence_conversation: false
   next_form_name:
@@ -116,12 +110,6 @@ slots:
     type: any
     influence_conversation: false
   time_formatted:
-    type: any
-    influence_conversation: false
-  transaction_history:
-    type: any
-    influence_conversation: false
-  vendor_list:
     type: any
     influence_conversation: false
   vendor_name:

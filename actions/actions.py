@@ -21,7 +21,12 @@ from actions.parsing import (
     get_entity_details,
     parse_duckling_currency,
 )
-from actions.profile import create_mock_profile
+from actions.profile import (
+    populate_profile_db,
+    get_account_balance,
+    get_currency,
+    get_credit_card_balance,
+)
 
 from actions.custom_forms import CustomFormValidationAction
 
@@ -75,7 +80,7 @@ class ActionPayCC(Action):
         }
 
         if tracker.get_slot("zz_confirm_form") == "yes":
-            account_balance = float(tracker.get_slot("account_balance"))
+            account_balance = get_account_balance()
             credit_card = tracker.get_slot("credit_card")
             cc_balance = tracker.get_slot("credit_card_balance")
             amount_of_money = float(tracker.get_slot("amount-of-money"))
@@ -272,8 +277,7 @@ class ActionTransactionSearch(Action):
             }
 
             dispatcher.utter_message(
-                template=f"utter_searching_{search_type}_transactions",
-                **slotvars,
+                template=f"utter_searching_{search_type}_transactions", **slotvars,
             )
             dispatcher.utter_message(
                 template=f"utter_found_{search_type}_transactions", **slotvars
@@ -433,8 +437,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             [f"- {recipient}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
         return {}
 
@@ -564,8 +567,7 @@ class ActionShowRecipients(Action):
             [f"- {recipient}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
 
         events = []
@@ -615,15 +617,10 @@ class ActionSessionStart(Action):
         return "action_session_start"
 
     @staticmethod
-    def _slot_set_events_from_tracker(
-        tracker: "Tracker",
-    ) -> List["SlotSet"]:
+    def _slot_set_events_from_tracker(tracker: "Tracker",) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
         return [
-            SlotSet(
-                key=event.get("name"),
-                value=event.get("value"),
-            )
+            SlotSet(key=event.get("name"), value=event.get("value"),)
             for event in tracker.events
             if event.get("event") == "slot"
         ]
@@ -641,12 +638,13 @@ class ActionSessionStart(Action):
         events.extend(self._slot_set_events_from_tracker(tracker))
 
         # create mock profile
-        user_profile = create_mock_profile()
+        session = populate_profile_db()
+        currency = get_currency(session)
+        account_balance = get_account_balance(session)
 
         # initialize slots from mock profile
-        for key, value in user_profile.items():
-            if value is not None:
-                events.append(SlotSet(key=key, value=value))
+        events.append(SlotSet("currency", currency))
+        events.append(SlotSet("account_balance", account_balance))
 
         # an `action_listen` should be added at the end
         events.append(ActionExecuted("action_listen"))
