@@ -1,6 +1,6 @@
 import os
 import sqlalchemy as sa
-from sqlalchemy import Column, Integer, String, DateTime, Numeric
+from sqlalchemy import Column, Integer, String, DateTime, REAL
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -47,8 +47,8 @@ class CreditCard(Base):
     __tablename__ = "creditcards"
     id = Column(Integer, primary_key=True)
     credit_card_name = Column(String(255))
-    minimum_balance = Column(Numeric)
-    current_balance = Column(Numeric)
+    minimum_balance = Column(REAL)
+    current_balance = Column(REAL)
     account_id = Column(Integer)
 
 
@@ -57,7 +57,7 @@ class Transaction(Base):
     __tablename__ = "transactions"
     id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime)
-    amount = Column(Numeric)
+    amount = Column(REAL)
     from_account_number = Column(String(14))
     to_account_number = Column(String(14))
 
@@ -325,7 +325,7 @@ class ProfileDB:
             )
 
             rand_dates = [
-                (start_date + timedelta(days=randrange(number_of_days))).isoformat()
+                (start_date + timedelta(days=randrange(number_of_days)))
                 for x in range(0, len(rand_spend_amounts))
             ]
 
@@ -354,7 +354,7 @@ class ProfileDB:
                 )
 
             rand_dates = [
-                (start_date + timedelta(days=randrange(number_of_days))).isoformat()
+                (start_date + timedelta(days=randrange(number_of_days)))
                 for x in range(0, len(rand_deposit_amounts))
             ]
 

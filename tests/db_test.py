@@ -2,12 +2,15 @@ import os
 import sqlalchemy as sa
 import pytest
 
-from actions.profile_db import GENERAL_ACCOUNTS, create_database, ProfileDB
+from actions.profile_db import (
+    GENERAL_ACCOUNTS,
+    create_database,
+    ProfileDB,
+    Account,
+)
 
 PROFILE_DB_NAME = os.environ.get("PROFILE_DB_NAME", "profile")
-PROFILE_DB_URL = os.environ.get(
-    "PROFILE_DB_URL", f"postgresql://localhost/{PROFILE_DB_NAME}"
-)
+PROFILE_DB_URL = os.environ.get("PROFILE_DB_URL", f"sqlite:///{PROFILE_DB_NAME}.db")
 ENGINE = sa.create_engine(PROFILE_DB_URL)
 create_database(ENGINE, PROFILE_DB_NAME)
 
