@@ -22,7 +22,7 @@ GENERAL_ACCOUNTS = {
         "percy donald",
         "lisa macintyre",
     ],
-    "vendor": ["target", "starbucks", "amazon",],
+    "vendor": ["target", "starbucks", "amazon"],
     "depositor": ["interest", "employer"],
 }
 
@@ -179,6 +179,39 @@ class ProfileDB:
             .first()[0]
         )
 
+    def search_transactions(
+        self, session_id, start_time=None, end_time=None, deposit=False, vendor=None
+    ):
+        account = self.get_account_from_session_id(session_id)
+        account_number = self.get_account_number(account)
+        if deposit:
+            transactions = self.session.query(Transaction).filter(
+                Transaction.to_account_number == account_number
+            )
+        elif vendor:
+            to_account = (
+                self.session.query(Account.id)
+                .filter(Account.session_id.startswith("vendor_"))
+                .filter(Account.account_holder_name == vendor.lower())
+                .first()
+            )
+            to_account_number = self.get_account_number(to_account)
+            transactions = (
+                self.session.query(Transaction)
+                .filter(Transaction.from_account_number == account_number)
+                .filter(Transaction.to_account_number == to_account_number)
+            )
+        else:
+            transactions = self.session.query(Transaction).filter(
+                Transaction.from_account_number == account_number
+            )
+        if start_time:
+            transactions = transactions.filter(Transaction.timestamp >= start_time)
+        if end_time:
+            transactions = transactions.filter(Transaction.timestamp <= end_time)
+
+        return transactions
+
     def list_credit_cards(self, session_id):
         account = self.get_account_from_session_id(session_id)
         cards = (
@@ -200,16 +233,25 @@ class ProfileDB:
     def get_credit_card_balance(
         self, session_id, credit_card_name, balance_type="current_balance"
     ):
+        balance_type = "_".join(balance_type.split())
         card = self.get_credit_card(session_id, credit_card_name)
         return getattr(card, balance_type)
 
     @staticmethod
     def list_balance_types():
         return [
-            name
+            " ".join(name.split("_"))
             for name in CreditCard.__table__.columns.keys()
             if name.endswith("balance")
         ]
+
+    def list_vendors(self):
+        vendors = (
+            self.session.query(Account.account_holder_name)
+            .filter(Account.session_id.startswith("vendor_"))
+            .all()
+        )
+        return [vendor.account_holder_name for vendor in vendors]
 
     def pay_off_credit_card(self, session_id, credit_card_name, amount):
         account = self.get_account_from_session_id(session_id)

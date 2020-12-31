@@ -275,6 +275,13 @@ forms:
       - inform
       - cc_payment_form
       type: from_text
+    credit_card:
+    - entity: credit_card
+      type: from_entity
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
     amount-of-money:
     - entity: amount-of-money
       not_intent:
@@ -285,13 +292,6 @@ forms:
       not_intent:
       - check_balance
       - check_earnings
-      type: from_entity
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
-    credit_card:
-    - entity: credit_card
       type: from_entity
     - intent:
       - inform
