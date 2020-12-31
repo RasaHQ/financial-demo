@@ -1,7 +1,10 @@
 """Custom actions"""
+import os
 from typing import Dict, Text, Any, List
 import logging
 from dateutil import parser
+import sqlalchemy as sa
+
 from rasa_sdk.interfaces import Action
 from rasa_sdk.events import (
     SlotSet,
@@ -21,18 +24,24 @@ from actions.parsing import (
     get_entity_details,
     parse_duckling_currency,
 )
-from actions.profile import (
-    populate_profile_db,
-    get_account_balance,
-    get_currency,
-    get_credit_card_balance,
-)
+
+from actions.profile_db import create_database, create_tables, ProfileDB
 
 from actions.custom_forms import CustomFormValidationAction
 
 
 logger = logging.getLogger(__name__)
 
+
+PROFILE_DB_NAME = os.environ.get("PROFILE_DB_NAME", "profile")
+PROFILE_DB_URL = os.environ.get(
+    "PROFILE_DB_URL", f"postgresql://localhost/{PROFILE_DB_NAME}"
+)
+ENGINE = sa.create_engine(PROFILE_DB_URL)
+create_database(ENGINE, PROFILE_DB_NAME)
+
+profile_db = ProfileDB(ENGINE)
+profile_db.create_tables()
 
 NEXT_FORM_NAME = {
     "pay_cc": "cc_payment_form",
@@ -80,19 +89,16 @@ class ActionPayCC(Action):
         }
 
         if tracker.get_slot("zz_confirm_form") == "yes":
-            account_balance = get_account_balance()
             credit_card = tracker.get_slot("credit_card")
-            cc_balance = tracker.get_slot("credit_card_balance")
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             amount_transferred = float(tracker.get_slot("amount_transferred"))
+            profile_db.pay_off_credit_card(
+                tracker.sender_id, credit_card, amount_of_money
+            )
 
-            cc_balance[credit_card.lower()]["current balance"] -= amount_of_money
-            account_balance = account_balance - amount_of_money
             dispatcher.utter_message(template="utter_cc_pay_scheduled")
 
             slots["amount_transferred"] = amount_transferred + amount_of_money
-            slots["account_balance"] = f"{account_balance:.2f}"
-            slots["credit_card_balance"] = cc_balance
         else:
             dispatcher.utter_message(template="utter_cc_pay_cancelled")
 
@@ -114,9 +120,10 @@ class ValidatePayCCForm(CustomFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'amount-of-money' slot"""
-        credit_card = tracker.get_slot("credit_card")
-        cc_balance = tracker.get_slot("credit_card_balance")
-        account_balance = float(tracker.get_slot("account_balance"))
+        credit_card_name = tracker.get_slot("credit_card")
+        credit_card = profile_db.get_credit_card(tracker.sender_id, credit_card_name)
+        balance_types = profile_db.list_balance_types()
+        account_balance = profile_db.get_account_balance(tracker.sender_id)
         try:
             entity = get_entity_details(
                 tracker, "amount-of-money"
@@ -131,16 +138,18 @@ class ValidatePayCCForm(CustomFormValidationAction):
         except (TypeError, AttributeError):
             pass
         # check if user asked to pay the full or the minimum balance
-        if value and value.lower() in cc_balance.get(credit_card.lower()):
-            key = value.lower()
-            amount = cc_balance.get(credit_card.lower()).get(key)
-            amount_type = f" (your {key})"
+        if value and value.lower() in balance_types:
+            balance_type = value.lower()
+            amount_balance = profile_db.get_credit_card_balance(
+                tracker.sender_id, credit_card, balance_type
+            )
+            amount_type = f" (your {balance_type})"
 
-            if account_balance < float(amount):
+            if account_balance < float(amount_balance):
                 dispatcher.utter_message(template="utter_insufficient_funds")
                 return {"amount-of-money": None}
             return {
-                "amount-of-money": f"{amount:.2f}",
+                "amount-of-money": f"{amount_balance:.2f}",
                 "payment_amount_type": amount_type,
                 "currency": "$",
             }
@@ -156,8 +165,7 @@ class ValidatePayCCForm(CustomFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'credit_card' slot"""
-        cc_balance = tracker.get_slot("credit_card_balance")
-        if value and value.lower() in list(cc_balance.keys()):
+        if value and value.lower() in profile_db.list_credit_cards(tracker.sender_id):
             return {"credit_card": value.title()}
 
         dispatcher.utter_message(template="utter_no_creditcard")
@@ -172,9 +180,10 @@ class ValidatePayCCForm(CustomFormValidationAction):
     ) -> Dict[Text, Any]:
         """Explains 'credit_card' slot"""
         dispatcher.utter_message("You have the following credits cards:")
-        credit_card_balance = tracker.get_slot("credit_card_balance")
-        for credit_card in credit_card_balance.keys():
-            current_balance = credit_card_balance[credit_card]["current balance"]
+        for credit_card in profile_db.list_credit_cards(tracker.sender_id):
+            current_balance = profile_db.get_credit_card_balance(
+                tracker.sender_id, credit_card
+            )
             dispatcher.utter_message(
                 template="utter_credit_card_balance",
                 **{
@@ -375,9 +384,19 @@ class ActionTransferMoney(Action):
 
         if tracker.get_slot("zz_confirm_form") == "yes":
             amount_of_money = float(tracker.get_slot("amount-of-money"))
-            account_balance = float(tracker.get_slot("account_balance"))
+            from_account_number = profile_db.get_account_number_from_id(
+                profile_db.get_account_from_session_id(tracker.sender_id).id
+            )
+            to_account_number = profile_db.get_account_number_from_id(
+                profile_db.get_recipient_from_name(
+                    tracker.sender_id, tracker.get_slot("PERSON")
+                ).recipient_account_id
+            )
+            profile_db.transact(
+                from_account_number, to_account_number, amount_of_money,
+            )
 
-            updated_account_balance = account_balance - amount_of_money
+            updated_account_balance = profile_db.get_account_balance(tracker.sender_id)
 
             dispatcher.utter_message(template="utter_transfer_complete")
 
@@ -411,7 +430,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             value = value[0]
 
         name = value.title() if value else None
-        known_recipients = tracker.get_slot("known_recipients")
+        known_recipients = profile_db.list_known_recipients(tracker.sender_id)
         first_names = [name.split()[0] for name in known_recipients]
         if name in known_recipients:
             return {"PERSON": name}
@@ -432,7 +451,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Explains 'PERSON' slot"""
-        recipients = tracker.get_slot("known_recipients")
+        recipients = profile_db.list_known_recipients(tracker.sender_id)
         formatted_recipients = "\n" + "\n".join(
             [f"- {recipient}" for recipient in recipients]
         )
@@ -449,7 +468,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'amount-of-money' slot"""
-        account_balance = float(tracker.get_slot("account_balance"))
+        account_balance = profile_db.get_account_balance(tracker.sender_id)
         try:
             entity = get_entity_details(
                 tracker, "amount-of-money"
@@ -494,35 +513,38 @@ class ActionShowBalance(Action):
 
         if account_type == "credit":
             # show credit card balance
-            credit_card_balance = tracker.get_slot("credit_card_balance")
             credit_card = tracker.get_slot("credit_card")
+            available_cards = [
+                card.credit_card_name
+                for card in profile_db.list_credit_cards(tracker.sender_id)
+            ]
 
-            if credit_card and credit_card.lower() in credit_card_balance:
-                current_balance = credit_card_balance[credit_card.lower()][
-                    "current balance"
-                ]
+            if credit_card and credit_card.lower() in available_cards:
+                current_balance = profile_db.get_credit_card_balance(
+                    tracker.sender_id, credit_card
+                )
                 dispatcher.utter_message(
                     template="utter_credit_card_balance",
                     **{
                         "credit_card": credit_card.title(),
-                        "amount-of-money": f"{current_balance:.2f}",
+                        "credit_card_balance": f"{current_balance:.2f}",
                     },
                 )
             else:
-                for credit_card in credit_card_balance.keys():
-                    current_balance = credit_card_balance[credit_card][
-                        "current balance"
-                    ]
+                for credit_card in profile_db.list_credit_cards(tracker.sender_id):
+                    current_balance = profile_db.get_credit_card_balance(
+                        tracker.sender_id, credit_card
+                    )
                     dispatcher.utter_message(
                         template="utter_credit_card_balance",
                         **{
                             "credit_card": credit_card.title(),
-                            "amount-of-money": f"{current_balance:.2f}",
+                            "credit_card_balance": f"{current_balance:.2f}",
                         },
                     )
         else:
             # show bank account balance
-            account_balance = float(tracker.get_slot("account_balance"))
+            account_balance = profile_db.get_account_balance(tracker.sender_id)
             amount = tracker.get_slot("amount_transferred")
             if amount:
                 amount = float(tracker.get_slot("amount_transferred"))
@@ -638,13 +660,11 @@ class ActionSessionStart(Action):
         events.extend(self._slot_set_events_from_tracker(tracker))
 
         # create mock profile
-        session = populate_profile_db()
-        currency = get_currency(session)
-        account_balance = get_account_balance(session)
+        profile_db.populate_profile_db()
+        currency = profile_db.get_currency(tracker.sender_id)
 
         # initialize slots from mock profile
         events.append(SlotSet("currency", currency))
-        events.append(SlotSet("account_balance", account_balance))
 
         # an `action_listen` should be added at the end
         events.append(ActionExecuted("action_listen"))

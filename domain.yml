@@ -47,9 +47,6 @@ slots:
   PERSON:
     type: any
     influence_conversation: false
-  account_balance:
-    type: any
-    influence_conversation: false
   account_type:
     type: any
     influence_conversation: false
@@ -227,7 +224,7 @@ responses:
   utter_insufficient_funds:
   - text: Sorry, you don't have enough money to do that!
   utter_credit_card_balance:
-  - text: The current balance for your {credit_card} account is {currency}{amount-of-money}.
+  - text: The current balance for your {credit_card} account is {currency}{credit_card_balance}.
   utter_recipients:
   - text: These are your known recpients to whom you can send money:{formatted_recipients}
   utter_greet:
