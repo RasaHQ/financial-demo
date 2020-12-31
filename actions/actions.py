@@ -381,13 +381,13 @@ class ActionTransferMoney(Action):
 
         if tracker.get_slot("zz_confirm_form") == "yes":
             amount_of_money = float(tracker.get_slot("amount-of-money"))
-            from_account_number = profile_db.get_account_number_from_id(
-                profile_db.get_account_from_session_id(tracker.sender_id).id
+            from_account_number = profile_db.get_account_number(
+                profile_db.get_account_from_session_id(tracker.sender_id)
             )
-            to_account_number = profile_db.get_account_number_from_id(
+            to_account_number = profile_db.get_account_number(
                 profile_db.get_recipient_from_name(
                     tracker.sender_id, tracker.get_slot("PERSON")
-                ).recipient_account_id
+                )
             )
             profile_db.transact(
                 from_account_number, to_account_number, amount_of_money,
