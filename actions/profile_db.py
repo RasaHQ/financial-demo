@@ -86,6 +86,7 @@ def create_database(database_engine, database_name):
 class ProfileDB:
     def __init__(self, db_engine):
         self.engine = db_engine
+        self.create_tables()
         self.session = self.get_session()
 
     def get_session(self) -> Session:

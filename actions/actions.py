@@ -25,7 +25,7 @@ from actions.parsing import (
     parse_duckling_currency,
 )
 
-from actions.profile_db import create_database, create_tables, ProfileDB
+from actions.profile_db import create_database, ProfileDB
 
 from actions.custom_forms import CustomFormValidationAction
 
@@ -41,7 +41,6 @@ ENGINE = sa.create_engine(PROFILE_DB_URL)
 create_database(ENGINE, PROFILE_DB_NAME)
 
 profile_db = ProfileDB(ENGINE)
-profile_db.create_tables()
 
 NEXT_FORM_NAME = {
     "pay_cc": "cc_payment_form",
@@ -660,7 +659,7 @@ class ActionSessionStart(Action):
         events.extend(self._slot_set_events_from_tracker(tracker))
 
         # create mock profile
-        profile_db.populate_profile_db()
+        profile_db.populate_profile_db(tracker.sender_id)
         currency = profile_db.get_currency(tracker.sender_id)
 
         # initialize slots from mock profile

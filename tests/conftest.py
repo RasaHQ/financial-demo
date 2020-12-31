@@ -1,6 +1,7 @@
 import os
 import pytest
 import json
+import sqlalchemy as sa
 
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk import Tracker
@@ -19,13 +20,13 @@ def domain():
     return dict()
 
 
-@pytest.fixture
-def session():
-    engine = sa.create_engine(DATABASE_URL)
-    db_session = sessionmaker(bind=engine)()
+# @pytest.fixture
+# def session():
+#     engine = sa.create_engine(DATABASE_URL)
+#     db_session = sessionmaker(bind=engine)()
 
-    try:
-        yield db_session
-    finally:
-        db_session.close()
-        Base.metadata.drop_all(engine)
+#     try:
+#         yield db_session
+#     finally:
+#         db_session.close()
+#         Base.metadata.drop_all(engine)
