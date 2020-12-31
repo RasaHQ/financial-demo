@@ -34,9 +34,7 @@ logger = logging.getLogger(__name__)
 
 
 PROFILE_DB_NAME = os.environ.get("PROFILE_DB_NAME", "profile")
-PROFILE_DB_URL = os.environ.get(
-    "PROFILE_DB_URL", f"postgresql://localhost/{PROFILE_DB_NAME}"
-)
+PROFILE_DB_URL = os.environ.get("PROFILE_DB_URL", f"sqlite:///{PROFILE_DB_NAME}.db")
 ENGINE = sa.create_engine(PROFILE_DB_URL)
 create_database(ENGINE, PROFILE_DB_NAME)
 
