@@ -7,6 +7,8 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk import Tracker
 
 EMPTY_TRACKER = Tracker.from_dict(json.load(open("tests/data/empty_tracker.json")))
+PAY_CC_NOT_CONFIRMED = Tracker.from_dict(json.load(open("tests/data/pay_cc_not_confirmed.json")))
+PAY_CC_CONFIRMED = Tracker.from_dict(json.load(open("tests/data/pay_cc_confirmed.json")))
 DATABASE_URL = os.environ.setdefault("DATABASE_URL", "postgresql:///postgres")
 
 
