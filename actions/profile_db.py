@@ -263,7 +263,9 @@ class ProfileDB:
             .first()
         )
         self.transact(
-            account_number, self.get_account_number(credit_card), amount,
+            account_number,
+            self.get_account_number(credit_card),
+            amount,
         )
         credit_card.current_balance -= amount
         if amount < credit_card.minimum_balance:
@@ -280,9 +282,6 @@ class ProfileDB:
     def add_credit_cards(self, session_id):
 
         credit_card_names = ["iron bank", "credit all", "emblem", "justice bank"]
-        session_credit_cards = sample(
-            credit_card_names, choice(list(range(2, len(credit_card_names))))
-        )
         credit_cards = [
             CreditCard(
                 credit_card_name=cardname,
@@ -292,7 +291,7 @@ class ProfileDB:
                 ),
                 account_id=self.get_account_from_session_id(session_id).id,
             )
-            for cardname in session_credit_cards
+            for cardname in credit_card_names
         ]
         self.session.add_all(credit_cards)
 
