@@ -450,7 +450,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
         name = value.lower() if value else None
         known_recipients = profile_db.list_known_recipients(tracker.sender_id)
         first_names = [name.split()[0] for name in known_recipients]
-        if name in known_recipients:
+        if name is not None and name in known_recipients:
             return {"PERSON": name.title()}
 
         if name in first_names:
