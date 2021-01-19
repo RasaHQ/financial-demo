@@ -304,7 +304,8 @@ class ActionTransactionSearch(Action):
             }
 
             dispatcher.utter_message(
-                template=f"utter_searching_{search_type}_transactions", **slotvars,
+                template=f"utter_searching_{search_type}_transactions",
+                **slotvars,
             )
             dispatcher.utter_message(
                 template=f"utter_found_{search_type}_transactions", **slotvars
@@ -411,7 +412,9 @@ class ActionTransferMoney(Action):
                 )
             )
             profile_db.transact(
-                from_account_number, to_account_number, amount_of_money,
+                from_account_number,
+                to_account_number,
+                amount_of_money,
             )
 
             dispatcher.utter_message(template="utter_transfer_complete")
@@ -471,7 +474,8 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients", formatted_recipients=formatted_recipients,
+            template="utter_recipients",
+            formatted_recipients=formatted_recipients,
         )
         return {}
 
@@ -601,7 +605,8 @@ class ActionShowRecipients(Action):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients", formatted_recipients=formatted_recipients,
+            template="utter_recipients",
+            formatted_recipients=formatted_recipients,
         )
 
         events = []
@@ -651,10 +656,15 @@ class ActionSessionStart(Action):
         return "action_session_start"
 
     @staticmethod
-    def _slot_set_events_from_tracker(tracker: "Tracker",) -> List["SlotSet"]:
+    def _slot_set_events_from_tracker(
+        tracker: "Tracker",
+    ) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
         return [
-            SlotSet(key=event.get("name"), value=event.get("value"),)
+            SlotSet(
+                key=event.get("name"),
+                value=event.get("value"),
+            )
             for event in tracker.events
             if event.get("event") == "slot"
         ]
