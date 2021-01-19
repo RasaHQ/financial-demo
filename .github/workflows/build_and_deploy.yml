@@ -59,6 +59,13 @@ jobs:
     name: Training and Testing
     runs-on: ubuntu-latest
     needs: [lint-testing, type-testing]
+    services:
+       # Label used to access the service container
+       duckling:
+         image: rasa/duckling
+         ports:
+         # Maps port 8000 on service container to port 8000 on host VM
+         - 8000:8000
     steps:
       - uses: actions/checkout@v1
       - id: files
