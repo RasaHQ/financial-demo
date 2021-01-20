@@ -112,7 +112,10 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
         raise NotImplementedError("A CustomFormValidationAction must implement a name")
 
     async def validate(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict,
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict,
     ) -> List[EventType]:
         """Validates slots by calling a validation function for each slot.
 
