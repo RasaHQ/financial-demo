@@ -32,6 +32,8 @@ from actions.custom_forms import CustomFormValidationAction
 
 logger = logging.getLogger(__name__)
 
+# The profile database is created/connected to when the action server starts
+# It is populated the first time `ActionSessionStart.run()` is called.
 
 PROFILE_DB_NAME = os.environ.get("PROFILE_DB_NAME", "profile")
 PROFILE_DB_URL = os.environ.get("PROFILE_DB_URL", f"sqlite:///{PROFILE_DB_NAME}.db")
@@ -304,8 +306,7 @@ class ActionTransactionSearch(Action):
             }
 
             dispatcher.utter_message(
-                template=f"utter_searching_{search_type}_transactions",
-                **slotvars,
+                template=f"utter_searching_{search_type}_transactions", **slotvars,
             )
             dispatcher.utter_message(
                 template=f"utter_found_{search_type}_transactions", **slotvars
@@ -412,9 +413,7 @@ class ActionTransferMoney(Action):
                 )
             )
             profile_db.transact(
-                from_account_number,
-                to_account_number,
-                amount_of_money,
+                from_account_number, to_account_number, amount_of_money,
             )
 
             dispatcher.utter_message(template="utter_transfer_complete")
@@ -474,8 +473,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
         return {}
 
@@ -605,8 +603,7 @@ class ActionShowRecipients(Action):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
 
         events = []
@@ -656,15 +653,10 @@ class ActionSessionStart(Action):
         return "action_session_start"
 
     @staticmethod
-    def _slot_set_events_from_tracker(
-        tracker: "Tracker",
-    ) -> List["SlotSet"]:
+    def _slot_set_events_from_tracker(tracker: "Tracker",) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
         return [
-            SlotSet(
-                key=event.get("name"),
-                value=event.get("value"),
-            )
+            SlotSet(key=event.get("name"), value=event.get("value"),)
             for event in tracker.events
             if event.get("event") == "slot"
         ]
@@ -681,7 +673,7 @@ class ActionSessionStart(Action):
 
         events.extend(self._slot_set_events_from_tracker(tracker))
 
-        # create mock profile
+        # create mock profile by populating database with values specific to tracker.sender_id
         profile_db.populate_profile_db(tracker.sender_id)
         currency = profile_db.get_currency(tracker.sender_id)
 
