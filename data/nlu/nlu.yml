@@ -266,6 +266,7 @@ nlu:
     - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
     - I want to pay 100 dollars toward my [Emblem](credit_card) [card](account_type), tomorrow
     - pay 100 towards [emblem](credit_card) [card](account_type), tomorrow
+    - pay off my [credit card]{"entity": "account_type", "value": "credit"}
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -383,6 +384,7 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
+    - So you can't transfer me?
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
@@ -397,6 +399,10 @@ nlu:
     - I want to order a pizza
     - what is the weather today
     - what is the weather
+    - what the weather today ?
+    - share price google
+    - 🕺
+    - can you give me some details ?
 - synonym: credit
   examples: |
     - credit card
