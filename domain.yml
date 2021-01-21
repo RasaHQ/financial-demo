@@ -47,6 +47,9 @@ slots:
   PERSON:
     type: any
     influence_conversation: false
+  account_balance:
+    type: any
+    influence_conversation: false
   account_type:
     type: any
     influence_conversation: false
@@ -58,6 +61,9 @@ slots:
     initial_value: 0
     influence_conversation: false
   credit_card:
+    type: any
+    influence_conversation: false
+  credit_card_balance:
     type: any
     influence_conversation: false
   currency:
@@ -73,6 +79,9 @@ slots:
     type: any
     influence_conversation: false
   handoff_to:
+    type: any
+    influence_conversation: false
+  known_recipients:
     type: any
     influence_conversation: false
   next_form_name:
@@ -107,6 +116,12 @@ slots:
     type: any
     influence_conversation: false
   time_formatted:
+    type: any
+    influence_conversation: false
+  transaction_history:
+    type: any
+    influence_conversation: false
+  vendor_list:
     type: any
     influence_conversation: false
   vendor_name:
@@ -275,13 +290,6 @@ forms:
       - inform
       - cc_payment_form
       type: from_text
-    credit_card:
-    - entity: credit_card
-      type: from_entity
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
     amount-of-money:
     - entity: amount-of-money
       not_intent:
@@ -292,6 +300,13 @@ forms:
       not_intent:
       - check_balance
       - check_earnings
+      type: from_entity
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+    credit_card:
+    - entity: credit_card
       type: from_entity
     - intent:
       - inform

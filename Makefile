@@ -27,6 +27,3 @@ lint:
 
 types:
 	pytype --keep-going actions
-
-test:
-	pytest tests
