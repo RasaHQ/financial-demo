@@ -159,10 +159,15 @@ class ValidatePayCCForm(CustomFormValidationAction):
                     dispatcher, tracker, credit_card_name, balance_type
                 )
                 if float(slots_to_set.get("amount-of-money")) == 0:
-                    dispatcher.utter_message(template="utter_nothing_due", **slots_to_set)
-                    return {"amount-of-money": None, "credit_card": None, "payment_amount_type": None}
+                    dispatcher.utter_message(
+                        template="utter_nothing_due", **slots_to_set
+                    )
+                    return {
+                        "amount-of-money": None,
+                        "credit_card": None,
+                        "payment_amount_type": None,
+                    }
                 return slots_to_set
-
 
         try:
             entity = get_entity_details(
@@ -197,11 +202,19 @@ class ValidatePayCCForm(CustomFormValidationAction):
                     dispatcher, tracker, value.lower(), amount
                 )
                 if float(updated_amount.get("amount-of-money")) == 0:
-                    dispatcher.utter_message(template="utter_nothing_due", **updated_amount)
-                    return {"amount-of-money": None, "credit_card": None, "payment_amount_type": None}
+                    dispatcher.utter_message(
+                        template="utter_nothing_due", **updated_amount
+                    )
+                    return {
+                        "amount-of-money": None,
+                        "credit_card": None,
+                        "payment_amount_type": None,
+                    }
                 account_balance = profile_db.get_account_balance(tracker.sender_id)
                 if account_balance < float(updated_amount.get("amount-of-money")):
-                    dispatcher.utter_message(template="utter_insufficient_funds_specific", **updated_amount)
+                    dispatcher.utter_message(
+                        template="utter_insufficient_funds_specific", **updated_amount
+                    )
                     return {"amount-of-money": None}
                 return {**credit_card_slot, **updated_amount}
             return credit_card_slot
@@ -675,9 +688,7 @@ class ActionSessionStart(Action):
         """Fetches SlotSet events from tracker and carries over keys and values"""
 
         # when restarting the majority of slots should be reset
-        relevant_slots = [
-            "currency"
-        ]
+        relevant_slots = ["currency"]
 
         return [
             SlotSet(
@@ -685,8 +696,7 @@ class ActionSessionStart(Action):
                 value=event.get("value"),
             )
             for event in tracker.events
-            if event.get("event") == "slot"
-            and event.get("name") == "currency"
+            if event.get("event") == "slot" and event.get("name") in relevant_slots
         ]
 
     async def run(
