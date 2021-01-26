@@ -124,7 +124,6 @@ class ValidatePayCCForm(CustomFormValidationAction):
         return {
             "amount-of-money": f"{amount_balance:.2f}",
             "payment_amount_type": f"(your {balance_type})",
-            "currency": "$",
         }
 
     async def validate_amount_of_money(
@@ -156,9 +155,14 @@ class ValidatePayCCForm(CustomFormValidationAction):
                         f"I see you'd like to pay the {balance_type}."
                     )
                     return {"amount-of-money": balance_type}
-                return self.amount_from_balance(
+                slots_to_set = self.amount_from_balance(
                     dispatcher, tracker, credit_card_name, balance_type
                 )
+                if float(slots_to_set.get("amount-of-money")) == 0:
+                    dispatcher.utter_message(template="utter_nothing_due", **slots_to_set)
+                    return {"amount-of-money": None, "credit_card": None, "payment_amount_type": None}
+                return slots_to_set
+
 
         try:
             entity = get_entity_details(
@@ -192,6 +196,13 @@ class ValidatePayCCForm(CustomFormValidationAction):
                 updated_amount = self.amount_from_balance(
                     dispatcher, tracker, value.lower(), amount
                 )
+                if float(updated_amount.get("amount-of-money")) == 0:
+                    dispatcher.utter_message(template="utter_nothing_due", **updated_amount)
+                    return {"amount-of-money": None, "credit_card": None, "payment_amount_type": None}
+                account_balance = profile_db.get_account_balance(tracker.sender_id)
+                if account_balance < float(updated_amount.get("amount-of-money")):
+                    dispatcher.utter_message(template="utter_insufficient_funds_specific", **updated_amount)
+                    return {"amount-of-money": None}
                 return {**credit_card_slot, **updated_amount}
             return credit_card_slot
 
@@ -662,6 +673,12 @@ class ActionSessionStart(Action):
         tracker: "Tracker",
     ) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
+
+        # when restarting the majority of slots should be reset
+        relevant_slots = [
+            "currency"
+        ]
+
         return [
             SlotSet(
                 key=event.get("name"),
@@ -669,6 +686,7 @@ class ActionSessionStart(Action):
             )
             for event in tracker.events
             if event.get("event") == "slot"
+            and event.get("name") == "currency"
         ]
 
     async def run(
@@ -736,7 +754,6 @@ class ActionAskTransactionSearchFormConfirm(Action):
             vendor_name = f" with {vendor_name}"
         else:
             vendor_name = ""
-
         if search_type == "spend":
             text = (
                 f"Do you want to search for transactions{vendor_name} between "
@@ -747,7 +764,6 @@ class ActionAskTransactionSearchFormConfirm(Action):
                 f"Do you want to search deposits made to your account between "
                 f"{start_time_formatted} and {end_time_formatted}?"
             )
-
         buttons = [
             {"payload": "/affirm", "title": "Yes"},
             {"payload": "/deny", "title": "No"},
@@ -791,7 +807,6 @@ class ActionSwitchFormsAsk(Action):
                 {"payload": "/deny", "title": "No"},
             ]
             dispatcher.utter_message(text=text, buttons=buttons)
-
         return [SlotSet("next_form_name", next_form_name)]
 
 

@@ -142,6 +142,13 @@ responses:
       Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
+  utter_ask_transaction_search_form_search_type:
+  - text: Would you like to search incoming or outgoing transactions?
+    buttons:
+    - title: Incoming (earnings)
+      payload: 
+    - title: Outgoing (spending)
+      payload:
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -223,8 +230,12 @@ responses:
   - text: Sorry, {PERSON} is not in your list of known recipients.
   utter_insufficient_funds:
   - text: Sorry, you don't have enough money to do that!
+  utter_insufficient_funds_specific:
+  - text: The {payment_amount_type} on your {credit_card} credit card is {amount-of-money}, so you have insufficient funds to pay it off.
   utter_credit_card_balance:
-  - text: The current balance for your {credit_card} account is {currency}{amount-of-money}.
+  - text: The current balance for your {credit_card} account is {currency}{credit_card_balance}.
+  utter_nothing_due:
+  - text: Your don't owe any money on your {credit_card} credit card bill.
   utter_recipients:
   - text: These are your known recpients to whom you can send money:{formatted_recipients}
   utter_greet:
