@@ -1,0 +1,45 @@
+{
+  "sender_id": "someone",
+  "slots": {
+    "zz_confirm_form": "yes",
+    "credit_card": "justice bank",
+    "amount-of-money": "301.33",
+    "amount_transferred": "301.32"
+},
+  "latest_message": {
+    "intent": {},
+    "entities": [],
+    "text": null,
+    "message_id": null,
+    "metadata": {}
+  },
+  "latest_event_time": 1607396994.449022,
+  "followup_action": null,
+  "paused": false,
+  "events": [
+    {
+      "event": "action",
+      "timestamp": 1607396994.448949,
+      "name": "action_session_start",
+      "policy": null,
+      "confidence": 1.0
+    },
+    {
+      "event": "session_started",
+      "timestamp": 1607396994.44901
+    },
+    {
+      "event": "action",
+      "timestamp": 1607396994.449022,
+      "name": "action_listen",
+      "policy": null,
+      "confidence": null
+    }
+  ],
+  "latest_input_channel": null,
+  "active_loop": {},
+  "latest_action": {
+    "action_name": "action_listen"
+  },
+  "latest_action_name": "action_listen"
+}
