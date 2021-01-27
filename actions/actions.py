@@ -687,7 +687,7 @@ class ActionSessionStart(Action):
     ) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
 
-        # when restarting the majority of slots should be reset
+        # when restarting most slots should be reset
         relevant_slots = ["currency"]
 
         return [
