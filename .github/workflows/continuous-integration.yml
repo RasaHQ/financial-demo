@@ -17,7 +17,7 @@ jobs:
       - name: Checkout git repository 🕝
         uses: actions/checkout@v2
       - name: Build Actions Server Image
-        uses: RasaHQ/rasa-action-server-gha@master
+        uses: RasaHQ/rasa-action-server-gha@main
         with:
           actions_directory: 'actions'
           requirements_file: 'actions/requirements-actions.txt'
