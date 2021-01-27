@@ -1,0 +1,65 @@
+{
+  "sender_id": "someone",
+  "slots": {
+"AA_CONTINUE_FORM": null,
+"PERSON": null,
+"account_type": null,
+"amount-of-money": null,
+"amount_transferred":null,
+"credit_card": null,
+"currency": null,
+"end_time": null,
+"end_time_formatted": null,
+"grain": null,
+"handoff_to": null,
+"next_form_name": null,
+"number": null,
+"payment_amount_type": null,
+"previous_form_name": null,
+"repeated_validation_failures": null,
+"requested_slot": null,
+"search_type": null,
+"start_time": null,
+"start_time_formatted": null,
+"time": null,
+"time_formatted": null,
+"vendor_name": null,
+"zz_confirm_form": null
+  },
+  "latest_message": {
+    "intent": {},
+    "entities": [],
+    "text": null,
+    "message_id": null,
+    "metadata": {}
+  },
+  "latest_event_time": 1607396994.449022,
+  "followup_action": null,
+  "paused": false,
+  "events": [
+    {
+      "event": "action",
+      "timestamp": 1607396994.448949,
+      "name": "action_session_start",
+      "policy": null,
+      "confidence": 1.0
+    },
+    {
+      "event": "session_started",
+      "timestamp": 1607396994.44901
+    },
+    {
+      "event": "action",
+      "timestamp": 1607396994.449022,
+      "name": "action_listen",
+      "policy": null,
+      "confidence": null
+    }
+  ],
+  "latest_input_channel": null,
+  "active_loop": {},
+  "latest_action": {
+    "action_name": "action_listen"
+  },
+  "latest_action_name": "action_listen"
+}

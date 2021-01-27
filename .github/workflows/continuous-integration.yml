@@ -3,6 +3,7 @@ on:
   push:
     branches:
     - master
+    - rasa-2-0
     paths:
     - 'actions/**'
 

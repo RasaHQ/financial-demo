@@ -47,9 +47,6 @@ slots:
   PERSON:
     type: any
     influence_conversation: false
-  account_balance:
-    type: any
-    influence_conversation: false
   account_type:
     type: any
     influence_conversation: false
@@ -61,9 +58,6 @@ slots:
     initial_value: 0
     influence_conversation: false
   credit_card:
-    type: any
-    influence_conversation: false
-  credit_card_balance:
     type: any
     influence_conversation: false
   currency:
@@ -79,9 +73,6 @@ slots:
     type: any
     influence_conversation: false
   handoff_to:
-    type: any
-    influence_conversation: false
-  known_recipients:
     type: any
     influence_conversation: false
   next_form_name:
@@ -118,12 +109,6 @@ slots:
   time_formatted:
     type: any
     influence_conversation: false
-  transaction_history:
-    type: any
-    influence_conversation: false
-  vendor_list:
-    type: any
-    influence_conversation: false
   vendor_name:
     type: any
     influence_conversation: false
@@ -157,6 +142,13 @@ responses:
       Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
+  utter_ask_transaction_search_form_search_type:
+  - text: Would you like to search incoming or outgoing transactions?
+    buttons:
+    - title: Incoming (earnings)
+      payload: 
+    - title: Outgoing (spending)
+      payload:
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -238,8 +230,12 @@ responses:
   - text: Sorry, {PERSON} is not in your list of known recipients.
   utter_insufficient_funds:
   - text: Sorry, you don't have enough money to do that!
+  utter_insufficient_funds_specific:
+  - text: The {payment_amount_type} on your {credit_card} credit card is {amount-of-money}, so you have insufficient funds to pay it off.
   utter_credit_card_balance:
-  - text: The current balance for your {credit_card} account is {currency}{amount-of-money}.
+  - text: The current balance for your {credit_card} account is {currency}{credit_card_balance}.
+  utter_nothing_due:
+  - text: Your don't owe any money on your {credit_card} credit card bill.
   utter_recipients:
   - text: These are your known recpients to whom you can send money:{formatted_recipients}
   utter_greet:
@@ -290,6 +286,13 @@ forms:
       - inform
       - cc_payment_form
       type: from_text
+    credit_card:
+    - entity: credit_card
+      type: from_entity
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
     amount-of-money:
     - entity: amount-of-money
       not_intent:
@@ -300,13 +303,6 @@ forms:
       not_intent:
       - check_balance
       - check_earnings
-      type: from_entity
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
-    credit_card:
-    - entity: credit_card
       type: from_entity
     - intent:
       - inform
