@@ -197,7 +197,8 @@ class ValidatePayCCForm(CustomFormValidationAction):
         if value and value.lower() in profile_db.list_credit_cards(tracker.sender_id):
             amount = tracker.get_slot("amount-of-money")
             credit_card_slot = {"credit_card": value.title()}
-            if type(amount) is str:
+            balance_types = profile_db.list_balance_types()
+            if amount and amount.lower() in balance_types:
                 updated_amount = self.amount_from_balance(
                     dispatcher, tracker, value.lower(), amount
                 )

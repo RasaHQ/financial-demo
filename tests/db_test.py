@@ -56,7 +56,6 @@ def test_cc_payment_1():
     credit_card_name = credit_cards[0]
     balance_type = balance_types[0]
 
-    credit_card = profile_db.get_credit_card(session_id, credit_card_name)
     credit_card_balance = profile_db.get_credit_card_balance(
         session_id, credit_card_name, balance_type
     )
@@ -71,7 +70,6 @@ def test_cc_payment_2():
     credit_card_name = credit_cards[1]
     balance_type = balance_types[1]
 
-    credit_card = profile_db.get_credit_card(session_id, credit_card_name)
     credit_card_balance = profile_db.get_credit_card_balance(
         session_id, credit_card_name, balance_type
     )

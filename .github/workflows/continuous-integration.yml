@@ -14,6 +14,14 @@ jobs:
     env:
       DOCKERHUB_USERNAME: oakela
     steps:
+      - name: set_tag_latest
+        if: |
+            github.base_ref == 'refs/heads/master'
+        run: echo "TAG=latest" >> $GITHUB_ENV
+      - name: set_tag_2
+        if: |
+            github.base_ref == 'refs/heads/rasa-2-0'
+        run: echo "TAG=2" >> $GITHUB_ENV
       - name: Checkout git repository 🕝
         uses: actions/checkout@v2
       - name: Build Actions Server Image
@@ -24,5 +32,5 @@ jobs:
           docker_registry_login: ${{ env.DOCKERHUB_USERNAME }}
           docker_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
           docker_image_name: 'rasa/financial-demo'
-          docker_image_tag: 'latest'
-          rasa_sdk_version: '2.1.2'
+          docker_image_tag: ${{ env.TAG }}
+          rasa_sdk_version: '2.2.0'
