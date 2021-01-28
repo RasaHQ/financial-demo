@@ -148,9 +148,9 @@ responses:
   - text: Would you like to search incoming or outgoing transactions?
     buttons:
     - title: Incoming (earnings)
-      payload: '/inform{\"search_type\":\"deposit\"}'
+      payload: /inform{"search_type":"deposit"}'
     - title: Outgoing (spending)
-      payload: '/inform{\"search_type\":\"spend\"}'
+      payload: /inform{"search_type":"spend"}'
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
