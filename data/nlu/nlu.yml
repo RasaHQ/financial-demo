@@ -231,6 +231,13 @@ nlu:
     - to my [brother](PERSON)
     - to my [sister](PERSON)
     - my [dad](PERSON)
+    - William Baker
+    - Evan Oslo
+    - Lisa Macintyre
+    - Karen Lancaster
+    - Percy Donald
+    - Kyle Gardner
+    - Katy Parrow
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
