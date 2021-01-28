@@ -571,7 +571,7 @@ class ActionSessionStart(Action):
             if value is not None:
                 events.append(SlotSet(key=key, value=value))
 
-        # an `action_listen` should be added at the end
+        # add `action_listen` at the end
         events.append(ActionExecuted("action_listen"))
 
         return events
