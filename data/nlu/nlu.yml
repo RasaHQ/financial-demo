@@ -81,6 +81,7 @@ nlu:
     - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
     - Yeah, I know 😀 Since it's so nice: How much money do I have?
+    - what is the status of my [Emblem]{"entity": "credit_card", "value": "emblem"} [card]{"entity": "account_type", "value": "credit"}?
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -266,6 +267,9 @@ nlu:
     - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
     - I want to pay 100 dollars toward my [Emblem](credit_card) [card](account_type), tomorrow
     - pay 100 towards [emblem](credit_card) [card](account_type), tomorrow
+    - i need to make a payment
+    - make a payment
+    - I want to pay my cc
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -397,6 +401,9 @@ nlu:
     - I want to order a pizza
     - what is the weather today
     - what is the weather
+- intent: update_amount
+  examples: |
+    - no change amount to 200
 - synonym: credit
   examples: |
     - credit card
