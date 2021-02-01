@@ -3,6 +3,7 @@ import sqlalchemy as sa
 from sqlalchemy import Column, Integer, String, DateTime, REAL
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.engine.base import Engine
 from typing import Dict, Text, List, Union, Optional
 
 from random import choice, randrange, sample, randint
@@ -81,7 +82,7 @@ class RecipientRelationship(Base):
     recipient_nickname = Column(String(255))
 
 
-def create_database(database_engine: sa.engine.base.Engine, database_name: Text):
+def create_database(database_engine: Engine, database_name: Text):
     """Try to connect to the database. Create it if it does not exist"""
     try:
         database_engine.connect()
@@ -95,7 +96,7 @@ def create_database(database_engine: sa.engine.base.Engine, database_name: Text)
 
 
 class ProfileDB:
-    def __init__(self, db_engine: sa.engine.base.Engine):
+    def __init__(self, db_engine: Engine):
         self.engine = db_engine
         self.create_tables()
         self.session = self.get_session()
