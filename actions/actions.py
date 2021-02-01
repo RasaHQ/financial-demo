@@ -302,6 +302,8 @@ class ActionTransactionSearch(Action):
             "vendor_name": None,
         }
 
+        deposit = search_type == "deposit"
+
         if tracker.get_slot("zz_confirm_form") == "yes":
             search_type = tracker.get_slot("search_type")
             vendor = tracker.get_slot("vendor_name")
@@ -312,7 +314,7 @@ class ActionTransactionSearch(Action):
                 tracker.sender_id,
                 start_time=start_time,
                 end_time=end_time,
-                deposit=search_type == "deposit",
+                deposit=deposit,
                 vendor=vendor,
             )
 
