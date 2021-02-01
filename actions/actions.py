@@ -312,7 +312,7 @@ class ActionTransactionSearch(Action):
                 tracker.sender_id,
                 start_time=start_time,
                 end_time=end_time,
-                deposit=search_type=="deposit",
+                deposit=search_type == "deposit",
                 vendor=vendor,
             )
 

@@ -119,7 +119,9 @@ class ProfileDB:
         # if the action server restarts in the middle of a conversation, the db will need to be repopulated outside of an action_session_start
         if not self.check_session_id_exists(session_id):
             self.populate_profile_db(session_id)
-        account = self.session.query(Account).filter(Account.session_id == session_id).first()
+        account = (
+            self.session.query(Account).filter(Account.session_id == session_id).first()
+        )
         return account
 
     @staticmethod
