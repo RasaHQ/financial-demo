@@ -16,7 +16,7 @@ jobs:
       DOCKERHUB_USERNAME: oakela
     steps:
       - name: base ref
-        run: echo  {{ github.base_ref }}
+        run: echo  ${{ github.base_ref }}
       - name: set_tag_latest
         if: |
             github.base_ref == 'master'
