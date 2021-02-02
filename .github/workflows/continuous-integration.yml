@@ -31,8 +31,7 @@ jobs:
         run: echo "TAG=2" >> $GITHUB_ENV
       - name: set_tag_gha
         if: |
-            env.GITHUB_HEAD_REF == 'refs/heads/gha' 
-            || env.GITHUB_REF == 'refs/heads/gha'
+            env.GITHUB_REF == 'refs/heads/gha'
         run: echo "TAG=gha" >> $GITHUB_ENV
       - run: echo ${{ env.TAG }}
       - name: Checkout git repository 🕝
