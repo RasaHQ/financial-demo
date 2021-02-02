@@ -22,6 +22,7 @@ jobs:
         if: |
             github.base_ref == 'refs/heads/rasa-2-0'
         run: echo "TAG=2" >> $GITHUB_ENV
+      - run: echo ${{ env.TAG }}
       - name: Checkout git repository 🕝
         uses: actions/checkout@v2
       - name: Build Actions Server Image
