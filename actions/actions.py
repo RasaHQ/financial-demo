@@ -714,7 +714,7 @@ class ActionSessionStart(Action):
 
         events.extend(self._slot_set_events_from_tracker(tracker))
 
-        # create mock profile by populating database with values specific to tracker.sender_id
+        # create a mock profile by populating database with values specific to tracker.sender_id
         profile_db.populate_profile_db(tracker.sender_id)
         currency = profile_db.get_currency(tracker.sender_id)
 
