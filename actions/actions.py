@@ -304,6 +304,7 @@ class ActionTransactionSearch(Action):
 
         if tracker.get_slot("zz_confirm_form") == "yes":
             search_type = tracker.get_slot("search_type")
+            deposit = search_type == "deposit"
             vendor = tracker.get_slot("vendor_name")
             vendor_name = f" at {vendor.title()}" if vendor else ""
             start_time = parser.isoparse(tracker.get_slot("start_time"))
@@ -312,7 +313,7 @@ class ActionTransactionSearch(Action):
                 tracker.sender_id,
                 start_time=start_time,
                 end_time=end_time,
-                deposit=search_type == "deposit",
+                deposit=deposit,
                 vendor=vendor,
             )
 
