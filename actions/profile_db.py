@@ -3,6 +3,8 @@ import sqlalchemy as sa
 from sqlalchemy import Column, Integer, String, DateTime, REAL
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.engine.base import Engine
+from typing import Dict, Text, List, Union, Optional
 
 from random import choice, randrange, sample, randint
 from numpy import arange
@@ -80,7 +82,7 @@ class RecipientRelationship(Base):
     recipient_nickname = Column(String(255))
 
 
-def create_database(database_engine, database_name):
+def create_database(database_engine: Engine, database_name: Text):
     """Try to connect to the database. Create it if it does not exist"""
     try:
         database_engine.connect()
@@ -94,7 +96,7 @@ def create_database(database_engine, database_name):
 
 
 class ProfileDB:
-    def __init__(self, db_engine):
+    def __init__(self, db_engine: Engine):
         self.engine = db_engine
         self.create_tables()
         self.session = self.get_session()
@@ -108,25 +110,29 @@ class ProfileDB:
         RecipientRelationship.__table__.create(self.engine, checkfirst=True)
         Account.__table__.create(self.engine, checkfirst=True)
 
-    def get_account(self, id):
+    def get_account(self, id: int):
         """Get an `Account` object based on an `Account.id`"""
         return self.session.query(Account).filter(Account.id == id).first()
 
-    def get_account_from_session_id(self, session_id):
+    def get_account_from_session_id(self, session_id: Text):
         """Get an `Account` object based on a `Account.session_id`"""
-        return (
+        # if the action server restarts in the middle of a conversation, the db will need to be repopulated outside of an action_session_start
+        if not self.check_session_id_exists(session_id):
+            self.populate_profile_db(session_id)
+        account = (
             self.session.query(Account).filter(Account.session_id == session_id).first()
         )
+        return account
 
     @staticmethod
-    def get_account_number(account):
+    def get_account_number(account: Union[CreditCard, Account]):
         """Get a bank or credit card account number by adding the appropriate number of leading zeros to an `Account.id`"""
         if type(account) is CreditCard:
             return f"%0.{CREDIT_CARD_NUMBER_LENGTH}d" % account.id
         else:
             return f"%0.{ACCOUNT_NUMBER_LENGTH}d" % account.id
 
-    def get_account_from_number(self, account_number):
+    def get_account_from_number(self, account_number: Text):
         """Get a bank or credit card account based on an account number"""
         if len(account_number) == CREDIT_CARD_NUMBER_LENGTH:
             return (
@@ -141,7 +147,7 @@ class ProfileDB:
                 .first()
             )
 
-    def get_recipient_from_name(self, session_id, recipient_name):
+    def get_recipient_from_name(self, session_id: Text, recipient_name: Text):
         """Get a recipient based on the nickname.
         Take the first one if there are multiple that match.
         """
@@ -155,7 +161,7 @@ class ProfileDB:
         recipient_account = self.get_account(recipient.recipient_account_id)
         return recipient_account
 
-    def list_known_recipients(self, session_id):
+    def list_known_recipients(self, session_id: Text):
         """List recipient nicknames available to an account holder"""
         recipients = (
             self.session.query(RecipientRelationship.recipient_nickname)
@@ -167,7 +173,7 @@ class ProfileDB:
         )
         return [recipient.recipient_nickname for recipient in recipients]
 
-    def check_session_id_exists(self, session_id):
+    def check_session_id_exists(self, session_id: Text):
         """Check if an account for `session_id` already exists"""
         return self.session.query(
             self.session.query(Account.session_id)
@@ -175,7 +181,7 @@ class ProfileDB:
             .exists()
         ).scalar()
 
-    def get_account_balance(self, session_id):
+    def get_account_balance(self, session_id: Text):
         """Get the account balance for an account"""
         account_number = self.get_account_number(
             self.get_account_from_session_id(session_id)
@@ -192,7 +198,7 @@ class ProfileDB:
         )
         return earned - spent
 
-    def get_currency(self, session_id):
+    def get_currency(self, session_id: Text):
         """Get the currency for an account"""
         return (
             self.session.query(Account.currency)
@@ -201,7 +207,12 @@ class ProfileDB:
         )
 
     def search_transactions(
-        self, session_id, start_time=None, end_time=None, deposit=False, vendor=None
+        self,
+        session_id: Text,
+        start_time: Optional[datetime] = None,
+        end_time: Optional[datetime] = None,
+        deposit: bool = False,
+        vendor: Optional[Text] = None,
     ):
         """Find all transactions for an account between `start_time` and `end_time`.
         Looks for spend transactions by default, set `deposit` to `True` to search earnings.
@@ -237,7 +248,7 @@ class ProfileDB:
 
         return transactions
 
-    def list_credit_cards(self, session_id):
+    def list_credit_cards(self, session_id: Text):
         """List valid credit cards for an acccount"""
         account = self.get_account_from_session_id(session_id)
         cards = (
@@ -247,7 +258,7 @@ class ProfileDB:
         )
         return [card.credit_card_name for card in cards]
 
-    def get_credit_card(self, session_id, credit_card_name):
+    def get_credit_card(self, session_id: Text, credit_card_name: Text):
         """Get a `CreditCard` object based on the card's name and the `session_id`"""
         account = self.get_account_from_session_id(session_id)
         return (
@@ -258,7 +269,10 @@ class ProfileDB:
         )
 
     def get_credit_card_balance(
-        self, session_id, credit_card_name, balance_type="current_balance"
+        self,
+        session_id: Text,
+        credit_card_name: Text,
+        balance_type: Text = "current_balance",
     ):
         """Get the balance for a credit card based on its name and the balance type"""
         balance_type = "_".join(balance_type.split())
@@ -283,7 +297,9 @@ class ProfileDB:
         )
         return [vendor.account_holder_name for vendor in vendors]
 
-    def pay_off_credit_card(self, session_id, credit_card_name, amount):
+    def pay_off_credit_card(
+        self, session_id: Text, credit_card_name: Text, amount: float
+    ):
         """Do a transaction to move the specified amount from an account to a credit card"""
         account = self.get_account_from_session_id(session_id)
         account_number = self.get_account_number(account)
@@ -305,13 +321,13 @@ class ProfileDB:
             credit_card.minimum_balance = 0
         self.session.commit()
 
-    def add_session_account(self, session_id, name=""):
+    def add_session_account(self, session_id: Text, name: Optional[Text] = ""):
         """Add a new account for a new session_id. Assumes no such account exists yet."""
         self.session.add(
             Account(session_id=session_id, account_holder_name=name, currency="$")
         )
 
-    def add_credit_cards(self, session_id):
+    def add_credit_cards(self, session_id: Text):
         """Populate the creditcard table for a given session_id"""
         credit_card_names = ["iron bank", "credit all", "emblem", "justice bank"]
         credit_cards = [
@@ -327,7 +343,9 @@ class ProfileDB:
         ]
         self.session.add_all(credit_cards)
 
-    def check_general_accounts_populated(self, general_account_names):
+    def check_general_accounts_populated(
+        self, general_account_names: Dict[Text, List[Text]]
+    ):
         """Check whether tables have been populated with global values for vendors, recipients, and depositors"""
         account_names = set(
             [
@@ -344,7 +362,7 @@ class ProfileDB:
         )
         return account_names == existing_account_names
 
-    def add_general_accounts(self, general_account_names):
+    def add_general_accounts(self, general_account_names: Dict[Text, List[Text]]):
         """Populate tables with global values for vendors, recipients, and depositors"""
         general_accounts = [
             Account(session_id=f"{prefix}_{id}", account_holder_name=name)
@@ -356,7 +374,7 @@ class ProfileDB:
             self.session.merge(account)
         self.session.commit()
 
-    def add_recipients(self, session_id):
+    def add_recipients(self, session_id: Text):
         """Populate recipients table"""
         account = self.get_account_from_session_id(session_id)
         recipients = (
@@ -375,7 +393,7 @@ class ProfileDB:
         ]
         self.session.add_all(relationships)
 
-    def add_transactions(self, session_id):
+    def add_transactions(self, session_id: Text):
         """Populate transactions table for a session ID with random transactions"""
         account_number = self.get_account_number(
             self.get_account_from_session_id(session_id)
@@ -447,7 +465,7 @@ class ProfileDB:
 
             self.session.add_all(deposit_transactions)
 
-    def populate_profile_db(self, session_id):
+    def populate_profile_db(self, session_id: Text):
         """Initialize the database for a conversation session.
         Will populate all tables with sample values.
         If general accounts have already been populated, it will only
@@ -463,7 +481,9 @@ class ProfileDB:
 
         self.session.commit()
 
-    def transact(self, from_account_number, to_account_number, amount):
+    def transact(
+        self, from_account_number: Text, to_account_number: Text, amount: float
+    ):
         """Add a transation to the transaction table"""
         timestamp = datetime.now()
         transaction = Transaction(

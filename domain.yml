@@ -40,6 +40,7 @@ entities:
 - number
 - account_type
 - handoff_to
+- search_type
 slots:
   AA_CONTINUE_FORM:
     type: any
@@ -63,6 +64,7 @@ slots:
   currency:
     type: any
     influence_conversation: false
+    initial_value: "$"
   end_time:
     type: any
     influence_conversation: false
@@ -146,9 +148,9 @@ responses:
   - text: Would you like to search incoming or outgoing transactions?
     buttons:
     - title: Incoming (earnings)
-      payload: 
+      payload: /inform{"search_type":"deposit"}'
     - title: Outgoing (spending)
-      payload:
+      payload: /inform{"search_type":"spend"}'
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -390,6 +392,8 @@ forms:
     - intent: check_earnings
       type: from_trigger_intent
       value: deposit
+    - type: from_entity
+      entity: search_type
     time:
     - entity: time
       type: from_entity

@@ -197,7 +197,8 @@ class ValidatePayCCForm(CustomFormValidationAction):
         if value and value.lower() in profile_db.list_credit_cards(tracker.sender_id):
             amount = tracker.get_slot("amount-of-money")
             credit_card_slot = {"credit_card": value.title()}
-            if type(amount) is str:
+            balance_types = profile_db.list_balance_types()
+            if amount and amount.lower() in balance_types:
                 updated_amount = self.amount_from_balance(
                     dispatcher, tracker, value.lower(), amount
                 )
@@ -302,16 +303,18 @@ class ActionTransactionSearch(Action):
         }
 
         if tracker.get_slot("zz_confirm_form") == "yes":
-            search_type = tracker.get_slot("search_type") == "deposit"
-            vendor_name = tracker.get_slot("vendor_name")
+            search_type = tracker.get_slot("search_type")
+            deposit = search_type == "deposit"
+            vendor = tracker.get_slot("vendor_name")
+            vendor_name = f" at {vendor.title()}" if vendor else ""
             start_time = parser.isoparse(tracker.get_slot("start_time"))
             end_time = parser.isoparse(tracker.get_slot("end_time"))
             transactions = profile_db.search_transactions(
                 tracker.sender_id,
                 start_time=start_time,
                 end_time=end_time,
-                deposit=search_type,
-                vendor=vendor_name,
+                deposit=deposit,
+                vendor=vendor,
             )
 
             aliased_transactions = transactions.subquery()
@@ -364,18 +367,18 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
 
         return events
 
-    # async def validate_search_type(
-    #     self,
-    #     value: Text,
-    #     dispatcher: CollectingDispatcher,
-    #     tracker: Tracker,
-    #     domain: Dict[Text, Any],
-    # ) -> Dict[Text, Any]:
-    #     """Validates value of 'search_type' slot"""
-    #     if value in ["spend", "deposit"]:
-    #         return {"search_type": value}
+    async def validate_search_type(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates value of 'search_type' slot"""
+        if value in ["spend", "deposit"]:
+            return {"search_type": value}
 
-    #     return {"search_type": None}
+        return {"search_type": None}
 
     async def validate_vendor_name(
         self,
