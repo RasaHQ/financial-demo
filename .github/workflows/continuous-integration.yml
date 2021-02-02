@@ -16,18 +16,21 @@ jobs:
       DOCKERHUB_USERNAME: oakela
     steps:
       - name: base ref
-        run: echo  ${{ github.base_ref }}
+        run: echo  $GITHUB_REF
       - name: set_tag_latest
         if: |
-            github.base_ref == 'master'
+            $GITHUB_HEAD_REF == 'master' 
+            || $GITHUB_REF == 'master'
         run: echo "TAG=latest" >> $GITHUB_ENV
       - name: set_tag_2
         if: |
-            github.base_ref == 'rasa-2-0'
+            $GITHUB_HEAD_REF == 'rasa-2-0' 
+            || $GITHUB_REF == 'rasa-2-0'
         run: echo "TAG=2" >> $GITHUB_ENV
       - name: set_tag_gha
         if: |
-            github.base_ref == 'gha'
+            $GITHUB_HEAD_REF == 'gha' 
+            || $GITHUB_REF == 'gha'
         run: echo "TAG=gha" >> $GITHUB_ENV
       - run: echo ${{ env.TAG }}
       - name: Checkout git repository 🕝
