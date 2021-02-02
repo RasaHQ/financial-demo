@@ -5,8 +5,7 @@ on:
     - master
     - rasa-2-0
     - gha
-    # paths:
-    # - 'actions/**'
+
 
 jobs:
   docker:
