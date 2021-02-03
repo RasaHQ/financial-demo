@@ -77,10 +77,11 @@ nlu:
     - hi, whats my account bal please
     - so.... what's my [balance](amount-of-money)?
     - whats my [current balance](amount-of-money)
-    - What's my [balance](amount-of-money)?
-    - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
     - Yeah, I know 😀 Since it's so nice: How much money do I have?
+    - How much money do I have?
+    - What's my [balance]{"entity": "amount-of-money", "value": "current balance"}?
+    - How much money do I have on my account?
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -231,13 +232,6 @@ nlu:
     - to my [brother](PERSON)
     - to my [sister](PERSON)
     - my [dad](PERSON)
-    - William Baker
-    - Evan Oslo
-    - Lisa Macintyre
-    - Karen Lancaster
-    - Percy Donald
-    - Kyle Gardner
-    - Katy Parrow
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -298,6 +292,8 @@ nlu:
     - Yes! How much did I spend on [Starbucks](vendor_name) last month?
     - How much did I spend at Burger King last month?
     - what places have I spent money?
+    - what did i spend at Target last month?
+    - And how much did I spend?
 - intent: thankyou
   examples: |
     - thank you goodbye
