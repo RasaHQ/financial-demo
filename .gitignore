@@ -10,6 +10,8 @@ __pycache__/
 .vscode/
 .history
 *.DS_Store
+*.wpr
+*.wpu
 
 # Distribution / packaging
 .Python
@@ -108,9 +110,16 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# pytype
+.pytype/
+
 # Rasa stuff
 models/
 *.db*
 *.dot
 terms/
 results/
+
+# Secret & local files
+secret/
+run_rasa*

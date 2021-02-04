@@ -1,0 +1,6 @@
+custom_forms:
+    # When validation of required slots fails this many times:
+    # (-) Bot will explain the slot if user explain_{slot} method exists
+    # (-) Bot will ask to continue with the form or not
+    max_validation_failures: 2
+    

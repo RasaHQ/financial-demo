@@ -1,7 +1,7 @@
-# Notes on Rasa `1.x / 2.0`
+# Notes on Rasa `2.x / 1.x`
 
-1. The master branch of this repo is compatible with Rasa Open Source **version 1.x**
-2. The bot for **Rasa 2.0** can be found in the [rasa-2-0 branch](https://github.com/RasaHQ/financial-demo/tree/rasa-2-0).
+1. The master branch of this repo is compatible with Rasa Open Source **version 2.x**
+2. The bot for **Rasa 1.x** can be found in the [rasa-1 branch](https://github.com/RasaHQ/financial-demo/tree/rasa-1).
 
 
 
@@ -51,12 +51,15 @@ python -m spacy link en_core_web_md en
 
 Use `rasa train` to train a model.
 
-Then, to run, first set up your action server in one terminal window:
+Then, to run, first set up your action server in one terminal window, listening on port 5056:
 ```bash
-rasa run actions
+rasa run actions --port 5056
 ```
 
+Note that port 5056 is used for the action server, to avoid a conflict when you also run the helpdesk bot as described below in the `handoff` section.
+
 In another window, run the duckling server (for entity extraction):
+
 ```bash
 docker run -p 8000:8000 rasa/duckling
 ```
@@ -80,9 +83,11 @@ Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financ
 
 ## Overview of the files
 
-`data/core.md` - contains stories
+`data/nlu/nlu.yml` - contains NLU training data
 
-`data/nlu.md` - contains NLU training data
+`data/nlu/rules.yml` - contains rules training data
+
+`data/stories/stories*.yml` - contains stories training data
 
 `actions.py` - contains custom action/api code
 
@@ -90,7 +95,7 @@ Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financ
 
 `config.yml` - training configurations for the NLU pipeline and policy ensemble
 
-`tests/e2e.md` - end-to-end test stories
+`tests/` - end-to-end tests
 
 
 ## Things you can ask the bot
@@ -231,22 +236,27 @@ If you list other locally running bots as handoff hosts, make sure the ports on 
 
 ## Testing the bot
 
-You can test the bot on the test conversations by running  `rasa test`.
-This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/conversation_tests.md`.
+You can test the bot on the test conversations by:
 
-Note that if duckling is running when you do this, you'll probably see some "failures" because of entities; that's ok! Since duckling entity extraction is not influenced by NLU training data, and since the values of `time` entities depend on when the tests are being run, these have been left unannotated in the conversation tests.
+- start duckling
+- running  `rasa test`.
+
+This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/test_stories.yml`.
+
+All tests must pass.
+
+
 
 ## Rasa X Deployment
 
-To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the
-[one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and
-configurations, and build or pull an action server image.
+To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the [one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. 
+
+As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and configurations, and build or pull an action server image.
 
 
 ## Action Server Image
 
-You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use
-the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself.
+You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself.
 
 
 See the Dockerfile for what is included in the action server image,

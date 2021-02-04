@@ -1,0 +1,921 @@
+version: "2.0"
+stories:
+  
+- story: greet/bye path
+  steps:
+  - user: |
+      hi
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      bye
+    intent: goodbye
+  - action: utter_goodbye
+
+- story: say goodbye
+  steps:
+  - user: |
+      bye
+    intent: goodbye
+  - action: utter_goodbye
+
+- story: help
+  steps:
+  - user: |
+      how do I use this
+    intent: help
+  - action: utter_help
+
+- story: out of scope
+  steps:
+  - user: |
+      I want to order a pizza
+    intent: out_of_scope
+  - action: utter_out_of_scope
+  
+- story: is there a transfer charge
+  steps:
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: action_show_transfer_charge
+
+- story: Show list of known recipients
+  steps:
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_show_recipients
+  
+- story: Show bank account balance
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+
+- story: Show specific credit card account balance
+  steps:
+  - user: |
+      What's my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"} [balance]{"entity": "amount-of-money", "value": "current balance"}
+    intent: check_balance
+  - action: action_show_balance
+  
+- story: Show all credit cards account balances
+  steps:
+  - user: |
+      What are my [credit](account_type) accounts
+    intent: check_balance
+  - action: action_show_balance
+  
+- story: check list of known recipients
+  steps:
+  - user: |
+      Show me my list of recipients
+    intent: check_recipients
+  - action: action_show_recipients
+
+- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c
+  steps:
+  - user: |
+      help
+    intent: help
+  - action: utter_help
+  - user: |
+      hello
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      Thanks!
+    intent: thankyou
+  - action: utter_noworries
+
+- story: from Rasa X 56efe3eaf7c0456db86a6669421f885c (if intent were right)
+  steps:
+  - user: |
+      help
+    intent: help
+  - action: utter_help
+  - user: |
+      hello
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      That sounds good
+    intent: affirm
+  - action: utter_ok
+
+- story: pay credit card happy path
+  steps:
+  - user: |
+      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - action: action_pay_cc
+
+- story: transfer money happy path w/o recipient
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: transfer money happy path w/ recipient
+  steps:
+  - user: |
+      i want to transfer money to [Latisha](PERSON)
+    intent: transfer_money
+    entities:
+    - PERSON: Latisha
+  - slot_was_set:
+    - PERSON: Latisha
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: check earnings happy path
+  steps:
+  - user: |
+      how much did I earn [in January 2019]{"entity": "time", "value": "2019-01-01T00:00:00.000-08:00"}
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - action: action_transaction_search
+  
+- story: search transactions happy path
+  steps:
+  - user: |
+      I want to search my spending history'
+    intent: search_transactions
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - action: action_transaction_search
+  
+- story: greet + search transactions happy path + thankyou
+  steps:
+  - user: |
+      hi
+    intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - user: |
+      I want to search my spending history'
+    intent: search_transactions
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - action: action_transaction_search
+  - user: |
+      Thanks!
+    intent: thankyou
+  - action: utter_noworries
+
+- story: Show bank account balance + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: Show bank account balance + thankyou + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - user: |
+      Thanks!
+    intent: thankyou
+  - action: utter_noworries
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: Show bank account balance + ok + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - user: |
+      Ok
+    intent: affirm
+  - action: utter_ok
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+
+- story: Show bank account balance + ok + show recipients + ok + show transfer charge + ok + transfer money
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - user: |
+      Ok
+    intent: affirm
+  - action: utter_ok
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_show_recipients
+  - user: |
+      Ok
+    intent: affirm
+  - action: utter_ok
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: action_show_transfer_charge
+  - user: |
+      Ok
+    intent: affirm
+  - action: utter_ok
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: Show bank account balance + ok + pay credit card
+  steps:
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  - user: |
+      Ok
+    intent: affirm
+  - action: utter_ok
+  - user: |
+      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - action: action_pay_cc
+  
+- story: pay credit card and afterwards check account balance
+  steps:
+  - user: |
+      i want to pay off my [emblm]{"entity": "credit_card", "value": "emblem"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - action: action_pay_cc
+  - user: |
+      How much money is on my account?
+    intent: check_balance
+  - action: action_show_balance
+  
+- story: Pay CC, while in form ask account balance
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: credit_card
+  - user: |
+      How much money is on my [bank]{"entity": "account_type", "value": "bank"} account?
+    intent: check_balance
+  - slot_was_set:
+    - account_type: bank
+  - action: action_show_balance
+  - action: cc_payment_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_pay_cc
+  
+
+- story: transfer money, while in form ask transfer charge
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: action_show_transfer_charge
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+    
+- story: transfer money, while in form ask known recipients
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_show_recipients
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+
+- story: transfer money, while in form ask balance
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      What is my account [balance]{"entity": "amount-of-money", "value": "current balance"}?
+    intent: check_balance
+  - action: action_show_balance
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+  
+- story: transfer money, while in form ask known recipients and transfer charge
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      Who can I send money to?
+    intent: check_recipients
+  - action: action_show_recipients
+  - action: transfer_money_form
+  - user: |
+      is there a transfer charge
+    intent: ask_transfer_charge
+  - action: action_show_transfer_charge
+  - action: transfer_money_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_transfer_money
+
+- story: pay credit card + switch to transfer money, deny
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
+  - intent: deny
+  - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+
+- story: pay credit card + switch to search transactions, deny
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
+  - intent: deny
+  - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  
+- story: search transactions + switch to transfer money, deny
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
+  - intent: deny
+  - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
+  - action: transaction_search_form
+  - active_loop: transaction_search_form  
+  
+- story: search transactions + switch to pay credit card, deny
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
+  - intent: deny
+  - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+- story: transfer money + switch to search transactions, deny
+  steps:
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
+  - intent: deny
+  - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+
+- story: transfer money + switch to pay credit card, deny
+  steps:
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
+  - intent: deny
+  - action: action_switch_forms_deny
+  - slot_was_set:
+    - next_form_name: null
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+
+- story: pay credit card + switch to search transactions, affirm + switch back, deny
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: cc_payment_form
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transaction_search
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: deny
+  - action: utter_ask_whatelse
+
+- story: pay credit card + switch to transfer money, affirm + switch back, deny
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: cc_payment_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: deny
+  - action: utter_ask_whatelse
+  
+- story: search transactions + switch to transfer money, affirm + switch back, deny
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
+  - user: |
+      Yes
+    intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - user: |
+      No
+    intent: deny
+  - action: utter_ask_whatelse  
+
+- story: search transactions + switch to pay credit card, affirm + switch back, deny
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_pay_cc
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: deny
+  - action: utter_ask_whatelse
+
+- story: transfer money + switch to search transactions, affirm + switch back, deny
+  steps:
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transfer_money_form
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transaction_search
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: deny
+  - action: utter_ask_whatelse
+
+- story: transfer money + switch to pay credit card, affirm + switch back, deny
+  steps:
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transfer_money_form
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_pay_cc
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: deny
+  - action: utter_ask_whatelse
+
+- story: pay credit card + switch to search transactions, affirm + switch back, affirm
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: cc_payment_form
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transaction_search
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  
+- story: pay credit card + switch to transfer money, affirm + switch back, affirm
+  steps:
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: cc_payment_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+
+  
+- story: search transactions + switch to transfer money, affirm + switch back, affirm
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transfer_money_form
+  - user: |
+      Yes
+    intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - user: |
+      Yes
+    intent: affirm
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+- story: search transactions + switch to pay credit card, affirm + switch back, affirm
+  steps:
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transaction_search_form
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_pay_cc
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+
+- story: transfer money+ switch to search transactions, affirm + switch back, affirm
+  steps:
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      check earnings
+    intent: check_earnings
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: transaction_search_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transfer_money_form
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transaction_search
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+
+- story: transfer money+ switch to pay credit card, affirm + switch back, affirm
+  steps:
+  - user: |
+      transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - user: |
+      pay [credit card]{"entity": "account_type", "value": "credit"}
+    intent: pay_cc
+  - action: action_switch_forms_ask
+  - slot_was_set:
+    - next_form_name: cc_payment_form
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - slot_was_set:
+    - next_form_name: null
+  - slot_was_set:
+    - previous_form_name: transfer_money_form
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_pay_cc
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+    
+- story: providing a name must be inform intent
+  steps:
+  - user: |
+      i want to transfer money
+    intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: PERSON
+  - user: |
+      [lisa](PERSON)
+    intent: inform
+  - slot_was_set:
+    - requested_slot: amount-of-money
+  - action: transfer_money_form
+  

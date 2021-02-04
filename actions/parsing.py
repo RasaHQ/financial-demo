@@ -72,9 +72,7 @@ def format_isotime_by_grain(isotime, grain=None):
     return time_formatted
 
 
-def parse_duckling_time(
-    timeentity: Dict[Text, Any]
-) -> Optional[Dict[Text, Any]]:
+def parse_duckling_time(timeentity: Dict[Text, Any]) -> Optional[Dict[Text, Any]]:
     try:
         timeinfo = timeentity.get("additional_info", {})
     except AttributeError:
@@ -99,13 +97,11 @@ def get_entity_details(
         return entities[0]
 
 
-def parse_duckling_currency(
-    entity: Dict[Text, Any]
-) -> Optional[Dict[Text, Any]]:
+def parse_duckling_currency(entity: Dict[Text, Any]) -> Optional[Dict[Text, Any]]:
     if entity.get("entity") == "amount-of-money":
         amount = entity.get("additional_info", {}).get("value")
         currency = entity.get("additional_info", {}).get("unit")
-        return {"amount_of_money": f"{amount:.2f}", "currency": currency}
+        return {"amount-of-money": f"{amount:.2f}", "currency": currency}
     elif entity.get("entity") == "number":
         amount = entity.get("value")
-        return {"amount_of_money": f"{amount:.2f}", "currency": "$"}
+        return {"amount-of-money": f"{amount:.2f}", "currency": "$"}

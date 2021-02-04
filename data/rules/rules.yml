@@ -1,0 +1,114 @@
+version: "2.0"
+
+rules:
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default
+
+- rule: answer out of scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+    
+- rule: greet
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+
+- rule: say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  
+- rule: help
+  steps:
+  - intent: help
+  - action: utter_help
+
+- rule: thankyou
+  steps:
+  - intent: thankyou
+  - action: utter_noworries
+  
+- rule: is there a transfer charge
+  steps:
+  - intent: ask_transfer_charge
+  - action: action_show_transfer_charge
+  
+- rule: Show list of known recipients
+  steps:
+  - intent: check_recipients
+  - action: action_show_recipients
+  
+- rule: Show balance (bank account or credit card, based on account_type)
+  steps:
+  - intent: check_balance
+  - action: action_show_balance
+        
+- rule: Activate cc_payment_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
+  steps:
+  - intent: pay_cc
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  
+- rule: Activate transfer_money_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
+  steps:
+  - intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  
+- rule: Activate transaction_search_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
+  steps:
+  - or:
+    - intent: search_transactions
+    - intent: check_earnings
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  
+- rule: Submit cc_payment_form while not switched from previous form
+  condition:
+  - active_loop: cc_payment_form
+  - slot_was_set:
+    - previous_form_name: null
+  steps:
+  - action: cc_payment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_pay_cc
+  
+- rule: Submit transfer_money_form while not switched from previous form
+  condition:
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - previous_form_name: null
+  steps:
+  - action: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  
+- rule: Submit transaction_search_form while not switched from previous form
+  condition:
+  - active_loop: transaction_search_form
+  - slot_was_set:
+    - previous_form_name: null
+  steps:
+  - action: transaction_search_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transaction_search
