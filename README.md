@@ -212,7 +212,7 @@ For this demo, the user can ask for a human, but they'll be offered a bot (or bo
 so that the conversation looks like this:
 
 
-For handoff to work, you need at least one "handoff_host". You can specify any number of handoff hosts in the file `actions/hanodff_config.yml`.
+For handoff to work, you need at least one "handoff_host". You can specify any number of handoff hosts in the file `actions/handoff_config.yml`.
 ```
 handoff_hosts:
     helpdesk_assistant:
