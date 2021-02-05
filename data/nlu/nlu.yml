@@ -81,6 +81,10 @@ nlu:
     - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
     - Yeah, I know 😀 Since it's so nice: How much money do I have?
+    - what places have I spent money?
+    - Wait, I'll have to check my balance first. Can you do that please?
+    - Hi, I need to know how much money is in my [checking](account_type) account
+    - Balance please
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -121,6 +125,9 @@ nlu:
     - BYEE
     - GOODBYE
     - Thanks a lot. See ya later
+    - have a good day. time to go, bye
+    - bye bye
+    - ok i gtg
 - intent: greet
   examples: |
     - good morning
@@ -273,6 +280,11 @@ nlu:
     - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
     - I want to pay 100 dollars toward my [Emblem](credit_card) [card](account_type), tomorrow
     - pay 100 towards [emblem](credit_card) [card](account_type), tomorrow
+    - id like to pay my bill
+    - could I pay off my [credit card]{"entity": "account_type", "value": "credit"}?
+    - pay off my [credit card]{"entity": "account_type", "value": "credit"}
+    - i wanna pay my [credit card]{"entity": "account_type", "value": "credit"}
+    - pay a bill
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -298,6 +310,15 @@ nlu:
     - Yes! How much did I spend on [Starbucks](vendor_name) last month?
     - How much did I spend at Burger King last month?
     - what places have I spent money?
+    - What did I spend at [Starbucks](vendor_name) in may?
+    - How much money did I lose to [starbucks](vendor_name) in may?
+    - Oh how much did I actually spend at [target](vendor_name) last month? I'd love to know.
+    - Can you tell me how much I spent at [Ikea](vendor_name) this month?
+    - Can you tell me how much I spent at coffeeshops this month?
+    - Can you tell me how much I spent on coffee this month?
+    - What did I spend at [Costco](vendor_name) last month?
+    - what did I spend at [target](vendor_name) last month
+    - where did I spend the most money last month?
 - intent: thankyou
   examples: |
     - thank you goodbye
@@ -311,6 +332,7 @@ nlu:
     - thanks goodbye
     - thank you and good bye
     - Thanks!
+    - Awesome, you are a good bot!
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -350,6 +372,20 @@ nlu:
     - transfer money to [sara](PERSON)
     - I need to transfer money to my grandma [Judith](PERSON).
     - i want to transfer money to [Latisha](PERSON)
+    - I need to make an urgent transfer to [Bob](PERSON), can you do it?
+    - Ahh, okay so I want to make a transfer to [Bob](PERSON).
+    - Can I transfer money to a friend?
+    - I need to transfer money to [Jeff](PERSON), my son
+    - I need to send money to my kid
+    - I need to transfer money
+    - send $50 to [john jacob](PERSON)
+    - I need to transfer money to my co-worker who paid for lunch
+    - Hi I like to send money
+    - I'd like to send 50$ to [John](PERSON)
+    - Hi I like to send money to [John](PERSON)
+    - Please transfer 50 dollars to [Andreas](PERSON)
+    - I would like to transfer money to [Philipp](PERSON)
+    - I would like to transfer 50$ to [Joschka](PERSON)
 - intent: check_recipients
   examples: |
     - Who can I send money to?
@@ -365,6 +401,10 @@ nlu:
     - Who is on your list?
     - who is in my list of kown recipients?
     - Can we please start over?
+    - Who all can I transfer money to?
+    - Who can I transfer money to?
+    - Okay. Who can I transfer money to then?
+    - can I see the list of known recipients?
 - intent: help
   examples: |
     - help
@@ -377,6 +417,7 @@ nlu:
     - how do I use this
     - how can you help me
     - What are the things that you can do?
+    - What else can you help me with?
 - intent: human_handoff
   examples: |
     - handoff
