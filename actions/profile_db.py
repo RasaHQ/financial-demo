@@ -310,9 +310,7 @@ class ProfileDB:
             .first()
         )
         self.transact(
-            account_number,
-            self.get_account_number(credit_card),
-            amount,
+            account_number, self.get_account_number(credit_card), amount,
         )
         credit_card.current_balance -= amount
         if amount < credit_card.minimum_balance:

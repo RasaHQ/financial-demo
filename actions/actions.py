@@ -333,8 +333,7 @@ class ActionTransactionSearch(Action):
             }
 
             dispatcher.utter_message(
-                template=f"utter_searching_{search_type}_transactions",
-                **slotvars,
+                template=f"utter_searching_{search_type}_transactions", **slotvars,
             )
             dispatcher.utter_message(
                 template=f"utter_found_{search_type}_transactions", **slotvars
@@ -441,9 +440,7 @@ class ActionTransferMoney(Action):
                 )
             )
             profile_db.transact(
-                from_account_number,
-                to_account_number,
-                amount_of_money,
+                from_account_number, to_account_number, amount_of_money,
             )
 
             dispatcher.utter_message(template="utter_transfer_complete")
@@ -503,8 +500,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
         return {}
 
@@ -634,8 +630,7 @@ class ActionShowRecipients(Action):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
-            formatted_recipients=formatted_recipients,
+            template="utter_recipients", formatted_recipients=formatted_recipients,
         )
 
         events = []
@@ -685,19 +680,14 @@ class ActionSessionStart(Action):
         return "action_session_start"
 
     @staticmethod
-    def _slot_set_events_from_tracker(
-        tracker: "Tracker",
-    ) -> List["SlotSet"]:
+    def _slot_set_events_from_tracker(tracker: "Tracker",) -> List["SlotSet"]:
         """Fetches SlotSet events from tracker and carries over keys and values"""
 
         # when restarting most slots should be reset
         relevant_slots = ["currency"]
 
         return [
-            SlotSet(
-                key=event.get("name"),
-                value=event.get("value"),
-            )
+            SlotSet(key=event.get("name"), value=event.get("value"),)
             for event in tracker.events
             if event.get("event") == "slot" and event.get("name") in relevant_slots
         ]
@@ -878,6 +868,7 @@ class ActionSwitchFormsAffirm(Action):
         return [
             SlotSet("previous_form_name", active_form_name),
             SlotSet("next_form_name", None),
+            SlotSet("requested_slot", None),
         ]
 
 
@@ -909,4 +900,7 @@ class ActionSwitchBackAsk(Action):
             ]
             dispatcher.utter_message(text=text, buttons=buttons)
 
-        return [SlotSet("previous_form_name", None)]
+        return [
+            SlotSet("previous_form_name", None),
+            SlotSet("requested_slot", None),
+        ]
