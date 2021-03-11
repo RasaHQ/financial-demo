@@ -3,7 +3,6 @@ on:
   push:
     branches:
     - master
-    - rasa-2-0
     paths:
     - 'actions/**'
 
@@ -19,11 +18,6 @@ jobs:
             github.ref == 'refs/heads/master' 
             || github.head_ref == 'refs/heads/master'
         run: echo "TAG=latest" >> $GITHUB_ENV
-      - name: set_tag_2
-        if: |
-            github.ref == 'refs/heads/rasa-2-0' 
-            || github.head_ref == 'refs/heads/rasa-2-0'
-        run: echo "TAG=2.0" >> $GITHUB_ENV
       - run: echo ${{ env.TAG }}
       - name: Checkout git repository 🕝
         uses: actions/checkout@v2
