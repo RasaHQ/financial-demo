@@ -113,6 +113,7 @@ nlu:
     - Nothing!
     - nevermind
     - n
+    - i dont want to
 - intent: goodbye
   examples: |
     - see you later
@@ -128,6 +129,7 @@ nlu:
     - have a good day. time to go, bye
     - bye bye
     - ok i gtg
+    - Bye
 - intent: greet
   examples: |
     - good morning
@@ -148,6 +150,7 @@ nlu:
     - hi there
     - Hello
     - hello its ella
+    - Hola.
 - intent: inform
   examples: |
     - $10
@@ -333,6 +336,7 @@ nlu:
     - thank you and good bye
     - Thanks!
     - Awesome, you are a good bot!
+    - okay
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -445,6 +449,9 @@ nlu:
     - I want to order a pizza
     - what is the weather today
     - what is the weather
+- intent: some_intent
+  examples: |
+    - Check the status of a [cryptocurrency](amount-of-money)
 - synonym: credit
   examples: |
     - credit card
