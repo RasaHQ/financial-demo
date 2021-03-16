@@ -80,7 +80,7 @@ jobs:
         if: env.RUN_TRAINING == 'true'
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          rasa_version: '2.2.7-spacy-en'
+          rasa_version: '2.4.0-spacy-en'
           test_type: all
           data_validate: true
           cross_validation: true
