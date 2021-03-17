@@ -18,6 +18,7 @@ nlu:
     - cool,
     - yes...
     - y
+    - okay
 - intent: ask_transfer_charge
   examples: |
     - Will I be charged for transferring money
@@ -29,6 +30,7 @@ nlu:
     - is there a transfer fee
     - is there a xfer fee
     - how much is the transfer fee
+    - Is there a transfer charge?
 - intent: check_balance
   examples: |
     - How much money is on my account?
@@ -85,6 +87,7 @@ nlu:
     - Wait, I'll have to check my balance first. Can you do that please?
     - Hi, I need to know how much money is in my [checking](account_type) account
     - Balance please
+    - what's my [balance]{"entity": "amount-of-money", "value": "current balance"}
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -113,6 +116,7 @@ nlu:
     - Nothing!
     - nevermind
     - n
+    - none of them
 - intent: goodbye
   examples: |
     - see you later
@@ -148,6 +152,8 @@ nlu:
     - hi there
     - Hello
     - hello its ella
+    - howdy
+    - hi rasa
 - intent: inform
   examples: |
     - $10
@@ -245,6 +251,16 @@ nlu:
     - Percy Donald
     - Kyle Gardner
     - Katy Parrow
+    - Last week
+    - 100
+    - Percy please
+    - Laura Schilling
+    - All
+    - 125
+    - Katy
+    - Katie
+    - one month
+    - my wife's
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -285,6 +301,7 @@ nlu:
     - pay off my [credit card]{"entity": "account_type", "value": "credit"}
     - i wanna pay my [credit card]{"entity": "account_type", "value": "credit"}
     - pay a bill
+    - pay [credit card]{"entity": "account_type", "value": "credit"}
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -319,6 +336,7 @@ nlu:
     - What did I spend at [Costco](vendor_name) last month?
     - what did I spend at [target](vendor_name) last month
     - where did I spend the most money last month?
+    - What have I spent at [Amazon](vendor_name)?
 - intent: thankyou
   examples: |
     - thank you goodbye
@@ -333,6 +351,8 @@ nlu:
     - thank you and good bye
     - Thanks!
     - Awesome, you are a good bot!
+    - Great, thanks!
+    - great
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -405,6 +425,7 @@ nlu:
     - Who can I transfer money to?
     - Okay. Who can I transfer money to then?
     - can I see the list of known recipients?
+    - who can I send money to?
 - intent: help
   examples: |
     - help
@@ -418,6 +439,7 @@ nlu:
     - how can you help me
     - What are the things that you can do?
     - What else can you help me with?
+    - What can you do ?
 - intent: human_handoff
   examples: |
     - handoff
@@ -431,6 +453,9 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
+    - talk to a human?
+    - human ples
+    - can I speak with an actual human ?
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
