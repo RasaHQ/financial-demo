@@ -18,6 +18,8 @@ nlu:
     - cool,
     - yes...
     - y
+    - ok
+    - ye
 - intent: ask_transfer_charge
   examples: |
     - Will I be charged for transferring money
@@ -148,6 +150,9 @@ nlu:
     - hi there
     - Hello
     - hello its ella
+    - Hola.
+    - welcome
+    - howdy
 - intent: inform
   examples: |
     - $10
@@ -245,6 +250,19 @@ nlu:
     - Percy Donald
     - Kyle Gardner
     - Katy Parrow
+    - Percy please
+    - Laura Schilling
+    - In that case, let's go with Percy
+    - My chase
+    - Jane
+    - Melinda
+    - Sara
+    - my wife's
+    - Andreas
+    - htthis weekend
+    - all of them
+    - Darren Smith
+    - Percy
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -285,6 +303,7 @@ nlu:
     - pay off my [credit card]{"entity": "account_type", "value": "credit"}
     - i wanna pay my [credit card]{"entity": "account_type", "value": "credit"}
     - pay a bill
+    - can I pay my [card]{"entity": "account_type", "value": "credit"}?
 - intent: search_transactions
   examples: |
     - how much did I spend at [Target](vendor_name) this week?
@@ -333,6 +352,8 @@ nlu:
     - thank you and good bye
     - Thanks!
     - Awesome, you are a good bot!
+    - great!
+    - I see, thanks
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -431,6 +452,7 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
+    - ten
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
@@ -445,6 +467,8 @@ nlu:
     - I want to order a pizza
     - what is the weather today
     - what is the weather
+    - what the weather today ?
+    - hows the weather
 - synonym: credit
   examples: |
     - credit card
