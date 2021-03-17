@@ -462,7 +462,6 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
-    - ten
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
