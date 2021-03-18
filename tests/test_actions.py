@@ -40,9 +40,9 @@ async def test_action_pay_cc_not_confirmed(dispatcher, domain):
         SlotSet("grain", None),
         SlotSet("number", None),
     ]
-    expected_template = "utter_cc_pay_cancelled"
+    expected_response = "utter_cc_pay_cancelled"
     assert events == expected_events
-    assert dispatcher.messages[0]["template"] == expected_template
+    assert dispatcher.messages[0]["response"] == expected_response
 
 
 async def test_action_pay_cc_confirmed(dispatcher, domain):
@@ -68,6 +68,6 @@ async def test_action_pay_cc_confirmed(dispatcher, domain):
         SlotSet("number", None),
         SlotSet("amount_transferred", value=602.65),
     ]
-    expected_template = "utter_cc_pay_scheduled"
+    expected_response = "utter_cc_pay_scheduled"
     assert events == expected_events
-    assert dispatcher.messages[0]["template"] == expected_template
+    assert dispatcher.messages[0]["response"] == expected_response

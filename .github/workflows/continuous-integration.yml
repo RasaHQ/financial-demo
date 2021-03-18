@@ -30,4 +30,4 @@ jobs:
           docker_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
           docker_image_name: 'rasa/financial-demo'
           docker_image_tag: ${{ env.TAG }}
-          rasa_sdk_version: '2.2.0'
+          rasa_sdk_version: '2.4.0'

@@ -95,11 +95,11 @@ class ActionPayCC(Action):
                 tracker.sender_id, credit_card, amount_of_money
             )
 
-            dispatcher.utter_message(template="utter_cc_pay_scheduled")
+            dispatcher.utter_message(response="utter_cc_pay_scheduled")
 
             slots["amount_transferred"] = amount_transferred + amount_of_money
         else:
-            dispatcher.utter_message(template="utter_cc_pay_cancelled")
+            dispatcher.utter_message(response="utter_cc_pay_cancelled")
 
         return [SlotSet(slot, value) for slot, value in slots.items()]
 
@@ -119,7 +119,7 @@ class ValidatePayCCForm(CustomFormValidationAction):
         )
         account_balance = profile_db.get_account_balance(tracker.sender_id)
         if account_balance < float(amount_balance):
-            dispatcher.utter_message(template="utter_insufficient_funds")
+            dispatcher.utter_message(response="utter_insufficient_funds")
             return {"amount-of-money": None}
         return {
             "amount-of-money": f"{amount_balance:.2f}",
@@ -160,7 +160,7 @@ class ValidatePayCCForm(CustomFormValidationAction):
                 )
                 if float(slots_to_set.get("amount-of-money")) == 0:
                     dispatcher.utter_message(
-                        template="utter_nothing_due", **slots_to_set
+                        response="utter_nothing_due", **slots_to_set
                     )
                     return {
                         "amount-of-money": None,
@@ -177,13 +177,13 @@ class ValidatePayCCForm(CustomFormValidationAction):
             if not amount_currency:
                 raise TypeError
             if account_balance < float(amount_currency.get("amount-of-money")):
-                dispatcher.utter_message(template="utter_insufficient_funds")
+                dispatcher.utter_message(response="utter_insufficient_funds")
                 return {"amount-of-money": None}
             return amount_currency
         except (TypeError, AttributeError):
             pass
 
-        dispatcher.utter_message(template="utter_no_payment_amount")
+        dispatcher.utter_message(response="utter_no_payment_amount")
         return {"amount-of-money": None}
 
     async def validate_credit_card(
@@ -204,7 +204,7 @@ class ValidatePayCCForm(CustomFormValidationAction):
                 )
                 if float(updated_amount.get("amount-of-money")) == 0:
                     dispatcher.utter_message(
-                        template="utter_nothing_due", **updated_amount
+                        response="utter_nothing_due", **updated_amount
                     )
                     return {
                         "amount-of-money": None,
@@ -214,13 +214,13 @@ class ValidatePayCCForm(CustomFormValidationAction):
                 account_balance = profile_db.get_account_balance(tracker.sender_id)
                 if account_balance < float(updated_amount.get("amount-of-money")):
                     dispatcher.utter_message(
-                        template="utter_insufficient_funds_specific", **updated_amount
+                        response="utter_insufficient_funds_specific", **updated_amount
                     )
                     return {"amount-of-money": None}
                 return {**credit_card_slot, **updated_amount}
             return credit_card_slot
 
-        dispatcher.utter_message(template="utter_no_creditcard")
+        dispatcher.utter_message(response="utter_no_creditcard")
         return {"credit_card": None}
 
     async def explain_credit_card(
@@ -237,7 +237,7 @@ class ValidatePayCCForm(CustomFormValidationAction):
                 tracker.sender_id, credit_card
             )
             dispatcher.utter_message(
-                template="utter_credit_card_balance",
+                response="utter_credit_card_balance",
                 **{
                     "credit_card": credit_card.title(),
                     "amount-of-money": f"{current_balance:.2f}",
@@ -256,7 +256,7 @@ class ValidatePayCCForm(CustomFormValidationAction):
         timeentity = get_entity_details(tracker, "time")
         parsedtime = timeentity and parse_duckling_time(timeentity)
         if not parsedtime:
-            dispatcher.utter_message(template="utter_no_transactdate")
+            dispatcher.utter_message(response="utter_no_transactdate")
             return {"time": None}
         return parsedtime
 
@@ -333,14 +333,14 @@ class ActionTransactionSearch(Action):
             }
 
             dispatcher.utter_message(
-                template=f"utter_searching_{search_type}_transactions",
+                response=f"utter_searching_{search_type}_transactions",
                 **slotvars,
             )
             dispatcher.utter_message(
-                template=f"utter_found_{search_type}_transactions", **slotvars
+                response=f"utter_found_{search_type}_transactions", **slotvars
             )
         else:
-            dispatcher.utter_message(template="utter_transaction_search_cancelled")
+            dispatcher.utter_message(response="utter_transaction_search_cancelled")
 
         return [SlotSet(slot, value) for slot, value in slots.items()]
 
@@ -391,7 +391,7 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
         if value and value.lower() in profile_db.list_vendors():
             return {"vendor_name": value}
 
-        dispatcher.utter_message(template="utter_no_vendor_name")
+        dispatcher.utter_message(response="utter_no_vendor_name")
         return {"vendor_name": None}
 
     async def validate_time(
@@ -405,7 +405,7 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
         timeentity = get_entity_details(tracker, "time")
         parsedinterval = timeentity and parse_duckling_time_as_interval(timeentity)
         if not parsedinterval:
-            dispatcher.utter_message(template="utter_no_transactdate")
+            dispatcher.utter_message(response="utter_no_transactdate")
             return {"time": None}
 
         return parsedinterval
@@ -446,12 +446,12 @@ class ActionTransferMoney(Action):
                 amount_of_money,
             )
 
-            dispatcher.utter_message(template="utter_transfer_complete")
+            dispatcher.utter_message(response="utter_transfer_complete")
 
             amount_transferred = float(tracker.get_slot("amount_transferred"))
             slots["amount_transferred"] = amount_transferred + amount_of_money
         else:
-            dispatcher.utter_message(template="utter_transfer_cancelled")
+            dispatcher.utter_message(response="utter_transfer_cancelled")
 
         return [SlotSet(slot, value) for slot, value in slots.items()]
 
@@ -487,7 +487,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             fullname = known_recipients[index]
             return {"PERSON": fullname.title()}
 
-        dispatcher.utter_message(template="utter_unknown_recipient", PERSON=value)
+        dispatcher.utter_message(response="utter_unknown_recipient", PERSON=value)
         return {"PERSON": None}
 
     async def explain_PERSON(
@@ -503,7 +503,7 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
+            response="utter_recipients",
             formatted_recipients=formatted_recipients,
         )
         return {}
@@ -525,11 +525,11 @@ class ValidateTransferMoneyForm(CustomFormValidationAction):
             if not amount_currency:
                 raise TypeError
             if account_balance < float(amount_currency.get("amount-of-money")):
-                dispatcher.utter_message(template="utter_insufficient_funds")
+                dispatcher.utter_message(response="utter_insufficient_funds")
                 return {"amount-of-money": None}
             return amount_currency
         except (TypeError, AttributeError):
-            dispatcher.utter_message(template="utter_no_payment_amount")
+            dispatcher.utter_message(response="utter_no_payment_amount")
             return {"amount-of-money": None}
 
     async def validate_zz_confirm_form(
@@ -569,7 +569,7 @@ class ActionShowBalance(Action):
                     tracker.sender_id, credit_card
                 )
                 dispatcher.utter_message(
-                    template="utter_credit_card_balance",
+                    response="utter_credit_card_balance",
                     **{
                         "credit_card": credit_card.title(),
                         "credit_card_balance": f"{current_balance:.2f}",
@@ -581,7 +581,7 @@ class ActionShowBalance(Action):
                         tracker.sender_id, credit_card
                     )
                     dispatcher.utter_message(
-                        template="utter_credit_card_balance",
+                        response="utter_credit_card_balance",
                         **{
                             "credit_card": credit_card.title(),
                             "credit_card_balance": f"{current_balance:.2f}",
@@ -595,13 +595,13 @@ class ActionShowBalance(Action):
                 amount = float(tracker.get_slot("amount_transferred"))
                 init_account_balance = account_balance + amount
                 dispatcher.utter_message(
-                    template="utter_changed_account_balance",
+                    response="utter_changed_account_balance",
                     init_account_balance=f"{init_account_balance:.2f}",
                     account_balance=f"{account_balance:.2f}",
                 )
             else:
                 dispatcher.utter_message(
-                    template="utter_account_balance",
+                    response="utter_account_balance",
                     init_account_balance=f"{account_balance:.2f}",
                 )
 
@@ -634,7 +634,7 @@ class ActionShowRecipients(Action):
             [f"- {recipient.title()}" for recipient in recipients]
         )
         dispatcher.utter_message(
-            template="utter_recipients",
+            response="utter_recipients",
             formatted_recipients=formatted_recipients,
         )
 
@@ -662,7 +662,7 @@ class ActionShowTransferCharge(Action):
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
         """Executes the custom action"""
-        dispatcher.utter_message(template="utter_transfer_charge")
+        dispatcher.utter_message(response="utter_transfer_charge")
 
         events = []
         active_form_name = tracker.active_form.get("name")
