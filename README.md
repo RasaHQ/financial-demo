@@ -1,6 +1,6 @@
 # Notes on Rasa `2.x / 1.x`
 
-1. The master branch of this repo is compatible with Rasa Open Source **version 2.x**
+1. The `main` branch of this repo is compatible with Rasa Open Source **version 2.x**
 2. The bot for **Rasa 1.x** can be found in the [rasa-1 branch](https://github.com/RasaHQ/financial-demo/tree/rasa-1).
 
 
