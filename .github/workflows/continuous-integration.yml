@@ -2,7 +2,7 @@ name: Continuous Integration
 on:
   push:
     branches:
-    - master
+    - main
     paths:
     - 'actions/**'
 
@@ -15,8 +15,8 @@ jobs:
     steps:
       - name: set_tag_latest
         if: |
-            github.ref == 'refs/heads/master' 
-            || github.head_ref == 'refs/heads/master'
+            github.ref == 'refs/heads/main'
+            || github.head_ref == 'refs/heads/main'
         run: echo "TAG=latest" >> $GITHUB_ENV
       - run: echo ${{ env.TAG }}
       - name: Checkout git repository 🕝
