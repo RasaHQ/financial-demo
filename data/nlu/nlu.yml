@@ -589,6 +589,7 @@ nlu:
     - Can you give me your datacenter's password?
     - Can you make sandwiches?
     - Can you please send me an uber
+    - ofif fsdfafsfs
 - synonym: credit
   examples: |
     - credit card
