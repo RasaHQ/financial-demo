@@ -1,40 +1,42 @@
-version: "2.0"
+# Configuration for Rasa NLU.
+# https://rasa.com/docs/rasa/nlu/components/
 language: en
+
 pipeline:
-  - name: WhitespaceTokenizer
-  - name: RegexFeaturizer
-  - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-  - name: CountVectorsFeaturizer
-    analyzer: "char_wb"
-    min_ngram: 1
-    max_ngram: 4
-  - name: DIETClassifier
-    epochs: 100
-  - name: FallbackClassifier
-    threshold: 0.7
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions:
-    - amount-of-money
-    - time
-    - number
-  - name: SpacyNLP
-    model: "en_core_web_md"
-    case_sensitive: false
-  - name: "SpacyEntityExtractor"
-    # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in 
-    #       combination with the WhitespaceTokenizer, and as a result the
-    #       PERSON extraction by Spacy is not very robust.
-    #       Because of this, the nlu training data is annotated as well, and the
-    #       DIETClassifier will also extract PERSON entities.
-    dimensions: ["PERSON"]
-  - name: EntitySynonymMapper
+# # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
+# # If you'd like to customize it, uncomment and adjust the pipeline.
+# # See https://rasa.com/docs/rasa/tuning-your-model for more information.
+#   - name: WhitespaceTokenizer
+#   - name: RegexFeaturizer
+#   - name: LexicalSyntacticFeaturizer
+#   - name: CountVectorsFeaturizer
+#   - name: CountVectorsFeaturizer
+#     analyzer: char_wb
+#     min_ngram: 1
+#     max_ngram: 4
+#   - name: DIETClassifier
+#     epochs: 100
+#     constrain_similarities: true
+#     model_confidence: cosine
+#   - name: EntitySynonymMapper
+#   - name: ResponseSelector
+#     epochs: 100
+#     constrain_similarities: true
+#     model_confidence: cosine
+#   - name: FallbackClassifier
+#     threshold: 0.3
+#     ambiguity_threshold: 0.1
+
+# Configuration for Rasa Core.
+# https://rasa.com/docs/rasa/core/policies/
 policies:
-- name: AugmentedMemoizationPolicy
-- name: TEDPolicy
-  epochs: 40
-- name: RulePolicy
-  core_fallback_threshold: 0.4
-  core_fallback_action_name: "action_default_fallback"
-  enable_fallback_prediction: True
+# # No configuration for policies was provided. The following default policies were used to train your model.
+# # If you'd like to customize them, uncomment and adjust the policies.
+# # See https://rasa.com/docs/rasa/policies for more information.
+#   - name: MemoizationPolicy
+#   - name: TEDPolicy
+#     max_history: 5
+#     epochs: 100
+#     constrain_similarities: true
+#     model_confidence: cosine
+#   - name: RulePolicy
