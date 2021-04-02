@@ -1,8 +1,6 @@
-# Rasa Training Module 1
+# Rasa Training Module 2
 
-In this module you will learn about the basics of Rasa and NLU.
+In this module you will learn about how you can design stories that leverage slots and entities to control conversations
+and customize responses based on information provided by the user.
 
-You will add functionality to your financial bot to allow users to check their account balance and pay their credit card 
-balance.
-
-Through these exercises you will learn how to create new intents and how to extract entities from user messages.
+Specifically 

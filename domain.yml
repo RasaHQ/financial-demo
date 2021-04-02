@@ -7,6 +7,24 @@ intents:
   - deny
   - bot_challenge
   - train_topics
+  - check_balance:
+      use_entities:
+      - account_type
+  - pay_cc:
+      use_entities:
+      - credit_card
+
+entities:
+  - credit_card
+  - account_type
+
+slots:
+  account_type:
+    type: any
+    influence_conversation: false
+  credit_card:
+    type: any
+    influence_conversation: false
 
 responses:
   utter_greet:
@@ -15,6 +33,12 @@ responses:
   utter_training_topics:
   - text: "During training we will cover:\n - Intents\n - Entities\n - NLU Pipelines\n - Lookups\n - Synonyms\n
   - Dialogue Management\n - Rules\n - Slots\n - Forms\n - Custom Actions"
+
+  utter_account_balance:
+  - text: "This is where you would get your account balance."
+
+  utter_make_payment:
+  - text: "We'll gather more information about making a payment here."
 
   utter_goodbye:
   - text: "Bye"

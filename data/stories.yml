@@ -12,6 +12,16 @@ stories:
   - intent: train_topics
   - action: utter_training_topics
 
+- story: check balance
+  steps:
+  - intent: check_balance
+  - action: utter_account_balance
+
+- story: pay_cc
+  steps:
+  - intent: pay_cc
+  - action: utter_make_payment
+
 - story: bot challenge
   steps:
   - intent: bot_challenge
