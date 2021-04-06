@@ -37,6 +37,12 @@ responses:
   utter_account_balance:
   - text: "This is where you would get your account balance."
 
+  utter_account_balance_type:
+  - text: "Your account balance for {account_type} is."
+
+  utter_make_payment_for_card:
+  - text: "Let's make a payment for your {credit_card} card."
+
   utter_make_payment:
   - text: "We'll gather more information about making a payment here."
 

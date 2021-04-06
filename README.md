@@ -1,4 +1,3 @@
-# Rasa Training Module 2
+# Rasa Training Module 3
 
-In this module you will learn about how you can design stories that leverage slots and entities to control conversations
-and customize responses based on information provided by the user.
+For this module you will design forms that can help capture information from users to complete business tasks.
