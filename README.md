@@ -1,3 +1,3 @@
-# Rasa Training Module 3
+# Rasa Training Module 4
 
-For this module you will design forms that can help capture information from users to complete business tasks.
+For this module you will create custom actions with the Rasa SDK.

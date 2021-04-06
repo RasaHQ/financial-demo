@@ -72,6 +72,8 @@ nlu:
     - pay off my card
     - make a payment
     - i want to pay my [discover](credit_card) bill
+    - pay [100](number) towards my credit card
+    - pay off [4000](number) on my [emblem](credit_card) card
 
 - intent: train_topics
   examples: |
@@ -90,3 +92,7 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- regex: number
+  examples: |
+    - [0-9]*

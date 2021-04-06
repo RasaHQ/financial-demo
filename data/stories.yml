@@ -26,19 +26,13 @@ stories:
       - account_type: bank
   - action: utter_account_balance_type
 
-- story: pay_cc (no card specified)
+- story: pay_cc
   steps:
   - intent: pay_cc
-  - action: utter_make_payment
-
-- story: pay_cc (card specified)
-  steps:
-  - intent: pay_cc
-    entities:
-      - credit_card
-  - slot_was_set:
-      - credit_card: emblem
-  - action: utter_make_payment_for_card
+  - action: make_payment_form
+  - active_loop: make_payment_form
+  - active_loop: null
+  - action: utter_payment_thank_you
 
 - story: bot challenge
   steps:
