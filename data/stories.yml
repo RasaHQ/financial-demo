@@ -17,14 +17,14 @@ stories:
   - intent: check_balance
   - action: utter_account_balance
 
-- story: check balance (has account type)
-  steps:
-  - intent: check_balance
-    entities:
-      - account_type
-  - slot_was_set:
-      - account_type: bank
-  - action: utter_account_balance_type
+#- story: check balance (has account type)
+#  steps:
+#  - intent: check_balance
+#    entities:
+#      - account_type
+#  - slot_was_set:
+#      - account_type: bank
+#  - action: utter_account_balance_type
 
 - story: pay_cc
   steps:

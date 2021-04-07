@@ -7,6 +7,7 @@ intents:
   - deny
   - bot_challenge
   - train_topics
+  - inform
   - check_balance:
       use_entities:
       - account_type
@@ -61,7 +62,7 @@ responses:
   - text: "We'll gather more information about making a payment here."
 
   utter_payment_thank_you:
-  - text: "Thank you for your payment of {payment_amount} towards your {credit_card}."
+  - text: "Thank you for your payment of ${payment_amount} towards your {credit_card} card."
 
   utter_goodbye:
   - text: "Bye"
@@ -69,11 +70,17 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
 
+actions:
+  - action_account_balance
+  - validate_make_payment_form
+  - action_process_make_payment_form
+
 forms:
   make_payment_form:
     credit_card:
       - type: from_entity
         entity: credit_card
+      - type: from_text
     payment_amount:
       - type: from_entity
         entity: number

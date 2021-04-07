@@ -55,9 +55,10 @@ nlu:
     - How much money is on my account?
     - How much money is on my [bank](account_type) account?
     - what's my [credit card](account_type) balance?
-    - how much do i owe on my [credit card](account_type)?
+    - how much do i owe on my [credit card account](account_type)?
     - what is my account balance?
     - show me my accounts
+    - view my [credit](account_type) accounts
     - what's my balance?
     - check my [checking](account_type) account balance?
     - how much money do i have?
@@ -70,10 +71,20 @@ nlu:
     - make a payment towards my [visa](credit_card) card
     - pay a bill
     - pay off my card
+    - pay off my [amex](credit_card) card
+    - make a payment towards my [citi](credit_card) card balance
     - make a payment
     - i want to pay my [discover](credit_card) bill
-    - pay [100](number) towards my credit card
-    - pay off [4000](number) on my [emblem](credit_card) card
+    - pay this month's [emblem](credit_card) bill
+
+- intent: inform
+  examples: |
+    - [$1000](number)
+    - [100](number)
+    - [500](number)
+    - [Mastercard](credit_card)
+    - [Discover](credit_card) card
+    - my [visa](credit_card)
 
 - intent: train_topics
   examples: |
@@ -96,3 +107,21 @@ nlu:
 - regex: number
   examples: |
     - [0-9]*
+
+- synonym: credit
+  examples: |
+    - credit card account
+    - credit card
+
+- lookup: credit_card
+  examples: |
+    - Discover
+    - Visa
+    - Mastercard
+    - Emblem
+    - Preferred
+    - Sapphire
+    - Barclays
+    - Platnium
+    - Citi
+    - Amex

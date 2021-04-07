@@ -11,3 +11,11 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: get the account balance if slot was set.
+  condition:
+  - slot_was_set:
+    - account_type: checking
+  steps:
+    - intent: check_balance
+    - action: action_account_balance
