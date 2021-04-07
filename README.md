@@ -7,4 +7,5 @@ You will cover:
 
 - Creating responses to user messages
 - Writing stories for user conversations
+- Using events to customize conversations
 - How to use rules in conversations
