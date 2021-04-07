@@ -13,16 +13,21 @@ intents:
   - pay_cc:
       use_entities:
       - credit_card
+      - number
 
 entities:
   - credit_card
   - account_type
+  - number
 
 slots:
   account_type:
     type: any
     influence_conversation: false
   credit_card:
+    type: any
+    influence_conversation: false
+  number:
     type: any
     influence_conversation: false
 
