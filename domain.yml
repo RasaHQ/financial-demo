@@ -35,16 +35,6 @@ responses:
   utter_greet:
   - text: "Hey! Welcome to your Rasa Training!"
 
-  utter_training_topics:
-  - text: "During training we will cover:\n - Intents\n - Entities\n - NLU Pipelines\n - Lookups\n - Synonyms\n
-  - Dialogue Management\n - Rules\n - Slots\n - Forms\n - Custom Actions"
-
-  utter_account_balance:
-  - text: "This is where you would get your account balance."
-
-  utter_make_payment:
-  - text: "We'll gather more information about making a payment here."
-
   utter_goodbye:
   - text: "Bye"
 

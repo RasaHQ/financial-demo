@@ -1,5 +1,4 @@
 version: "2.0"
-
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - good afternoon
@@ -30,7 +28,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
 - intent: affirm
   examples: |
     - yes
@@ -39,7 +36,6 @@ nlu:
     - of course
     - that sounds good
     - correct
-
 - intent: deny
   examples: |
     - no
@@ -49,7 +45,6 @@ nlu:
     - don't like that
     - no way
     - not really
-
 - intent: check_balance
   examples: |
     - How much money is on my account?
@@ -63,7 +58,6 @@ nlu:
     - check my [checking](account_type) account balance?
     - how much money do i have?
     - balance please
-
 - intent: pay_cc
   examples: |
     - i want to pay my credit card
@@ -76,7 +70,6 @@ nlu:
     - make a payment
     - i want to pay my [discover](credit_card) bill
     - pay this month's [emblem](credit_card) bill
-
 - intent: train_topics
   examples: |
     - what will we cover in training?
@@ -87,23 +80,19 @@ nlu:
     - will we learn about entities?
     - topics
     - subjects
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-
-- regex: number
-  examples: |
-    - [0-9]*
-
 - synonym: credit
   examples: |
     - credit card account
     - credit card
-
+- regex: number
+  examples: |
+    - [0-9]*
 - lookup: credit_card
   examples: |
     - Discover
