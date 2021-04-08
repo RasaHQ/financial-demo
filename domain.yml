@@ -7,13 +7,8 @@ intents:
   - deny
   - bot_challenge
   - train_topics
-  - check_balance:
-      use_entities:
-      - account_type
-  - pay_cc:
-      use_entities:
-      - credit_card
-      - number
+  - check_balance
+  - pay_cc
 
 entities:
   - credit_card
@@ -32,6 +27,10 @@ slots:
     influence_conversation: false
 
 responses:
+  utter_training_topics:
+  - text: "During training we will cover:\n - Intents\n - Entities\n - NLU Pipelines\n - Lookups\n - Synonyms\n
+  - Dialogue Management\n - Rules\n - Slots\n - Forms\n - Custom Actions"
+
   utter_greet:
   - text: "Hey! Welcome to your Rasa Training!"
 
