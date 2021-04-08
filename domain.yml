@@ -8,13 +8,9 @@ intents:
   - bot_challenge
   - train_topics
   - inform
-  - check_balance:
-      use_entities:
-      - account_type
-  - pay_cc:
-      use_entities:
-      - credit_card
-      - number
+  - check_balance
+  - pay_cc
+  - stop
 
 entities:
   - credit_card
@@ -55,6 +51,9 @@ responses:
   utter_account_balance_type:
   - text: "Your account balance for {account_type} is."
 
+  utter_exit_form:
+  - text: "Okay, let's exit the form."
+
   utter_make_payment_for_card:
   - text: "Let's make a payment for your {credit_card} card."
 
@@ -63,6 +62,9 @@ responses:
 
   utter_payment_thank_you:
   - text: "Thank you for your payment of ${payment_amount} towards your {credit_card} card."
+
+  utter_please_rephrase:
+  - text: "I didn't quite understand that. Could you please rephrase?"
 
   utter_goodbye:
   - text: "Bye"

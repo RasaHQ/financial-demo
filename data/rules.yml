@@ -12,10 +12,16 @@ rules:
   - intent: bot_challenge
   - action: utter_iamabot
 
-- rule: get the account balance if slot was set.
-  condition:
-  - slot_was_set:
-    - account_type: checking
+- rule: Handle NLU fallback
   steps:
-    - intent: check_balance
-    - action: action_account_balance
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+
+- rule: Exit the make_payment_form
+  condition:
+    - active_loop: make_payment_form
+  steps:
+    - intent: stop
+    - action: action_deactivate_loop
+    - active_loop: null
+    - action: utter_exit_form
