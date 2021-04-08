@@ -51,6 +51,9 @@ responses:
   utter_make_payment:
   - text: "We'll gather more information about making a payment here."
 
+  utter_please_rephrase:
+  - text: "I didn't quite understand that. Could you please rephrase?"
+
   utter_goodbye:
   - text: "Bye"
 
