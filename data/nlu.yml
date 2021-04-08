@@ -55,9 +55,11 @@ nlu:
     - How much money is on my account?
     - How much money is on my [bank](account_type) account?
     - what's my [credit card](account_type) balance?
-    - how much do i owe on my [credit card](account_type)?
+    - how much do i owe on my [credit card account](account_type)?
     - what is my account balance?
     - show me my accounts
+    - how much do i owe on my [card](account_type)
+    - view my [credit](account_type) accounts
     - what's my balance?
     - check my [checking](account_type) account balance?
     - how much money do i have?
@@ -65,15 +67,18 @@ nlu:
 
 - intent: pay_cc
   examples: |
-    - i want to pay my credit card
+    - i want to pay my [credit card](account_type)
     - pay off my [emblem](credit_card)
-    - make a payment towards my [visa](credit_card) card
+    - make a payment towards my [visa](credit_card) [card](account_type)
     - pay a bill
-    - pay off my card
+    - pay off my [card](account_type)
+    - make a [200](number) dollar payment towards my [card](account_type)
+    - pay off my [amex](credit_card) [card](account_type)
+    - make a payment towards my [citi](credit_card) [card](account_type) balance
+    - pay [100](number) dollars towards my [card](account_type)
     - make a payment
     - i want to pay my [discover](credit_card) bill
-    - pay [100](number) towards my credit card
-    - pay off [4000](number) on my [emblem](credit_card) card
+    - pay this month's [emblem](credit_card) bill
 
 - intent: train_topics
   examples: |
@@ -86,6 +91,15 @@ nlu:
     - topics
     - subjects
 
+- intent: stop
+  examples: |
+    - stop
+    - cancel
+    - exit
+    - quit
+    - stop this
+    - actually no
+
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -93,6 +107,23 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
+- synonym: credit
+  examples: |
+    - credit card account
+    - credit card
+    - card
 - regex: number
   examples: |
-    - [0-9]*
+    - \b\d\b
+- lookup: credit_card
+  examples: |
+    - Discover
+    - Visa
+    - Mastercard
+    - Emblem
+    - Preferred
+    - Sapphire
+    - Barclays
+    - Platnium
+    - Citi
+    - Amex

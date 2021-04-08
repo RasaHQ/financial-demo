@@ -11,3 +11,17 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: Handle NLU fallback
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+
+- rule: Exit the make_payment_form
+  condition:
+    - active_loop: make_payment_form
+  steps:
+    - intent: stop
+    - action: action_deactivate_loop
+    - active_loop: null
+    - action: utter_exit_form
