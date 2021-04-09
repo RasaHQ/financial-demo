@@ -1,5 +1,7 @@
 # Rasa Training Module 3
 
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://github.com/RasaHQ/financial-demo/tree/training-module-3)
+
 For this module you will design forms that can help capture information from users to complete business tasks.
 
 Topics covered include:
