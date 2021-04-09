@@ -1,4 +1,4 @@
-# Rasa Training Module 4
+# Rasa Training Module 5
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://github.com/RasaHQ/financial-demo/tree/training-module-5)
 
