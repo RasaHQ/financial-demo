@@ -1,5 +1,7 @@
 # Rasa Training Module 2
 
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://github.com/RasaHQ/financial-demo/tree/training-module-2)
+
 In this module you will learn about how you can design stories that leverage slots and entities to control conversations
 and customize responses based on information provided by the user.
 
