@@ -111,6 +111,16 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
+- intent: inform
+  examples: |
+    - [100](number)
+    - [5000](number) dollars
+    - [$200](number)
+    - [Citi](credit_card)
+    - my [amex](credit_card)
+    - [50](number)
+    - [$75](number)
+
 - synonym: credit
   examples: |
     - credit card account
