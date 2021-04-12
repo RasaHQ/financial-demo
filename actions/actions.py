@@ -53,7 +53,11 @@ class ActionMakePaymentFormValidation(FormValidationAction):
         domain: DomainDict,
     ) -> Dict[Text, Any]:
         """Validate payment amount provided by user."""
-        pay_amt = int(slot_value.replace("$", ""))
+        try:
+            pay_amt = int(slot_value.replace("$", ""))
+        except ValueError:
+            dispatcher.utter_message("Must provide a number for the payment amount.")
+            return {"payment_amount": None}
 
         # Check if positive number.
         if pay_amt <= 0:

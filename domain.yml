@@ -86,6 +86,7 @@ forms:
     payment_amount:
       - type: from_entity
         entity: number
+      - type: from_text
 
 session_config:
   session_expiration_time: 60
