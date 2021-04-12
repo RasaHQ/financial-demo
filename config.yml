@@ -23,6 +23,7 @@ pipeline:
     epochs: 100
     constrain_similarities: true
     model_confidence: cosine
+    entity_recognition: false
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100

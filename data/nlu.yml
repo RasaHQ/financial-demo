@@ -79,6 +79,10 @@ nlu:
     - make a payment
     - i want to pay my [discover](credit_card) bill
     - pay this month's [emblem](credit_card) bill
+    - pay my [citi](credit_card) [card](account_type)
+    - pay my [discover](credit_card) [card](account_type)
+    - pay my [mastercard](credit_card)
+    - make a payment towards my [preferred](credit_car) [card](account_type)
 
 - intent: train_topics
   examples: |

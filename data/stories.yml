@@ -26,14 +26,6 @@ stories:
       - account_type: bank
   - action: utter_account_balance_type
 
-- story: pay_cc
-  steps:
-  - intent: pay_cc
-  - action: make_payment_form
-  - active_loop: make_payment_form
-  - active_loop: null
-  - action: utter_payment_thank_you
-
 - story: bot challenge
   steps:
   - intent: bot_challenge

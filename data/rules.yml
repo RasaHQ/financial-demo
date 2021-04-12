@@ -17,6 +17,14 @@ rules:
   - intent: nlu_fallback
   - action: utter_please_rephrase
 
+- rule: Start the make_payment_form
+  steps:
+    - intent: pay_cc
+    - action: make_payment_form
+    - active_loop: make_payment_form
+    - active_loop: null
+    - action: utter_payment_thank_you
+
 - rule: Exit the make_payment_form
   condition:
     - active_loop: make_payment_form
