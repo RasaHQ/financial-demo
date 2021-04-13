@@ -23,7 +23,7 @@ slots:
     influence_conversation: true
   credit_card:
     type: text
-    influence_conversation: false
+    influence_conversation: true
   number:
     type: any
     influence_conversation: false
