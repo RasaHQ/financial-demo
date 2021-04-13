@@ -22,11 +22,11 @@ entities:
 
 slots:
   account_type:
-    type: any
-    influence_conversation: false
+    type: text
+    influence_conversation: true
   credit_card:
-    type: any
-    influence_conversation: false
+    type: text
+    influence_conversation: true
   number:
     type: any
     influence_conversation: false
