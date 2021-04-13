@@ -82,7 +82,7 @@ nlu:
     - pay my [citi](credit_card) [card](account_type)
     - pay my [discover](credit_card) [card](account_type)
     - pay my [mastercard](credit_card)
-    - make a payment towards my [preferred](credit_car) [card](account_type)
+    - make a payment towards my [preferred](credit_card) [card](account_type)
 
 - intent: train_topics
   examples: |
