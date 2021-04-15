@@ -3,7 +3,7 @@ image:
 
 tasks:
   - before: 'rasa train'
-
+    command: 'RASA_X_PASSWORD=password rasa x --no-prompt & disown'
 ports:
   - port: 5002
   - port: 5005
