@@ -15,7 +15,7 @@
 
 4. In a another terminal, run the action server:
     ```bash
-    source .venv/bin/activate56
+    source .venv/bin/activate
     rasa run actions --port 5056
     ```
 5. In another terminal, run the duckling server:
