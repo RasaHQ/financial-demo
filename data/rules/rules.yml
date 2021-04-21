@@ -2,6 +2,11 @@ version: "2.0"
 
 rules:
 
+- rule: Confirm that the bot is not a human
+  steps:
+  - intent: check_human
+  - action: utter_bot
+  
 - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
   steps:
   - intent: nlu_fallback
