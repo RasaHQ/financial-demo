@@ -127,6 +127,8 @@ responses:
   utter_goodbye:
   - text: Bye
   utter_noworries:
+  - text: You're welcome
+    channel: twilio_voice
   - text: You're welcome :)
   utter_transfer_complete:
   - text: Successfully transferred {currency}{amount-of-money} to {PERSON}.
@@ -176,6 +178,8 @@ responses:
   utter_ask_rephrase:
   - text: I didn't quite understand that. Can you rephrase?
   utter_ok:
+  - text: okay
+    channel: twilio_voice
   - text: 👍
   utter_ask_continue:
   - text: Would you like to continue?
