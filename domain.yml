@@ -243,7 +243,7 @@ responses:
   utter_nothing_due:
   - text: Your don't owe any money on your {credit_card} credit card bill.
   utter_recipients:
-  - text: These are your known recpients to whom you can send money:{formatted_recipients}
+  - text: These are your known recipients to whom you can send money:{formatted_recipients}
   utter_greet:
   - text: Hi! I'm your Financial Assistant!
   utter_ask_handoff:
