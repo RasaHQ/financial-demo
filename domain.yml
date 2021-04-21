@@ -142,7 +142,9 @@ responses:
   utter_ask_cc_payment_form_time:
   - text: For which date would you like to schedule the payment?
   utter_ask_transaction_search_form_vendor_name:
-  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
+  - text: For which vendor do you want to see transactions?
+    channel: twilio_voice
+  - text: For which vendor do you want to see transactions?  e.g. Starbucks, Target,
       Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
