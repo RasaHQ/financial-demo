@@ -217,6 +217,8 @@ responses:
     text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
       towards your {credit_card} account for {time_formatted}?
   utter_ask_transfer_money_form_zz_confirm_form:
+  - text: Would you like to transfer {currency}{amount-of-money} to {PERSON}?
+    channel: twilio_voice
   - buttons:
     - payload: /affirm
       title: Yes
