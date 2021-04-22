@@ -1,5 +1,26 @@
 version: "2.0"
 nlu:
+- intent: check_human
+  examples: |
+    - are you a bot?
+    - am i speaking to an ai?
+    - are you a human or a bot?
+    - are you real? 
+    - are you virtual? 
+    - are you an ai?
+    - aren't you a bot
+    - are you a chatbot
+    - are you a rasa bot?
+    - are you a real bot?
+    - are you a robot
+    - are you ai
+    - are you artificial
+    - are you artificial intelligence
+    - are you real
+    - are you really a bot
+    - are you robot
+    - are you sure that you're a bot?
+    - bot?
 - intent: affirm
   examples: |
     - indeed
@@ -198,6 +219,7 @@ nlu:
     - gotta go
 - intent: greet
   examples: |
+    - yo
     - good morning
     - hi
     - hey there
