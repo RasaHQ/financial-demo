@@ -2,11 +2,8 @@
 
 ## Running Locally
 
-1. Install ngrok:
-    ```bash
-    wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-    unzip ngrok-stable-linux-amd64.zip
-    ```
+1. Download and install [ngrok](https://ngrok.com/download)
+
 2. Install rasa with [PR #8180](https://github.com/RasaHQ/rasa/pull/8180) in a virtual environment:
     ```bash
     source setup_python_env.sh
