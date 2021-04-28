@@ -25,7 +25,7 @@
     ```
 7. In another terminal, run ngrok to expose port 5005 to the internet:
    ```bash
-   ./ngrok http 5005
+   </path/to/ngrok> http 5005
    ```
    When you start ngrok, it will display a UI in your terminal with the public URL of your tunnel and other status and metrics information about connections made over your tunnel.
    
