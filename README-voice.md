@@ -28,7 +28,9 @@
    </path/to/ngrok> http 5005
    ```
    When you start ngrok, it will display a UI in your terminal with the public URL of your tunnel and other status and metrics information about connections made over your tunnel.
-   
-   Rememeber to add the webhook URL to the `A CALL COMES IN` section of the phone number you want to connect to Rasa. See [here](https://github.com/RasaHQ/rasa/blob/1e4d901ea39482b385ff1c8d8372cbccccc4db28/docs/docs/connectors/twilio-voice.mdx#running-on-twilio) for details.
 
-8. Finally, to talk to the bot start the rasa server with `rasa run` and call the phone number connected to Rasa. 
+8. Connect your Twilio account
+   If you do not yet have a Twilio account, you can sign up for one [here](https://www.twilio.com/voice).
+   Connect one of your Twilio phone numbers as described [here](https://github.com/RasaHQ/rasa/blob/1e4d901ea39482b385ff1c8d8372cbccccc4db28/docs/docs/connectors/twilio-voice.mdx#running-on-twilio), by setting the Webhook for A CALL COMES IN using the ngrok public URL, something like https://<...>.ngrok.io:5005/webhooks/twilio_voice/webhook, using HTTP POST type requests.
+
+9. Finally, to talk to the bot start the rasa server with `rasa run` and call the phone number connected to Rasa. 
