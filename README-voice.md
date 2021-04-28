@@ -33,4 +33,4 @@
    If you do not yet have a Twilio account, you can sign up for one [here](https://www.twilio.com/voice).
    Connect one of your Twilio phone numbers as described [here](https://github.com/RasaHQ/rasa/blob/1e4d901ea39482b385ff1c8d8372cbccccc4db28/docs/docs/connectors/twilio-voice.mdx#running-on-twilio), by setting the Webhook for A CALL COMES IN using the ngrok public URL, something like https://<...>.ngrok.io:5005/webhooks/twilio_voice/webhook, using HTTP POST type requests.
 
-9. Finally, to talk to the bot start the rasa server with `rasa run` and call the phone number connected to Rasa. 
+9. Finally, to talk to the bot start the rasa server with `rasa run` and call the Twilio phone number. 
