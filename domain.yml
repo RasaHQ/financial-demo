@@ -228,7 +228,7 @@ responses:
       towards your {credit_card} account for {time_formatted}?
     channel: twilio_voice
   utter_ask_transfer_money_form_zz_confirm_form:
-  - text: Would you like to transfer {currency}{amount-of-money} to {PERSON}?
+  - text: You want to transfer {currency}{amount-of-money} to {PERSON}. Is this correct?
     channel: twilio_voice
   - buttons:
     - payload: /affirm
