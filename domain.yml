@@ -196,6 +196,8 @@ responses:
     - payload: /deny
       title: No, cancel the transaction
     text: Would you like to continue scheduling the credit card payment?
+  - text: Would you like to continue scheduling the credit card payment?
+    channel: twilio_voice
   utter_ask_transfer_money_form_AA_CONTINUE_FORM:
   - buttons:
     - payload: /affirm
@@ -203,6 +205,8 @@ responses:
     - payload: /deny
       title: No, cancel the transfer
     text: Would you like to continue scheduling the money transfer?
+  - text: Would you like to continue scheduling the money transfer?
+    channel: twilio_voice
   utter_ask_transaction_search_form_AA_CONTINUE_FORM:
   - buttons:
     - payload: /affirm
@@ -210,6 +214,8 @@ responses:
     - payload: /deny
       title: No, cancel the search
     text: Would you like to continue the transaction search?
+  - text: Would you like to continue the transaction search?
+    channel: twilio_voice
   utter_ask_cc_payment_form_zz_confirm_form:
   - buttons:
     - payload: /affirm
@@ -218,6 +224,9 @@ responses:
       title: No, cancel the transaction
     text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
       towards your {credit_card} account for {time_formatted}?
+  - text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type} 
+      towards your {credit_card} account for {time_formatted}?
+    channel: twilio_voice
   utter_ask_transfer_money_form_zz_confirm_form:
   - text: Would you like to transfer {currency}{amount-of-money} to {PERSON}?
     channel: twilio_voice
