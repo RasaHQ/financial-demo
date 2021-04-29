@@ -120,6 +120,8 @@ slots:
 responses:
   utter_out_of_scope:
   - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
+  - text: Sorry, I'm not sure how to respond to that. Can you please try using different words?
+    channel: twilio_voice
   utter_ask_transfer_money_form_amount-of-money:
   - text: How much money do you want to transfer?
   utter_ask_transfer_money_form_PERSON:
