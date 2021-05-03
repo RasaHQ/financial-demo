@@ -146,12 +146,14 @@ responses:
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
   utter_ask_transaction_search_form_search_type:
-  - text: Would you like to search incoming or outgoing transactions?
-    buttons:
+  - channel: twilio
+    text: Would you like to search incoming or outgoing transactions?
+  - buttons:
     - title: Incoming (earnings)
       payload: /inform{"search_type":"deposit"}'
     - title: Outgoing (spending)
       payload: /inform{"search_type":"spend"}'
+    text: Would you like to search incoming or outgoing transactions?
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -183,6 +185,8 @@ responses:
   utter_default:
   - text: I didn't quite understand that. Could you rephrase?
   utter_ask_cc_payment_form_AA_CONTINUE_FORM:
+  - channel: twilio
+    text: Would you like to continue scheduling the credit card payment?
   - buttons:
     - payload: /affirm
       title: Yes
@@ -190,6 +194,8 @@ responses:
       title: No, cancel the transaction
     text: Would you like to continue scheduling the credit card payment?
   utter_ask_transfer_money_form_AA_CONTINUE_FORM:
+  - channel: twilio
+    text: Would you like to continue scheduling the money transfer?
   - buttons:
     - payload: /affirm
       title: Yes
@@ -197,6 +203,8 @@ responses:
       title: No, cancel the transfer
     text: Would you like to continue scheduling the money transfer?
   utter_ask_transaction_search_form_AA_CONTINUE_FORM:
+  - channel: twilio
+    text: Would you like to continue the transaction search?
   - buttons:
     - payload: /affirm
       title: Yes
@@ -204,14 +212,19 @@ responses:
       title: No, cancel the search
     text: Would you like to continue the transaction search?
   utter_ask_cc_payment_form_zz_confirm_form:
+  - channel: twilio
+    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
+          towards your {credit_card} account for {time_formatted}?
   - buttons:
     - payload: /affirm
       title: Yes
     - payload: /deny
       title: No, cancel the transaction
     text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
-      towards your {credit_card} account for {time_formatted}?
+          towards your {credit_card} account for {time_formatted}?
   utter_ask_transfer_money_form_zz_confirm_form:
+  - channel: twilio
+    text: Would you like to transfer {currency}{amount-of-money} to {PERSON}?
   - buttons:
     - payload: /affirm
       title: Yes
@@ -253,7 +266,7 @@ responses:
   - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
   utter_ask_whatelse:
   - text: What else can I help you with?
-  utter_bot:
+    utter_bot:
   - text: I'm a virtual assistant made with Rasa. 
   utter_help:
   - text: "I can help you with your financial accounts. \nYou can ask me things like:\
