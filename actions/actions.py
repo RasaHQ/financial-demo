@@ -762,6 +762,7 @@ class ActionAskTransactionSearchFormConfirm(Action):
         vendor_name = tracker.get_slot("vendor_name")
         start_time_formatted = tracker.get_slot("start_time_formatted")
         end_time_formatted = tracker.get_slot("end_time_formatted")
+        is_voice_channel = tracker.get_latest_input_channel() == "twilio_voice"
 
         if vendor_name:
             vendor_name = f" with {vendor_name}"
@@ -782,7 +783,17 @@ class ActionAskTransactionSearchFormConfirm(Action):
             {"payload": "/deny", "title": "No"},
         ]
 
-        dispatcher.utter_message(text=text, buttons=buttons)
+        if is_voice_channel:
+            if search_type == "spend":
+                # temporary fix until upgrage to 2.4.0
+                # see: https://github.com/RasaHQ/rasa/issues/8223
+                # use template utter_ask_transaction_search_spend_confirm, utter_ask_transaction_search_deposit_confirm
+                # after upgrade 
+                dispatcher.utter_message(text=f"You want to search for transactions with {vendor_name} between {start_time_formatted} and {end_time_formatted}. Is this correct?")
+            elif search_type == "deposit":
+                dispatcher.utter_message(text=f"You want to search deposits made to your account between {start_time_formatted} and {end_time_formatted}. Is this correct?")
+        else:
+            dispatcher.utter_message(text=text, buttons=buttons)
 
         return []
 

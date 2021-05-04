@@ -157,6 +157,12 @@ responses:
       payload: /inform{"search_type":"deposit"}'
     - title: Outgoing (spending)
       payload: /inform{"search_type":"spend"}'
+  - text: Would you like to search for incoming or outgoing transactions?
+    channel: twilio_voice
+  utter_ask_transaction_search_spend_confirm:
+  - text: You want to search for transactions with {vendor_name} between {start_time_formatted} and {end_time_formatted}. Is this correct?
+  utter_ask_transaction_search_deposit_confirm:
+  -  text: You want to search deposits made to your account between {start_time_formatted} and {end_time_formatted}. Is this correct?
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
