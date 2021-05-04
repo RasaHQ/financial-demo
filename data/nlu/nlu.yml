@@ -332,6 +332,8 @@ nlu:
     - percy donald
     - danIelle smilanich
     - [Gringtos](credit_card)
+    - [incoming]{"entity": "search_type", "value": "deposit"}
+    - [outgoing]{"entity": "search_type", "value": "spend"}
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
