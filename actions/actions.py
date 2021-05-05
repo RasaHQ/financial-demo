@@ -788,10 +788,14 @@ class ActionAskTransactionSearchFormConfirm(Action):
                 # temporary fix until upgrage to 2.4.0
                 # see: https://github.com/RasaHQ/rasa/issues/8223
                 # use template utter_ask_transaction_search_spend_confirm, utter_ask_transaction_search_deposit_confirm
-                # after upgrade 
-                dispatcher.utter_message(text=f"You want to search for transactions with {vendor_name} between {start_time_formatted} and {end_time_formatted}. Is this correct?")
+                # after upgrade
+                dispatcher.utter_message(
+                    text=f"You want to search for transactions with {vendor_name} between {start_time_formatted} and {end_time_formatted}. Is this correct?"
+                )
             elif search_type == "deposit":
-                dispatcher.utter_message(text=f"You want to search deposits made to your account between {start_time_formatted} and {end_time_formatted}. Is this correct?")
+                dispatcher.utter_message(
+                    text=f"You want to search deposits made to your account between {start_time_formatted} and {end_time_formatted}. Is this correct?"
+                )
         else:
             dispatcher.utter_message(text=text, buttons=buttons)
 
