@@ -866,3 +866,16 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID e587214dd35144fcb28a3a56f25a2419
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - intent: check_balance
+  - action: action_show_balance
+  - intent: human_handoff
+  - action: utter_ask_handoff
+  - action: action_handoff_options
+  - intent: trigger_handoff
