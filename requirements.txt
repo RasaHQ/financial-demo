@@ -2,9 +2,9 @@
 
 # Sync with files:
 # (-) .github/workflows/build_and_deploy.yml (`rasa_version`)
-rasa[spacy] @ git+git://github.com/RasaHQ/rasa@twilio-voice-connector#egg=rasa
+rasa[spacy] ~= 2.6
 
 # Sync with files:
 # (-) .github/workflows/continuous-integration.yml (`rasa_sdk_version`)
 # (-) Dockerfile
-rasa-sdk==2.4.0
+rasa-sdk ~= 2.6
