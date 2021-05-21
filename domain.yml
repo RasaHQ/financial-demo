@@ -101,7 +101,6 @@ responses:
       I can help you:
         - pay your credit card
         - get your account balance
-
 actions:
 - action_account_balance
 - validate_make_payment_form

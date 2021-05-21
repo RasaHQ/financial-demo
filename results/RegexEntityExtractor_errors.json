@@ -1,0 +1,308 @@
+[
+  {
+    "text": "pay off my card",
+    "entities": [
+      {
+        "start": 11,
+        "end": 15,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "make a 200 dollar payment towards my card",
+    "entities": [
+      {
+        "start": 7,
+        "end": 10,
+        "value": "200",
+        "entity": "number"
+      },
+      {
+        "start": 37,
+        "end": 41,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "pay off my amex card",
+    "entities": [
+      {
+        "start": 11,
+        "end": 15,
+        "value": "amex",
+        "entity": "credit_card"
+      },
+      {
+        "start": 16,
+        "end": 20,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "100",
+    "entities": [
+      {
+        "start": 0,
+        "end": 3,
+        "value": "100",
+        "entity": "number"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "$75",
+    "entities": [
+      {
+        "start": 0,
+        "end": 3,
+        "value": "$75",
+        "entity": "number"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "check my checking account balance?",
+    "entities": [
+      {
+        "start": 9,
+        "end": 17,
+        "value": "checking",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i want to pay my credit card",
+    "entities": [
+      {
+        "start": 17,
+        "end": 28,
+        "value": "credit card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "5000 dollars",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "value": "5000",
+        "entity": "number"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "50",
+    "entities": [
+      {
+        "start": 0,
+        "end": 2,
+        "value": "50",
+        "entity": "number"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "what's my credit card balance?",
+    "entities": [
+      {
+        "start": 10,
+        "end": 21,
+        "value": "credit card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "view my credit accounts",
+    "entities": [
+      {
+        "start": 8,
+        "end": 14,
+        "value": "credit",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "make a payment towards my citi card balance",
+    "entities": [
+      {
+        "start": 26,
+        "end": 30,
+        "value": "citi",
+        "entity": "credit_card"
+      },
+      {
+        "start": 31,
+        "end": 35,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "pay 100 dollars towards my card",
+    "entities": [
+      {
+        "start": 4,
+        "end": 7,
+        "value": "100",
+        "entity": "number"
+      },
+      {
+        "start": 27,
+        "end": 31,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "$200",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "value": "$200",
+        "entity": "number"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "how much do i owe on my card",
+    "entities": [
+      {
+        "start": 24,
+        "end": 28,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "make a payment towards my visa card",
+    "entities": [
+      {
+        "start": 26,
+        "end": 30,
+        "value": "visa",
+        "entity": "credit_card"
+      },
+      {
+        "start": 31,
+        "end": 35,
+        "value": "card",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "pay this month's emblem bill",
+    "entities": [
+      {
+        "start": 17,
+        "end": 23,
+        "value": "emblem",
+        "entity": "credit_card"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "my amex",
+    "entities": [
+      {
+        "start": 3,
+        "end": 7,
+        "value": "amex",
+        "entity": "credit_card"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "How much money is on my bank account?",
+    "entities": [
+      {
+        "start": 24,
+        "end": 28,
+        "value": "bank",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "how much do i owe on my credit card account?",
+    "entities": [
+      {
+        "start": 24,
+        "end": 43,
+        "value": "credit card account",
+        "entity": "account_type"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "pay off my emblem",
+    "entities": [
+      {
+        "start": 11,
+        "end": 17,
+        "value": "emblem",
+        "entity": "credit_card"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i want to pay my discover bill",
+    "entities": [
+      {
+        "start": 17,
+        "end": 25,
+        "value": "discover",
+        "entity": "credit_card"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "Citi",
+    "entities": [
+      {
+        "start": 0,
+        "end": 4,
+        "value": "Citi",
+        "entity": "credit_card"
+      }
+    ],
+    "predicted_entities": []
+  }
+]
