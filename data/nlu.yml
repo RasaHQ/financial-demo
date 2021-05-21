@@ -1,5 +1,4 @@
 version: "2.0"
-
 nlu:
 - intent: ask_skills
   examples: |
@@ -7,7 +6,6 @@ nlu:
     - what can you help me with
     - what skills do you have
     - what can I ask you?
-    
 - intent: greet
   examples: |
     - hey
@@ -43,6 +41,7 @@ nlu:
     - thanks very much
     - i appreciate it
     - Thanks!
+    - ok thanks
 - intent: affirm
   examples: |
     - yes
@@ -74,6 +73,7 @@ nlu:
     - check my [checking](account_type) account balance?
     - how much money do i have?
     - balance please
+    - what is my account balance
 - intent: pay_cc
   examples: |
     - i want to pay my [credit card](account_type)
@@ -88,6 +88,8 @@ nlu:
     - make a payment
     - i want to pay my [discover](credit_card) bill
     - pay this month's [emblem](credit_card) bill
+    - Pay off my credit card
+    - pay off my credit card
 - intent: train_topics
   examples: |
     - what will we cover in training?
@@ -121,6 +123,7 @@ nlu:
     - my [amex](credit_card)
     - [50](number)
     - [$75](number)
+    - [5](number)
 - synonym: credit
   examples: |
     - credit card account
