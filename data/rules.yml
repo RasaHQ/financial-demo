@@ -33,3 +33,9 @@ rules:
     - action: action_deactivate_loop
     - active_loop: null
     - action: utter_exit_form
+
+- rule: positive feedback
+  steps:
+    - intent: thanks
+    - action: action_tag_positive_feedback
+    - action: utter_

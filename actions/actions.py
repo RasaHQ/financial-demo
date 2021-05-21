@@ -2,9 +2,10 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.types import DomainDict
+from rasa_sdk.types import DomainDict, EventType
 from rasa_sdk.events import SlotSet
 
+from actions.rasaxapi import RasaXAPI
 
 class ActionAccountBalance(Action):
 
@@ -85,3 +86,23 @@ class ActionProcessMakePaymentForm(Action):
 
         # Reset slots for the bot.
         return [SlotSet(s, None) for s in slots]
+
+class ActionTagFeedback(Action):
+    """Tag a conversation in Rasa X as positive or negative feedback """
+
+    def name(self):
+        return "action_tag_positive_feedback"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+
+        label = '[{"value":"postive_feedback","color":"76af3d"}]'
+
+        rasax = RasaXAPI()
+        rasax.tag_convo(tracker, label)
+
+        return []

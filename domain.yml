@@ -11,6 +11,7 @@ intents:
   - check_balance
   - pay_cc
   - stop
+  - thanks
 
 entities:
   - credit_card
@@ -40,6 +41,9 @@ responses:
 
   utter_greet:
   - text: "Hey! Welcome to your Rasa Training!"
+
+  utter_welcome:
+  - text: "You're welcome!"
 
   utter_training_topics:
   - text: "During training we will cover:\n - Intents\n - Entities\n - NLU Pipelines\n - Lookups\n - Synonyms\n
@@ -76,6 +80,7 @@ actions:
   - action_account_balance
   - validate_make_payment_form
   - action_process_make_payment_form
+  - action_tag_positive_feedback
 
 forms:
   make_payment_form:

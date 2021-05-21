@@ -29,6 +29,13 @@ nlu:
     - see you around
     - bye bye
     - see you later
+- intent: thanks
+  examples: |
+    - thank you!
+    - thanks
+    - thanks very much
+    - i appreciate it
+    - Thanks!
 - intent: affirm
   examples: |
     - yes
