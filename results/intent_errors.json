@@ -1,0 +1,170 @@
+[
+  {
+    "text": "hi",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "deny",
+      "confidence": 0.4110657870769501
+    }
+  },
+  {
+    "text": "moin",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "deny",
+      "confidence": 0.6625972390174866
+    }
+  },
+  {
+    "text": "cu",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "affirm",
+      "confidence": 0.4868393540382385
+    }
+  },
+  {
+    "text": "good afternoon",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 1.0
+    }
+  },
+  {
+    "text": "of course",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "goodbye",
+      "confidence": 0.4935852885246277
+    }
+  },
+  {
+    "text": "5000 dollars",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "pay_cc",
+      "confidence": 0.6182737946510315
+    }
+  },
+  {
+    "text": "good afternoon",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "goodbye",
+      "confidence": 1.0
+    }
+  },
+  {
+    "text": "have a nice day",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "pay_cc",
+      "confidence": 0.6271806955337524
+    }
+  },
+  {
+    "text": "i appreciate it",
+    "intent": "thanks",
+    "intent_prediction": {
+      "name": "pay_cc",
+      "confidence": 0.2502341568470001
+    }
+  },
+  {
+    "text": "that sounds good",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "goodbye",
+      "confidence": 0.9639843702316284
+    }
+  },
+  {
+    "text": "never",
+    "intent": "deny",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.4653243124485016
+    }
+  },
+  {
+    "text": "cancel",
+    "intent": "stop",
+    "intent_prediction": {
+      "name": "check_balance",
+      "confidence": 0.8595101833343506
+    }
+  },
+  {
+    "text": "indeed",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.3906475007534027
+    }
+  },
+  {
+    "text": "actually no",
+    "intent": "stop",
+    "intent_prediction": {
+      "name": "deny",
+      "confidence": 0.7734339237213135
+    }
+  },
+  {
+    "text": "my amex",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "pay_cc",
+      "confidence": 0.9869452118873596
+    }
+  },
+  {
+    "text": "let's go",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "goodbye",
+      "confidence": 0.7585265636444092
+    }
+  },
+  {
+    "text": "yes",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "goodbye",
+      "confidence": 0.6403476595878601
+    }
+  },
+  {
+    "text": "y",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "goodbye",
+      "confidence": 0.5874015688896179
+    }
+  },
+  {
+    "text": "exit",
+    "intent": "stop",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.2822422385215759
+    }
+  },
+  {
+    "text": "quit",
+    "intent": "stop",
+    "intent_prediction": {
+      "name": "thanks",
+      "confidence": 0.40039777755737305
+    }
+  },
+  {
+    "text": "Citi",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "pay_cc",
+      "confidence": 0.5729812979698181
+    }
+  }
+]
