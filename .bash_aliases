@@ -1,8 +1,18 @@
+generate_post_data()
+{
+  cat <<EOF
+{
+  "message": "$@",
+  "sender": "$GITPOD_WORKSPACE_ID",
+}
+EOF
+}
+
 chat() {
-    d="{\"sender\": \"tester\", \"message\": \"$@\"}" ;
-    echo $d ;
-    curl --request POST \
-        --url http://localhost:5002/core/webhooks/rest/webhook \
-        --data $d \
-        -H "Content-type: application/json" ;
+    curl  \
+    -H "Accept: application/json" \
+    -H "Content-Type:application/json" \
+    -X POST \
+    --data "$(generate_post_data $@)" \
+    --url "http://localhost:5005/webhooks/rest/webhook"
 }
