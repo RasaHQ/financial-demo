@@ -2,7 +2,7 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.types import DomainDict, EventType
+from rasa_sdk.types import DomainDict
 from rasa_sdk.events import SlotSet
 
 from actions.rasaxapi import RasaXAPI
@@ -98,7 +98,7 @@ class ActionTagFeedback(Action):
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: DomainDict,
-    ) -> List[EventType]:
+    ) -> List[Dict[Text, Any]]:
 
         label = '[{"value":"postive_feedback","color":"76af3d"}]'
 

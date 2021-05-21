@@ -38,4 +38,9 @@ rules:
   steps:
     - intent: thanks
     - action: action_tag_positive_feedback
-    - action: utter_
+    - action: utter_welcome
+
+- rule: ask skills
+  steps:
+    - intent: ask_skills
+    - action: utter_skills

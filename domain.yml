@@ -1,98 +1,118 @@
-version: "2.0"
-
-intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - bot_challenge
-  - train_topics
-  - inform
-  - check_balance
-  - pay_cc
-  - stop
-  - thanks
-
-entities:
-  - credit_card
-  - account_type
-  - number
-
-slots:
-  account_type:
-    type: text
-    influence_conversation: true
-  credit_card:
-    type: text
-    influence_conversation: false
-  number:
-    type: any
-    influence_conversation: false
-  payment_amount:
-    type: any
-    influence_conversation: false
-
-responses:
-  utter_ask_make_payment_form_credit_card:
-  - text: "What credit card would you like to make a payment for?"
-
-  utter_ask_make_payment_form_payment_amount:
-  - text: "How much would you like to pay for your {credit_card} card?"
-
-  utter_greet:
-  - text: "Hey! Welcome to your Rasa Training!"
-
-  utter_welcome:
-  - text: "You're welcome!"
-
-  utter_training_topics:
-  - text: "During training we will cover:\n - Intents\n - Entities\n - NLU Pipelines\n - Lookups\n - Synonyms\n
-  - Dialogue Management\n - Rules\n - Slots\n - Forms\n - Custom Actions"
-
-  utter_account_balance:
-  - text: "This is where you would get your account balance."
-
-  utter_account_balance_type:
-  - text: "Your account balance for {account_type} is."
-
-  utter_exit_form:
-  - text: "Okay, let's exit the form."
-
-  utter_make_payment_for_card:
-  - text: "Let's make a payment for your {credit_card} card."
-
-  utter_make_payment:
-  - text: "We'll gather more information about making a payment here."
-
-  utter_payment_thank_you:
-  - text: "Thank you for your payment of ${payment_amount} towards your {credit_card} card."
-
-  utter_please_rephrase:
-  - text: "I didn't quite understand that. Could you please rephrase?"
-
-  utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
-actions:
-  - action_account_balance
-  - validate_make_payment_form
-  - action_process_make_payment_form
-  - action_tag_positive_feedback
-
-forms:
-  make_payment_form:
-    credit_card:
-      - type: from_entity
-        entity: credit_card
-      - type: from_text
-    payment_amount:
-      - type: from_entity
-        entity: number
-      - type: from_text
-
+version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+intents:
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- train_topics:
+    use_entities: true
+- inform:
+    use_entities: true
+- check_balance:
+    use_entities: true
+- pay_cc:
+    use_entities: true
+- stop:
+    use_entities: true
+- thanks:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
+entities:
+- credit_card
+- account_type
+- number
+slots:
+  account_type:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  credit_card:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  number:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  payment_amount:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+responses:
+  utter_ask_make_payment_form_credit_card:
+  - text: What credit card would you like to make a payment for?
+  utter_ask_make_payment_form_payment_amount:
+  - text: How much would you like to pay for your {credit_card} card?
+  utter_greet:
+  - text: Hey! Welcome to your Rasa Training!
+  utter_welcome:
+  - text: You're welcome!
+  utter_training_topics:
+  - text: |-
+      During training we will cover:
+       - Intents
+       - Entities
+       - NLU Pipelines
+       - Lookups
+       - Synonyms
+       - Dialogue Management
+       - Rules
+       - Slots
+       - Forms
+       - Custom Actions
+  utter_account_balance:
+  - text: This is where you would get your account balance.
+  utter_account_balance_type:
+  - text: Your account balance for {account_type} is.
+  utter_exit_form:
+  - text: Okay, let's exit the form.
+  utter_make_payment_for_card:
+  - text: Let's make a payment for your {credit_card} card.
+  utter_make_payment:
+  - text: We'll gather more information about making a payment here.
+  utter_payment_thank_you:
+  - text: 'Thank you for your payment of ${payment_amount} towards your {credit_card} card.'
+  utter_please_rephrase:
+  - text: I didn't quite understand that. Could you please rephrase?
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_skills:
+  - text: |
+      I can help you:
+        - pay your credit card
+        - get your account balance
+
+actions:
+- action_account_balance
+- validate_make_payment_form
+- action_process_make_payment_form
+- action_tag_positive_feedback
+forms:
+  make_payment_form:
+    credit_card:
+    - entity: credit_card
+      type: from_entity
+    - type: from_text
+    payment_amount:
+    - entity: number
+      type: from_entity
+    - type: from_text
+e2e_actions: []

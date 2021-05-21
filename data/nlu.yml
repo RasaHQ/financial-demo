@@ -1,6 +1,13 @@
 version: "2.0"
 
 nlu:
+- intent: ask_skills
+  examples: |
+    - what can you do
+    - what can you help me with
+    - what skills do you have
+    - what can I ask you?
+    
 - intent: greet
   examples: |
     - hey
