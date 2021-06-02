@@ -21,7 +21,7 @@ nlu:
     - ok
     - ye
     - okay
-    - yes.
+    - yes..
 - intent: ask_transfer_charge
   examples: |
     - Will I be charged for transferring money
