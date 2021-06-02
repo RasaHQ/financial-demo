@@ -354,8 +354,6 @@ jobs:
     name: deploy_to_prod_cluster
     runs-on: ubuntu-latest
     needs: [params, deploy_to_test_cluster]
-    env:
-      AWS_EKS_CLUSTER_NAME: financial-demo-production
     steps: 
       - name: checkout
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
@@ -380,7 +378,7 @@ jobs:
       - name: configure kubectl
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
-          make aws-eks-cluster-update-kubeconfig
+          make aws-eks-cluster-update-kubeconfig AWS_EKS_CLUSTER_NAME=financial-demo-production
 
       - name: create namespace if not exists
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
