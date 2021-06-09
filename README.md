@@ -329,7 +329,9 @@ make docker-push
 
 ## Summary
 
-A CI/CD pipeline is used to test, build and deploy the financial-demo bot to AWS EKS:
+As explained in the [Setting up CI/CD](https://rasa.com/docs/rasa/setting-up-ci-cd) section of the Rasa documentation, Continous Integration (**CI**) is the practice of merging in code changes frequently and automatically testing changes as they are committed. Continuous Deployment (**CD**) means automatically deploying integrated changes to a staging or production environment. Together, they allow you to make more frequent improvements to your assistant and efficiently test and deploy those changes.
+
+A CI/CD pipeline is used to test, build and deploy the financial-demo bot to AWS EKS.
 
 The pipeline uses GitHub Actions, defined in  `.github/workflows/cicd.yml`. It includes these jobs:
 
