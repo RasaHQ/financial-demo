@@ -870,7 +870,7 @@ There are two commands to create AWS EKS clusters;  `eksctl` & `aws eks`.
 
 - The `aws eks` cli does not support to launch worker nodes to the cluster control plane. This has to be done manually from the AWS Console, which makes it unsuited for a CI/CD pipeline where everything needs to be done via scripting (=> infrastructure as code).
 
-The following references are great to learn about AWS EKS, and it is highly recommended to manually build some test-clusters with both the `eksctl` & `aws eks` commands to demystify all those AWS resources that are being generated:
+The following references are useful for learning about AWS EKS, and it is highly recommended to manually build test-clusters with both the `eksctl` & `aws eks` commands to help demystify the AWS resources that are being generated:
 
 - [eksctl – the EKS CLI](https://aws.amazon.com/blogs/opensource/eksctl-eks-cli/)
 - [Getting started with Amazon EKS - eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
