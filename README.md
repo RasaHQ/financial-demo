@@ -687,7 +687,7 @@ make rasa-train
 # In another window, start duckling server
 docker run -p 8000:8000 rasa/duckling
 
-# Run the end-2-end tests
+# Run the end-to-end tests
 make rasa-test
 
 # Upload `models/<current branch>.tar.gz` to S3
