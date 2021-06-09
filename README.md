@@ -796,7 +796,7 @@ Sometimes things do not clean up properly, and you need to do a manual cleanup i
 
   - Manually delete the resources that the stack is not able to delete. (**RECOMMENDED**)
 
-    You do this by drilling down into the **CloudFormation stack delete events** messages, and delete items bottom-up the dependency tree.
+    You can do this by drilling down into the **CloudFormation stack delete events** messages and deleting items bottom-up the dependency tree.
 
     One example of a bottom-up delete sequence is when deletion of the VPC fails:
 
@@ -881,4 +881,3 @@ The following references are great to learn about AWS EKS, and it is highly reco
 - https://logz.io/blog/amazon-eks-cluster/amp/
 - https://www.eksworkshop.com/
 - [aws eks - Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/eks/index.html)  (Not used)
-
