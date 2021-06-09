@@ -818,7 +818,7 @@ Sometimes things do not clean up properly, and you need to do a manual cleanup i
 
 ## Appendix C: OCTANT
 
-[Octant](https://octant.dev/) is a great tool to look  inside the cluster and trouble shoot issues when they arise.
+[Octant](https://octant.dev/) is a useful open sourced tool for visualizing workloads inside the cluster and troubleshooting issues when they arise.
 
 ### Install Octant
 
