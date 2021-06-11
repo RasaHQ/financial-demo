@@ -689,7 +689,7 @@ make rasa-train
 # In another window, start duckling server
 docker run -p 8000:8000 rasa/duckling
 
-# Run the end-2-end tests
+# Run the end-to-end tests
 make rasa-test
 
 # Upload `models/<current branch>.tar.gz` to S3
@@ -798,7 +798,7 @@ Sometimes things do not clean up properly, and you need to do a manual cleanup i
 
   - Manually delete the resources that the stack is not able to delete. (**RECOMMENDED**)
 
-    You do this by drilling down into the **CloudFormation stack delete events** messages, and delete items bottom-up the dependency tree.
+    You can do this by drilling down into the **CloudFormation stack delete events** messages and deleting items bottom-up the dependency tree.
 
     One example of a bottom-up delete sequence is when deletion of the VPC fails:
 
@@ -820,7 +820,7 @@ Sometimes things do not clean up properly, and you need to do a manual cleanup i
 
 ## Appendix C: OCTANT
 
-[Octant](https://octant.dev/) is a great tool to look  inside the cluster and trouble shoot issues when they arise.
+[Octant](https://octant.dev/) is a useful open sourced tool for visualizing workloads inside the cluster and troubleshooting issues when they arise.
 
 ### Install Octant
 
@@ -872,7 +872,7 @@ There are two commands to create AWS EKS clusters;  `eksctl` & `aws eks`.
 
 - The `aws eks` cli does not support to launch worker nodes to the cluster control plane. This has to be done manually from the AWS Console, which makes it unsuited for a CI/CD pipeline where everything needs to be done via scripting (=> infrastructure as code).
 
-The following references are great to learn about AWS EKS, and it is highly recommended to manually build some test-clusters with both the `eksctl` & `aws eks` commands to demystify all those AWS resources that are being generated:
+The following references are useful for learning about AWS EKS, and it is highly recommended to manually build test-clusters with both the `eksctl` & `aws eks` commands to help demystify the AWS resources that are being generated:
 
 - [eksctl – the EKS CLI](https://aws.amazon.com/blogs/opensource/eksctl-eks-cli/)
 - [Getting started with Amazon EKS - eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
@@ -883,4 +883,3 @@ The following references are great to learn about AWS EKS, and it is highly reco
 - https://logz.io/blog/amazon-eks-cluster/amp/
 - https://www.eksworkshop.com/
 - [aws eks - Command Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/eks/index.html)  (Not used)
-
