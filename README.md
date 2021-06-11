@@ -402,6 +402,8 @@ To allow the GitHub actions to define a pull secret for the private GCR repo, ge
 - GCR_AUTH_JSON_CLIENT_EMAIL = `client_email`
 - GCR_AUTH_JSON_CLIENT_ID = `client_id`
 
+An alternative approach to GCR repo authentication would be with the [gcloud credential helper](https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud-helper).
+
 #### Helm chart Credentials
 
 To allow the GitHub actions to use safe_credentials in the `values.yml` ([docs](https://rasa.com/docs/rasa-x/installation-and-setup/install/helm-chart#3-configure-credentials)), add following GitHub Secrets to the repo, replacing each `<safe credential>` with a different alphanumeric string, and choose a `<username>` for the initial user. 
