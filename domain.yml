@@ -2,6 +2,7 @@ session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
 intents:
+- check_human
 - transfer_money:
     use_entities: []
 - inform
@@ -252,6 +253,8 @@ responses:
   - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
   utter_ask_whatelse:
   - text: What else can I help you with?
+  utter_bot:
+  - text: I'm a virtual assistant made with Rasa. 
   utter_help:
   - text: "I can help you with your financial accounts. \nYou can ask me things like:\
       \ \n- What's my account balance? \n- Pay off my credit card \n- What did I spend\

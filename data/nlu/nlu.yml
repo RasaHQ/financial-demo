@@ -1,5 +1,26 @@
 version: "2.0"
 nlu:
+- intent: check_human
+  examples: |
+    - are you a bot?
+    - am i speaking to an ai?
+    - are you a human or a bot?
+    - are you real? 
+    - are you virtual? 
+    - are you an ai?
+    - aren't you a bot
+    - are you a chatbot
+    - are you a rasa bot?
+    - are you a real bot?
+    - are you a robot
+    - are you ai
+    - are you artificial
+    - are you artificial intelligence
+    - are you real
+    - are you really a bot
+    - are you robot
+    - are you sure that you're a bot?
+    - bot?
 - intent: affirm
   examples: |
     - indeed
@@ -21,7 +42,21 @@ nlu:
     - ok
     - ye
     - okay
-    - yes..
+    - That would be great
+    - YES
+    - YUP
+    - Yea
+    - Yeah
+    - Yeah sure
+    - Yep
+    - Yep that's fine
+    - Yep!
+    - Yepp
+    - Yes
+    - Yes I do
+    - Yes please
+    - Yes please!
+    - Yes, I accept
 - intent: ask_transfer_charge
   examples: |
     - Will I be charged for transferring money
@@ -33,6 +68,19 @@ nlu:
     - is there a transfer fee
     - is there a xfer fee
     - how much is the transfer fee
+    - whats the cost of transferring money
+    - what am I charged upon money transfer
+    - are you gonna bill me for this exchange
+    - whats the xfer price for this account
+    - okay but how much to move this money?
+    - how much is the fee to shift my money around
+    - if I send money to someone will I be charged extra for that?
+    - is there a charge when I send money to someone
+    - what is the fee for sending money to someone else
+    - I sent money to my friend will I be charged extra for that
+    - what is the percentage fee for transactions to another person
+    - are there any transaction fees or charges I should know about?
+    - tell me about transfer fees
 - intent: check_balance
   examples: |
     - How much money is on my account?
@@ -104,6 +152,15 @@ nlu:
     - how much money have I earned?
     - what did I earn?
     - How much have i earned?
+    - how much did I make
+    - am I rich yet?
+    - am I a millionaire
+    - how much cash is rolling through my account
+    - how much money is in the money making machine account?
+    - what did I make in the last year?
+    - show me how much I've earned in the last week
+    - can i afford to go on vacation
+    - rent is due soon how much do I have in my account
 - intent: deny
   examples: |
     - not really
@@ -117,6 +174,17 @@ nlu:
     - Nothing!
     - nevermind
     - n
+    - i decline
+    - i don not like this
+    - i don't think so
+    - i don't want either of those
+    - i don't want to
+    - i don't want to give you my email
+    - i dont want to
+    - i dont want to accept :P lol
+    - i guess it means - no
+    - i'm afraid not
+    - i'm not sure
 - intent: goodbye
   examples: |
     - see you later
@@ -132,8 +200,26 @@ nlu:
     - have a good day. time to go, bye
     - bye bye
     - ok i gtg
+    - bye bye bot
+    - bye for now
+    - bye udo
+    - bye was nice talking to you
+    - bye!
+    - byee
+    - catch you later
+    - ciao
+    - cya
+    - farewell
+    - good bye
+    - good bye rasa bot!
+    - good night
+    - goodbye
+    - goodbye.
+    - goodnight
+    - gotta go
 - intent: greet
   examples: |
+    - yo
     - good morning
     - hi
     - hey there
@@ -365,6 +451,14 @@ nlu:
     - thnaks
     - good job bot
     - great
+    - thanks for the help
+    - thanks you
+    - thanks!
+    - thankyou
+    - thnks
+    - thx
+    - thanks for your information
+    - thanks f
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -432,11 +526,16 @@ nlu:
     - who can I transfer money to?
     - Who is on your list?
     - who is in my list of kown recipients?
-    - Can we please start over?
     - Who all can I transfer money to?
     - Who can I transfer money to?
     - Okay. Who can I transfer money to then?
     - can I see the list of known recipients?
+    - tell me who I can share my money with
+    - whats my recipient list
+    - can I send money to anyone?
+    - who exactly am I able to send money to
+    - if I want to transfer money can i send it to anyone
+    - show me my money sending list
 - intent: help
   examples: |
     - help
@@ -450,6 +549,17 @@ nlu:
     - how can you help me
     - What are the things that you can do?
     - What else can you help me with?
+    - can you do anything else?
+    - can you help me?
+    - come back
+    - cool! can I do something else here?
+    - hello what can you do for me
+    - help
+    - help me
+    - help please
+    - help pls
+    - help?
+    - hep me
 - intent: human_handoff
   examples: |
     - handoff
@@ -463,6 +573,20 @@ nlu:
     - i want to talk to a human
     - transfer to a human
     - Please give me to a human
+    - can I talk to human?
+    - can I talk to human
+    - talk to human
+    - i want human :(
+    - can i talk to human
+    - i want to talk to a human
+    - i want to speak to human
+    - can i talk to a real person?
+    - connect me to a real person
+    - I need a real person
+    - can i took with a real person
+    - let me speak to a real person
+    - let me speak to a real person please
+    - i want to talk to a real person
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
@@ -480,6 +604,14 @@ nlu:
     - what the weather today ?
     - hows the weather
     - tell me a joke
+    - Can I get a hamburger?
+    - Can YouTube talk?
+    - Can you call me back ?
+    - Can you give me your datacenter's password
+    - Can you give me your datacenter's password?
+    - Can you make sandwiches?
+    - Can you please send me an uber
+    - ofif fsdfafsfs
 - synonym: credit
   examples: |
     - credit card
