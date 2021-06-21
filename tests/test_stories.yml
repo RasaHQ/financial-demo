@@ -866,3 +866,53 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID 4f9ea3b9635c4fbe8d588f1b5bdbf2a3
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      hello
+  - action: utter_greet
+  - action: utter_help
+  - intent: search_transactions
+    user: |-
+      what did i spend at [amazon](vendor_name) [last week]{"entity": "time", "value": "2021-05-31T00:00:00.000-07:00"}?
+  - slot_was_set:
+    - time: '2021-05-31T00:00:00.000-07:00'
+  - slot_was_set:
+    - vendor_name: amazon
+  - action: transaction_search_form
+  - active_loop: transaction_search_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - time: '2021-05-31T00:00:00.000-07:00'
+  - slot_was_set:
+    - start_time: '2021-05-31T00:00:00.000-07:00'
+  - slot_was_set:
+    - start_time_formatted: Monday May 31, 2021
+  - slot_was_set:
+    - end_time: '2021-06-07T00:00:00-07:00'
+  - slot_was_set:
+    - end_time_formatted: Monday Jun 07, 2021
+  - slot_was_set:
+    - grain: week
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - time: '2021-05-31T00:00:00.000-07:00'
+  - slot_was_set:
+    - search_type: spend
+  - slot_was_set:
+    - start_time: '2021-05-31T00:00:00.000-07:00'
+  - slot_was_set:
+    - start_time_formatted: Monday May 31, 2021
+  - slot_was_set:
+    - end_time: '2021-06-07T00:00:00-07:00'
+  - slot_was_set:
+    - end_time_formatted: Monday Jun 07, 2021
+  - slot_was_set:
+    - grain: week
+  - slot_was_set:
+    - requested_slot: zz_confirm_form
