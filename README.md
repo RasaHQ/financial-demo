@@ -293,7 +293,7 @@ As part of the deployment, you'll need to set up [git integration](https://rasa.
 
 You will need to have docker installed in order to build the action server image. If you haven't made any changes to the action code, you can also use the [public image on Dockerhub](https://hub.docker.com/r/rasa/financial-demo) instead of building it yourself.
 
-Build & tag the image:
+To build & tag the image, run:
 
 ```bash
 export ACTION_SERVER_DOCKERPATH=<dockerID>/<name-of-image>:<tag-of-image>
@@ -312,7 +312,7 @@ Perform a smoke test on the health endpoint:
 make docker-test
 ```
 
-Once you have confirmed that the container works as it should, push the container image to a registry:
+Once you have confirmed that the container is working, push the container image to a registry:
 
 ```bash
 # login to a container registry with your credentials
@@ -337,52 +337,52 @@ The pipeline uses GitHub Actions, defined in  `.github/workflows/cicd.yml`. It i
 
 ![](images/cicd.png)
 
-**params**
+**[params](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L26)**
 
 - Defines parameters for use by downstream jobs
 
-**params_summary**
+**[params_summary](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L125)**
 
 - Prints the value of the parameters.
 
-**action_server**
+**[action_server](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L156)**
 
 - Builds & Tests the docker image of the action server with tag: `<branch-name>`
 - Uploads the docker image to the AWS ECR repository: `financial-demo`
 
-**rasa_model**
+**[rasa_model](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L203)**
 
 - Trains & Tests the rasa model with name: `models/<branch-name>.tar.gz
 - Uploads the trained model to the AWS S3 bucket: `rasa-financial-demo` 
 
-**aws_eks_create_test_cluster**
+**[aws_eks_create_test_cluster](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L242)**
 
-- If not existing yet, create an AWS EKS cluster with name: `financial-demo-<branch-name>`
+- If not existing yet, creates an AWS EKS cluster with name: `financial-demo-<branch-name>`
 
-**deploy_to_test_cluster**
+**[deploy_to_test_cluster](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L266)**
 
 - Installs/Updates Rasa Enterprise, with the docker image created by the **action_server** job.
 - Deploys the rasa model, trained by the **rasa_model** job.
-- Performs smoke tests to ensure basic operation is all OK.
+- Performs smoke tests to ensure basic operations are all OK.
 
-**deploy_to_prod_cluster**
+**[deploy_to_prod_cluster](https://github.com/RasaHQ/financial-demo/blob/d40467b4fb2a7d4fb072b86a2828a8cec662eb63/.github/workflows/cicd.yml#L353)**
 
 - Runs when pushing to the `main` branch, and all previous steps are successful.
 - Installs/Updates Rasa Enterprise, with the docker image created by the **action_server** job.
 - Deploys the rasa model, trained by the **rasa_model** job.
-- Performs smoke tests to ensure basic operation is all OK.
+- Performs smoke tests to ensure basic operations are all OK.
 
 
 
 ## GitHub Secrets
 
-In your GitHub repository, go to `Settings > Secrets`, and add these `New repository secrets` . 
+Secrets can be added to your GitHub repository by going to `Settings > Secrets` and selecting `New repository secret`. 
 
-When entering the value, do not use quotes.
+When entering values, be sure to omit quotes.
 
 #### AWS IAM User API Keys:
 
-To allow the GitHub actions to configure the aws cli, create IAM User API Keys as described below, and add them as GitHub Secrets to the repo:
+To configure the aws cli in Github Actions, create IAM User API Keys as described below, and add them as GitHub secrets to the repository:
 
 - AWS_ACCESS_KEY_ID = `Access key ID`
 - AWS_SECRET_ACCESS_KEY = `Secret access key` 
@@ -395,7 +395,7 @@ Create an Elastic IP as described below, and add it as a GitHub Secret to the re
 
 #### Rasa Enterprise License:
 
-To allow the GitHub actions to define a pull secret for the private GCR repo, get the private values from your Rasa Enterprise license file ([docs](https://rasa.com/docs/rasa-x/installation-and-setup/install/helm-chart#5-configure-rasa-x-image)) and add them as GitHub Secrets to the repo:
+To define a pull secret in Github Actions for the private GCR repo, you'll need to retrieve the private values from your Rasa Enterprise license file ([docs](https://rasa.com/docs/rasa-x/installation-and-setup/install/helm-chart#5-configure-rasa-x-image)) and add them as GitHub secrets to the repository:
 
 - GCR_AUTH_JSON_PRIVATE_KEY_ID = `private_key_id`
 - GCR_AUTH_JSON_PRIVATE_KEY = `private_key`
@@ -406,7 +406,7 @@ An alternative approach to GCR repo authentication would be with the [gcloud cre
 
 #### Helm chart Credentials
 
-To allow the GitHub actions to use safe_credentials in the `values.yml` ([docs](https://rasa.com/docs/rasa-x/installation-and-setup/install/helm-chart#3-configure-credentials)), add following GitHub Secrets to the repo, replacing each `<safe credential>` with a different alphanumeric string, and choose a `<username>` for the initial user. 
+To use safe_credentials in Github Actions through `values.yml` ([docs](https://rasa.com/docs/rasa-x/installation-and-setup/install/helm-chart#3-configure-credentials)), add following GitHub Secrets to the repo, replacing each `<safe credential>` with a different alphanumeric string and choosing a `<username>` for the initial user. 
 
 *(Please use **safe credentials** to avoid data breaches)*
 
@@ -434,7 +434,7 @@ The CI/CD pipeline uses the [aws cli](https://docs.aws.amazon.com/cli/latest/use
 
 The [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install) needs a set of IAM User API keys for authentication & authorization:
 
-- In your AWS Console, go to IAM dashboard to create a new set of API keys:
+In your AWS Console, go to the IAM dashboard to create a new set of API keys:
 
   - Click on Users
 
@@ -461,14 +461,14 @@ The [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-lin
 
 ### SSH Key Pair
 
-To be able to SSH into the EC2 worker nodes of the EKS cluster, you need an SSH Key Pair
+To SSH into the EC2 worker nodes of the EKS cluster, you'll need an SSH Key Pair
 
 - In your AWS Console, go to **EC2 > Key Pairs**, and create a Key Pair with the name `findemo`, and download the file `findemo.pem` which contains the private SSH key. 
   **Note that the name `findemo` is important, since it is used by the CI/CD pipeline when the cluster is created.**
 
 ### Local AWS CLI
 
-Before the CI/CD pipeline can run, you will use the AWS CLI locally to create some items, so also install & configure the CLI locally.
+Before the CI/CD pipeline can run, you will use the AWS CLI locally to create some resources and need to install & configure the CLI locally.
 
 #### Install AWS CLI v2
 
@@ -523,11 +523,13 @@ This initial deployment is done manually. After that, the deployment is maintain
 
 ### Preparation
 
+Before you can create the EKS cluster, you must install  `eksctl`, `kubectl`, `helm`, `jp`, and define some environment variables.
+
 #### Install eksctl
 
 See the [installation instructions](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)
 
-If you use Ubuntu, you can just issue the command:
+If you use Ubuntu, you can issue the command:
 
 ```bash
 make install-eksctl
@@ -537,7 +539,7 @@ make install-eksctl
 
 See the [installation instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
-If you use Ubuntu, you can just issue the command:
+If you use Ubuntu, you can issue the command:
 
 ```bash
 make install-kubectl
@@ -547,7 +549,7 @@ make install-kubectl
 
 See the [installation instructions](https://helm.sh/docs/intro/install/)
 
-If you use Ubuntu, you can just issue the command:
+If you use Ubuntu, you can issue the command:
 
 ```bash
 make install-helm
@@ -557,7 +559,7 @@ make install-helm
 
 See the [installation instructions](https://github.com/jmespath/jp#installing)
 
-If you use Ubuntu, you can just issue the command:
+If you use Ubuntu, you can issue the command:
 
 ```bash
 make install-jp
@@ -717,7 +719,7 @@ make rasa-enterprise-smoketest
 
 ### DNS
 
-Define a DNS record of type CNAME with your domain service provider:
+Optionally, if you want to access Rasa Enterprise at your own (sub)-domain name, define a DNS record of type CNAME with your domain service provider:
 
 - **name of sub-domain**:  `aws-financial-demo`  
 
@@ -786,11 +788,11 @@ The EKS Control Plane interacts with the the EKS Data Plane (the nodes), like th
 
 ## Appendix B: Manual Cleanup of AWS resources
 
-Sometimes things do not clean up properly, and you need to do a manual cleanup in the **AWS console**:
+Sometimes things do not clean up properly and you will need to do a manual cleanup in the **AWS console**:
 
-- **CloudFormation**: Try to delete all the stacks in reverse order as they were created by the eksctl command.
+**CloudFormation**: Try to delete all the stacks in reverse order as they were created by the eksctl command.
 
-- When a stack fails to delete due to dependencies, you have two options:
+When a stack fails to delete due to dependencies, you have two options:
 
   - Select to retain the resources that have dependency errors. (**NOT RECOMMENDED**)
 
