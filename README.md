@@ -597,19 +597,22 @@ source ./secret/envs_export
 
 ### Create the EKS cluster
 
-Create the EKS production cluster, with name `financial-demo-<current branch name>`:
+Create the EKS production cluster, with name `financial-demo-production`:
 
 ```bash
 make aws-eks-cluster-create AWS_EKS_CLUSTER_NAME=financial-demo-production
 ```
 
-Some other useful 'Makefile functions' to interact with the EKS cluster:
+Some other useful 'Makefile functions' to interact with an EKS cluster:
 
 ```bash
 make aws-eks-cluster-list-all
-make aws-eks-cluster-describe AWS_EKS_CLUSTER_NAME=financial-demo-production
-make aws-eks-cluster-describe-stacks AWS_EKS_CLUSTER_NAME=financial-demo-production
-make aws-eks-cluster-delete AWS_EKS_CLUSTER_NAME=financial-demo-production
+
+# in commands below, default name of cluster = financial-demo-<current branch name>
+#
+make aws-eks-cluster-describe AWS_EKS_CLUSTER_NAME=<name of cluster>
+make aws-eks-cluster-describe-stacks AWS_EKS_CLUSTER_NAME=<name of cluster>
+make aws-eks-cluster-delete AWS_EKS_CLUSTER_NAME=<name of cluster>
 ```
 
 ### Configure `kubeconfig`
