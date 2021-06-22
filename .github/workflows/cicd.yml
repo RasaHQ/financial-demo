@@ -16,12 +16,12 @@ env:
   AWS_ECR_URI: 024629701212.dkr.ecr.us-west-2.amazonaws.com
   AWS_ECR_REPOSITORY: financial-demo
   AWS_S3_BUCKET_NAME: rasa-financial-demo
-  
-  # Notes: 
+
+  # Notes:
   # (-) rasa & rasa-sdk versions are extracted from `requirements.txt`
   # (-) check https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/
   RASA_ENTERPRISE_VERSION: "0.38.1"
-  
+
 jobs:
   params:
     name: params
@@ -30,18 +30,18 @@ jobs:
     outputs:
       git_branch: ${{ steps.git.outputs.git_branch }}
       do_deploy_to_prod_cluster: ${{ steps.git.outputs.do_deploy_to_prod_cluster }}
-      
+
       rasa_enterprise_version: ${{ steps.versions.outputs.rasa_enterprise_version }}
       rasa_version: ${{ steps.versions.outputs.rasa_version }}
       rasa_sdk_version: ${{ steps.versions.outputs.rasa_sdk_version }}
-      
+
       do_action_server: ${{ steps.action_server.outputs.do_action_server }}
-      
+
       do_training: ${{ steps.rasa_model.outputs.do_training }}
-      
+
       aws_region: ${{ steps.aws.outputs.aws_region }}
       aws_s3: ${{ steps.aws.outputs.aws_s3 }}
-      
+
       do_create_test_cluster: ${{ steps.aws.outputs.do_create_test_cluster }}
 
     steps:
@@ -50,24 +50,23 @@ jobs:
         run: |
           echo $GITHUB_REF
           git_branch=$(echo ${GITHUB_REF##*/})
-          
+
           echo "::set-output name=git_branch::$git_branch"
-          
-          # TODO: Change after merge !!
-          if [[ $git_branch == "infrastructure-as-code" ]]
+
+          if [[ $git_branch == "main" ]]
           then
             echo "::set-output name=do_deploy_to_prod_cluster::true"
           else
             echo "::set-output name=do_deploy_to_prod_cluster::false"
           fi
-          
+
       - name: checkout
         uses: actions/checkout@v2
-          
+
       - name: files
         id: files
         uses: jitterbit/get-changed-files@v1
-        
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -80,11 +79,11 @@ jobs:
         run: |
           rasa_version=$( cat requirements.txt | grep 'rasa\[spacy\]' | cut -d'=' -f 3 )-spacy-en
           rasa_sdk_version=$( cat requirements.txt | grep 'rasa-sdk' | cut -d'=' -f 3 )
-          
+
           echo "::set-output name=rasa_enterprise_version::${{ env.RASA_ENTERPRISE_VERSION }}"
           echo "::set-output name=rasa_version::$rasa_version"
           echo "::set-output name=rasa_sdk_version::$rasa_sdk_version"
-        
+
       - name: action_server
         id: action_server
         run: |
@@ -106,22 +105,22 @@ jobs:
           else
             echo "::set-output name=do_training::false"
           fi
-      
+
       - name: aws
         id: aws
         run: |
           echo "::set-output name=aws_region::${{ env.AWS_REGION }}"
           echo "::set-output name=aws_s3::${{ env.AWS_S3_BUCKET_NAME }}"
-              
+
           if [[ $(make aws-eks-cluster-exists) = True ]]
           then
             echo "::set-output name=do_create_test_cluster::false"
           else
             echo "::set-output name=do_create_test_cluster::true"
           fi
-      
 
-        
+
+
   params_summary:
     name: params_summary
     runs-on: ubuntu-latest
@@ -131,18 +130,18 @@ jobs:
       run: |
         echo git_branch: ${{ needs.params.outputs.git_branch }}
         echo do_deploy_to_prod_cluster: ${{ needs.params.outputs.do_deploy_to_prod_cluster }}
-        
+
         echo rasa_enterprise_version : ${{ needs.params.outputs.rasa_enterprise_version }}
         echo rasa_version : ${{ needs.params.outputs.rasa_version }}
         echo rasa_sdk_version : ${{ needs.params.outputs.rasa_sdk_version }}
-        
+
         echo do_action_server: ${{ needs.params.outputs.do_action_server }}
-        
+
         echo do_training: ${{ needs.params.outputs.do_training }}
-        
+
         echo aws_region: ${{ needs.params.outputs.aws_region }}
         echo aws_s3: ${{ needs.params.outputs.aws_s3 }}
-        
+
         echo do_create_test_cluster: ${{ needs.params.outputs.do_create_test_cluster }}
 #
 #    - name: Dump GitHub context
@@ -151,8 +150,8 @@ jobs:
 #      run: |
 #        echo "$GITHUB_CONTEXT"
 #        exit 1
-    
-  
+
+
   action_server:
     name: action_server (to AWS ECR)
     runs-on: ubuntu-latest
@@ -161,13 +160,13 @@ jobs:
       - name: checkout
         if: needs.params.outputs.do_action_server  == 'true'
         uses: actions/checkout@v2
-        
+
       - name: Set up Python 3.7
         if: needs.params.outputs.do_action_server  == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
-          
+
       - name: Cache pip
         if: needs.params.outputs.do_action_server  == 'true'
         # see: https://docs.github.com/en/actions/guides/building-and-testing-python#caching-dependencies
@@ -178,8 +177,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
-            
-             
+
+
       - name: Configure AWS Credentials
         if: needs.params.outputs.do_action_server  == 'true'
         uses: aws-actions/configure-aws-credentials@v1
@@ -187,7 +186,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-          
+
       - name: Do it all
         if: needs.params.outputs.do_action_server  == 'true'
         run: |
@@ -196,7 +195,7 @@ jobs:
           make lint
           make types
           make test
-          make docker-build 
+          make docker-build
           make aws-ecr-docker-login
           make docker-push
 
@@ -215,7 +214,7 @@ jobs:
       - name: checkout
         if: needs.params.outputs.do_training  == 'true'
         uses: actions/checkout@v2
-        
+
       - name: Install dependencies
         if: needs.params.outputs.do_training  == 'true'
         run: |
@@ -223,7 +222,7 @@ jobs:
           pip install -r requirements.txt
           python -m spacy download en_core_web_md
           python -m spacy link en_core_web_md en
-      
+
       - name: Configure AWS Credentials
         if: needs.params.outputs.do_training  == 'true'
         uses: aws-actions/configure-aws-credentials@v1
@@ -231,7 +230,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ needs.params.outputs.aws_region }}
-          
+
       - name: Do it all
         if: needs.params.outputs.do_training  == 'true'
         run: |
@@ -247,7 +246,7 @@ jobs:
       - name: checkout
         if: needs.params.outputs.do_create_test_cluster  == 'true'
         uses: actions/checkout@v2
-      
+
       - name: Configure AWS Credentials
         if: needs.params.outputs.do_create_test_cluster  == 'true'
         uses: aws-actions/configure-aws-credentials@v1
@@ -255,30 +254,30 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ needs.params.outputs.aws_region }}
-      
+
       - name: Do it all
         if: needs.params.outputs.do_create_test_cluster  == 'true'
         run: |
           make install-eksctl
           make install-kubectl
           make aws-eks-cluster-create
-          
+
   deploy_to_test_cluster:
     name: deploy_to_test_cluster
     runs-on: ubuntu-latest
     needs: [params, aws_eks_create_test_cluster, rasa_model, action_server]
     # if: always()
-    steps: 
+    steps:
       - name: checkout
         uses: actions/checkout@v2
-        
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ needs.params.outputs.aws_region }}
-      
+
       - name: install CLIs & dependencies
         run: |
           make install-eksctl
@@ -303,12 +302,12 @@ jobs:
           GCR_AUTH_JSON_CLIENT_ID: ${{ secrets.GCR_AUTH_JSON_CLIENT_ID }}
         run: |
           make pull-secret-gcr-create
-          
+
       # Enable cluster to pull the private action server image
       - name: create/refresh ecr-pull-secret
         run: |
           make pull-secret-ecr-create
-          
+
       - name: Install or Upgrade Rasa Enterprise
         env:
           GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD: ${{ secrets.GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD }}
@@ -322,18 +321,18 @@ jobs:
           RASA_TOKEN: ${{ secrets.RASA_TOKEN }}
         run: |
           make rasa-enterprise-install
-          
+
       - name: Check Rasa Enterprise Health
         run: |
           # Need to give rasa-prod container some time...
           sleep 30
           make rasa-enterprise-check-health
-          
+
       - name: Deploy rasa model
         env:
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
           RASAX_INITIALUSER_PASSWORD: ${{ secrets.RASAX_INITIALUSER_PASSWORD }}
-          
+
         run: |
           make aws-s3-download-rasa-model
           make rasa-enterprise-model-delete
@@ -342,7 +341,7 @@ jobs:
           make rasa-enterprise-model-tag
           # Give rasa-prod some time to unpack & load the model
           sleep 30
-          
+
       - name: Smoketest
         env:
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
@@ -354,11 +353,11 @@ jobs:
     name: deploy_to_prod_cluster
     runs-on: ubuntu-latest
     needs: [params, deploy_to_test_cluster]
-    steps: 
+    steps:
       - name: checkout
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         uses: actions/checkout@v2
-      
+
       - name: Configure AWS Credentials
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         uses: aws-actions/configure-aws-credentials@v1
@@ -366,7 +365,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ needs.params.outputs.aws_region }}
-      
+
       - name: install CLIs & dependencies
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
@@ -395,13 +394,13 @@ jobs:
           GCR_AUTH_JSON_CLIENT_ID: ${{ secrets.GCR_AUTH_JSON_CLIENT_ID }}
         run: |
           make pull-secret-gcr-create
-          
+
       # Enable cluster to pull the private action server image
       - name: create/refresh ecr-pull-secret
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           make pull-secret-ecr-create
-          
+
       - name: Install or Upgrade Rasa Enterprise
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
@@ -416,20 +415,20 @@ jobs:
           RASA_TOKEN: ${{ secrets.RASA_TOKEN }}
         run: |
           make rasa-enterprise-install
-          
+
       - name: Check Rasa Enterprise Health
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           # Need to give rasa-prod container some time...
           sleep 30
           make rasa-enterprise-check-health
-          
+
       - name: Deploy rasa model
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
           RASAX_INITIALUSER_PASSWORD: ${{ secrets.RASAX_INITIALUSER_PASSWORD }}
-          
+
         run: |
           make aws-s3-download-rasa-model
           make rasa-enterprise-model-delete
@@ -438,7 +437,7 @@ jobs:
           make rasa-enterprise-model-tag
           # Give rasa-prod some time to unpack & load the model
           sleep 30
-          
+
       - name: Smoketest
         if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
