@@ -33,7 +33,7 @@ from actions.custom_forms import CustomFormValidationAction
 logger = logging.getLogger(__name__)
 
 # The profile database is created/connected to when the action server starts
-# It is populated the first time `ActionSessionStart.run()` is called.
+# It is populated the first time `ActionSessionStart.run()` is called .
 
 PROFILE_DB_NAME = os.environ.get("PROFILE_DB_NAME", "profile")
 PROFILE_DB_URL = os.environ.get("PROFILE_DB_URL", f"sqlite:///{PROFILE_DB_NAME}.db")
