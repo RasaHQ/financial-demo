@@ -27,7 +27,7 @@ pipeline:
     #       combination with the WhitespaceTokenizer, and as a result the
     #       PERSON extraction by Spacy is not very robust.
     #       Because of this, the nlu training data is annotated as well, and the
-    #       DIETClassifier will also extract PERSON entities .
+    #       DIETClassifier will also extract PERSON entities.
     dimensions: ["PERSON"]
   - name: EntitySynonymMapper
 policies:
