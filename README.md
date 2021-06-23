@@ -523,7 +523,7 @@ This initial deployment is done manually. After that, the deployment is maintain
 
 ### Preparation
 
-Before you can create the EKS cluster, you must install  `eksctl`, `kubectl`, `helm`, `jp`, and define some environment variables.
+Before you can create or interact with an EKS cluster, you must install  `eksctl`, `kubectl`, `helm`, `jp`, and define some environment variables.
 
 #### Install eksctl
 
@@ -761,7 +761,116 @@ aws-financial-demo.my-domain.com. ---- IN CNAME ---.us-west-2.elb.amazonaws.com.
 
 Once propagated, you can access Rasa Enterprise at **http://aws-financial-demo.my-domain.com**
 
+## Trouble Shooting
 
+If something goes wrong with the CI/CD pipeline, you should:
+
+- Browse the [workflow logs](https://github.com/RasaHQ/financial-demo/actions)
+- Peek in [.github/workflows/cicd.yml](https://github.com/RasaHQ/financial-demo/blob/main/.github/workflows/cicd.yml) to see what the pipeline is doing at the moment of trouble
+- Trouble shoot it from your local computer
+
+The following steps will most likely reveal what is going wrong: 
+
+- Before you can use the Makefile commands locally, follow the [Preparation](#preparation) steps:
+
+  - Install eksctl, kubectl, helm, jp
+  - Set the environment variables
+
+- Then, configure kubectl, so you are looking at the correct EKS cluster.
+
+  - To troubleshoot the EKS test cluster for your current branch
+
+    ```bash
+    make aws-eks-cluster-update-kubeconfig
+    ```
+
+  - To Troubleshoot the EKS production cluster
+
+    ```bash
+    make aws-eks-cluster-update-kubeconfig AWS_EKS_CLUSTER_NAME=financial-demo-production
+    ```
+
+- Make sure you are now looking at the correct cluster by checking the current context:
+
+  ```bash
+  make kubectl-config-current-context
+  ```
+
+- Then, issue these commands to check things out.
+
+  - Trouble shoot the EKS cluster
+
+    ```bash
+    # Check the available commands for the `aws-eks` cluster:
+    $ make aws-eks # Do NOT press `Enter`, but press the `Tab` key twice
+    aws-eks-cluster-create                    aws-eks-cluster-info
+    aws-eks-cluster-delete                    aws-eks-cluster-list-all
+    aws-eks-cluster-describe                  aws-eks-cluster-status
+    aws-eks-cluster-describe-stacks           aws-eks-cluster-update-kubeconfig
+    aws-eks-cluster-exists                    aws-eks-namespace-create
+    aws-eks-cluster-get-certificateAuthority  aws-eks-namespace-delete
+    aws-eks-cluster-get-endpoint
+    
+    # Trouble shoot the cluster
+    make aws-eks-cluster-exists
+    make aws-eks-cluster-status
+    make aws-eks-cluster-info
+    ```
+
+  - Trouble shoot the S3 storage of the trained model
+
+    ```bash
+    # Check the available commands for the `aws-s3` bucket:
+    make aws-s3 # Do NOT press `Enter`, but press the `Tab` key twice
+    aws-s3-create-bucket        aws-s3-list-rasa-models
+    aws-s3-delete-bucket        aws-s3-rasa-model-exists
+    aws-s3-download-rasa-model  aws-s3-upload-rasa-model
+    
+    # Trouble shoot the S3 storage of the trained model
+    make aws-s3-list-rasa-models
+    make aws-s3-rasa-model-exists
+    ```
+
+  - Trouble shoot the ECR storage of the action server image
+
+    ```bash
+    # Check the available commands for the `aws-ecr` repository:
+    make aws-ecr # Do NOT press `Enter`, but press the `Tab` key twice
+    aws-ecr-create-repository        aws-ecr-get-repositoryUri
+    aws-ecr-docker-login             aws-ecr-image-exists
+    aws-ecr-get-authorization-token  aws-ecr-list-images
+    
+    # First, login to the ECR (This expires after a while, so redo it)
+    make aws-ecr-docker-login
+    
+    # Then, Troubleshoot the ECR storage of the action server image
+    make aws-ecr-list-images
+    make aws-ecr-image-exists
+    ```
+
+    
+
+  - Trouble shoot the Rasa Enterprise deployment
+
+    ```bash
+    # Check the available commands for the `rasa-enterprise` deployment:
+    $ make rasa-e # Do NOT press `Enter`, but press the `Tab` key twice
+    rasa-enterprise-check-health               rasa-enterprise-get-secrets-rabbit
+    rasa-enterprise-get-access-token           rasa-enterprise-get-secrets-redis
+    rasa-enterprise-get-base-url               rasa-enterprise-install
+    rasa-enterprise-get-chat-token             rasa-enterprise-model-delete
+    rasa-enterprise-get-loadbalancer-hostname  rasa-enterprise-model-tag
+    rasa-enterprise-get-login                  rasa-enterprise-model-upload
+    rasa-enterprise-get-pods                   rasa-enterprise-smoketest
+    rasa-enterprise-get-secrets-postgresql     rasa-enterprise-uninstall
+    
+    # Trouble shoot the rasa enterprise deployment
+    make rasa-enterprise-get-pods
+    make rasa-enterprise-check-health
+    make rasa-enterprise-smoketest
+    ```
+
+  
 
 ## Appendix A: The AWS EKS cluster
 
