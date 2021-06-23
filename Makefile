@@ -349,8 +349,9 @@ aws-s3-list-rasa-models:
 	aws s3 ls s3://$(AWS_S3_BUCKET_NAME) --recursive
 
 aws-s3-rasa-model-exists:
-	@echo Checks existance if s3://$(AWS_S3_BUCKET_NAME)/$(RASA_MODEL_PATH)
-	aws s3api head-object --bucket $(AWS_S3_BUCKET_NAME) --key $(RASA_MODEL_PATH)
+	@aws s3api list-objects-v2 \
+	--bucket $(AWS_S3_BUCKET_NAME) \
+	--query "contains(Contents[].Key, '$(RASA_MODEL_PATH)')"
 
 aws-cloudformation-eks-get-SubnetsPrivate:
 	@aws cloudformation describe-stacks \
