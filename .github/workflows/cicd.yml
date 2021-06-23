@@ -436,8 +436,8 @@ jobs:
         run: |
           make rasa-enterprise-smoketest
 
-  # The test cluster will be deleted after a deployment to production cluster
-  # (-) We only deploy to the production cluster from the main branch
+  # When on the main branch and all tests pass, deploy to production cluster.
+  # If deployment to production cluster succeeds, delete test cluster of main branch.
   aws_eks_delete_test_cluster:
     name:  aws_eks_delete_test_cluster
     runs-on: ubuntu-latest
