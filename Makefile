@@ -468,8 +468,6 @@ aws-eks-cluster-delete:
 	eksctl delete cluster \
 		--name $(AWS_EKS_CLUSTER_NAME) \
 		--region $(AWS_REGION)
-	@echo $(NEWLINE)
-	@echo See AWS CloudFormation Console. The stack deletion is still in progress...
 
 aws-eks-cluster-exists:
 	@aws eks list-clusters \
