@@ -465,7 +465,6 @@ aws-eks-cluster-info:
 
 # https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html
 aws-eks-cluster-delete:
-	@[ "${GIT_BRANCH_NAME}" != "main" ]	|| ( echo ">> You are on main branch. Deletion via Makefile not allowed"; exit 1 )
 	eksctl delete cluster \
 		--name $(AWS_EKS_CLUSTER_NAME) \
 		--region $(AWS_REGION)
