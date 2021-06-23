@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#github.com/RasaHQ/financial-demo/tree/csm-sandbox)
+
 # Notes on Rasa `2.x / 1.x`
 
 1. The `main` branch of this repo is compatible with Rasa Open Source **version 2.x**

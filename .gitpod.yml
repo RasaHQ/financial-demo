@@ -1,0 +1,14 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - before: 'rasa train'
+    command: 'RASA_X_PASSWORD=password rasa x --no-prompt & disown'
+
+ports:
+  - port: 5002
+  - port: 5005
+  - port: 5055
+vscode:
+  extensions:
+    - alexcvzz.vscode-sqlite@0.10.1:m5L+iEIP/9wJYy5L2XCVlQ==
