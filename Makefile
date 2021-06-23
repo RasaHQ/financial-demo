@@ -32,6 +32,8 @@ AWS_EKS_VPC_TEMPLATE := aws/cloudformation/amazon-eks-vpc-private-subnets.yaml
 AWS_EKS_KEYPAIR_NAME := findemo
 AWS_EKS_CLUSTER_NAME := financial-demo-$(GIT_BRANCH_NAME)
 AWS_EKS_KUBERNETES_VERSION := 1.19
+AWS_EKS_NODES := 2
+AWS_EKS_NODE_TYPE := m5.large
 
 AWS_EKS_NAMESPACE := my-namespace
 AWS_EKS_RELEASE_NAME := my-release
@@ -455,6 +457,8 @@ aws-eks-cluster-create:
 		--with-oidc \
 		--ssh-access \
 		--ssh-public-key $(AWS_EKS_KEYPAIR_NAME) \
+		--nodes $(AWS_EKS_NODES) \
+		--node-type $(AWS_EKS_NODE_TYPE) \
 		--managed
 
 aws-eks-cluster-list-all:
