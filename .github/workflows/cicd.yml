@@ -266,7 +266,6 @@ jobs:
     name: deploy_to_test_cluster
     runs-on: ubuntu-latest
     needs: [params, aws_eks_create_test_cluster, rasa_model, action_server]
-    # if: always()
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -349,17 +348,17 @@ jobs:
         run: |
           make rasa-enterprise-smoketest
 
+
   deploy_to_prod_cluster:
     name: deploy_to_prod_cluster
     runs-on: ubuntu-latest
     needs: [params, deploy_to_test_cluster]
+    if:  ${{ needs.params.outputs.do_deploy_to_prod_cluster  == 'true' }}
     steps:
       - name: checkout
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         uses: actions/checkout@v2
 
       - name: Configure AWS Credentials
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -367,7 +366,6 @@ jobs:
           aws-region: ${{ needs.params.outputs.aws_region }}
 
       - name: install CLIs & dependencies
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           make install-eksctl
           make install-kubectl
@@ -375,18 +373,15 @@ jobs:
           make install-jp
 
       - name: configure kubectl
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           make aws-eks-cluster-update-kubeconfig AWS_EKS_CLUSTER_NAME=financial-demo-production
 
       - name: create namespace if not exists
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           make aws-eks-namespace-create
 
       # Enable cluster to pull the private rasa enterprise image
       - name: create/refresh gcr-pull-secret
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
           GCR_AUTH_JSON_PRIVATE_KEY_ID: ${{ secrets.GCR_AUTH_JSON_PRIVATE_KEY_ID }}
           GCR_AUTH_JSON_PRIVATE_KEY: ${{ secrets.GCR_AUTH_JSON_PRIVATE_KEY }}
@@ -397,12 +392,10 @@ jobs:
 
       # Enable cluster to pull the private action server image
       - name: create/refresh ecr-pull-secret
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           make pull-secret-ecr-create
 
       - name: Install or Upgrade Rasa Enterprise
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
           GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD: ${{ secrets.GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD }}
           GLOBAL_REDIS_PASSWORD: ${{ secrets.GLOBAL_REDIS_PASSWORD }}
@@ -417,14 +410,12 @@ jobs:
           make rasa-enterprise-install
 
       - name: Check Rasa Enterprise Health
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         run: |
           # Need to give rasa-prod container some time...
           sleep 30
           make rasa-enterprise-check-health
 
       - name: Deploy rasa model
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
           RASAX_INITIALUSER_PASSWORD: ${{ secrets.RASAX_INITIALUSER_PASSWORD }}
@@ -439,9 +430,31 @@ jobs:
           sleep 30
 
       - name: Smoketest
-        if: needs.params.outputs.do_deploy_to_prod_cluster  == 'true'
         env:
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
           RASAX_INITIALUSER_PASSWORD: ${{ secrets.RASAX_INITIALUSER_PASSWORD }}
         run: |
           make rasa-enterprise-smoketest
+
+  # The test cluster will be deleted after a deployment to production cluster
+  # (-) We only deploy to the production cluster from the main branch
+  aws_eks_delete_test_cluster:
+    name:  aws_eks_delete_test_cluster
+    runs-on: ubuntu-latest
+    needs: [params, deploy_to_prod_cluster]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ needs.params.outputs.aws_region }}
+
+      - name: Do it all
+        run: |
+          make install-eksctl
+          make install-kubectl
+          make aws-eks-cluster-delete
