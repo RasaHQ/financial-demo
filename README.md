@@ -870,7 +870,96 @@ The following steps will most likely reveal what is going wrong:
     make rasa-enterprise-smoketest
     ```
 
+## Cleanup of AWS resources
+
+The CI/CD pipeline creates unique artifacts and infrastructure for each branch. This is all cleaned up once a branch is deleted, by a special workflow `.github/workflows/cleanup.yml`.
+
+You can also do a manual cleanup, either from the AWS CLI, or from the AWS Console.
+
+### From the **AWS CLI**:
+
+- AWS ECR:
+
+  ```bash
+  # list the action server images in the ECR
+  make aws-ecr-list-images
   
+  # delete the action server image of current branch
+  make aws-ecr-delete-image
+  
+  # delete an action server image created by another branch
+  make aws-ecr-delete-image GIT_BRANCH_NAME=my_other_branch
+  ```
+
+- AWS S3:
+
+  ```bash
+  # list the rasa models in the S3 bucket
+  make aws-s3-list-rasa-models
+  
+  # delete the rasa model of current branch
+  make aws-s3-delete-rasa-model
+  
+  # delete a rasa model created by another branch
+  make aws-s3-delete-rasa-model GIT_BRANCH_NAME=my_other_branch
+  ```
+
+- AWS EKS:
+
+  ```bash
+  # list the EKS clusters
+  make aws-eks-cluster-list-all
+  
+  # delete the test cluster of the current branch
+  make aws-eks-cluster-delete
+  
+  # delete a test cluster created by another branch
+  make aws-eks-cluster-delete GIT_BRANCH_NAME=my_other_branch
+  ```
+
+  
+
+### From the **AWS console**:
+
+- AWS ECR:
+
+  In the AWS Console, go to the ECR repository `financial-demo`, and delete the action server images.
+
+- AWS S3:
+
+  In the AWS Console, go to the S3 bucket `rasa-financial-demo` , and delete the rasa models.
+
+- AWS EKS:
+
+  In the AWS Console, go to CloudFormation, and delete all the stacks in reverse order as created by the `eksctl` command.
+
+  When a stack fails to delete due to dependencies, you have two options:
+
+    - Manually delete the resources that the stack is not able to delete. (**RECOMMENDED**)
+
+      You can do this by drilling down into the **CloudFormation stack delete events** messages and deleting items bottom-up the dependency tree.
+
+      One example of a bottom-up delete sequence is when deletion of the VPC fails:
+
+      - **EC2 > Load Balancers**: first, delete the ELB load balancers
+      - **VPC > Subnets**: then, delete the subnets 
+        - This will also delete the EC2 > Network interfaces, named `eni-xxxx`
+        - You cannot delete Subnets until the ELB load balancers are deleted
+      - **VPC > Your VPCs**: finally, delete the VPC 
+        - This will also delete all associated:
+          - security groups (`sg-xxx`)
+          - internet gateways (`igw-xxx`)
+          - subnets (`subnet-xxx`)
+
+      After cleaning up, try again to delete the **AWS CloudFormation** stack.
+
+      If it still does not delete, iterate the manual cleanups until it does.
+
+      Again, this can be a painful process, but once the CloudFormation stacks delete properly, you are guaranteed that you have cleaned up all the EKS related resources created by the CI/CD pipeline.
+
+  - Select to retain the resources that have dependency errors. (**NOT RECOMMENDED**)
+
+    The stack delete operation will simply skip deleting them. This is NOT recommended, because you will clutter up your AWS account with many unused resources.
 
 ## Appendix A: The AWS EKS cluster
 
@@ -898,41 +987,7 @@ The EKS Control Plane interacts with the the EKS Data Plane (the nodes), like th
 
 
 
-## Appendix B: Manual Cleanup of AWS resources
-
-Sometimes things do not clean up properly and you will need to do a manual cleanup in the **AWS console**:
-
-**CloudFormation**: Try to delete all the stacks in reverse order as they were created by the eksctl command.
-
-When a stack fails to delete due to dependencies, you have two options:
-
-  - Select to retain the resources that have dependency errors. (**NOT RECOMMENDED**)
-
-    The stack delete operation will simply skip deleting them. This is NOT recommended, because you will clutter up your AWS account with many unused resources.
-
-  - Manually delete the resources that the stack is not able to delete. (**RECOMMENDED**)
-
-    You can do this by drilling down into the **CloudFormation stack delete events** messages and deleting items bottom-up the dependency tree.
-
-    One example of a bottom-up delete sequence is when deletion of the VPC fails:
-
-    - **EC2 > Load Balancers**: first, delete the ELB load balancers
-    - **VPC > Subnets**: then, delete the subnets 
-      - This will also delete the EC2 > Network interfaces, named `eni-xxxx`
-      - You cannot delete Subnets until the ELB load balancers are deleted
-    - **VPC > Your VPCs**: finally, delete the VPC 
-      - This will also delete all associated:
-        - security groups (`sg-xxx`)
-        - internet gateways (`igw-xxx`)
-        - subnets (`subnet-xxx`)
-
-  - After cleaning up, try again to delete the **AWS CloudFormation** stack.
-
-  - If it still does not delete, iterate the manual cleanups until it does.
-
-    Again, this can be a painful process, but once the CloudFormation stacks delete properly without retaining/skipping anything, you are guaranteed that you have cleaned up all the resources created by the CI/CD pipeline.
-
-## Appendix C: OCTANT
+## Appendix B: OCTANT
 
 [Octant](https://octant.dev/) is a useful open sourced tool for visualizing workloads inside the cluster and troubleshooting issues when they arise.
 

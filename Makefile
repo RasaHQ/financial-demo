@@ -5,14 +5,16 @@ RASA_TAG := $(shell cat requirements.txt | grep 'rasa\[spacy\]' | cut -d'=' -f 3
 # Make sure to install a compatible Rasa Enterprise:
 RASAX_TAG := 0.38.1
 
+GIT_BRANCH_NAME := $(shell git branch --show-current)
+
 ACTION_SERVER_DOCKER_IMAGE_NAME := financial-demo
-ACTION_SERVER_DOCKER_IMAGE_TAG := $(shell git branch --show-current)
-ACTION_SERVER_DOCKER_CONTAINER_NAME := financial-demo_$(shell git branch --show-current)
+ACTION_SERVER_DOCKER_IMAGE_TAG := $(GIT_BRANCH_NAME)
+ACTION_SERVER_DOCKER_CONTAINER_NAME := financial-demo_$(GIT_BRANCH_NAME)
 ACTION_SERVER_PORT := 5056
 ACTION_SERVER_ENDPOINT_HEALTH := health
 
-RASA_MODEL_NAME := $(shell git branch --show-current)
-RASA_MODEL_PATH := models/$(shell git branch --show-current).tar.gz
+RASA_MODEL_NAME := $(GIT_BRANCH_NAME)
+RASA_MODEL_PATH := models/$(GIT_BRANCH_NAME).tar.gz
 
 # The CICD pipeline sets these as environment variables
 # Set some defaults for when you're running locally
@@ -28,13 +30,12 @@ AWS_IAM_ROLE_NAME := eksClusterRole
 #AWS_EKS_VPC_STACK_NAME := eks-vpc-financial-demo-$(shell git branch --show-current)
 AWS_EKS_VPC_TEMPLATE := aws/cloudformation/amazon-eks-vpc-private-subnets.yaml
 AWS_EKS_KEYPAIR_NAME := findemo
-AWS_EKS_CLUSTER_NAME := financial-demo-$(shell git branch --show-current)
+AWS_EKS_CLUSTER_NAME := financial-demo-$(GIT_BRANCH_NAME)
 AWS_EKS_KUBERNETES_VERSION := 1.19
 
 AWS_EKS_NAMESPACE := my-namespace
 AWS_EKS_RELEASE_NAME := my-release
 
-GIT_BRANCH_NAME := $(shell git branch --show-current)
 
 help:
 	@echo "make"
@@ -324,6 +325,13 @@ aws-ecr-image-exists:
 		--repository-name $(AWS_ECR_REPOSITORY) \
 		--query "contains(imageDetails[].imageTags, '$(ACTION_SERVER_DOCKER_IMAGE_TAG)')"
 
+aws-ecr-delete-image:
+	@echo deleting image from ECR: $(AWS_ECR_REPOSITORY)/$(ACTION_SERVER_DOCKER_IMAGE_TAG)
+	aws ecr batch-delete-image \
+		--region $(AWS_REGION) \
+		--repository-name $(AWS_ECR_REPOSITORY) \
+		--image-ids imageTag=$(ACTION_SERVER_DOCKER_IMAGE_TAG)
+
 aws-s3-create-bucket:
 	@echo creating s3 bucket: $(AWS_S3_BUCKET_NAME)
 	@echo $(NEWLINE)
@@ -348,10 +356,16 @@ aws-s3-list-rasa-models:
 	@echo listing all trained rasa models in s3://$(AWS_S3_BUCKET_NAME)/$(RASA_MODEL_PATH)
 	aws s3 ls s3://$(AWS_S3_BUCKET_NAME) --recursive
 
+aws-s3-delete-rasa-model:
+	@echo deleting s3://$(AWS_S3_BUCKET_NAME)/$(RASA_MODEL_PATH)
+	aws s3api delete-object \
+		--bucket $(AWS_S3_BUCKET_NAME) \
+		--key $(RASA_MODEL_PATH)
+
 aws-s3-rasa-model-exists:
 	@aws s3api list-objects-v2 \
-	--bucket $(AWS_S3_BUCKET_NAME) \
-	--query "contains(Contents[].Key, '$(RASA_MODEL_PATH)')"
+		--bucket $(AWS_S3_BUCKET_NAME) \
+		--query "contains(Contents[].Key, '$(RASA_MODEL_PATH)')"
 
 aws-cloudformation-eks-get-SubnetsPrivate:
 	@aws cloudformation describe-stacks \
