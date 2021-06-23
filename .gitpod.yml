@@ -5,6 +5,7 @@ tasks:
   - before: 'rasa train'
     command: 'RASA_X_PASSWORD=password rasa x --no-prompt & disown'
   - command: 'rasa run actions --debug & disown'
+  - command: 'docker run -p 8000:8000 rasa/duckling'
 
 ports:
   - port: 5002
