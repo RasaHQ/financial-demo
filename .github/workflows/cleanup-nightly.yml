@@ -1,22 +1,20 @@
-# Cleans up infrastructure & artifacts
-name: financial-demo cleanup
+# Cleans up EKS test clusters every night at 3:30 UTC
+name: financial-demo cleanup-nightly
 
 on:
-  # Note: the delete event will only trigger a workflow run if the workflow
+  # Note: the schedule event will only trigger a workflow run if the workflow
   #       file is on the default (main) branch.
-  delete
+  # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
+  schedule:
+    - cron: '30 3 * * *'
 
 env:
   # Keep these values in sync with the values in the Makefile
   AWS_REGION: us-west-2
-  AWS_ECR_URI: 024629701212.dkr.ecr.us-west-2.amazonaws.com
-  AWS_ECR_REPOSITORY: financial-demo
-  AWS_S3_BUCKET_NAME: rasa-financial-demo
 
 jobs:
-  cleanup_deleted_branch:
-    if: github.event.ref_type == 'branch'
-    name: cleanup_deleted_branch
+  cleanup_nightly:
+    name: cleanup_nightly
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -45,18 +43,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Cleanup ECR
-        run: |
-          echo "Delete action server image of branch ${{ github.event.ref }}"
-          make aws-ecr-docker-login
-          make aws-ecr-delete-image ACTION_SERVER_DOCKER_IMAGE_TAG=${{ github.event.ref }}
-
-      - name: Cleanup S3
-        run: |
-          echo "Delete rasa model of branch ${{ github.event.ref }}"
-          make aws-s3-delete-rasa-model RASA_MODEL_NAME=${{ github.event.ref }}
 
       - name: Cleanup EKS
         run: |
-          echo "Delete test cluster of branch ${{ github.event.ref }}"
-          make aws-s3-delete-rasa-model RASA_MODEL_NAME=${{ github.event.ref }}
+          echo "Delete all test clusters"
+          make aws-eks-cluster-delete-all-test-clusters
