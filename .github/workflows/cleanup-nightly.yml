@@ -6,7 +6,10 @@ on:
   #       file is on the default (main) branch.
   # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
   schedule:
-    - cron: '30 3 * * *'
+    # every night at 3:30 UTC
+    #- cron: '30 3 * * *'
+    # every 5 minutes  (for testing)
+    - cron: '5 * * * *'
 
 env:
   # Keep these values in sync with the values in the Makefile
