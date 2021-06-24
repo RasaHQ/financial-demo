@@ -4,12 +4,10 @@ name: financial-demo cleanup-nightly
 on:
   # Note: the schedule event will only trigger a workflow run if the workflow
   #       file is on the default (main) branch.
+  #       Run it every night at 3:30 UTC, although this time is not guaranteed by GitHub
   # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
   schedule:
-    # every night at 3:30 UTC
-    #- cron: '30 3 * * *'
-    # every 5 minutes  (for testing)
-    - cron: '5 * * * *'
+    - cron: '30 3 * * *'
 
 env:
   # Keep these values in sync with the values in the Makefile
