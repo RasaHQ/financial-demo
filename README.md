@@ -876,7 +876,7 @@ The CI/CD pipeline creates unique artifacts and infrastructure for each branch. 
 
 You can also do a manual cleanup, either from the AWS CLI, or from the AWS Console.
 
-### From the **AWS CLI**:
+### From the command line:
 
 - AWS ECR:
 
@@ -910,13 +910,16 @@ You can also do a manual cleanup, either from the AWS CLI, or from the AWS Conso
   # list the EKS clusters
   make aws-eks-cluster-list-all
   
+  # to delete ALL the test clusters
+  make aws-eks-cluster-delete-all-test-clusters
+  
   # delete the test cluster of the current branch
   make aws-eks-cluster-delete
   
   # delete a test cluster created by another branch
   make aws-eks-cluster-delete GIT_BRANCH_NAME=my_other_branch
   ```
-
+  
   
 
 ### From the **AWS console**:

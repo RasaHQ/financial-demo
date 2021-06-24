@@ -473,6 +473,9 @@ aws-eks-cluster-delete:
 		--name $(AWS_EKS_CLUSTER_NAME) \
 		--region $(AWS_REGION)
 
+aws-eks-cluster-delete-all-test-clusters:
+	@python ./scripts/delete_all_test_clusters.py
+
 aws-eks-cluster-exists:
 	@aws eks list-clusters \
 		--no-paginate \

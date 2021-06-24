@@ -1,4 +1,4 @@
-"""Perform Rasa Enterprise smoke tests
+"""Performs Rasa Enterprise smoke tests
 
 Rasa X HTTP API: https://rasa.com/docs/rasa-x/pages/http-api
 
@@ -8,9 +8,6 @@ Rasa   HTTP API: https://rasa.com/docs/rasa/pages/http-api
 from typing import Any
 import os
 import pprint
-import time
-import json
-from multiprocessing import Pool
 
 from requests import request
 
