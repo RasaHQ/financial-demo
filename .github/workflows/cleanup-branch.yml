@@ -1,10 +1,17 @@
-# Cleans up infrastructure & artifacts when branch gets deleted
+# Cleans up infrastructure & artifacts. Manually & when branch gets deleted
+
+# Note: the workflow_dispatch & schedule events will only trigger if the workflow
+#       file is on the default (main) branch.
+
+# See: 
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
+# https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
 name: financial-demo cleanup-branch
 
 on:
-  # Note: the delete event will only trigger a workflow run if the workflow
-  #       file is on the default (main) branch.
-  delete
+  workflow_dispatch:
+  delete:
 
 env:
   # Keep these values in sync with the values in the Makefile
