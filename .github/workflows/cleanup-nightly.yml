@@ -10,7 +10,7 @@
 name: financial-demo cleanup-nightly
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   schedule:
     - cron: '30 3 * * *'
   

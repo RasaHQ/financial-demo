@@ -10,8 +10,8 @@
 name: financial-demo cleanup-branch
 
 on:
-  workflow_dispatch
-  delete
+  workflow_dispatch:
+  delete:
 
 env:
   # Keep these values in sync with the values in the Makefile
