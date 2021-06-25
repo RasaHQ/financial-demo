@@ -473,7 +473,7 @@ aws-eks-cluster-delete:
 	@if [[ ${CLUSTER_EXISTS} == "False" ]]; then \
 		echo "$(AWS_EKS_CLUSTER_NAME) does not exist. "; \
 	else \
-		eksctl delete cluster --name $(AWS_EKS_CLUSTER_NAME) --region $(AWS_REGION); \
+		eksctl delete cluster --name $(AWS_EKS_CLUSTER_NAME) --region $(AWS_REGION) --wait; \
 	fi
 
 	
