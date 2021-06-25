@@ -66,4 +66,5 @@ jobs:
       - name: Cleanup EKS
         run: |
           echo "Delete test cluster of branch ${{ github.event.ref }}"
+          make install-eksctl
           make aws-eks-cluster-delete GIT_BRANCH_NAME=${{ github.event.ref }}
