@@ -1,13 +1,19 @@
-# Cleans up EKS test clusters every night at 3:30 UTC
+# Cleans up EKS test clusters. Manually & every night at 3:30 UTC
+
+# Note: the workflow_dispatch & schedule events will only trigger if the workflow
+#       file is on the default (main) branch.
+
+# See: 
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
+# https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
 name: financial-demo cleanup-nightly
 
 on:
-  # Note: the schedule event will only trigger a workflow run if the workflow
-  #       file is on the default (main) branch.
-  #       Run it every night at 3:30 UTC, although this time is not guaranteed by GitHub
-  # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
+  workflow_dispatch
   schedule:
     - cron: '30 3 * * *'
+  
 
 env:
   # Keep these values in sync with the values in the Makefile
@@ -48,4 +54,5 @@ jobs:
       - name: Cleanup EKS
         run: |
           echo "Delete all test clusters"
+          make install-eksctl
           make aws-eks-cluster-delete-all-test-clusters
