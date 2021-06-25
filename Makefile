@@ -467,11 +467,16 @@ aws-eks-cluster-list-all:
 aws-eks-cluster-info:
 	kubectl cluster-info
 
-# https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html
 aws-eks-cluster-delete:
-	eksctl delete cluster \
-		--name $(AWS_EKS_CLUSTER_NAME) \
-		--region $(AWS_REGION)
+	@$(eval CLUSTER_EXISTS := $(shell make aws-eks-cluster-exists))
+
+	@if [[ ${CLUSTER_EXISTS} == "False" ]]; then \
+		echo "$(AWS_EKS_CLUSTER_NAME) does not exist. "; \
+	else \
+		eksctl delete cluster --name $(AWS_EKS_CLUSTER_NAME) --region $(AWS_REGION); \
+	fi
+
+	
 
 aws-eks-cluster-delete-all-test-clusters:
 	@python ./scripts/delete_all_test_clusters.py
