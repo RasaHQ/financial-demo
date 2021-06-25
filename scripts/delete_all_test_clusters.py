@@ -39,13 +39,7 @@ if len(clusters) > 0:
 ###################################
 for cluster in clusters:
     print(f"--\nDeleting EKS test cluster: {cluster}")
-    cmd = [
-        "eksctl",
-        "delete",
-        "cluster",
-        "--name",
-        cluster,
-    ]
+    cmd = ["eksctl", "delete", "cluster", "--name", cluster, "--wait"]
 
     try:
         subprocess.run(cmd, check=True, capture_output=False)
