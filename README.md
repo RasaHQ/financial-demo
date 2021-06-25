@@ -938,17 +938,17 @@ You can also do a manual cleanup, either from the AWS CLI, or from the AWS Conso
 
   When a stack fails to delete due to dependencies, you have two options:
 
-    - Manually delete the resources that the stack is not able to delete. (**RECOMMENDED**)
+    - Option 1: Manually delete the resources that the stack is not able to delete. (**RECOMMENDED**)
 
       You can do this by drilling down into the **CloudFormation stack delete events** messages and deleting items bottom-up the dependency tree.
 
       One example of a bottom-up delete sequence is when deletion of the VPC fails:
 
-      - **EC2 > Load Balancers**: first, delete the ELB load balancers
-      - **VPC > Subnets**: then, delete the subnets 
+      - **EC2 > Load Balancers**: first, delete the ELB load balancer of the cluster. Look at the Tags to see what cluster a loadbalancer belongs to.
+      - **VPC > Virtual Private Cloud: Subnets**: then, delete the two subnets of the cluster.  Look at the Name to see what cluster a subnet belongs to.
         - This will also delete the EC2 > Network interfaces, named `eni-xxxx`
         - You cannot delete Subnets until the ELB load balancers are deleted
-      - **VPC > Your VPCs**: finally, delete the VPC 
+      - **VPC > Virtual Private Cloud: Your VPCs**: finally, delete the VPC of the cluster. Look at the Name to see what cluster a VPC belongs to.
         - This will also delete all associated:
           - security groups (`sg-xxx`)
           - internet gateways (`igw-xxx`)
@@ -960,7 +960,7 @@ You can also do a manual cleanup, either from the AWS CLI, or from the AWS Conso
 
       Again, this can be a painful process, but once the CloudFormation stacks delete properly, you are guaranteed that you have cleaned up all the EKS related resources created by the CI/CD pipeline.
 
-  - Select to retain the resources that have dependency errors. (**NOT RECOMMENDED**)
+  - Option 2: Select to retain the resources that have dependency errors. (**NOT RECOMMENDED**)
 
     The stack delete operation will simply skip deleting them. This is NOT recommended, because you will clutter up your AWS account with many unused resources.
 

@@ -468,7 +468,7 @@ aws-eks-cluster-info:
 	kubectl cluster-info
 
 aws-eks-cluster-delete:
-	@$(eval CLUSTER_EXISTS := $(shell make aws-eks-cluster-exists))
+	@$(eval CLUSTER_EXISTS := $(shell make aws-eks-cluster-exists AWS_EKS_CLUSTER_NAME=$(AWS_EKS_CLUSTER_NAME) ))
 
 	@if [[ ${CLUSTER_EXISTS} == "False" ]]; then \
 		echo "$(AWS_EKS_CLUSTER_NAME) does not exist. "; \
