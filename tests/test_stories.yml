@@ -866,3 +866,33 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID 4a08651918d34e34895ca3a3ebbdc340
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      hello
+  - action: utter_greet
+  - action: utter_help
+  - intent: transfer_money
+    user: |-
+      i want to make a transfer
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: PERSON
+  - intent: inform
+    user: |-
+      [Kyle](PERSON)
+  - slot_was_set:
+    - PERSON: Kyle
+  - action: transfer_money_form
+  - slot_was_set:
+    - PERSON: null
+  - slot_was_set:
+    - repeated_validation_failures: 1
+  - slot_was_set:
+    - requested_slot: PERSON
