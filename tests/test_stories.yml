@@ -866,3 +866,31 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID 8bb89e6e3f5a4991ad1356229a670e37
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      hello
+  - action: utter_greet
+  - action: utter_help
+  - intent: check_balance
+    user: |-
+      whats my [balance]{"entity": "amount-of-money", "value": "current balance"}
+  - slot_was_set:
+    - amount-of-money: current balance
+  - action: action_show_balance
+  - intent: transfer_money
+    user: |-
+      can i transfer
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - amount-of-money: null
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: PERSON
