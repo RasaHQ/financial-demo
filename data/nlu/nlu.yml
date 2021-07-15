@@ -397,6 +397,9 @@ nlu:
     - I want to order a pizza
     - what is the weather today
     - what is the weather
+- intent: faq/mailing_time
+  examples: |
+    - How long will it take for me to receive my card in the mail?
 - synonym: credit
   examples: |
     - credit card
