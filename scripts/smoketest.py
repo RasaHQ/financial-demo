@@ -68,17 +68,6 @@ if status_rasa_worker != 200:
     my_print(f'rasa-worker not OK!\nstatus = {status_rasa_worker}')
     exit(1)
 
-###################################
-my_print("--\nRasa Production Health check (direct to rasa-production)")
-
-url = f"{BASE_URL}/core/"
-r = request("GET", url)
-if r.status_code != 200:
-    my_print(r.json(), r.status_code)
-    exit(1)
-
-my_print(r.text)
-
 
 ###################################
 my_print("--\nGet access_token")
