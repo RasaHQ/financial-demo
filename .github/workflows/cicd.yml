@@ -339,7 +339,7 @@ jobs:
           sleep 2
           make rasa-enterprise-model-tag
           # Give rasa-prod some time to unpack & load the model
-          sleep 30
+          sleep 60
 
       - name: Smoketest
         env:
@@ -427,7 +427,7 @@ jobs:
           sleep 2
           make rasa-enterprise-model-tag
           # Give rasa-prod some time to unpack & load the model
-          sleep 30
+          sleep 60
 
       - name: Smoketest
         env:
