@@ -3,7 +3,7 @@ SHELL := /bin/bash
 # Extract rasa version to install from `requirements.txt`
 RASA_TAG := $(shell cat requirements.txt | grep 'rasa\[spacy\]' | cut -d'=' -f 3 )-spacy-en
 # Make sure to install a compatible Rasa Enterprise:
-RASAX_TAG := 0.38.1
+RASAX_TAG := 0.41.2
 
 GIT_BRANCH_NAME := $(shell git branch --show-current)
 
