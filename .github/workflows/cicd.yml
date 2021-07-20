@@ -8,6 +8,8 @@ on:
     - 'config.yml'
     - 'domain.yml'
     - 'actions/**'
+    - 'requirements.txt'
+    - 'Dockerfile'
     - '.github/trigger.txt'
 
 env:
@@ -87,7 +89,8 @@ jobs:
       - name: action_server
         id: action_server
         run: |
-          if [[ "${{ steps.files.outputs.all }}" == *"actions/"* ]]
+          if [[ "${{ steps.files.outputs.all }}" == *"actions/"* ]] || \
+             [[ "${{ steps.files.outputs.all }}" == *"Dockerfile"* ]]
           then
             echo "::set-output name=do_action_server::true"
           else
@@ -99,7 +102,8 @@ jobs:
         run: |
           if [[ "${{ steps.files.outputs.all }}" == *"data/"* ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"config.yml"* ]] || \
-             [[ "${{ steps.files.outputs.all }}" == *"domain.yml"* ]]
+             [[ "${{ steps.files.outputs.all }}" == *"domain.yml"* ]] || \
+             [[ "${{ steps.files.outputs.all }}" == *"requirements.txt"* ]]
           then
             echo "::set-output name=do_training::true"
           else

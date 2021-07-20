@@ -387,12 +387,6 @@ To configure the aws cli in Github Actions, create IAM User API Keys as describe
 - AWS_ACCESS_KEY_ID = `Access key ID`
 - AWS_SECRET_ACCESS_KEY = `Secret access key` 
 
-#### AWS Elastic IP:
-
-Create an Elastic IP as described below, and add it as a GitHub Secret to the repo:
-
-- AWS_ELASTIC_IP = `PublicIp`
-
 #### Rasa Enterprise License:
 
 To define a pull secret in Github Actions for the private GCR repo, you'll need to retrieve the private values from your Rasa Enterprise license file ([docs](https://rasa.com/docs/rasa-x/installation-and-setup/install/helm-chart#5-configure-rasa-x-image)) and add them as GitHub secrets to the repository:
@@ -587,7 +581,6 @@ export RASAX_JWTSECRET=...
 export RASAX_PASSWORDSALT=...
 export RASAX_TOKEN=...
 export RASA_TOKEN=...
-export AWS_ELASTIC_IP=...
 ```
 
 Then, create the environment variables with the command:
@@ -630,6 +623,8 @@ make kubectl-config-current-context
 ### Install/Upgrade Rasa Enterprise
 
 ### Versions 
+
+#### Select compatible versions
 
 Get rasa-x version from [compatibility matrix](https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/)
 
