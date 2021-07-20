@@ -280,138 +280,141 @@ actions:
 - validate_transaction_search_form
 forms:
   cc_payment_form:
-    AA_CONTINUE_FORM:
-    - intent: affirm
-      type: from_intent
-      value: yes
-    - intent: deny
-      type: from_intent
-      value: no
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
-    credit_card:
-    - entity: credit_card
-      type: from_entity
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
-    amount-of-money:
-    - entity: amount-of-money
-      not_intent:
-      - check_balance
-      - check_earnings
-      type: from_entity
-    - entity: number
-      not_intent:
-      - check_balance
-      - check_earnings
-      type: from_entity
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
-    time:
-    - entity: time
-      type: from_entity
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
-    zz_confirm_form:
-    - intent: affirm
-      type: from_intent
-      value: yes
-    - intent: deny
-      type: from_intent
-      value: no
-    - intent:
-      - inform
-      - cc_payment_form
-      type: from_text
+    required_slots:
+      AA_CONTINUE_FORM:
+      - intent: affirm
+        type: from_intent
+        value: yes
+      - intent: deny
+        type: from_intent
+        value: no
+      - intent:
+        - inform
+        - cc_payment_form
+        type: from_text
+      credit_card:
+      - entity: credit_card
+        type: from_entity
+      - intent:
+        - inform
+        - cc_payment_form
+        type: from_text
+      amount-of-money:
+      - entity: amount-of-money
+        not_intent:
+        - check_balance
+        - check_earnings
+        type: from_entity
+      - entity: number
+        not_intent:
+        - check_balance
+        - check_earnings
+        type: from_entity
+      - intent:
+        - inform
+        - cc_payment_form
+        type: from_text
+      time:
+      - entity: time
+        type: from_entity
+      - intent:
+        - inform
+        - cc_payment_form
+        type: from_text
+      zz_confirm_form:
+      - intent: affirm
+        type: from_intent
+        value: yes
+      - intent: deny
+        type: from_intent
+        value: no
+      - intent:
+        - inform
+        - cc_payment_form
+        type: from_text
   transfer_money_form:
-    AA_CONTINUE_FORM:
-    - intent: affirm
-      type: from_intent
-      value: yes
-    - intent: deny
-      type: from_intent
-      value: no
-    - intent:
-      - inform
-      - transfer_money_form
-      type: from_text
-    PERSON:
-    - entity: PERSON
-      type: from_entity
-    - intent:
-      - inform
-      - transfer_money_form
-      type: from_text
-    amount-of-money:
-    - entity: amount-of-money
-      not_intent:
-      - check_balance
-      - check_earnings
-      type: from_entity
-    - entity: number
-      not_intent:
-      - check_balance
-      - check_earnings
-      type: from_entity
-    - intent:
-      - inform
-      - transfer_money_form
-      type: from_text
-    zz_confirm_form:
-    - intent: affirm
-      type: from_intent
-      value: yes
-    - intent: deny
-      type: from_intent
-      value: no
-    - intent:
-      - inform
-      - transfer_money_form
-      type: from_text
+    required_slots:
+      AA_CONTINUE_FORM:
+      - intent: affirm
+        type: from_intent
+        value: yes
+      - intent: deny
+        type: from_intent
+        value: no
+      - intent:
+        - inform
+        - transfer_money_form
+        type: from_text
+      PERSON:
+      - entity: PERSON
+        type: from_entity
+      - intent:
+        - inform
+        - transfer_money_form
+        type: from_text
+      amount-of-money:
+      - entity: amount-of-money
+        not_intent:
+        - check_balance
+        - check_earnings
+        type: from_entity
+      - entity: number
+        not_intent:
+        - check_balance
+        - check_earnings
+        type: from_entity
+      - intent:
+        - inform
+        - transfer_money_form
+        type: from_text
+      zz_confirm_form:
+      - intent: affirm
+        type: from_intent
+        value: yes
+      - intent: deny
+        type: from_intent
+        value: no
+      - intent:
+        - inform
+        - transfer_money_form
+        type: from_text
   transaction_search_form:
-    AA_CONTINUE_FORM:
-    - intent: affirm
-      type: from_intent
-      value: yes
-    - intent: deny
-      type: from_intent
-      value: no
-    - intent:
-      - inform
-      - transaction_search_form
-      type: from_text
-    search_type:
-    - intent: search_transactions
-      type: from_trigger_intent
-      value: spend
-    - intent: check_earnings
-      type: from_trigger_intent
-      value: deposit
-    - type: from_entity
-      entity: search_type
-    time:
-    - entity: time
-      type: from_entity
-    - intent:
-      - inform
-      - transaction_search_form
-      type: from_text
-    zz_confirm_form:
-    - intent: affirm
-      type: from_intent
-      value: yes
-    - intent: deny
-      type: from_intent
-      value: no
-    - intent:
-      - inform
-      - transaction_search_form
-      type: from_text
+    required_slots:
+      AA_CONTINUE_FORM:
+      - intent: affirm
+        type: from_intent
+        value: yes
+      - intent: deny
+        type: from_intent
+        value: no
+      - intent:
+        - inform
+        - transaction_search_form
+        type: from_text
+      search_type:
+      - intent: search_transactions
+        type: from_trigger_intent
+        value: spend
+      - intent: check_earnings
+        type: from_trigger_intent
+        value: deposit
+      - type: from_entity
+        entity: search_type
+      time:
+      - entity: time
+        type: from_entity
+      - intent:
+        - inform
+        - transaction_search_form
+        type: from_text
+      zz_confirm_form:
+      - intent: affirm
+        type: from_intent
+        value: yes
+      - intent: deny
+        type: from_intent
+        value: no
+      - intent:
+        - inform
+        - transaction_search_form
+        type: from_text

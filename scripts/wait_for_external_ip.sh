@@ -15,4 +15,4 @@ while [ -z $IP ]; do
     fi
 done
 echo 'Found External IP'
-echo 'Login at: http://'$IP':8000/login'
+echo 'Login at: http://'$IP':80/login'

@@ -19,8 +19,8 @@ env:
 
   # Notes:
   # (-) rasa & rasa-sdk versions are extracted from `requirements.txt`
-  # (-) check https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/
-  RASA_ENTERPRISE_VERSION: "0.38.1"
+  # (-) TODO: extract this from Makefile
+  RASA_ENTERPRISE_VERSION: "0.40.1"
 
 jobs:
   params:
@@ -312,6 +312,7 @@ jobs:
           GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD: ${{ secrets.GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD }}
           GLOBAL_REDIS_PASSWORD: ${{ secrets.GLOBAL_REDIS_PASSWORD }}
           RABBITMQ_RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_RABBITMQ_PASSWORD }}
+          RASAX_DEBUG_MODE: true
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
           RASAX_INITIALUSER_PASSWORD: ${{ secrets.RASAX_INITIALUSER_PASSWORD }}
           RASAX_JWTSECRET: ${{ secrets.RASAX_JWTSECRET }}
@@ -339,7 +340,7 @@ jobs:
           sleep 2
           make rasa-enterprise-model-tag
           # Give rasa-prod some time to unpack & load the model
-          sleep 30
+          sleep 60
 
       - name: Smoketest
         env:
@@ -400,6 +401,7 @@ jobs:
           GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD: ${{ secrets.GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD }}
           GLOBAL_REDIS_PASSWORD: ${{ secrets.GLOBAL_REDIS_PASSWORD }}
           RABBITMQ_RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_RABBITMQ_PASSWORD }}
+          RASAX_DEBUG_MODE: false
           RASAX_INITIALUSER_USERNAME: ${{ secrets.RASAX_INITIALUSER_USERNAME }}
           RASAX_INITIALUSER_PASSWORD: ${{ secrets.RASAX_INITIALUSER_PASSWORD }}
           RASAX_JWTSECRET: ${{ secrets.RASAX_JWTSECRET }}
@@ -427,7 +429,7 @@ jobs:
           sleep 2
           make rasa-enterprise-model-tag
           # Give rasa-prod some time to unpack & load the model
-          sleep 30
+          sleep 60
 
       - name: Smoketest
         env:
