@@ -2,6 +2,7 @@
 name: financial-demo cicd
 
 on:
+  workflow_dispatch:
   push:
     paths:
     - 'data/**'
