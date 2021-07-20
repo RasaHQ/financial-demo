@@ -1,3 +1,5 @@
+# debugMode enables / disables the debug mode for Rasa and Rasa X
+debugMode: "set_as_environment_variable-RASAX_DEBUG_MODE"
 # nginx ingress controller
 nginx:
     service:

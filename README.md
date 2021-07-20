@@ -580,6 +580,7 @@ export GCR_AUTH_JSON_CLIENT_ID=...
 export GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD=...
 export GLOBAL_REDIS_PASSWORD=...
 export RABBITMQ_RABBITMQ_PASSWORD=...
+export RASAX_DEBUG_MODE=false
 export RASAX_INITIALUSER_USERNAME=admin
 export RASAX_INITIALUSER_PASSWORD=...
 export RASAX_JWTSECRET=...
@@ -628,6 +629,54 @@ make kubectl-config-current-context
 
 ### Install/Upgrade Rasa Enterprise
 
+### Versions 
+
+Get rasa-x version from [compatibility matrix](https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/)
+
+Then, get helm chart version from:
+
+```bash
+#.............NAME   URL
+helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
+helm repo update
+
+# .................NAME  /CHARTNAME
+$ helm search repo rasa-x/rasa-x --versions
+NAME         	CHART VERSION	APP VERSION	DESCRIPTION                                 
+rasa-x/rasa-x	2.0.0        	0.41.1     	Rasa X Helm chart for Kubernetes / Openshift
+rasa-x/rasa-x	1.16.0       	0.40.1     	Rasa X Helm chart for Kubernetes / Openshift
+..
+rasa-x/rasa-x	1.7.0        	0.33.0     	Rasa X Helm chart for Kubernetes / Openshift
+rasa-x/rasa-x	1.6.13       	0.30.1     	Rasa X Helm chart for Kubernetes / Openshift
+# NOTE: APP VERSION = Rasa X version
+```
+
+
+
+#### rasa & rasa-sdk
+
+```bash
+# file: requirements.txt
+rasa[spacy]==2.5.2
+rasa-sdk==2.5.0
+
+# file: Dockerfile
+FROM rasa/rasa-sdk:2.5.0
+```
+
+
+
+#### rasa-x & rasa-x-helm
+
+```yaml
+# file: Makefile
+
+RASAX_TAG := 0.39.3
+RASAX_HELM_CHART_VERSION := 1.12.0
+```
+
+
+
 #### Build & push action server docker image
 
 Build, run, test & push the action docker server image, with name:
@@ -656,8 +705,12 @@ Install/Upgrade Rasa Enterprise, using the action server docker image that was u
 
 ```bash
 # make sure kubectl is looking at the correct EKS cluster
-# -> if not, configure kubeconfig as described above
+make aws-eks-cluster-update-kubeconfig AWS_EKS_CLUSTER_NAME=financial-demo-production
+# check it
 make kubectl-config-current-context  AWS_EKS_CLUSTER_NAME=financial-demo-production
+
+# if you want to re-install from scratch, delete the namespace
+make aws-eks-namespace-delete
 
 # create namespace `my-namespace`
 make aws-eks-namespace-create
@@ -668,14 +721,6 @@ make pull-secret-gcr-create
 # create/refresh ecr-pull-secret, for action server image
 make pull-secret-ecr-create
 
-# Verify that:
-#
-# the correct Rasa Enterprise version is selected in `Makefile`
-# ==> RASAX_TAG := ......
-# 
-# the correct rasa version is selected in `requirements.txt`
-# ==> rasa[spacy]==....
-#
 # Install/Upgrade Rasa Enterprise with the action server
 make rasa-enterprise-install
 
@@ -716,6 +761,7 @@ make rasa-enterprise-model-upload
 make rasa-enterprise-model-tag
 
 # Wait about 1 minute, so rasa-production can download, upack & load the model
+
 # Smoketest
 make rasa-enterprise-smoketest
 ```

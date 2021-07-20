@@ -3,7 +3,9 @@ SHELL := /bin/bash
 # Extract rasa version to install from `requirements.txt`
 RASA_TAG := $(shell cat requirements.txt | grep 'rasa\[spacy\]' | cut -d'=' -f 3 )-spacy-en
 # Make sure to install a compatible Rasa Enterprise:
-RASAX_TAG := 0.41.2
+RASAX_TAG := 0.40.1
+# Make sure to use a compatible rasa-x-helm chart:
+RASAX_HELM_CHART_VERSION := 1.16.0
 
 GIT_BRANCH_NAME := $(shell git branch --show-current)
 
@@ -584,6 +586,7 @@ rasa-enterprise-install:
 	@[ "${GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD}" ]	|| ( echo ">> GLOBAL_POSTGRESQL_POSTGRESQLPASSWORD is not set"; exit 1 )
 	@[ "${GLOBAL_REDIS_PASSWORD}" ]					|| ( echo ">> GLOBAL_REDIS_PASSWORD is not set"; exit 1 )
 	@[ "${RABBITMQ_RABBITMQ_PASSWORD}" ]			|| ( echo ">> RABBITMQ_RABBITMQ_PASSWORD is not set"; exit 1 )
+	@[ "${RASAX_DEBUG_MODE}" ]						|| ( echo ">> RASAX_DEBUG_MODE is not set"; exit 1 )
 	@[ "${RASAX_INITIALUSER_USERNAME}" ]			|| ( echo ">> RASAX_INITIALUSER_USERNAME is not set"; exit 1 )
 	@[ "${RASAX_INITIALUSER_PASSWORD}" ]			|| ( echo ">> RASAX_INITIALUSER_PASSWORD is not set"; exit 1 )
 	@[ "${RASAX_JWTSECRET}" ]						|| ( echo ">> RASAX_JWTSECRET is not set"; exit 1 )
@@ -602,15 +605,18 @@ rasa-enterprise-install:
 
 	@echo $(NEWLINE)
 	@echo Installing or Upgrading Rasa Enterprise with:
+	@echo - RASAX_DEBUG_MODE: $(RASAX_DEBUG_MODE)
 	@echo - RASAX_TAG: $(RASAX_TAG)
 	@echo - RASA_TAG: $(RASA_TAG)
 	@echo - APP_NAME: $(AWS_ECR_URI)/$(ACTION_SERVER_DOCKER_IMAGE_NAME)
 	@echo - APP_TAG: $(ACTION_SERVER_DOCKER_IMAGE_TAG)
+	@echo - RASAX_HELM_CHART_VERSION: $(RASAX_HELM_CHART_VERSION)
 	@echo $(NEWLINE)
 	@helm --namespace $(AWS_EKS_NAMESPACE) \
 		upgrade \
 		--install \
 		--values ./deploy/values.yml \
+		--set rasax.debugMode=$(RASAX_DEBUG_MODE) \
 		--set rasax.tag=$(RASAX_TAG) \
 		--set rasax.initialUser.username=$(RASAX_INITIALUSER_USERNAME) \
 		--set rasax.initialUser.password=$(RASAX_INITIALUSER_PASSWORD) \
@@ -624,6 +630,7 @@ rasa-enterprise-install:
 		--set global.redis.password=$(GLOBAL_REDIS_PASSWORD) \
 		--set app.name=$(AWS_ECR_URI)/$(ACTION_SERVER_DOCKER_IMAGE_NAME) \
 		--set app.tag=$(ACTION_SERVER_DOCKER_IMAGE_TAG) \
+		--version $(RASAX_HELM_CHART_VERSION) \
 		$(AWS_EKS_RELEASE_NAME) \
 		rasa-x/rasa-x
 
