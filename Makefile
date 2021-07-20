@@ -644,15 +644,6 @@ rasa-enterprise-install:
 		deployment
 
 	@echo $(NEWLINE)
-	@echo Waiting until all pods are READY
-	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
-		wait \
-		--for=condition=ready \
-		--timeout=20m \
-		--all \
-		pod
-
-	@echo $(NEWLINE)
 	@echo Waiting for external IP assignment
 	@./scripts/wait_for_external_ip.sh $(AWS_EKS_NAMESPACE) $(AWS_EKS_RELEASE_NAME)
 
