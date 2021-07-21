@@ -626,9 +626,9 @@ make kubectl-config-current-context
 
 #### Select compatible versions
 
-Get rasa-x version from [compatibility matrix](https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/)
+Get compatible versions for rasa-x, rasa and rasa-sdk from [compatibility matrix](https://rasa.com/docs/rasa-x/changelog/compatibility-matrix/)
 
-Then, get helm chart version from:
+For the rasa-x-helm chart, the latest version should work. When installing a very old version, you might need to use an older  helm chart version, selected with:
 
 ```bash
 #.............NAME   URL
@@ -667,7 +667,7 @@ FROM rasa/rasa-sdk:2.5.0
 # file: Makefile
 
 RASAX_TAG := 0.39.3
-RASAX_HELM_CHART_VERSION := 1.12.0
+RASAX_HELM_CHART_VERSION := latest
 ```
 
 

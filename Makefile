@@ -274,6 +274,17 @@ docker-login:
 	@echo docker user: $(DOCKER_USER)
 	@echo $(DOCKER_PW) | docker login $(DOCKER_REGISTRY) -u $(DOCKER_USER) --password-stdin
 
+docker-pull:
+	@$(eval IMAGE_EXISTS := $(shell make aws-ecr-image-exists ACTION_SERVER_DOCKER_IMAGE_TAG=$(ACTION_SERVER_DOCKER_IMAGE_TAG) ))
+
+	@if [[ ${IMAGE_EXISTS} == "False" ]]; then \
+		echo "$(ACTION_SERVER_DOCKER_IMAGE_NAME):$(ACTION_SERVER_DOCKER_IMAGE_TAG) image does not exist. "; \
+	else \
+		echo pulling image: $(AWS_ECR_URI)/$(ACTION_SERVER_DOCKER_IMAGE_NAME):$(ACTION_SERVER_DOCKER_IMAGE_TAG); \
+		docker image pull $(AWS_ECR_URI)/$(ACTION_SERVER_DOCKER_IMAGE_NAME):$(ACTION_SERVER_DOCKER_IMAGE_TAG); \
+	fi
+	
+
 docker-push:
 	@echo pushing image: $(AWS_ECR_URI)/$(ACTION_SERVER_DOCKER_IMAGE_NAME):$(ACTION_SERVER_DOCKER_IMAGE_TAG)
 	docker image push $(AWS_ECR_URI)/$(ACTION_SERVER_DOCKER_IMAGE_NAME):$(ACTION_SERVER_DOCKER_IMAGE_TAG)
@@ -327,7 +338,7 @@ aws-ecr-image-exists:
 		--output text \
 		--region $(AWS_REGION) \
 		--repository-name $(AWS_ECR_REPOSITORY) \
-		--query "contains(imageDetails[].imageTags, '$(ACTION_SERVER_DOCKER_IMAGE_TAG)')"
+		--query "contains(imageDetails[].imageTags[], '$(ACTION_SERVER_DOCKER_IMAGE_TAG)')"
 
 aws-ecr-delete-image:
 	@echo deleting image from ECR: $(AWS_ECR_REPOSITORY)/$(ACTION_SERVER_DOCKER_IMAGE_TAG)

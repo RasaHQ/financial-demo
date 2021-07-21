@@ -37,9 +37,7 @@ jobs:
       rasa_enterprise_version: ${{ steps.versions.outputs.rasa_enterprise_version }}
       rasa_version: ${{ steps.versions.outputs.rasa_version }}
       rasa_sdk_version: ${{ steps.versions.outputs.rasa_sdk_version }}
-
-      do_action_server: ${{ steps.action_server.outputs.do_action_server }}
-
+      
       do_training: ${{ steps.rasa_model.outputs.do_training }}
 
       aws_region: ${{ steps.aws.outputs.aws_region }}
@@ -65,9 +63,10 @@ jobs:
 
       - name: checkout
         uses: actions/checkout@v2
-
+        
       - name: files
         id: files
+        if: github.event_name  == 'push'
         uses: jitterbit/get-changed-files@v1
 
       - name: Configure AWS Credentials
@@ -87,21 +86,14 @@ jobs:
           echo "::set-output name=rasa_version::$rasa_version"
           echo "::set-output name=rasa_sdk_version::$rasa_sdk_version"
 
-      - name: action_server
-        id: action_server
-        run: |
-          if [[ "${{ steps.files.outputs.all }}" == *"actions/"* ]] || \
-             [[ "${{ steps.files.outputs.all }}" == *"Dockerfile"* ]]
-          then
-            echo "::set-output name=do_action_server::true"
-          else
-            echo "::set-output name=do_action_server::false"
-          fi
-
       - name: rasa_model
         id: rasa_model
         run: |
-          if [[ "${{ steps.files.outputs.all }}" == *"data/"* ]] || \
+          github_event_name=$(echo ${GITHUB_EVENT_NAME})
+          echo $github_event_name
+          
+          if [[ $github_event_name == 'workflow_dispatch' ]] || \
+             [[ "${{ steps.files.outputs.all }}" == *"data/"* ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"config.yml"* ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"domain.yml"* ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"requirements.txt"* ]]
@@ -110,7 +102,7 @@ jobs:
           else
             echo "::set-output name=do_training::false"
           fi
-
+          
       - name: aws
         id: aws
         run: |
@@ -139,16 +131,14 @@ jobs:
         echo rasa_enterprise_version : ${{ needs.params.outputs.rasa_enterprise_version }}
         echo rasa_version : ${{ needs.params.outputs.rasa_version }}
         echo rasa_sdk_version : ${{ needs.params.outputs.rasa_sdk_version }}
-
-        echo do_action_server: ${{ needs.params.outputs.do_action_server }}
-
+        
         echo do_training: ${{ needs.params.outputs.do_training }}
 
         echo aws_region: ${{ needs.params.outputs.aws_region }}
         echo aws_s3: ${{ needs.params.outputs.aws_s3 }}
 
         echo do_create_test_cluster: ${{ needs.params.outputs.do_create_test_cluster }}
-#
+
 #    - name: Dump GitHub context
 #      env:
 #        GITHUB_CONTEXT: ${{ toJSON(github) }}
@@ -163,17 +153,14 @@ jobs:
     needs: [params, params_summary]
     steps:
       - name: checkout
-        if: needs.params.outputs.do_action_server  == 'true'
         uses: actions/checkout@v2
 
       - name: Set up Python 3.7
-        if: needs.params.outputs.do_action_server  == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
 
       - name: Cache pip
-        if: needs.params.outputs.do_action_server  == 'true'
         # see: https://docs.github.com/en/actions/guides/building-and-testing-python#caching-dependencies
         uses: actions/cache@v2
         with:
@@ -185,7 +172,6 @@ jobs:
 
 
       - name: Configure AWS Credentials
-        if: needs.params.outputs.do_action_server  == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -193,15 +179,15 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Do it all
-        if: needs.params.outputs.do_action_server  == 'true'
         run: |
           python -m pip install -U pip
           pip install -r requirements-dev.txt
           make lint
           make types
           make test
-          make docker-build
           make aws-ecr-docker-login
+          make docker-pull
+          make docker-build
           make docker-push
 
   rasa_model:
