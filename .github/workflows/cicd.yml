@@ -90,9 +90,13 @@ jobs:
         id: rasa_model
         run: |
           github_event_name=$(echo ${GITHUB_EVENT_NAME})
-          echo $github_event_name
+          echo "github_event_name: $github_event_name"
+          
+          aws_s3_rasa_model_exists=$( make aws-s3-rasa-model-exists )
+          echo "aws_s3_rasa_model_exists: $aws_s3_rasa_model_exists"
           
           if [[ $github_event_name == 'workflow_dispatch' ]] || \
+             [[ $aws_s3_rasa_model_exists == 'false' ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"data/"* ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"config.yml"* ]] || \
              [[ "${{ steps.files.outputs.all }}" == *"domain.yml"* ]] || \

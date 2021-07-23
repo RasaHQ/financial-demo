@@ -542,6 +542,8 @@ aws-eks-cluster-update-kubeconfig:
 	aws eks update-kubeconfig \
 		--region $(AWS_REGION) \
 		--name $(AWS_EKS_CLUSTER_NAME)
+	chmod 600 ~/.kube/config
+	
 
 aws-eks-namespace-create:
 	kubectl create namespace $(AWS_EKS_NAMESPACE) --dry-run=client -o yaml | kubectl apply -f -
@@ -653,16 +655,40 @@ rasa-enterprise-install:
 		--timeout=20m \
 		--all \
 		deployment
+		
+	@echo $(NEWLINE)
+	@echo Restarting action server pod
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) rollout restart deployment $(AWS_EKS_RELEASE_NAME)-app
+	
+	@echo $(NEWLINE)
+	@echo Waiting again until all deployments are AVAILABLE
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		wait \
+		--for=condition=available \
+		--timeout=5m \
+		--all \
+		deployment
 
 	@echo $(NEWLINE)
 	@echo Waiting for external IP assignment
 	@./scripts/wait_for_external_ip.sh $(AWS_EKS_NAMESPACE) $(AWS_EKS_RELEASE_NAME)
 
 rasa-enterprise-uninstall:
-	@echo Uninstalling Rasa Enterprise release $(AWS_EKS_RELEASE_NAME).
-	@echo $(NEWLINE)
-	@helm --namespace $(AWS_EKS_NAMESPACE) \
-		uninstall $(AWS_EKS_RELEASE_NAME)
+	@$(eval RELEASE_EXISTS := $(shell make rasa-enterprise-release-exists AWS_EKS_NAMESPACE=$(AWS_EKS_NAMESPACE) AWS_EKS_RELEASE_NAME=$(AWS_EKS_RELEASE_NAME) ))
+
+	@if [[ ${RELEASE_EXISTS} == "false" ]]; then \
+		echo "$(AWS_EKS_NAMESPACE):$(AWS_EKS_RELEASE_NAME) does not exist. Nothing to delete."; \
+	else \
+		echo "Uninstalling Rasa Enterprise release $(AWS_EKS_NAMESPACE):$(AWS_EKS_RELEASE_NAME)"; \
+		helm --namespace $(AWS_EKS_NAMESPACE) uninstall $(AWS_EKS_RELEASE_NAME); \
+	fi
+
+rasa-enterprise-release-exists:
+	@helm list --namespace $(AWS_EKS_NAMESPACE) --output json | jp "contains([].name, '$(AWS_EKS_RELEASE_NAME)')"
+
+rasa-enterprise-delete-pvc-all:
+	@echo Deleting all Persistent Volume Claims in $(AWS_EKS_NAMESPACE)
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) delete pvc --all --wait=true
 
 rasa-enterprise-check-health:
 	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/health)
@@ -683,6 +709,57 @@ rasa-enterprise-get-pods:
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
 		get pods
 
+rasa-enterprise-get-pod-for-postgresql:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-postgresql \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-rabbit:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-rabbit \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-app:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-app \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-db-migration-service-headless:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-db-migration-service-headless \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-duckling:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-duckling \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-nginx:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-nginx \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-rasa-production:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-rasa-production \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-rasa-worker:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-rasa-worker \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-rasa-x:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-rasa-x \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+rasa-enterprise-get-pod-for-redis-master:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get endpoints $(AWS_EKS_RELEASE_NAME)-rasa-x-redis-master \
+		--output jsonpath='{.subsets[*].addresses[0].targetRef.name}'
+		
+
 rasa-enterprise-get-secrets-postgresql:
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
 		get secret $(AWS_EKS_RELEASE_NAME)-postgresql -o yaml | \
@@ -698,10 +775,23 @@ rasa-enterprise-get-secrets-rabbit:
 		get secret $(AWS_EKS_RELEASE_NAME)-rabbit -o yaml | \
 		awk -F ': ' '/password/{print $2}' | base64 -d
 
-
+rasa-enterprise-get-base-url:
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
+		get service $(AWS_EKS_RELEASE_NAME)-rasa-x-nginx \
+		--output jsonpath='{.status.loadBalancer.ingress[0].hostname}' | \
+		awk '{v="http://"$$1":80"; print v}'
+		
 rasa-enterprise-get-login:
 	@./scripts/wait_for_external_ip.sh $(AWS_EKS_NAMESPACE) $(AWS_EKS_RELEASE_NAME) 1
 
+rasa-enterprise-admin-user-create:
+	@$(eval POD_RASA_X := $(shell make rasa-enterprise-get-pod-for-rasa-x))
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) exec $(POD_RASA_X) -- python scripts/manage_users.py create $(RASAX_INITIALUSER_USERNAME) $(RASAX_INITIALUSER_PASSWORD) admin
+
+rasa-enterprise-admin-user-update:
+	@$(eval POD_RASA_X := $(shell make rasa-enterprise-get-pod-for-rasa-x))
+	@kubectl --namespace $(AWS_EKS_NAMESPACE) exec $(POD_RASA_X) -- python scripts/manage_users.py create --update $(RASAX_INITIALUSER_USERNAME) $(RASAX_INITIALUSER_PASSWORD) admin
+				
 rasa-enterprise-get-access-token:
 	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/auth)
 	@curl --silent --request POST --url $(URL) \
@@ -775,12 +865,6 @@ rasa-enterprise-smoketest:
 	@$(eval URL := $(shell make rasa-enterprise-get-base-url))
 	export BASE_URL=$(URL); \
 	python ./scripts/smoketest.py
-
-rasa-enterprise-get-base-url:
-	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
-		get service $(AWS_EKS_RELEASE_NAME)-rasa-x-nginx \
-		--output jsonpath='{.status.loadBalancer.ingress[0].hostname}' | \
-		awk '{v="http://"$$1":80"; print v}'
 
 rasa-enterprise-get-loadbalancer-hostname:
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
