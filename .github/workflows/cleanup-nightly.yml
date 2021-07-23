@@ -50,11 +50,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-
+      - name: install CLIs & dependencies
+        run: |
+          make install-eksctl
+          make install-kubectl
+          make install-helm
+          make install-jp
+          
       - name: Cleanup EKS
         run: |
           echo "Delete all test clusters"
-          make install-kubectl
-          make install-helm
-          make install-eksctl
           make aws-eks-cluster-delete-all-test-clusters

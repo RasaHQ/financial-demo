@@ -51,6 +51,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+          
+      - name: install CLIs & dependencies
+        run: |
+          make install-eksctl
+          make install-kubectl
+          make install-helm
+          make install-jp
 
       - name: Cleanup ECR
         run: |
@@ -66,9 +73,6 @@ jobs:
       - name: Cleanup EKS & all Persistent Volume Claims / Persistent Volumes
         run: |
           echo "Delete test cluster of branch ${{ github.event.ref }} and PVCs"
-          make install-kubectl
-          make install-helm
-          make install-eksctl
           make aws-eks-cluster-update-kubeconfig GIT_BRANCH_NAME=${{ github.event.ref }}
           make rasa-enterprise-uninstall
           make rasa-enterprise-delete-pvc-all
