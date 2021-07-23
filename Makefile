@@ -539,10 +539,10 @@ aws-eks-cluster-get-certificateAuthority:
 aws-eks-cluster-update-kubeconfig:
 	@echo Updating kubeconfig for AWS EKS cluster with name: $(AWS_EKS_CLUSTER_NAME)
 	@echo $(NEWLINE)
-	chmod 600 ~/.kube/config
 	aws eks update-kubeconfig \
 		--region $(AWS_REGION) \
 		--name $(AWS_EKS_CLUSTER_NAME)
+	chmod 600 ~/.kube/config
 	
 
 aws-eks-namespace-create:

@@ -667,7 +667,7 @@ FROM rasa/rasa-sdk:2.5.0
 # file: Makefile
 
 RASAX_TAG := 0.39.3
-RASAX_HELM_CHART_VERSION := latest
+RASAX_HELM_CHART_VERSION := 2.0.0
 ```
 
 
@@ -679,12 +679,14 @@ Build, run, test & push the action docker server image, with name:
 - `<ECR URI>/financial-demo:<current branch name>`
 
 ```bash
-# Verify that the correct rasa-sdk is selected in `Dockerfile`
-# ==> FROM rasa/rasa-sdk:....
-#
-# Then, build the image with:
+# check out the `main` branch.
+# -> the branch name is used as the image tag
+git checkout main
+
+# build the image
 make docker-build
 
+# test it
 make docker-run
 make docker-test
 make docker-stop
@@ -704,7 +706,13 @@ make aws-eks-cluster-update-kubeconfig AWS_EKS_CLUSTER_NAME=financial-demo-produ
 # check it
 make kubectl-config-current-context  AWS_EKS_CLUSTER_NAME=financial-demo-production
 
-# if you want to re-install from scratch, delete the namespace
+# check out the `main` branch.
+# -> The action server docker image with tag = current branch name will be installed
+git checkout main
+
+# if you want to re-install rasa enterprise completely from scratch:
+make rasa-enterprise-uninstall
+make rasa-enterprise-delete-pvc-all
 make aws-eks-namespace-delete
 
 # create namespace `my-namespace`
@@ -728,6 +736,9 @@ make rasa-enterprise-check-health
 ### Train, test & upload model to S3
 
 ```bash
+# check out the `main` branch.
+git checkout main
+
 # Train the model: `models/<current branch>.tar.gz`
 make rasa-train
 
