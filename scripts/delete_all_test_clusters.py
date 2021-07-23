@@ -3,7 +3,9 @@ import sys
 import subprocess
 import json
 import pprint
+from pathlib import Path
 
+cwd = Path(__file__).parent.parent
 
 ###################################
 print("--\nGet the EKS test clusters for financial-demo")
@@ -38,11 +40,32 @@ if len(clusters) > 0:
 
 ###################################
 for cluster in clusters:
-    print(f"--\nDeleting EKS test cluster: {cluster}")
-    cmd = ["eksctl", "delete", "cluster", "--name", cluster, "--wait"]
+    print(f"--\nCleaning up EKS test cluster: {cluster}")
 
     try:
-        subprocess.run(cmd, check=True, capture_output=False)
+        print(f"----\nSet kubeconfig to look at this cluster")
+        cmd = [
+            "make",
+            "aws-eks-cluster-update-kubeconfig",
+            f"AWS_EKS_CLUSTER_NAME={cluster}",
+        ]
+        subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
+
+        print(f"----\nUninstall rasa enterprise")
+        cmd = ["make", "rasa-enterprise-uninstall"]
+        subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
+
+        print(f"----\nDelete Storage (PVCs)")
+        cmd = ["make", "rasa-enterprise-delete-pvc-all"]
+        subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
+
+        print(f"----\nDelete the EKS cluster")
+        cmd = [
+            "make",
+            "aws-eks-cluster-delete",
+            f"AWS_EKS_CLUSTER_NAME={cluster}",
+        ]
+        subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
 
     except subprocess.CalledProcessError as e:
         print(e.stderr.decode("utf-8"))

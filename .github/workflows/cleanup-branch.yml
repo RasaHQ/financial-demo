@@ -63,8 +63,13 @@ jobs:
           echo "Delete rasa model of branch ${{ github.event.ref }}"
           make aws-s3-delete-rasa-model GIT_BRANCH_NAME=${{ github.event.ref }}
 
-      - name: Cleanup EKS
+      - name: Cleanup EKS & all Persistent Volume Claims / Persistent Volumes
         run: |
-          echo "Delete test cluster of branch ${{ github.event.ref }}"
+          echo "Delete test cluster of branch ${{ github.event.ref }} and PVCs"
+          make install-kubectl
+          make install-helm
           make install-eksctl
+          make aws-eks-cluster-update-kubeconfig GIT_BRANCH_NAME=${{ github.event.ref }}
+          make rasa-enterprise-uninstall
+          make rasa-enterprise-delete-pvc-all
           make aws-eks-cluster-delete GIT_BRANCH_NAME=${{ github.event.ref }}
