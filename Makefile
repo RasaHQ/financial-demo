@@ -275,7 +275,7 @@ docker-login:
 	@echo $(DOCKER_PW) | docker login $(DOCKER_REGISTRY) -u $(DOCKER_USER) --password-stdin
 
 docker-pull:
-	@$(eval IMAGE_EXISTS := $(shell make aws-ecr-image-exists ACTION_SERVER_DOCKER_IMAGE_TAG=$(ACTION_SERVER_DOCKER_IMAGE_TAG) ))
+	@$(eval IMAGE_EXISTS := $(shell make --no-print-directory aws-ecr-image-exists ACTION_SERVER_DOCKER_IMAGE_TAG=$(ACTION_SERVER_DOCKER_IMAGE_TAG) ))
 
 	@if [[ ${IMAGE_EXISTS} == "False" ]]; then \
 		echo "$(ACTION_SERVER_DOCKER_IMAGE_NAME):$(ACTION_SERVER_DOCKER_IMAGE_TAG) image does not exist. "; \
@@ -298,7 +298,7 @@ aws-iam-role-get-Arn:
 		--query "Role.Arn"
 
 aws-ecr-docker-login:
-	@$(eval AWS_ECR_URI := $(shell make aws-ecr-get-repositoryUri))
+	@$(eval AWS_ECR_URI := $(shell make --no-print-directory aws-ecr-get-repositoryUri))
 	@echo logging into AWS ECR registry: $(AWS_ECR_URI)
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ECR_URI)
 
@@ -481,7 +481,7 @@ aws-eks-cluster-info:
 	kubectl cluster-info
 
 aws-eks-cluster-delete:
-	@$(eval CLUSTER_EXISTS := $(shell make aws-eks-cluster-exists AWS_EKS_CLUSTER_NAME=$(AWS_EKS_CLUSTER_NAME) ))
+	@$(eval CLUSTER_EXISTS := $(shell make --no-print-directory aws-eks-cluster-exists AWS_EKS_CLUSTER_NAME=$(AWS_EKS_CLUSTER_NAME) ))
 
 	@if [[ ${CLUSTER_EXISTS} == "False" ]]; then \
 		echo "$(AWS_EKS_CLUSTER_NAME) does not exist. "; \
@@ -576,8 +576,8 @@ pull-secret-gcr-delete:
 		--ignore-not-found
 
 pull-secret-ecr-create:
-	@$(eval AWS_ECR_TOKEN := $(shell make aws-ecr-get-authorization-token))
-	@$(eval AWS_ECR_URI := $(shell make aws-ecr-get-repositoryUri))
+	@$(eval AWS_ECR_TOKEN := $(shell make --no-print-directory aws-ecr-get-authorization-token))
+	@$(eval AWS_ECR_URI := $(shell make --no-print-directory aws-ecr-get-repositoryUri))
 
 	@echo "Creating pull secret for Action Server (in ECR)"
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) \
@@ -674,7 +674,7 @@ rasa-enterprise-install:
 	@./scripts/wait_for_external_ip.sh $(AWS_EKS_NAMESPACE) $(AWS_EKS_RELEASE_NAME)
 
 rasa-enterprise-uninstall:
-	@$(eval RELEASE_EXISTS := $(shell make rasa-enterprise-release-exists AWS_EKS_NAMESPACE=$(AWS_EKS_NAMESPACE) AWS_EKS_RELEASE_NAME=$(AWS_EKS_RELEASE_NAME) ))
+	@$(eval RELEASE_EXISTS := $(shell make --no-print-directory rasa-enterprise-release-exists AWS_EKS_NAMESPACE=$(AWS_EKS_NAMESPACE) AWS_EKS_RELEASE_NAME=$(AWS_EKS_RELEASE_NAME) ))
 
 	@if [[ ${RELEASE_EXISTS} == "false" ]]; then \
 		echo "$(AWS_EKS_NAMESPACE):$(AWS_EKS_RELEASE_NAME) does not exist. Nothing to delete."; \
@@ -691,7 +691,7 @@ rasa-enterprise-delete-pvc-all:
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) delete pvc --all --wait=true
 
 rasa-enterprise-check-health:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/health)
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url)/api/health)
 	@$(eval PRODUCTION_STATUS := $(shell curl --silent --request GET --url $(URL) | jp production.status))
 	@$(eval WORKER_STATUS := $(shell curl --silent --request GET --url $(URL) | jp worker.status))
 	@$(eval DB_MIGRATION_STATUS := $(shell curl --silent --request GET --url $(URL) | jp database_migration.status))
@@ -785,30 +785,30 @@ rasa-enterprise-get-login:
 	@./scripts/wait_for_external_ip.sh $(AWS_EKS_NAMESPACE) $(AWS_EKS_RELEASE_NAME) 1
 
 rasa-enterprise-admin-user-create:
-	@$(eval POD_RASA_X := $(shell make rasa-enterprise-get-pod-for-rasa-x))
+	@$(eval POD_RASA_X := $(shell make --no-print-directory rasa-enterprise-get-pod-for-rasa-x))
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) exec $(POD_RASA_X) -- python scripts/manage_users.py create $(RASAX_INITIALUSER_USERNAME) $(RASAX_INITIALUSER_PASSWORD) admin
 
 rasa-enterprise-admin-user-update:
-	@$(eval POD_RASA_X := $(shell make rasa-enterprise-get-pod-for-rasa-x))
+	@$(eval POD_RASA_X := $(shell make --no-print-directory rasa-enterprise-get-pod-for-rasa-x))
 	@kubectl --namespace $(AWS_EKS_NAMESPACE) exec $(POD_RASA_X) -- python scripts/manage_users.py create --update $(RASAX_INITIALUSER_USERNAME) $(RASAX_INITIALUSER_PASSWORD) admin
 				
 rasa-enterprise-get-access-token:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/auth)
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url)/api/auth)
 	@curl --silent --request POST --url $(URL) \
 		--header 'Content-Type: application/json' \
 		--data '{ "username": "$(RASAX_INITIALUSER_USERNAME)", "password": "$(RASAX_INITIALUSER_PASSWORD)" }' \
 		| jp --unquoted access_token
 
 rasa-enterprise-get-chat-token:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/chatToken)
-	@$(eval ACCESS_TOKEN := $(shell make rasa-enterprise-get-access-token))
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url)/api/chatToken)
+	@$(eval ACCESS_TOKEN := $(shell make --no-print-directory rasa-enterprise-get-access-token))
 	@curl --silent --request GET --url $(URL) \
 		--header 'Authorization: Bearer $(ACCESS_TOKEN)' \
 		| jp --unquoted chat_token
 
 rasa-enterprise-model-upload:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/projects/default/models)
-	@$(eval ACCESS_TOKEN := $(shell make rasa-enterprise-get-access-token))
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url)/api/projects/default/models)
+	@$(eval ACCESS_TOKEN := $(shell make --no-print-directory rasa-enterprise-get-access-token))
 	@$(eval CURL_OUTPUT_FILE := /tmp/curl_output_$(shell date +'%y%m%d_%H%M%S').txt)
 
 	@echo "Uploading model:"
@@ -836,8 +836,8 @@ rasa-enterprise-model-upload:
 
 
 rasa-enterprise-model-tag:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/projects/default/models/$(RASA_MODEL_NAME)/tags/production)
-	@$(eval ACCESS_TOKEN := $(shell make rasa-enterprise-get-access-token))
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url)/api/projects/default/models/$(RASA_MODEL_NAME)/tags/production)
+	@$(eval ACCESS_TOKEN := $(shell make --no-print-directory rasa-enterprise-get-access-token))
 
 	@echo "Tagging as production the model:"
 	@echo "- Model: $(RASA_MODEL_NAME)"
@@ -849,8 +849,8 @@ rasa-enterprise-model-tag:
 		-H "Authorization: Bearer $(ACCESS_TOKEN)"
 
 rasa-enterprise-model-delete:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url)/api/projects/default/models/$(RASA_MODEL_NAME))
-	@$(eval ACCESS_TOKEN := $(shell make rasa-enterprise-get-access-token))
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url)/api/projects/default/models/$(RASA_MODEL_NAME))
+	@$(eval ACCESS_TOKEN := $(shell make --no-print-directory rasa-enterprise-get-access-token))
 
 	@echo "Deleting the model:"
 	@echo "- Model: $(RASA_MODEL_NAME)"
@@ -862,7 +862,7 @@ rasa-enterprise-model-delete:
 		-H "Authorization: Bearer $(ACCESS_TOKEN)"
 
 rasa-enterprise-smoketest:
-	@$(eval URL := $(shell make rasa-enterprise-get-base-url))
+	@$(eval URL := $(shell make --no-print-directory rasa-enterprise-get-base-url))
 	export BASE_URL=$(URL); \
 	python ./scripts/smoketest.py
 
