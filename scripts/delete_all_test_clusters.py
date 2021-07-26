@@ -6,6 +6,7 @@ import pprint
 from pathlib import Path
 
 cwd = Path(__file__).parent.parent
+print("--\ncwd={cwd}")
 
 ###################################
 print("--\nGet the EKS test clusters for financial-demo")
@@ -43,25 +44,28 @@ for cluster in clusters:
     print(f"--\nCleaning up EKS test cluster: {cluster}")
 
     try:
+        # Note: see http://www.gnu.org/software/automake/manual/html_node/Tricks-For-Silencing-Make.html
         print(f"----\nSet kubeconfig to look at this cluster")
         cmd = [
             "make",
+            "--no-print-directory",
             "aws-eks-cluster-update-kubeconfig",
             f"AWS_EKS_CLUSTER_NAME={cluster}",
         ]
         subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
 
         print(f"----\nUninstall rasa enterprise")
-        cmd = ["make", "rasa-enterprise-uninstall"]
+        cmd = ["make", "--no-print-directory", "rasa-enterprise-uninstall"]
         subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
 
         print(f"----\nDelete Storage (PVCs)")
-        cmd = ["make", "rasa-enterprise-delete-pvc-all"]
+        cmd = ["make", "--no-print-directory", "rasa-enterprise-delete-pvc-all"]
         subprocess.run(cmd, check=True, capture_output=False, cwd=cwd)
 
         print(f"----\nDelete the EKS cluster")
         cmd = [
             "make",
+            "--no-print-directory",
             "aws-eks-cluster-delete",
             f"AWS_EKS_CLUSTER_NAME={cluster}",
         ]
