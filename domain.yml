@@ -256,7 +256,7 @@ actions:
 - validate_transaction_search_form
 forms:
   cc_payment_form:
-    continue_form:
+    1_continue_form:
     - type: from_intent
       intent: affirm
       value: yes
@@ -267,14 +267,14 @@ forms:
       intent: 
       - inform
       - cc_payment_form
-    credit_card:
+    2_credit_card:
     - type: from_entity
       entity: credit_card
     - type: from_text
       intent: 
       - inform
       - cc_payment_form
-    amount-of-money:
+    3_amount-of-money:
     - type: from_entity
       entity: amount-of-money
       not_intent: 
@@ -289,14 +289,14 @@ forms:
       intent: 
       - inform
       - cc_payment_form
-    time:
+    4_time:
     - type: from_entity
       entity: time
     - type: from_text
       intent: 
       - inform
       - cc_payment_form
-    confirm:
+    5_confirm:
     - type: from_intent
       intent: affirm
       value: yes
@@ -308,7 +308,7 @@ forms:
       - inform
       - cc_payment_form
   transfer_money_form:
-    continue_form:
+    1_continue_form:
     - type: from_intent
       intent: affirm
       value: yes
@@ -319,14 +319,14 @@ forms:
       intent:
       - inform
       - transfer_money_form
-    PERSON:
+    2_PERSON:
     - type: from_entity
       entity: PERSON
     - type: from_text
       intent:
       - inform
       - transfer_money_form
-    amount-of-money:
+    3_amount-of-money:
     - type: from_entity
       entity: amount-of-money
       not_intent: 
@@ -341,7 +341,7 @@ forms:
       intent:
       - inform
       - transfer_money_form
-    confirm:
+    4_confirm:
     - type: from_intent
       intent: affirm
       value: yes
@@ -353,7 +353,7 @@ forms:
       - inform
       - transfer_money_form
   transaction_search_form:
-    continue_form:
+    1_continue_form:
     - type: from_intent
       intent: affirm
       value: yes
@@ -364,21 +364,21 @@ forms:
       intent:
       - inform
       - transaction_search_form
-    search_type:
+    2_search_type:
     - type: from_trigger_intent
       intent: search_transactions
       value: "spend"
     - type: from_trigger_intent
       intent: check_earnings
       value: "deposit"
-    time:
+    3_time:
     - type: from_entity
       entity: time
     - type: from_text
       intent:
       - inform
       - transaction_search_form
-    confirm:
+    4_confirm:
     - type: from_intent
       intent: affirm
       value: yes
