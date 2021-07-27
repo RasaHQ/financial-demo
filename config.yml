@@ -1,40 +1,37 @@
-version: "2.0"
+version: '2.0'
 language: en
 pipeline:
-  - name: WhitespaceTokenizer
-  - name: RegexFeaturizer
-  - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-  - name: CountVectorsFeaturizer
-    analyzer: "char_wb"
-    min_ngram: 1
-    max_ngram: 4
-  - name: DIETClassifier
-    epochs: 100
-  - name: FallbackClassifier
-    threshold: 0.7
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions:
-    - amount-of-money
-    - time
-    - number
-  - name: SpacyNLP
-    model: "en_core_web_md"
-    case_sensitive: false
-  - name: "SpacyEntityExtractor"
-    # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in
-    #       combination with the WhitespaceTokenizer, and as a result the
-    #       PERSON extraction by Spacy is not very robust.
-    #       Because of this, the nlu training data is annotated as well, and the
-    #       DIETClassifier will also extract PERSON entities .
-    dimensions: ["PERSON"]
-  - name: EntitySynonymMapper
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: char_wb
+  min_ngram: 1
+  max_ngram: 4
+- name: DIETClassifier
+  epochs: 200
+- name: FallbackClassifier
+  threshold: 0.7
+- name: DucklingEntityExtractor
+  url: http://localhost:8000
+  dimensions:
+  - amount-of-money
+  - time
+  - number
+- name: SpacyNLP
+  model: en_core_web_md
+  case_sensitive: false
+- name: SpacyEntityExtractor
+  dimensions:
+  - PERSON
+  - GPE
+- name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
 - name: TEDPolicy
   epochs: 40
 - name: RulePolicy
-  core_fallback_threshold: 0.4
-  core_fallback_action_name: "action_default_fallback"
-  enable_fallback_prediction: True
+  core_fallback_threshold: 0.3
+  core_fallback_action_name: action_default_fallback
+  enable_fallback_prediction: true

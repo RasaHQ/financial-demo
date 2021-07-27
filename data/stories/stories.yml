@@ -1,27 +1,41 @@
 version: "2.0"
-
 stories:
-
 - story: say ok when user affirms after utter_help
   steps:
   - action: utter_help
   - intent: affirm
   - action: utter_ok
-
+  - intent: some_intent
+  - action: new_flow
+  - action: utter_something
 - story: say ok when user affirms after action_show_balance
   steps:
   - action: action_show_balance
   - intent: affirm
   - action: utter_ok
-
 - story: say ok when user affirms after action_show_recipients
   steps:
   - action: action_show_recipients
   - intent: affirm
   - action: utter_ok
-  
 - story: say ok when user affirms after action_show_transfer_charge
   steps:
   - action: action_show_transfer_charge
   - intent: affirm
   - action: utter_ok
+- story: Story from Conversation ID 2c39306962dd4dc2a2d27d808b15ef39
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+  - slot_was_set:
+    - currency: $
+  - action: utter_greet
+  - action: utter_help
+  - intent: thankyou
+  - action: utter_noworries
+- story: my new story
+  steps:
+  - intent: some_intent
+  - action: utter_something
+  - action: some_custom_action
