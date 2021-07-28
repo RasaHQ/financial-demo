@@ -231,6 +231,9 @@ nlu:
     - to my [brother](PERSON)
     - to my [sister](PERSON)
     - my [dad](PERSON)
+    - [Justice](credit_card)
+    - [Freedom](PERSON)
+    - [Iron](credit_card)
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
