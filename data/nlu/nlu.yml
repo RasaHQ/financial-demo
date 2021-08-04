@@ -5,8 +5,8 @@ nlu:
     - are you a bot?
     - am i speaking to an ai?
     - are you a human or a bot?
-    - are you real? 
-    - are you virtual? 
+    - are you real?
+    - are you virtual?
     - are you an ai?
     - aren't you a bot
     - are you a chatbot
@@ -137,6 +137,8 @@ nlu:
     - Wait, I'll have to check my balance first. Can you do that please?
     - Hi, I need to know how much money is in my [checking](account_type) account
     - Balance please
+    - what is my [balance]{"entity": "amount-of-money", "value": "current balance"} now
+    - [balance]{"entity": "amount-of-money", "value": "current balance"}
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -213,7 +215,6 @@ nlu:
     - good bye
     - good bye rasa bot!
     - good night
-    - goodbye
     - goodbye.
     - goodnight
     - gotta go
@@ -355,6 +356,8 @@ nlu:
     - percy donald
     - danIelle smilanich
     - [Gringtos](credit_card)
+    - 678
+    - william baker
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -430,6 +433,7 @@ nlu:
     - What did I spend at [Costco](vendor_name) last month?
     - what did I spend at [target](vendor_name) last month
     - where did I spend the most money last month?
+    - how much did I spend last month
 - intent: thankyou
   examples: |
     - thank you goodbye
@@ -512,6 +516,7 @@ nlu:
     - Please transfer 50 dollars to [Andreas](PERSON)
     - I would like to transfer money to [Philipp](PERSON)
     - I would like to transfer 50$ to [Joschka](PERSON)
+    - transfer
 - intent: check_recipients
   examples: |
     - Who can I send money to?
@@ -536,6 +541,7 @@ nlu:
     - who exactly am I able to send money to
     - if I want to transfer money can i send it to anyone
     - show me my money sending list
+    - who are my recipient
 - intent: help
   examples: |
     - help
@@ -554,12 +560,12 @@ nlu:
     - come back
     - cool! can I do something else here?
     - hello what can you do for me
-    - help
-    - help me
     - help please
     - help pls
     - help?
     - hep me
+    - helpdesk
+    - what else can you do for me
 - intent: human_handoff
   examples: |
     - handoff
@@ -578,7 +584,6 @@ nlu:
     - talk to human
     - i want human :(
     - can i talk to human
-    - i want to talk to a human
     - i want to speak to human
     - can i talk to a real person?
     - connect me to a real person
@@ -587,6 +592,7 @@ nlu:
     - let me speak to a real person
     - let me speak to a real person please
     - i want to talk to a real person
+    - can I talk to agent
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
@@ -615,10 +621,10 @@ nlu:
 - synonym: credit
   examples: |
     - credit card
+    - card
     - credit cards
     - credit account
     - credit accounts
-    - card
     - cards
     - credit card account
 - synonym: emblem
