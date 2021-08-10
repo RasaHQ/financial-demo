@@ -866,3 +866,109 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID 66865f1a36834631bfee9f467606c5d6
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      hi
+  - action: utter_greet
+  - action: utter_help
+  - intent: pay_cc
+    user: |-
+      i want to make a payment
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: credit_card
+  - intent: inform
+    user: |-
+      my [emblem](credit_card) [card]{"entity": "account_type", "value": "credit"}
+  - slot_was_set:
+    - account_type: credit
+  - slot_was_set:
+    - credit_card: emblem
+  - action: cc_payment_form
+  - slot_was_set:
+    - credit_card: Emblem
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: amount-of-money
+  - intent: inform
+    user: |-
+      [500]{"entity": "number", "value": 500} dolla
+  - slot_was_set:
+    - number: 500
+  - action: cc_payment_form
+  - slot_was_set:
+    - amount-of-money: '500.00'
+  - slot_was_set:
+    - currency: $
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: time
+  - intent: inform
+    user: |-
+      [tomorrow]{"entity": "time", "value": "2021-08-11T00:00:00.000-07:00"}
+  - slot_was_set:
+    - time: '2021-08-11T00:00:00.000-07:00'
+  - action: cc_payment_form
+  - slot_was_set:
+    - time: '2021-08-11T00:00:00.000-07:00'
+  - slot_was_set:
+    - time_formatted: Wednesday Aug 11, 2021
+  - slot_was_set:
+    - grain: day
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: zz_confirm_form
+  - intent: affirm
+    user: |-
+      /affirm
+  - action: cc_payment_form
+  - slot_was_set:
+    - zz_confirm_form: yes
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_pay_cc
+  - slot_was_set:
+    - AA_CONTINUE_FORM: null
+  - slot_was_set:
+    - zz_confirm_form: null
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
+  - slot_was_set:
+    - amount-of-money: null
+  - slot_was_set:
+    - time: null
+  - slot_was_set:
+    - time_formatted: null
+  - slot_was_set:
+    - start_time: null
+  - slot_was_set:
+    - end_time: null
+  - slot_was_set:
+    - start_time_formatted: null
+  - slot_was_set:
+    - end_time_formatted: null
+  - slot_was_set:
+    - grain: null
+  - slot_was_set:
+    - number: null
+  - slot_was_set:
+    - amount_transferred: 500.0
+  - intent: thankyou
+    user: |-
+      thanks
+  - action: utter_noworries
