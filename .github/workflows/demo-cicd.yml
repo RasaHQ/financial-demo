@@ -1,0 +1,13 @@
+name: demo CICD with Rasa X
+
+on: [push, pull_request]
+
+jobs:
+  train_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Train and Test the Bot
+        uses: RasaHQ/rasa-train-test-gha@main
+        with:
+          rasa_version: "2.8.2-full"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
