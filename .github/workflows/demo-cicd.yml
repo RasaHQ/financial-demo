@@ -2,6 +2,11 @@ name: demo CICD with Rasa X
 
 on: [push, pull_request]
 
+env:
+  RASA_X_DOMAIN: ${{ secrets.RASA_X_DOMAIN }}
+  RASA_X_USERNAME: ${{ secrets.RASA_X_USERNAME }}
+  RASA_X_PASSWORD: ${{ secrets.RASA_X_PASSWORD }}
+
 jobs:
   train_and_test:
     runs-on: ubuntu-latest
@@ -14,3 +19,28 @@ jobs:
         with:
           rasa_version: "2.8.2-full"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get path to the model
+        working-directory: ${{ github.workspace }}
+        run: |
+          model_path=`ls models/*.tar.gz | head -n 1`
+          echo "MODEL_PATH=${model_path}" >> $GITHUB_ENV
+
+      - name: Upload the model to Rasa X
+        working-directory: ${{ github.workspace }}
+        run: |
+          
+
+          auth_token=$(curl --request POST \
+              --url https://${RASA_X_DOMAIN}/api/auth \
+              --header 'Content-Type: application/json' \
+              --data "{
+              \"username\": \"${RASA_X_USERNAME}\",
+              \"password\": \"${RASA_X_PASSWORD}\"
+            }" | jq -r '.access_token')
+
+            echo "AUTH_TOKEN=${auth_token}" >> $GITHUB_ENV
+
+            curl -k -F "model=@${MODEL_PATH}" \
+              --url https://$RASA_X_DOMAIN/api/projects/default/models \
+              --header "Authorization: Bearer ${auth_token}"
