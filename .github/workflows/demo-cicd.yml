@@ -31,7 +31,7 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           
-          echo "Trying curl on url: " https://${RASA_X_DOMAIN}/api/auth
+          echo "Retrieve auth token..."
           auth_token=$(curl -k --request POST \
               --url https://${RASA_X_DOMAIN}/api/auth \
               --header 'Content-Type: application/json' \
@@ -42,7 +42,7 @@ jobs:
 
             echo "AUTH_TOKEN=${auth_token}" >> $GITHUB_ENV
           
-          echo "Trying curl on url: " https://$RASA_X_DOMAIN/api/projects/default/models
+          echo "Uploading model..."
           curl -k -F "model=@${MODEL_PATH}" \
               --url https://$RASA_X_DOMAIN/api/projects/default/models \
               --header "Authorization: Bearer ${auth_token}"
