@@ -25,12 +25,12 @@ jobs:
         run: |
           model_path=`ls models/*.tar.gz | head -n 1`
           echo "MODEL_PATH=${model_path}" >> $GITHUB_ENV
-          echo "Model to be uploaded: ${model_path}" 
+          echo "Model to be uploaded: ${model_path}"
 
       - name: Upload the model to Rasa X
         working-directory: ${{ github.workspace }}
         run: |
-          
+
           echo "Retrieve auth token..."
           auth_token=$(curl -k --request POST \
               --url https://${RASA_X_DOMAIN}/api/auth \
@@ -41,8 +41,22 @@ jobs:
             }" | jq -r '.access_token')
 
             echo "AUTH_TOKEN=${auth_token}" >> $GITHUB_ENV
-          
+
           echo "Uploading model..."
           curl -k -F "model=@${MODEL_PATH}" \
               --url https://$RASA_X_DOMAIN/api/projects/default/models \
               --header "Authorization: Bearer ${auth_token}"
+  build_action_server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
+      - name: Build the image
+        working-directory: ${{ github.workspace }}
+        run: |
+          docker build . --file Dockerfile --tag mshrasa/financial_demo_action_server:latest
+
+      - name: Push the image
+        run: |
+          docker image push mshrasa/financial_demo_action_server:latest
