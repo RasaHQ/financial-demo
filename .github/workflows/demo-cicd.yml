@@ -6,6 +6,8 @@ env:
   RASA_X_DOMAIN: ${{ secrets.RASA_X_DOMAIN }}
   RASA_X_USERNAME: ${{ secrets.RASA_X_USERNAME }}
   RASA_X_PASSWORD: ${{ secrets.RASA_X_PASSWORD }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
   train_and_test:
@@ -59,4 +61,5 @@ jobs:
 
       - name: Push the image
         run: |
+          docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           docker image push mshrasa/financial_demo_action_server:latest
