@@ -25,6 +25,7 @@ jobs:
         run: |
           model_path=`ls models/*.tar.gz | head -n 1`
           echo "MODEL_PATH=${model_path}" >> $GITHUB_ENV
+          echo "Model to be uploaded: ${model_path}" 
 
       - name: Upload the model to Rasa X
         working-directory: ${{ github.workspace }}
