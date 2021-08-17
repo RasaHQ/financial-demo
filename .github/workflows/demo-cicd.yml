@@ -32,7 +32,7 @@ jobs:
         run: |
           
           echo "Trying curl on url: " https://${RASA_X_DOMAIN}/api/auth
-          auth_token=$(curl --request POST \
+          auth_token=$(curl -k --request POST \
               --url https://${RASA_X_DOMAIN}/api/auth \
               --header 'Content-Type: application/json' \
               --data "{
