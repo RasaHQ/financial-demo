@@ -1,12 +1,12 @@
 name: demo CICD with Rasa X
 
 on:
-  pull_request:
-    branches: [cdd-demo-00-main]
-    types: [ opened, synchronize, closed ]
   push:
-    branches-ignore:
-      - cdd-demo-00-main
+    branches:
+    - cdd-demo-00-main
+    tags:
+    - '*'
+  pull_request:
 
 env:
   RASA_X_DOMAIN: ${{ secrets.RASA_X_DOMAIN }}
