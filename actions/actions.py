@@ -722,7 +722,7 @@ class ActionSessionStart(Action):
         events.append(SlotSet("currency", currency))
 
         # add `action_listen` at the end
-        # events.append(ActionExecuted("action_listen"))
+        events.append(ActionExecuted("action_listen"))
 
         return events
 
