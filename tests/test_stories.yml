@@ -866,3 +866,14 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID d9b18855cae3477c934a6c3293d431d5
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: out_of_scope
+    user: |-
+      book a flight to Amsterdam
+  - action: utter_out_of_scope
+  - slot_was_set:
+    - currency: $
+  - action: utter_out_of_scope
