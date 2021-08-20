@@ -25,7 +25,7 @@ jobs:
       - name: Train and Test the bot
         uses: RasaHQ/rasa-train-test-gha@main
         with:
-          rasa_version: "2.8.2-full"
+          rasa_version: "2.7.1-full"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get path to the model
