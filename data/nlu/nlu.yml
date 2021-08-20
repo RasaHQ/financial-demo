@@ -82,6 +82,7 @@ nlu:
     - are there any transaction fees or charges I should know about?
     - tell me about transfer fees
     - what are the charges
+    - what are the [bank](account_type) charges
 - intent: check_balance
   examples: |
     - How much money is on my account?
