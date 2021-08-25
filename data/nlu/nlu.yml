@@ -5,8 +5,8 @@ nlu:
     - are you a bot?
     - am i speaking to an ai?
     - are you a human or a bot?
-    - are you real? 
-    - are you virtual? 
+    - are you real?
+    - are you virtual?
     - are you an ai?
     - aren't you a bot
     - are you a chatbot
@@ -213,7 +213,6 @@ nlu:
     - good bye
     - good bye rasa bot!
     - good night
-    - goodbye
     - goodbye.
     - goodnight
     - gotta go
@@ -554,8 +553,6 @@ nlu:
     - come back
     - cool! can I do something else here?
     - hello what can you do for me
-    - help
-    - help me
     - help please
     - help pls
     - help?
@@ -578,7 +575,6 @@ nlu:
     - talk to human
     - i want human :(
     - can i talk to human
-    - i want to talk to a human
     - i want to speak to human
     - can i talk to a real person?
     - connect me to a real person
@@ -612,13 +608,31 @@ nlu:
     - Can you make sandwiches?
     - Can you please send me an uber
     - ofif fsdfafsfs
+- intent: deposit_check
+  examples: |
+    - I want to deposit a check
+    - Can I make a deposit?
+    - How do I deposit a check
+    - Deposit my paycheck
+    - How do I deposit money into my account?
+    - Can you help me deposit a paycheck
+- intent: update_account_information
+  examples: |
+    - Can I update my address?
+    - Update email please
+    - Change my account information
+    - Update salary information
+    - Change my password
+    - Change my phone number
+    - How do I update my account information?
+    - I want to change my email address
 - synonym: credit
   examples: |
     - credit card
+    - card
     - credit cards
     - credit account
     - credit accounts
-    - card
     - cards
     - credit card account
 - synonym: emblem
