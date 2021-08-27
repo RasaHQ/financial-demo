@@ -5,8 +5,8 @@ nlu:
     - are you a bot?
     - am i speaking to an ai?
     - are you a human or a bot?
-    - are you real? 
-    - are you virtual? 
+    - are you real?
+    - are you virtual?
     - are you an ai?
     - aren't you a bot
     - are you a chatbot
@@ -21,6 +21,10 @@ nlu:
     - are you robot
     - are you sure that you're a bot?
     - bot?
+    - r u a robot???
+    - are you a virtual [assistant](PERSON)?
+    - who am i talking to?
+    - what are you?
 - intent: affirm
   examples: |
     - indeed
@@ -252,7 +256,6 @@ nlu:
     - percy donald
     - danIelle smilanich
     - [Gringtos](credit_card)
-
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -306,6 +309,14 @@ nlu:
     - Please transfer 50 dollars to [Andreas](PERSON)
     - I would like to transfer money to [Philipp](PERSON)
     - I would like to transfer 50$ to [Joschka](PERSON)
+- intent: out_of_scope
+  examples: |
+    - book a flight to Amsterdam
+    - what is the weather tomorrow?
+    - what is the square root of 2?
+    - what is the meaning of life?
+    - I would like to order a pizza
+    - I want a pizza
 - synonym: credit
   examples: |
     - credit card
