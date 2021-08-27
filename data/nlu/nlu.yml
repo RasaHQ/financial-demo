@@ -252,6 +252,60 @@ nlu:
     - percy donald
     - danIelle smilanich
     - [Gringtos](credit_card)
+
+- intent: transfer_money
+  examples: |
+    - I want to pay [John](PERSON)
+    - I want to transfer $100 to [Bob](PERSON)
+    - can i transfer money to [Sally](PERSON)
+    - I want to transfer money
+    - I want to pay someone
+    - can I pay someone
+    - I need to transfer money to a friend
+    - can I transfer money to my [mom](PERSON)
+    - I want to pay [Bert](PERSON)
+    - pay my friend
+    - transfer money
+    - I want to transfer $100 to [Tommy](PERSON)
+    - i want to transfer $400 to [Akela](PERSON)
+    - I want to pay [Paula Handy](PERSON)
+    - pay Katy Parrow $40 please
+    - transfer $60 to [Jason Jacob](PERSON)
+    - pay [Evan Oslo](PERSON)
+    - pay [Lisa](PERSON) please
+    - can I transfer money to [Kyle Gardner](PERSON)?
+    - Pay [Karen](PERSON) 60 Euros
+    - pay [Mona](PERSON) $60
+    - transfer $60 to [Sally](PERSON)
+    - need to transfer money
+    - II want to transfer to [Kelly](PERSON)
+    - Pay [Percy](PERSON) $50
+    - Pay $50 to [Pat](PERSON)
+    - Ok pay [Emma](PERSON)
+    - pay [Emanual](PERSON)
+    - i want to transfer $100 to [Jane smith](PERSON)
+    - i want to transfer $100 to my [daughter](PERSON)
+    - i want to transfer money please
+    - i mean i want to transfer money
+    - I need to pay a friend.
+    - transfer money to [ethan oswald](PERSON)
+    - transfer money to [sara](PERSON)
+    - I need to transfer money to my grandma [Judith](PERSON).
+    - i want to transfer money to [Latisha](PERSON)
+    - I need to make an urgent transfer to [Bob](PERSON), can you do it?
+    - Ahh, okay so I want to make a transfer to [Bob](PERSON).
+    - Can I transfer money to a friend?
+    - I need to transfer money to [Jeff](PERSON), my son
+    - I need to send money to my kid
+    - I need to transfer money
+    - send $50 to [john jacob](PERSON)
+    - I need to transfer money to my co-worker who paid for lunch
+    - Hi I like to send money
+    - I'd like to send 50$ to [John](PERSON)
+    - Hi I like to send money to [John](PERSON)
+    - Please transfer 50 dollars to [Andreas](PERSON)
+    - I would like to transfer money to [Philipp](PERSON)
+    - I would like to transfer 50$ to [Joschka](PERSON)
 - synonym: credit
   examples: |
     - credit card
