@@ -23,7 +23,6 @@ intents:
 - check_earnings:
     use_entities: []
 - check_recipients
-- out_of_scope
 - session_start
 - restart
 - trigger_handoff
