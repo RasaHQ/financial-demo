@@ -1,27 +1,50 @@
 version: "2.0"
-
 stories:
-
 - story: say ok when user affirms after utter_help
   steps:
   - action: utter_help
   - intent: affirm
   - action: utter_ok
-
 - story: say ok when user affirms after action_show_balance
   steps:
   - action: action_show_balance
   - intent: affirm
   - action: utter_ok
-
 - story: say ok when user affirms after action_show_recipients
   steps:
   - action: action_show_recipients
   - intent: affirm
   - action: utter_ok
-  
 - story: say ok when user affirms after action_show_transfer_charge
   steps:
   - action: action_show_transfer_charge
   - intent: affirm
   - action: utter_ok
+- story: Story from Conversation ID 8de41c50286349e0b0ad570cfe968b5b
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: PERSON
+  - intent: inform
+    entities:
+    - PERSON: John
+  - slot_was_set:
+    - PERSON: John
+  - action: transfer_money_form
+  - slot_was_set:
+    - PERSON: John Jacob
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: amount-of-money
+  - intent: cancel_transaction
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null

@@ -309,6 +309,7 @@ nlu:
     - Please transfer 50 dollars to [Andreas](PERSON)
     - I would like to transfer money to [Philipp](PERSON)
     - I would like to transfer 50$ to [Joschka](PERSON)
+    - i want to transfer money
 - intent: out_of_scope
   examples: |
     - book a flight to Amsterdam
@@ -317,6 +318,9 @@ nlu:
     - what is the meaning of life?
     - I would like to order a pizza
     - I want a pizza
+- intent: cancel_transaction
+  examples: |
+    - I changed my mind. Please don't do the transfer
 - synonym: credit
   examples: |
     - credit card
