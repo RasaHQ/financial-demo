@@ -252,14 +252,6 @@ nlu:
     - percy donald
     - danIelle smilanich
     - [Gringtos](credit_card)
-- intent: out_of_scope
-  examples: |
-    - book a flight to Amsterdam
-    - what is the weather tomorrow?
-    - what is the square root of 2?
-    - what is the meaning of life?
-    - I would like to order a pizza
-    - I want a pizza
 - synonym: credit
   examples: |
     - credit card
