@@ -76,7 +76,6 @@ To install development dependencies:
 pip install -r requirements-dev.txt
 pre-commit install
 python -m spacy download en_core_web_md en
-python -m spacy link en_core_web_md en
 ```
 
 > With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
