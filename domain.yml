@@ -1,36 +1,60 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
 intents:
-- check_human
+- check_human:
+    use_entities: true
 - transfer_money:
     use_entities: []
-- inform
+- inform:
+    use_entities: true
 - pay_cc:
     use_entities: []
-- greet
-- goodbye
-- affirm
-- deny
-- thankyou
-- ask_transfer_charge
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- thankyou:
+    use_entities: true
+- ask_transfer_charge:
+    use_entities: true
 - search_transactions:
     use_entities: []
 - check_balance:
     use_entities:
-    - credit_card
     - account_type
+    - credit_card
 - check_earnings:
     use_entities: []
-- check_recipients
-- out_of_scope
-- session_start
-- restart
-- trigger_handoff
-- handoff
-- human_handoff
-- help
-- nlu_fallback
+- check_recipients:
+    use_entities: true
+- out_of_scope:
+    use_entities: true
+- session_start:
+    use_entities: true
+- restart:
+    use_entities: true
+- trigger_handoff:
+    use_entities: true
+- handoff:
+    use_entities: true
+- human_handoff:
+    use_entities: true
+- help:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
+- find_credit_card:
+    use_entities: true
+- agent:
+    use_entities: true
 entities:
 - amount-of-money
 - credit_card
@@ -44,79 +68,124 @@ entities:
 - search_type
 slots:
   AA_CONTINUE_FORM:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   PERSON:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   account_type:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   amount-of-money:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   amount_transferred:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
     initial_value: 0
+    auto_fill: true
     influence_conversation: false
   credit_card:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   currency:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: $
+    auto_fill: true
     influence_conversation: false
-    initial_value: "$"
   end_time:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   end_time_formatted:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   grain:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   handoff_to:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   next_form_name:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: true
   number:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   payment_amount_type:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
     initial_value: ''
+    auto_fill: true
     influence_conversation: false
   previous_form_name:
-    type: text
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: true
   repeated_validation_failures:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   requested_slot:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   search_type:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   start_time:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   start_time_formatted:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   time:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   time_formatted:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   vendor_name:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   zz_confirm_form:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
 responses:
   utter_out_of_scope:
@@ -132,8 +201,7 @@ responses:
   utter_transfer_complete:
   - text: Successfully transferred {currency}{amount-of-money} to {PERSON}.
   utter_transfer_charge:
-  - text: You are entitled to six transfers within a statement cycle before being
-      charged. For subsequent transfers you will be charged {currency}10 per transaction.
+  - text: You are entitled to six transfers within a statement cycle before being charged. For subsequent transfers you will be charged {currency}10 per transaction.
   utter_ask_cc_payment_form_amount-of-money:
   - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
@@ -141,17 +209,16 @@ responses:
   utter_ask_cc_payment_form_time:
   - text: For which date would you like to schedule the payment?
   utter_ask_transaction_search_form_vendor_name:
-  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
-      Amazon
+  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target, Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
   utter_ask_transaction_search_form_search_type:
-  - text: Would you like to search incoming or outgoing transactions?
-    buttons:
-    - title: Incoming (earnings)
-      payload: /inform{"search_type":"deposit"}'
-    - title: Outgoing (spending)
-      payload: /inform{"search_type":"spend"}'
+  - buttons:
+    - payload: /inform{"search_type":"deposit"}'
+      title: Incoming (earnings)
+    - payload: /inform{"search_type":"spend"}'
+      title: Outgoing (spending)
+    text: Would you like to search incoming or outgoing transactions?
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -163,15 +230,13 @@ responses:
   utter_no_transactdate:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
-  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your
-      {credit_card} account scheduled to be paid at {time_formatted}.
+  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account scheduled to be paid at {time_formatted}.
   utter_searching_spend_transactions:
   - text: Searching transactions{vendor_name} between {start_time_formatted} and {end_time_formatted}...
   utter_found_spend_transactions:
   - text: I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.
   utter_searching_deposit_transactions:
-  - text: Searching deposits made to your account between {start_time_formatted} and
-      {end_time_formatted}...
+  - text: Searching deposits made to your account between {start_time_formatted} and {end_time_formatted}...
   utter_found_deposit_transactions:
   - text: I found {numtransacts} deposits made to your account totalling {currency}{total}
   utter_ask_rephrase:
@@ -189,6 +254,7 @@ responses:
     - payload: /deny
       title: No, cancel the transaction
     text: Would you like to continue scheduling the credit card payment?
+  - text: 'ABC:'
   utter_ask_transfer_money_form_AA_CONTINUE_FORM:
   - buttons:
     - payload: /affirm
@@ -209,8 +275,7 @@ responses:
       title: Yes
     - payload: /deny
       title: No, cancel the transaction
-    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
-      towards your {credit_card} account for {time_formatted}?
+    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account for {time_formatted}?
   utter_ask_transfer_money_form_zz_confirm_form:
   - buttons:
     - payload: /affirm
@@ -224,11 +289,8 @@ responses:
   - text: Transfer cancelled.
   utter_transaction_search_cancelled:
   - text: Transaction search cancelled.
-  utter_account_balance:
-  - text: Your bank account balance is {currency}{init_account_balance}.
   utter_changed_account_balance:
-  - text: Your bank account balance was {currency}{init_account_balance} and is now
-      {currency}{account_balance} after transfers and payments.
+  - text: Your bank account balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments.
   utter_unknown_recipient:
   - text: Sorry, {PERSON} is not in your list of known recipients.
   utter_insufficient_funds:
@@ -254,11 +316,18 @@ responses:
   utter_ask_whatelse:
   - text: What else can I help you with?
   utter_bot:
-  - text: I'm a virtual assistant made with Rasa. 
+  - text: I'm a virtual assistant made with Rasa.
   utter_help:
-  - text: "I can help you with your financial accounts. \nYou can ask me things like:\
-      \ \n- What's my account balance? \n- Pay off my credit card \n- What did I spend\
-      \ at Target last month? \n- I need to transfer money"
+  - text: |-
+      I can help you with your financial accounts. 
+      You can ask me things like: 
+      - What's my account balance? 
+      - Pay off my credit card 
+      - What did I spend at Target last month? 
+      - I need to transfer money
+  utter_account_balance:
+  - text: qwefef
+  - text: fesnflesknflksenflksenflkns 1\n \n123 fesnflesknflksenflksenflkns fesnflesknflksenflksenflkns fesnflesknflksenflksenflkns fesnflesknflksenflksenflkns fesnflesknflksenflksenflkns fesnflesknflksenflksenflkns fesnflesknflksenflksenflkns \n 2343 fef \n fe
 actions:
 - action_session_start
 - action_restart
@@ -292,13 +361,6 @@ forms:
         - inform
         - cc_payment_form
         type: from_text
-      credit_card:
-      - entity: credit_card
-        type: from_entity
-      - intent:
-        - inform
-        - cc_payment_form
-        type: from_text
       amount-of-money:
       - entity: amount-of-money
         not_intent:
@@ -309,6 +371,13 @@ forms:
         not_intent:
         - check_balance
         - check_earnings
+        type: from_entity
+      - intent:
+        - inform
+        - cc_payment_form
+        type: from_text
+      credit_card:
+      - entity: credit_card
         type: from_entity
       - intent:
         - inform
@@ -398,8 +467,8 @@ forms:
       - intent: check_earnings
         type: from_trigger_intent
         value: deposit
-      - type: from_entity
-        entity: search_type
+      - entity: search_type
+        type: from_entity
       time:
       - entity: time
         type: from_entity
@@ -418,3 +487,4 @@ forms:
         - inform
         - transaction_search_form
         type: from_text
+e2e_actions: []
