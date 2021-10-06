@@ -1,2 +1,5 @@
 models/
 *.pyc
+results/
+.python-version
+*.db

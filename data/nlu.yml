@@ -64,16 +64,15 @@ nlu:
   examples: |
     - i want to pay my [credit card](account_type)
     - pay off my [emblem](credit_card)
-    - make a payment towards my [visa](credit_card) [card](account_type)
+    - make a payment towards my visa [card](account_type)
     - pay a bill
     - pay off my [card](account_type)
     - make a [200](number) dollar payment towards my [card](account_type)
-    - pay off my [amex](credit_card) [card](account_type)
-    - make a payment towards my [citi](credit_card) [card](account_type) balance
+    - pay off my amex [card](account_type)
+    - make a payment towards my citi [card](account_type) balance
     - pay [100](number) dollars towards my [card](account_type)
     - make a payment
-    - i want to pay my [discover](credit_card) bill
-    - pay this month's [emblem](credit_card) bill
+    - i want to pay my discover bill
 - intent: train_topics
   examples: |
     - what will we cover in training?
@@ -100,13 +99,13 @@ nlu:
     - am I talking to a human?
 - intent: inform
   examples: |
-    - [100](number)
-    - [5000](number) dollars
-    - [$200](number)
-    - [Citi](credit_card)
-    - my [amex](credit_card)
-    - [50](number)
-    - [$75](number)
+    - 100
+    - 5000 dollars
+    - $200
+    - Citi
+    - my amex
+    - 50
+    - $75
 - synonym: credit
   examples: |
     - credit card account
