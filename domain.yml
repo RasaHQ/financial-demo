@@ -23,7 +23,7 @@ slots:
     influence_conversation: true
   credit_card:
     type: text
-    influence_conversation: true
+    influence_conversation: false
   number:
     type: any
     influence_conversation: false
@@ -77,11 +77,9 @@ forms:
     credit_card:
       - type: from_entity
         entity: credit_card
-      - type: from_text
     payment_amount:
       - type: from_entity
         entity: number
-      - type: from_text
 
 session_config:
   session_expiration_time: 60
