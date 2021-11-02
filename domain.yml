@@ -46,78 +46,308 @@ slots:
   AA_CONTINUE_FORM:
     type: any
     influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: yes
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transfer_money_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transaction_search_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent: deny
+      type: from_intent
+      value: no
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transfer_money_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transaction_search_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+      conditions:
+      - active_loop: transaction_search_form
+        requested_slot: AA_CONTINUE_FORM
   PERSON:
     type: any
     influence_conversation: false
+    mappings:
+    - entity: PERSON
+      type: from_entity
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: PERSON
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: PERSON
+    - type: from_entity
+      entity: PERSON
   account_type:
     type: any
     influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: account_type
   amount-of-money:
     type: any
     influence_conversation: false
+    mappings:
+    - entity: amount-of-money
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: amount-of-money
+      - active_loop: transfer_money_form
+        requested_slot: amount-of-money
+    - entity: number
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: amount-of-money
+      - active_loop: transfer_money_form
+        requested_slot: amount-of-money
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: amount-of-money
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: amount-of-money
+    - type: from_entity
+      entity: amount-of-money
   amount_transferred:
     type: any
     initial_value: 0
     influence_conversation: false
+    mappings:
+    - type: custom
   credit_card:
     type: any
     influence_conversation: false
+    mappings:
+    - entity: credit_card
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: credit_card
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: credit_card
+    - type: from_entity
+      entity: credit_card
   currency:
     type: any
     influence_conversation: false
-    initial_value: "$"
+    initial_value: $
+    mappings:
+    - type: custom
   end_time:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   end_time_formatted:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   grain:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   handoff_to:
     type: any
     influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: handoff_to
   next_form_name:
     type: text
     influence_conversation: true
+    mappings:
+    - type: custom
   number:
     type: any
     influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: number
   payment_amount_type:
     type: any
     initial_value: ''
     influence_conversation: false
+    mappings:
+    - type: custom
   previous_form_name:
     type: text
     influence_conversation: true
+    mappings:
+    - type: custom
   repeated_validation_failures:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   requested_slot:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   search_type:
     type: any
     influence_conversation: false
+    mappings:
+    - intent: search_transactions
+      type: from_trigger_intent
+      value: spend
+      conditions:
+      - active_loop: transaction_search_form
+    - intent: check_earnings
+      type: from_trigger_intent
+      value: deposit
+      conditions:
+      - active_loop: transaction_search_form
+    - type: from_entity
+      entity: search_type
+      conditions:
+      - active_loop: transaction_search_form
+    - type: from_entity
+      entity: search_type
   start_time:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   start_time_formatted:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   time:
     type: any
     influence_conversation: false
+    mappings:
+    - entity: time
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: time
+      - active_loop: transaction_search_form
+        requested_slot: time
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: time
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+      conditions:
+      - active_loop: transaction_search_form
+        requested_slot: time
+    - type: from_entity
+      entity: time
   time_formatted:
     type: any
     influence_conversation: false
+    mappings:
+    - type: custom
   vendor_name:
     type: any
     influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: vendor_name
   zz_confirm_form:
     type: any
     influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: yes
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: zz_confirm_form
+      - active_loop: transfer_money_form
+        requested_slot: zz_confirm_form
+      - active_loop: transaction_search_form
+        requested_slot: zz_confirm_form
+    - intent: deny
+      type: from_intent
+      value: no
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: zz_confirm_form
+      - active_loop: transfer_money_form
+        requested_slot: zz_confirm_form
+      - active_loop: transaction_search_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+      conditions:
+      - active_loop: transaction_search_form
+        requested_slot: zz_confirm_form
 responses:
   utter_out_of_scope:
   - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
@@ -132,8 +362,7 @@ responses:
   utter_transfer_complete:
   - text: Successfully transferred {currency}{amount-of-money} to {PERSON}.
   utter_transfer_charge:
-  - text: You are entitled to six transfers within a statement cycle before being
-      charged. For subsequent transfers you will be charged {currency}10 per transaction.
+  - text: You are entitled to six transfers within a statement cycle before being charged. For subsequent transfers you will be charged {currency}10 per transaction.
   utter_ask_cc_payment_form_amount-of-money:
   - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
@@ -141,8 +370,7 @@ responses:
   utter_ask_cc_payment_form_time:
   - text: For which date would you like to schedule the payment?
   utter_ask_transaction_search_form_vendor_name:
-  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
-      Amazon
+  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target, Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
   utter_ask_transaction_search_form_search_type:
@@ -163,15 +391,13 @@ responses:
   utter_no_transactdate:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
-  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your
-      {credit_card} account scheduled to be paid at {time_formatted}.
+  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account scheduled to be paid at {time_formatted}.
   utter_searching_spend_transactions:
   - text: Searching transactions{vendor_name} between {start_time_formatted} and {end_time_formatted}...
   utter_found_spend_transactions:
   - text: I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.
   utter_searching_deposit_transactions:
-  - text: Searching deposits made to your account between {start_time_formatted} and
-      {end_time_formatted}...
+  - text: Searching deposits made to your account between {start_time_formatted} and {end_time_formatted}...
   utter_found_deposit_transactions:
   - text: I found {numtransacts} deposits made to your account totalling {currency}{total}
   utter_ask_rephrase:
@@ -209,8 +435,7 @@ responses:
       title: Yes
     - payload: /deny
       title: No, cancel the transaction
-    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
-      towards your {credit_card} account for {time_formatted}?
+    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account for {time_formatted}?
   utter_ask_transfer_money_form_zz_confirm_form:
   - buttons:
     - payload: /affirm
@@ -227,8 +452,7 @@ responses:
   utter_account_balance:
   - text: Your bank account balance is {currency}{init_account_balance}.
   utter_changed_account_balance:
-  - text: Your bank account balance was {currency}{init_account_balance} and is now
-      {currency}{account_balance} after transfers and payments.
+  - text: Your bank account balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments.
   utter_unknown_recipient:
   - text: Sorry, {PERSON} is not in your list of known recipients.
   utter_insufficient_funds:
@@ -254,11 +478,9 @@ responses:
   utter_ask_whatelse:
   - text: What else can I help you with?
   utter_bot:
-  - text: I'm a virtual assistant made with Rasa. 
+  - text: I'm a virtual assistant made with Rasa.
   utter_help:
-  - text: "I can help you with your financial accounts. \nYou can ask me things like:\
-      \ \n- What's my account balance? \n- Pay off my credit card \n- What did I spend\
-      \ at Target last month? \n- I need to transfer money"
+  - text: "I can help you with your financial accounts. \nYou can ask me things like: \n- What's my account balance? \n- Pay off my credit card \n- What did I spend at Target last month? \n- I need to transfer money"
 actions:
 - action_session_start
 - action_restart
@@ -280,141 +502,24 @@ actions:
 - validate_transaction_search_form
 forms:
   cc_payment_form:
+    ignored_intents: []
     required_slots:
-      AA_CONTINUE_FORM:
-      - intent: affirm
-        type: from_intent
-        value: yes
-      - intent: deny
-        type: from_intent
-        value: no
-      - intent:
-        - inform
-        - cc_payment_form
-        type: from_text
-      credit_card:
-      - entity: credit_card
-        type: from_entity
-      - intent:
-        - inform
-        - cc_payment_form
-        type: from_text
-      amount-of-money:
-      - entity: amount-of-money
-        not_intent:
-        - check_balance
-        - check_earnings
-        type: from_entity
-      - entity: number
-        not_intent:
-        - check_balance
-        - check_earnings
-        type: from_entity
-      - intent:
-        - inform
-        - cc_payment_form
-        type: from_text
-      time:
-      - entity: time
-        type: from_entity
-      - intent:
-        - inform
-        - cc_payment_form
-        type: from_text
-      zz_confirm_form:
-      - intent: affirm
-        type: from_intent
-        value: yes
-      - intent: deny
-        type: from_intent
-        value: no
-      - intent:
-        - inform
-        - cc_payment_form
-        type: from_text
+    - AA_CONTINUE_FORM
+    - credit_card
+    - amount-of-money
+    - time
+    - zz_confirm_form
   transfer_money_form:
+    ignored_intents: []
     required_slots:
-      AA_CONTINUE_FORM:
-      - intent: affirm
-        type: from_intent
-        value: yes
-      - intent: deny
-        type: from_intent
-        value: no
-      - intent:
-        - inform
-        - transfer_money_form
-        type: from_text
-      PERSON:
-      - entity: PERSON
-        type: from_entity
-      - intent:
-        - inform
-        - transfer_money_form
-        type: from_text
-      amount-of-money:
-      - entity: amount-of-money
-        not_intent:
-        - check_balance
-        - check_earnings
-        type: from_entity
-      - entity: number
-        not_intent:
-        - check_balance
-        - check_earnings
-        type: from_entity
-      - intent:
-        - inform
-        - transfer_money_form
-        type: from_text
-      zz_confirm_form:
-      - intent: affirm
-        type: from_intent
-        value: yes
-      - intent: deny
-        type: from_intent
-        value: no
-      - intent:
-        - inform
-        - transfer_money_form
-        type: from_text
+    - AA_CONTINUE_FORM
+    - PERSON
+    - amount-of-money
+    - zz_confirm_form
   transaction_search_form:
+    ignored_intents: []
     required_slots:
-      AA_CONTINUE_FORM:
-      - intent: affirm
-        type: from_intent
-        value: yes
-      - intent: deny
-        type: from_intent
-        value: no
-      - intent:
-        - inform
-        - transaction_search_form
-        type: from_text
-      search_type:
-      - intent: search_transactions
-        type: from_trigger_intent
-        value: spend
-      - intent: check_earnings
-        type: from_trigger_intent
-        value: deposit
-      - type: from_entity
-        entity: search_type
-      time:
-      - entity: time
-        type: from_entity
-      - intent:
-        - inform
-        - transaction_search_form
-        type: from_text
-      zz_confirm_form:
-      - intent: affirm
-        type: from_intent
-        value: yes
-      - intent: deny
-        type: from_intent
-        value: no
-      - intent:
-        - inform
-        - transaction_search_form
-        type: from_text
+    - AA_CONTINUE_FORM
+    - search_type
+    - time
+    - zz_confirm_form
