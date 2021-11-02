@@ -1,27 +1,134 @@
 version: "2.0"
-
 stories:
-
 - story: say ok when user affirms after utter_help
   steps:
   - action: utter_help
   - intent: affirm
   - action: utter_ok
-
 - story: say ok when user affirms after action_show_balance
   steps:
   - action: action_show_balance
   - intent: affirm
   - action: utter_ok
-
 - story: say ok when user affirms after action_show_recipients
   steps:
   - action: action_show_recipients
   - intent: affirm
   - action: utter_ok
-  
 - story: say ok when user affirms after action_show_transfer_charge
   steps:
   - action: action_show_transfer_charge
   - intent: affirm
   - action: utter_ok
+- story: Story from Conversation ID 911e865f83294ae68584829be7cca739
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+  - action: utter_greet
+  - action: utter_help
+  - intent: pay_cc
+    entities:
+    - account_type: credit
+  - slot_was_set:
+    - account_type: credit
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: credit_card
+  - intent: check_balance
+  - action: action_show_balance
+  - slot_was_set:
+    - AA_CONTINUE_FORM: null
+  - action: cc_payment_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - repeated_validation_failures: 1
+  - slot_was_set:
+    - requested_slot: credit_card
+  - intent: inform
+    entities:
+    - credit_card: emblem
+  - slot_was_set:
+    - credit_card: emblem
+  - action: cc_payment_form
+  - slot_was_set:
+    - credit_card: Emblem
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: amount-of-money
+  - intent: inform
+    entities:
+    - PERSON: GBP
+    - amount-of-money: 300
+  - slot_was_set:
+    - PERSON: GBP
+  - slot_was_set:
+    - amount-of-money: 300
+  - action: cc_payment_form
+  - slot_was_set:
+    - amount-of-money: '300.00'
+  - slot_was_set:
+    - currency: GBP
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: time
+  - intent: inform
+    entities:
+    - time: '2021-10-29T00:00:00.000-07:00'
+  - slot_was_set:
+    - time: '2021-10-29T00:00:00.000-07:00'
+  - action: cc_payment_form
+  - slot_was_set:
+    - time: '2021-10-29T00:00:00.000-07:00'
+  - slot_was_set:
+    - time_formatted: Friday Oct 29, 2021
+  - slot_was_set:
+    - grain: day
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: zz_confirm_form
+  - intent: affirm
+  - action: cc_payment_form
+  - slot_was_set:
+    - zz_confirm_form: yes
+  - slot_was_set:
+    - repeated_validation_failures: 0
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_pay_cc
+  - slot_was_set:
+    - AA_CONTINUE_FORM: null
+  - slot_was_set:
+    - zz_confirm_form: null
+  - slot_was_set:
+    - credit_card: null
+  - slot_was_set:
+    - account_type: null
+  - slot_was_set:
+    - amount-of-money: null
+  - slot_was_set:
+    - time: null
+  - slot_was_set:
+    - time_formatted: null
+  - slot_was_set:
+    - start_time: null
+  - slot_was_set:
+    - end_time: null
+  - slot_was_set:
+    - start_time_formatted: null
+  - slot_was_set:
+    - end_time_formatted: null
+  - slot_was_set:
+    - grain: null
+  - slot_was_set:
+    - number: null
+  - slot_was_set:
+    - amount_transferred: 300.0
