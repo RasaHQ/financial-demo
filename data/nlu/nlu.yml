@@ -5,8 +5,8 @@ nlu:
     - are you a bot?
     - am i speaking to an ai?
     - are you a human or a bot?
-    - are you real? 
-    - are you virtual? 
+    - are you real?
+    - are you virtual?
     - are you an ai?
     - aren't you a bot
     - are you a chatbot
@@ -185,6 +185,7 @@ nlu:
     - i guess it means - no
     - i'm afraid not
     - i'm not sure
+    - i don't want to transfer money
 - intent: goodbye
   examples: |
     - see you later
@@ -213,7 +214,6 @@ nlu:
     - good bye
     - good bye rasa bot!
     - good night
-    - goodbye
     - goodbye.
     - goodnight
     - gotta go
@@ -355,6 +355,7 @@ nlu:
     - percy donald
     - danIelle smilanich
     - [Gringtos](credit_card)
+    - i want to pay a credit card
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -512,6 +513,7 @@ nlu:
     - Please transfer 50 dollars to [Andreas](PERSON)
     - I would like to transfer money to [Philipp](PERSON)
     - I would like to transfer 50$ to [Joschka](PERSON)
+    - 42
 - intent: check_recipients
   examples: |
     - Who can I send money to?
@@ -554,8 +556,6 @@ nlu:
     - come back
     - cool! can I do something else here?
     - hello what can you do for me
-    - help
-    - help me
     - help please
     - help pls
     - help?
@@ -578,7 +578,6 @@ nlu:
     - talk to human
     - i want human :(
     - can i talk to human
-    - i want to talk to a human
     - i want to speak to human
     - can i talk to a real person?
     - connect me to a real person
@@ -612,13 +611,17 @@ nlu:
     - Can you make sandwiches?
     - Can you please send me an uber
     - ofif fsdfafsfs
+    - i'd like to apply for a mortgage loan.
+- intent: pay_credit_card
+  examples: |
+    - credit card payment
 - synonym: credit
   examples: |
     - credit card
+    - card
     - credit cards
     - credit account
     - credit accounts
-    - card
     - cards
     - credit card account
 - synonym: emblem

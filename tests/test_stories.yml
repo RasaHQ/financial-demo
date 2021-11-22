@@ -866,3 +866,16 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID f645b1a631524396a4225324aa0b67f3
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      Hello
+  - action: utter_greet
+  - action: utter_help
+  - intent: help
+    user: |-
+      Can you help me with something else?
+  - action: utter_help
