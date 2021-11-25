@@ -1,3 +1,4 @@
+version: '2.0'
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
@@ -64,8 +65,8 @@ slots:
     influence_conversation: false
   currency:
     type: any
+    initial_value: $
     influence_conversation: false
-    initial_value: "$"
   end_time:
     type: any
     influence_conversation: false
@@ -132,8 +133,7 @@ responses:
   utter_transfer_complete:
   - text: Successfully transferred {currency}{amount-of-money} to {PERSON}.
   utter_transfer_charge:
-  - text: You are entitled to six transfers within a statement cycle before being
-      charged. For subsequent transfers you will be charged {currency}10 per transaction.
+  - text: You are entitled to six transfers within a statement cycle before being charged. For subsequent transfers you will be charged {currency}10 per transaction.
   utter_ask_cc_payment_form_amount-of-money:
   - text: How much do you want to pay?
   utter_ask_cc_payment_form_credit_card:
@@ -141,17 +141,16 @@ responses:
   utter_ask_cc_payment_form_time:
   - text: For which date would you like to schedule the payment?
   utter_ask_transaction_search_form_vendor_name:
-  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target,
-      Amazon
+  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target, Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
   utter_ask_transaction_search_form_search_type:
-  - text: Would you like to search incoming or outgoing transactions?
-    buttons:
-    - title: Incoming (earnings)
-      payload: /inform{"search_type":"deposit"}'
-    - title: Outgoing (spending)
-      payload: /inform{"search_type":"spend"}'
+  - buttons:
+    - payload: /inform{"search_type":"deposit"}'
+      title: Incoming (earnings)
+    - payload: /inform{"search_type":"spend"}'
+      title: Outgoing (spending)
+    text: Would you like to search incoming or outgoing transactions?
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -163,15 +162,13 @@ responses:
   utter_no_transactdate:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
-  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your
-      {credit_card} account scheduled to be paid at {time_formatted}.
+  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account scheduled to be paid at {time_formatted}.
   utter_searching_spend_transactions:
   - text: Searching transactions{vendor_name} between {start_time_formatted} and {end_time_formatted}...
   utter_found_spend_transactions:
   - text: I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.
   utter_searching_deposit_transactions:
-  - text: Searching deposits made to your account between {start_time_formatted} and
-      {end_time_formatted}...
+  - text: Searching deposits made to your account between {start_time_formatted} and {end_time_formatted}...
   utter_found_deposit_transactions:
   - text: I found {numtransacts} deposits made to your account totalling {currency}{total}
   utter_ask_rephrase:
@@ -209,8 +206,7 @@ responses:
       title: Yes
     - payload: /deny
       title: No, cancel the transaction
-    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type}
-      towards your {credit_card} account for {time_formatted}?
+    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account for {time_formatted}?
   utter_ask_transfer_money_form_zz_confirm_form:
   - buttons:
     - payload: /affirm
@@ -227,8 +223,7 @@ responses:
   utter_account_balance:
   - text: Your bank account balance is {currency}{init_account_balance}.
   utter_changed_account_balance:
-  - text: Your bank account balance was {currency}{init_account_balance} and is now
-      {currency}{account_balance} after transfers and payments.
+  - text: Your bank account balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments.
   utter_unknown_recipient:
   - text: Sorry, {PERSON} is not in your list of known recipients.
   utter_insufficient_funds:
@@ -254,11 +249,15 @@ responses:
   utter_ask_whatelse:
   - text: What else can I help you with?
   utter_bot:
-  - text: I'm a virtual assistant made with Rasa. 
+  - text: I'm a virtual assistant made with Rasa.
   utter_help:
-  - text: "I can help you with your financial accounts. \nYou can ask me things like:\
-      \ \n- What's my account balance? \n- Pay off my credit card \n- What did I spend\
-      \ at Target last month? \n- I need to transfer money"
+  - text: |-
+      I can help you with your financial accounts. 
+      You can ask me things like: 
+      - What's my account balance? 
+      - Pay off my credit card 
+      - What did I spend at Target last month? 
+      - I need to transfer money
 actions:
 - action_session_start
 - action_restart
