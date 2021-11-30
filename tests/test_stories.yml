@@ -866,3 +866,23 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID da28d65b96384a13b4a1aec32f13c61e
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      hello!
+  - action: utter_greet
+  - action: utter_help
+  - intent: pay_cc
+    user: |-
+      i want to pay off my [credit card]{"entity": "account_type", "value": "credit"}
+  - slot_was_set:
+    - account_type: credit
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
+  - slot_was_set:
+    - AA_CONTINUE_FORM: yes
+  - slot_was_set:
+    - requested_slot: credit_card
