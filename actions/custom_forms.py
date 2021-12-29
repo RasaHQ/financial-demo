@@ -102,6 +102,16 @@ class CustomFormValidationAction(FormValidationAction, metaclass=abc.ABCMeta):
 
                 # optionally, you can set slots by returning a dict
                 return {}
+
+    (-) Note that the individual slot `validate` methods expect you to return a dictionary
+        (not the SlotSet event). For example:
+
+        ```python
+        return { “requested_slot”: None}
+        ```
+
+        The method of the rasa_sdk that calls your `validate` method expects a dictionary.
+        It will convert this dictionary into a list of SlotSet events that are send back to rasa open source.
     """
 
     # Avoids registering this class as a custom action
