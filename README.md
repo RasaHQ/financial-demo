@@ -25,6 +25,20 @@ This is an example chatbot demonstrating how to build AI assistants for financia
   - [Testing the bot](#testing-the-bot)
   - [Rasa X Deployment](#rasa-x-deployment)
   - [Action Server Image](#action-server-image)
+- [Notes on Rasa `2.x / 1.x`](#notes-on-rasa-2x--1x)
+- [Financial Services Example Bot](#financial-services-example-bot)
+  - [Install dependencies](#install-dependencies)
+  - [Run the bot](#run-the-bot)
+  - [Overview of the files](#overview-of-the-files)
+  - [Things you can ask the bot](#things-you-can-ask-the-bot)
+  - [Forms](#forms)
+  - [Handoff](#handoff)
+    - [Try it out](#try-it-out)
+    - [How it works](#how-it-works)
+    - [Bot-side configuration](#bot-side-configuration)
+  - [Testing the bot](#testing-the-bot)
+  - [Rasa X Deployment](#rasa-x-deployment)
+  - [Action Server Image](#action-server-image)
 - [CI/CD](#cicd)
   - [Summary](#summary)
   - [GitHub Secrets](#github-secrets)
@@ -131,7 +145,9 @@ Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financ
 
 `data/stories/stories*.yml` - contains stories training data
 
-`actions.py` - contains custom action/api code
+`actions/actions.py` - contains custom action/api code
+
+`actions/custom_forms.py` - contains custom form code
 
 `domain.yml` - the domain file, including bot response templates
 
