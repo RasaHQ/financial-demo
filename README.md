@@ -207,6 +207,7 @@ This way, the bot is always trying to help the user, and provides a nice option 
 If you want to use this logic in your bot, you can do so with minimal effort by:
 
 * copy the [custom_forms.py](https://github.com/RasaHQ/financial-demo/blob/master/actions/custom_forms.py) & [customForms_config.yml](https://github.com/RasaHQ/financial-demo/blob/master/actions/custom_forms_config.yml)
+* Remove setting of the `zz_confirm_form` slot near the end of `custom_forms.py`
 * Follow the instructions given in the [CustomFormValidationAction](https://github.com/RasaHQ/financial-demo/blob/0cfc5bb1aa38b5c0eee1ab6e73bcb9ae87df35a3/actions/custom_forms.py#L35) docstring.
 * use `CustomFormValidationAction` as the base class for your own validation class, like [here](https://github.com/RasaHQ/financial-demo/blob/0cfc5bb1aa38b5c0eee1ab6e73bcb9ae87df35a3/actions/actions.py#L107):
   ```python
