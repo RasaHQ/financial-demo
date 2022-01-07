@@ -5,8 +5,8 @@ nlu:
     - are you a bot?
     - am i speaking to an ai?
     - are you a human or a bot?
-    - are you real? 
-    - are you virtual? 
+    - are you real?
+    - are you virtual?
     - are you an ai?
     - aren't you a bot
     - are you a chatbot
@@ -129,7 +129,6 @@ nlu:
     - hi, whats my account bal please
     - so.... what's my [balance](amount-of-money)?
     - whats my [current balance](amount-of-money)
-    - What's my [balance](amount-of-money)?
     - How much money do I have?
     - Yeah, I like coffee 👀 But how much money do I have?
     - Yeah, I know 😀 Since it's so nice: How much money do I have?
@@ -137,6 +136,43 @@ nlu:
     - Wait, I'll have to check my balance first. Can you do that please?
     - Hi, I need to know how much money is in my [checking](account_type) account
     - Balance please
+    - what [credit cards]{"entity": "account_type", "value": "credit"} do I have?
+    - what [credit cards]{"entity": "account_type", "value": "credit"} do I have\
+- intent: search_transactions
+  examples: |
+    - What's my [balance](amount-of-money)?
+    - how much did I spend at [Target](vendor_name) this week?
+    - what is my typical spending at [Amazon](vendor_name)?
+    - I want to check my spending history
+    - how much did I spend at [Starbucks](vendor_name) last week?
+    - I need to check my spending history
+    - I want to check my spending
+    - I want to check my spending history at [starbucks](vendor_name)
+    - i want to check my spending history
+    - i want to see my transaction history
+    - I want to search my past transactions
+    - can I search my transaction history
+    - can I look at past transactions
+    - I want to search my transactions with [amazon](vendor_name)
+    - can i seem my transactions with [target](vendor_name)
+    - how much did i spend at [starbucks](vendor_name) last month?
+    - what did i spend last month?
+    - How much did I spend last month?
+    - What did I spend at [Legoland](vendor_name) last month?
+    - What did I spend at [Legoland](vendor_name) last year?
+    - how much did i spend at [starbucks](vendor_name) last year
+    - Yes! How much did I spend on [Starbucks](vendor_name) last month?
+    - How much did I spend at Burger King last month?
+    - what places have I spent money?
+    - What did I spend at [Starbucks](vendor_name) in may?
+    - How much money did I lose to [starbucks](vendor_name) in may?
+    - Oh how much did I actually spend at [target](vendor_name) last month? I'd love to know.
+    - Can you tell me how much I spent at [Ikea](vendor_name) this month?
+    - Can you tell me how much I spent at coffeeshops this month?
+    - Can you tell me how much I spent on coffee this month?
+    - What did I spend at [Costco](vendor_name) last month?
+    - what did I spend at [target](vendor_name) last month
+    - where did I spend the most money last month?
 - intent: check_earnings
   examples: |
     - How much money went into my account last month?
@@ -161,6 +197,7 @@ nlu:
     - show me how much I've earned in the last week
     - can i afford to go on vacation
     - rent is due soon how much do I have in my account
+    - what's up
 - intent: deny
   examples: |
     - not really
@@ -213,7 +250,6 @@ nlu:
     - good bye
     - good bye rasa bot!
     - good night
-    - goodbye
     - goodbye.
     - goodnight
     - gotta go
@@ -232,7 +268,6 @@ nlu:
     - hallo
     - HI
     - Hey
-    - Hi
     - hi!
     - hello there
     - hi there
@@ -242,6 +277,9 @@ nlu:
     - welcome
     - howdy
     - good day
+- intent: testing
+  examples: |
+    - Hi
 - intent: inform
   examples: |
     - $10
@@ -396,40 +434,6 @@ nlu:
     - i wanna pay my [credit card]{"entity": "account_type", "value": "credit"}
     - pay a bill
     - can I pay my [card]{"entity": "account_type", "value": "credit"}?
-- intent: search_transactions
-  examples: |
-    - how much did I spend at [Target](vendor_name) this week?
-    - what is my typical spending at [Amazon](vendor_name)?
-    - I want to check my spending history
-    - how much did I spend at [Starbucks](vendor_name) last week?
-    - I need to check my spending history
-    - I want to check my spending
-    - I want to check my spending history at [starbucks](vendor_name)
-    - i want to check my spending history
-    - i want to see my transaction history
-    - I want to search my past transactions
-    - can I search my transaction history
-    - can I look at past transactions
-    - I want to search my transactions with [amazon](vendor_name)
-    - can i seem my transactions with [target](vendor_name)
-    - how much did i spend at [starbucks](vendor_name) last month?
-    - what did i spend last month?
-    - How much did I spend last month?
-    - What did I spend at [Legoland](vendor_name) last month?
-    - What did I spend at [Legoland](vendor_name) last year?
-    - how much did i spend at [starbucks](vendor_name) last year
-    - Yes! How much did I spend on [Starbucks](vendor_name) last month?
-    - How much did I spend at Burger King last month?
-    - what places have I spent money?
-    - What did I spend at [Starbucks](vendor_name) in may?
-    - How much money did I lose to [starbucks](vendor_name) in may?
-    - Oh how much did I actually spend at [target](vendor_name) last month? I'd love to know.
-    - Can you tell me how much I spent at [Ikea](vendor_name) this month?
-    - Can you tell me how much I spent at coffeeshops this month?
-    - Can you tell me how much I spent on coffee this month?
-    - What did I spend at [Costco](vendor_name) last month?
-    - what did I spend at [target](vendor_name) last month
-    - where did I spend the most money last month?
 - intent: thankyou
   examples: |
     - thank you goodbye
@@ -554,8 +558,6 @@ nlu:
     - come back
     - cool! can I do something else here?
     - hello what can you do for me
-    - help
-    - help me
     - help please
     - help pls
     - help?
@@ -578,7 +580,6 @@ nlu:
     - talk to human
     - i want human :(
     - can i talk to human
-    - i want to talk to a human
     - i want to speak to human
     - can i talk to a real person?
     - connect me to a real person
@@ -612,13 +613,17 @@ nlu:
     - Can you make sandwiches?
     - Can you please send me an uber
     - ofif fsdfafsfs
+    - This is Ty in product onboarding
+- intent: testing_akela
+  examples: |
+    - What about my new [credit card]{"entity": "account_type", "value": "credit"} ?
 - synonym: credit
   examples: |
     - credit card
+    - card
     - credit cards
     - credit account
     - credit accounts
-    - card
     - cards
     - credit card account
 - synonym: emblem
