@@ -866,3 +866,21 @@ stories:
   - slot_was_set:
     - requested_slot: amount-of-money
   - action: transfer_money_form
+- story: Story from Conversation ID 7cf38357e6a644e2b75b5b2a680c5f0a
+  steps:
+  - slot_was_set:
+    - currency: $
+  - intent: greet
+    user: |-
+      Hi
+  - action: utter_greet
+  - action: utter_help
+  - intent: check_balance
+    user: |-
+      What's my account [balance]{"entity": "amount-of-money", "value": "current balance"}
+  - slot_was_set:
+    - amount-of-money: current balance
+  - action: action_show_balance
+  - intent: greet
+    user: |-
+      Where did the rest of my money go???
