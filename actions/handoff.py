@@ -32,6 +32,11 @@ class ActionHandoffOptions(Action):
                     "payload": f'/trigger_handoff{{"handoff_to":"{bot}"}}',
                 }
                 for bot, config in handoff_config.items()
+            ] + [
+                {
+                    "title": "Nevermind.",
+                    "payload": '/deny',
+                }
             ]
             dispatcher.utter_message(
                 text=(
