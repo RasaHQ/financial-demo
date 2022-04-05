@@ -137,7 +137,6 @@ class ValidatePayCCForm(CustomFormValidationAction):
         if not value:
             return {"amount-of-money": None}
 
-        print("HI!")
         account_balance = profile_db.get_account_balance(tracker.sender_id)
         # check if user asked to pay the full or the minimum balance
         if type(value) is str:
@@ -273,7 +272,6 @@ class ValidatePayCCForm(CustomFormValidationAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validates value of 'zz_confirm' slot"""
-        print(value)
         if value in ["yes", "no"]:
             return {"zz_confirm": value}
         
