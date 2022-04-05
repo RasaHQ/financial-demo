@@ -16,13 +16,13 @@ utc = pytz.UTC
 GENERAL_ACCOUNTS = {
     "recipient": [
         "katy parrow",
-        "evan oslo",
-        "william baker",
-        "karen lancaster",
-        "kyle gardner",
-        "john jacob",
-        "percy donald",
-        "lisa macintyre",
+        # "evan oslo",
+        # "william baker",
+        # "karen lancaster",
+        # "kyle gardner",
+        # "john jacob",
+        # "percy donald",
+        # "lisa macintyre",
     ],
     "vendor": ["target", "starbucks", "amazon"],
     "depositor": ["interest", "employer"],
@@ -117,8 +117,8 @@ class ProfileDB:
     def get_account_from_session_id(self, session_id: Text):
         """Get an `Account` object based on a `Account.session_id`"""
         # if the action server restarts in the middle of a conversation, the db will need to be repopulated outside of an action_session_start
-        if not self.check_session_id_exists(session_id):
-            self.populate_profile_db(session_id)
+        # if not self.check_session_id_exists(session_id):
+        self.populate_profile_db(session_id)
         account = (
             self.session.query(Account).filter(Account.session_id == session_id).first()
         )
@@ -377,19 +377,28 @@ class ProfileDB:
     def add_recipients(self, session_id: Text):
         """Populate recipients table"""
         account = self.get_account_from_session_id(session_id)
-        recipients = (
-            self.session.query(Account.account_holder_name, Account.id)
-            .filter(Account.session_id.startswith("recipient_"))
-            .all()
-        )
-        session_recipients = sample(recipients, choice(list(range(3, len(recipients)))))
+        # recipients = (
+        #     self.session.query(Account.account_holder_name, Account.id)
+        #     .filter(Account.session_id.startswith("recipient_"))
+        #     .all()
+        # )
+        # print(recipients)
+        # session_recipients = sample(recipients, choice(list(range(len(recipients)))))
+        # print(session_recipients)
+        # relationships = [
+        #     RecipientRelationship(
+        #         account_id=account.id,
+        #         recipient_account_id=recipient.id,
+        #         recipient_nickname=recipient.account_holder_name,
+        #     )
+        #     for recipient in session_recipients
+        # ]
         relationships = [
             RecipientRelationship(
                 account_id=account.id,
-                recipient_account_id=recipient.id,
-                recipient_nickname=recipient.account_holder_name,
+                recipient_account_id=1,
+                recipient_nickname='katy parrow'
             )
-            for recipient in session_recipients
         ]
         self.session.add_all(relationships)
 
@@ -471,6 +480,7 @@ class ProfileDB:
         If general accounts have already been populated, it will only
         add account-holder-specific values to tables.
         """
+        print("populating profile db")
         if not self.check_general_accounts_populated(GENERAL_ACCOUNTS):
             self.add_general_accounts(GENERAL_ACCOUNTS)
         if not self.check_session_id_exists(session_id):

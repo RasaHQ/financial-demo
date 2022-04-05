@@ -415,139 +415,140 @@ class ValidatePayCCForm(CustomFormValidationAction):
 #        return parsedinterval
 #
 #
-#class ActionTransferMoney(Action):
-#    """Transfers Money."""
-#
-#    def name(self) -> Text:
-#        """Unique identifier of the action"""
-#        return "action_transfer_money"
-#
-#    async def run(
-#        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-#    ) -> List[EventType]:
-#        """Executes the action"""
-#        slots = {
-#            "AA_CONTINUE_FORM": None,
-#            "zz_confirm_form": None,
-#            "PERSON": None,
-#            "amount-of-money": None,
-#            "number": None,
-#        }
-#
-#        if tracker.get_slot("zz_confirm_form") == "yes":
-#            amount_of_money = float(tracker.get_slot("amount-of-money"))
-#            from_account_number = profile_db.get_account_number(
-#                profile_db.get_account_from_session_id(tracker.sender_id)
-#            )
-#            to_account_number = profile_db.get_account_number(
-#                profile_db.get_recipient_from_name(
-#                    tracker.sender_id, tracker.get_slot("PERSON")
-#                )
-#            )
-#            profile_db.transact(
-#                from_account_number,
-#                to_account_number,
-#                amount_of_money,
-#            )
-#
-#            dispatcher.utter_message(response="utter_transfer_complete")
-#
-#            amount_transferred = float(tracker.get_slot("amount_transferred"))
-#            slots["amount_transferred"] = amount_transferred + amount_of_money
-#        else:
-#            dispatcher.utter_message(response="utter_transfer_cancelled")
-#
-#        return [SlotSet(slot, value) for slot, value in slots.items()]
-#
-#
-#class ValidateTransferMoneyForm(CustomFormValidationAction):
-#    """Validates Slots of the transfer_money_form"""
-#
-#    def name(self) -> Text:
-#        """Unique identifier of the action"""
-#        return "validate_transfer_money_form"
-#
-#    async def validate_PERSON(
-#        self,
-#        value: Text,
-#        dispatcher: CollectingDispatcher,
-#        tracker: Tracker,
-#        domain: Dict[Text, Any],
-#    ) -> Dict[Text, Any]:
-#        """Validates value of 'PERSON' slot"""
-#        # It is possible that both Spacy & DIET extracted the PERSON
-#        # Just pick the first one
-#        if isinstance(value, list):
-#            value = value[0]
-#
-#        name = value.lower() if value else None
-#        known_recipients = profile_db.list_known_recipients(tracker.sender_id)
-#        first_names = [name.split()[0] for name in known_recipients]
-#        if name is not None and name in known_recipients:
-#            return {"PERSON": name.title()}
-#
-#        if name in first_names:
-#            index = first_names.index(name)
-#            fullname = known_recipients[index]
-#            return {"PERSON": fullname.title()}
-#
-#        dispatcher.utter_message(response="utter_unknown_recipient", PERSON=value)
-#        return {"PERSON": None}
-#
-#    async def explain_PERSON(
-#        self,
-#        value: Text,
-#        dispatcher: CollectingDispatcher,
-#        tracker: Tracker,
-#        domain: Dict[Text, Any],
-#    ) -> Dict[Text, Any]:
-#        """Explains 'PERSON' slot"""
-#        recipients = profile_db.list_known_recipients(tracker.sender_id)
-#        formatted_recipients = "\n" + "\n".join(
-#            [f"- {recipient.title()}" for recipient in recipients]
-#        )
-#        dispatcher.utter_message(
-#            response="utter_recipients",
-#            formatted_recipients=formatted_recipients,
-#        )
-#        return {}
-#
-#    async def validate_amount_of_money(
-#        self,
-#        value: Text,
-#        dispatcher: CollectingDispatcher,
-#        tracker: Tracker,
-#        domain: Dict[Text, Any],
-#    ) -> Dict[Text, Any]:
-#        """Validates value of 'amount-of-money' slot"""
-#        account_balance = profile_db.get_account_balance(tracker.sender_id)
-#        try:
-#            entity = get_entity_details(
-#                tracker, "amount-of-money"
-#            ) or get_entity_details(tracker, "number")
-#            amount_currency = parse_duckling_currency(entity)
-#            if not amount_currency:
-#                raise TypeError
-#            if account_balance < float(amount_currency.get("amount-of-money")):
-#                dispatcher.utter_message(response="utter_insufficient_funds")
-#                return {"amount-of-money": None}
-#            return amount_currency
-#        except (TypeError, AttributeError):
-#            dispatcher.utter_message(response="utter_no_payment_amount")
-#            return {"amount-of-money": None}
-#
-#    async def validate_zz_confirm_form(
-#        self,
-#        value: Text,
-#        dispatcher: CollectingDispatcher,
-#        tracker: Tracker,
-#        domain: Dict[Text, Any],
-#    ) -> Dict[Text, Any]:
-#        """Validates value of 'zz_confirm_form' slot"""
-#        if value in ["yes", "no"]:
-#            return {"zz_confirm_form": value}
-#
-#        return {"zz_confirm_form": None}
+class ActionTransferMoney(Action):
+   """Transfers Money."""
+
+   def name(self) -> Text:
+       """Unique identifier of the action"""
+       return "action_transfer_money"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the action"""
+       slots = {
+           "AA_CONTINUE_FORM": None,
+           "zz_confirm": None,
+           "PERSON": None,
+           "amount-of-money": None,
+           "number": None,
+       }
+
+       if tracker.get_slot("zz_confirm") == "yes":
+           amount_of_money = float(tracker.get_slot("amount-of-money"))
+           from_account_number = profile_db.get_account_number(
+               profile_db.get_account_from_session_id(tracker.sender_id)
+           )
+           to_account_number = profile_db.get_account_number(
+               profile_db.get_recipient_from_name(
+                   tracker.sender_id, tracker.get_slot("PERSON")
+               )
+           )
+           profile_db.transact(
+               from_account_number,
+               to_account_number,
+               amount_of_money,
+           )
+
+           dispatcher.utter_message(response="utter_transfer_complete")
+
+           amount_transferred = float(tracker.get_slot("amount_transferred"))
+           slots["amount_transferred"] = amount_transferred + amount_of_money
+       else:
+           dispatcher.utter_message(response="utter_transfer_cancelled")
+
+       return [SlotSet(slot, value) for slot, value in slots.items()]
+
+
+class ValidateTransferMoneyForm(CustomFormValidationAction):
+   """Validates Slots of the transfer_money_form"""
+
+   def name(self) -> Text:
+       """Unique identifier of the action"""
+       return "validate_transfer_money_form"
+
+   async def validate_PERSON(
+       self,
+       value: Text,
+       dispatcher: CollectingDispatcher,
+       tracker: Tracker,
+       domain: Dict[Text, Any],
+   ) -> Dict[Text, Any]:
+       """Validates value of 'PERSON' slot"""
+       # It is possible that both Spacy & DIET extracted the PERSON
+       # Just pick the first one
+       if isinstance(value, list):
+           value = value[0]
+
+       name = value.lower() if value else None
+       # known_recipients = ["katy parrow"]
+       known_recipients = profile_db.list_known_recipients(tracker.sender_id)
+       first_names = [name.split()[0] for name in known_recipients]
+       if name is not None and name in known_recipients:
+           return {"PERSON": name.title()}
+
+       if name in first_names:
+           index = first_names.index(name)
+           fullname = known_recipients[index]
+           return {"PERSON": fullname.title()}
+
+       dispatcher.utter_message(response="utter_unknown_recipient", PERSON=value)
+       return {"PERSON": None}
+
+   async def explain_PERSON(
+       self,
+       value: Text,
+       dispatcher: CollectingDispatcher,
+       tracker: Tracker,
+       domain: Dict[Text, Any],
+   ) -> Dict[Text, Any]:
+       """Explains 'PERSON' slot"""
+       recipients = profile_db.list_known_recipients(tracker.sender_id)
+       formatted_recipients = "\n" + "\n".join(
+           [f"- {recipient.title()}" for recipient in recipients]
+       )
+       dispatcher.utter_message(
+           response="utter_recipients",
+           formatted_recipients=formatted_recipients,
+       )
+       return {}
+
+   async def validate_amount_of_money(
+       self,
+       value: Text,
+       dispatcher: CollectingDispatcher,
+       tracker: Tracker,
+       domain: Dict[Text, Any],
+   ) -> Dict[Text, Any]:
+       """Validates value of 'amount-of-money' slot"""
+       account_balance = profile_db.get_account_balance(tracker.sender_id)
+       try:
+           entity = get_entity_details(
+               tracker, "amount-of-money"
+           ) or get_entity_details(tracker, "number")
+           amount_currency = {"amount-of-money": f"{entity.get('value'):.2f}", "currency": "$"}
+           # if not amount_currency:
+           #     raise TypeError
+           # if account_balance < float(amount_currency.get("amount-of-money")):
+           #     dispatcher.utter_message(response="utter_insufficient_funds")
+           #     return {"amount-of-money": None}
+           return amount_currency
+       except (TypeError, AttributeError) as e:
+           dispatcher.utter_message(response="utter_no_payment_amount")
+           return {"amount-of-money": None}
+
+   async def validate_zz_confirm(
+       self,
+       value: Text,
+       dispatcher: CollectingDispatcher,
+       tracker: Tracker,
+       domain: Dict[Text, Any],
+   ) -> Dict[Text, Any]:
+       """Validates value of 'zz_confirm_form' slot"""
+       if value in ["yes", "no"]:
+           return {"zz_confirm": value}
+
+       return {"zz_confirm": None}
 
 
 class ActionShowBalance(Action):
@@ -791,40 +792,40 @@ class ActionShowBalance(Action):
 #        return []
 #
 #
-#class ActionSwitchFormsAsk(Action):
-#    """Asks to switch forms"""
-#
-#    def name(self) -> Text:
-#        return "action_switch_forms_ask"
-#
-#    async def run(
-#        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-#    ) -> List[EventType]:
-#        """Executes the custom action"""
-#        active_form_name = tracker.active_form.get("name")
-#        intent_name = tracker.latest_message["intent"]["name"]
-#        next_form_name = NEXT_FORM_NAME.get(intent_name)
-#
-#        if (
-#            active_form_name not in FORM_DESCRIPTION.keys()
-#            or next_form_name not in FORM_DESCRIPTION.keys()
-#        ):
-#            logger.debug(
-#                f"Cannot create text for `active_form_name={active_form_name}` & "
-#                f"`next_form_name={next_form_name}`"
-#            )
-#            next_form_name = None
-#        else:
-#            text = (
-#                f"We haven't completed the {FORM_DESCRIPTION[active_form_name]} yet. "
-#                f"Are you sure you want to switch to {FORM_DESCRIPTION[next_form_name]}?"
-#            )
-#            buttons = [
-#                {"payload": "/affirm", "title": "Yes"},
-#                {"payload": "/deny", "title": "No"},
-#            ]
-#            dispatcher.utter_message(text=text, buttons=buttons)
-#        return [SlotSet("next_form_name", next_form_name)]
+class ActionSwitchFormsAsk(Action):
+   """Asks to switch forms"""
+
+   def name(self) -> Text:
+       return "action_switch_forms_ask"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the custom action"""
+       active_form_name = tracker.active_form.get("name")
+       intent_name = tracker.latest_message["intent"]["name"]
+       next_form_name = NEXT_FORM_NAME.get(intent_name)
+
+       if (
+           active_form_name not in FORM_DESCRIPTION.keys()
+           or next_form_name not in FORM_DESCRIPTION.keys()
+       ):
+           logger.debug(
+               f"Cannot create text for `active_form_name={active_form_name}` & "
+               f"`next_form_name={next_form_name}`"
+           )
+           next_form_name = None
+       else:
+           text = (
+               f"We haven't completed the {FORM_DESCRIPTION[active_form_name]} yet. "
+               f"Are you sure you want to switch to {FORM_DESCRIPTION[next_form_name]}?"
+           )
+           buttons = [
+               {"payload": "/affirm", "title": "Yes"},
+               {"payload": "/deny", "title": "No"},
+           ]
+           dispatcher.utter_message(text=text, buttons=buttons)
+       return [SlotSet("next_form_name", next_form_name)]
 #
 #
 #class ActionSwitchFormsDeny(Action):
@@ -850,67 +851,66 @@ class ActionShowBalance(Action):
 #        return [SlotSet("next_form_name", None)]
 #
 #
-#class ActionSwitchFormsAffirm(Action):
-#    """Switches forms"""
-#
-#    def name(self) -> Text:
-#        return "action_switch_forms_affirm"
-#
-#    async def run(
-#        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-#    ) -> List[EventType]:
-#        """Executes the custom action"""
-#        active_form_name = tracker.active_form.get("name")
-#        next_form_name = tracker.get_slot("next_form_name")
-#
-#        if (
-#            active_form_name not in FORM_DESCRIPTION.keys()
-#            or next_form_name not in FORM_DESCRIPTION.keys()
-#        ):
-#            logger.debug(
-#                f"Cannot create text for `active_form_name={active_form_name}` & "
-#                f"`next_form_name={next_form_name}`"
-#            )
-#        else:
-#            text = (
-#                f"Great. Let's switch from the {FORM_DESCRIPTION[active_form_name]} "
-#                f"to {FORM_DESCRIPTION[next_form_name]}. "
-#                f"Once completed, you will have the option to switch back."
-#            )
-#            dispatcher.utter_message(text=text)
-#
-#        return [
-#            SlotSet("previous_form_name", active_form_name),
-#            SlotSet("next_form_name", None),
-#        ]
-#
-#
-#class ActionSwitchBackAsk(Action):
-#    """Asks to switch back to previous form"""
-#
-#    def name(self) -> Text:
-#        return "action_switch_back_ask"
-#
-#    async def run(
-#        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-#    ) -> List[EventType]:
-#        """Executes the custom action"""
-#        previous_form_name = tracker.get_slot("previous_form_name")
-#
-#        if previous_form_name not in FORM_DESCRIPTION.keys():
-#            logger.debug(
-#                f"Cannot create text for `previous_form_name={previous_form_name}`"
-#            )
-#            previous_form_name = None
-#        else:
-#            text = (
-#                f"Would you like to go back to the "
-#                f"{FORM_DESCRIPTION[previous_form_name]} now?."
-#            )
-#            buttons = [
-#                {"payload": "/affirm", "title": "Yes"},
-#                {"payload": "/deny", "title": "No"},
-#            ]
-#            dispatcher.utter_message(text=text, buttons=buttons)
-#
-#        return [SlotSet("previous_form_name", None)]
+class ActionSwitchFormsAffirm(Action):
+   """Switches forms"""
+
+   def name(self) -> Text:
+       return "action_switch_forms_affirm"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the custom action"""
+       active_form_name = tracker.active_form.get("name")
+       next_form_name = tracker.get_slot("next_form_name")
+
+       if (
+           active_form_name not in FORM_DESCRIPTION.keys()
+           or next_form_name not in FORM_DESCRIPTION.keys()
+       ):
+           logger.debug(
+               f"Cannot create text for `active_form_name={active_form_name}` & "
+               f"`next_form_name={next_form_name}`"
+           )
+       else:
+           text = (
+               f"Great. Let's switch from the {FORM_DESCRIPTION[active_form_name]} "
+               f"to {FORM_DESCRIPTION[next_form_name]}. "
+               f"Once completed, you will have the option to switch back."
+           )
+           dispatcher.utter_message(text=text)
+
+       return [
+           SlotSet("previous_form_name", active_form_name),
+           SlotSet("next_form_name", None),
+       ]
+
+class ActionSwitchBackAsk(Action):
+   """Asks to switch back to previous form"""
+
+   def name(self) -> Text:
+       return "action_switch_back_ask"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the custom action"""
+       previous_form_name = tracker.get_slot("previous_form_name")
+
+       if previous_form_name not in FORM_DESCRIPTION.keys():
+           logger.debug(
+               f"Cannot create text for `previous_form_name={previous_form_name}`"
+           )
+           previous_form_name = None
+       else:
+           text = (
+               f"Would you like to go back to the "
+               f"{FORM_DESCRIPTION[previous_form_name]} now?."
+           )
+           buttons = [
+               {"payload": "/affirm", "title": "Yes"},
+               {"payload": "/deny", "title": "No"},
+           ]
+           dispatcher.utter_message(text=text, buttons=buttons)
+
+       return [SlotSet("previous_form_name", None)]

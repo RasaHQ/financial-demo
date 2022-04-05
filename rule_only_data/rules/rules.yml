@@ -62,14 +62,14 @@ rules:
   - action: cc_payment_form
   - active_loop: cc_payment_form
   
-#- rule: Activate transfer_money_form when no other form is active
-#  condition:
-#  # this condition allows stories to handle form switching
-#  - active_loop: null
-#  steps:
-#  - intent: transfer_money
-#  - action: transfer_money_form
-#  - active_loop: transfer_money_form
+- rule: Activate transfer_money_form when no other form is active
+  condition:
+  # this condition allows stories to handle form switching
+  - active_loop: null
+  steps:
+  - intent: transfer_money
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
 #  
 #- rule: Activate transaction_search_form when no other form is active
 #  condition:
@@ -94,17 +94,47 @@ rules:
     - requested_slot: null
   - action: action_pay_cc
   
-#- rule: Submit transfer_money_form while not switched from previous form
-#  condition:
-#  - active_loop: transfer_money_form
-#  - slot_was_set:
-#    - previous_form_name: null
-#  steps:
-#  - action: transfer_money_form
-#  - active_loop: null
-#  - slot_was_set:
-#    - requested_slot: null
-#  - action: action_transfer_money
+- rule: Submit transfer_money_form while not switched from previous form
+  condition:
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - previous_form_name: null
+  steps:
+  - action: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+
+
+- rule: Switch to transfer money from cc_payment_form
+  condition:
+  - active_loop: cc_payment_form
+  steps:
+  - intent: transfer_money
+  - action: action_switch_forms_ask
+  - intent: affirm
+  - action: action_switch_forms_affirm
+  - action: transfer_money_form
+  - active_loop: transfer_money_form
+
+- rule: Submit transfer_money_form when switched from pay_cc
+  condition:
+  - active_loop: transfer_money_form
+  - slot_was_set:
+    - previous_form_name: cc_payment_form
+  steps:
+  - action: transfer_money_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_transfer_money
+  - action: action_switch_back_ask
+  - slot_was_set:
+    - previous_form_name: null
+  - intent: affirm
+  - action: cc_payment_form
+  - active_loop: cc_payment_form
 #  
 #- rule: Submit transaction_search_form while not switched from previous form
 #  condition:

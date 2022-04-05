@@ -50,7 +50,9 @@ slots:
   PERSON:
     type: any
     influence_conversation: false
-    mappings: []
+    mappings:
+    - entity: PERSON
+      type: from_entity
   account_type:
     type: any
     influence_conversation: false
@@ -361,8 +363,11 @@ forms:
 #        - cc_payment_form
 #        type: from_text
       - zz_confirm
-#  transfer_money_form:
-#    required_slots:
+  transfer_money_form:
+    required_slots:
+      - PERSON
+      - amount-of-money
+      - zz_confirm
 #      AA_CONTINUE_FORM:
 #      - intent: affirm
 #        type: from_intent
