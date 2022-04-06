@@ -1,7 +1,11 @@
+version: "3.1"
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
 intents:
+- login
+- logout
+- nevermind
 - check_human
 - transfer_money:
     use_entities: []
@@ -43,6 +47,10 @@ entities:
 - handoff_to
 - search_type
 slots:
+  logged_in:
+    type: bool
+    influence_conversation: false
+    mappings: []
   AA_CONTINUE_FORM:
     type: any
     influence_conversation: false
@@ -304,6 +312,11 @@ responses:
   utter_recipients:
   - text: These are your known recpients to whom you can send money:{formatted_recipients}
   utter_greet:
+  - condition:
+    - type: slot
+      name: logged_in
+      value: true
+    text: Welcome back to your Financial Assistant!
   - text: Hi! I'm your Financial Assistant!
   utter_ask_handoff:
   - text: It looks like you want to be transferred to a human agent.
@@ -337,6 +350,9 @@ actions:
 - action_switch_forms_deny
 - action_switch_forms_affirm
 - action_switch_back_ask
+- action_interrupt
+- action_login
+- action_logout
 - validate_cc_payment_form
 - validate_transfer_money_form
 - validate_transaction_search_form

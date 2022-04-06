@@ -14,6 +14,7 @@ from rasa_sdk.events import (
     Restarted,
     FollowupAction,
     UserUtteranceReverted,
+    ActiveLoop,
 )
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -914,3 +915,45 @@ class ActionSwitchBackAsk(Action):
            dispatcher.utter_message(text=text, buttons=buttons)
 
        return [SlotSet("previous_form_name", None)]
+
+class ActionInterrupt(Action):
+   """Interrupt a form"""
+
+   def name(self) -> Text:
+       return "action_interrupt"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the custom action"""
+
+       dispatcher.utter_message(template="utter_ask_whatelse")
+       return [ActiveLoop(None)]
+
+class ActionLogin(Action):
+   """Interrupt a form"""
+
+   def name(self) -> Text:
+       return "action_login"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the custom action"""
+
+       dispatcher.utter_message(text="Logged in.")
+       return [SlotSet("logged_in", True)]
+
+class ActionLogout(Action):
+   """Interrupt a form"""
+
+   def name(self) -> Text:
+       return "action_logout"
+
+   async def run(
+       self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+   ) -> List[EventType]:
+       """Executes the custom action"""
+
+       dispatcher.utter_message(text="Logged out.")
+       return [SlotSet("logged_in", False)]

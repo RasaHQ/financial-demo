@@ -147,3 +147,18 @@ rules:
 #  - slot_was_set:
 #    - requested_slot: null
 #  - action: action_transaction_search
+
+- rule: Break out of active loop
+  steps:
+  - intent: nevermind
+  - action: action_interrupt
+
+- rule: Login
+  steps:
+  - intent: login
+  - action: action_login
+
+- rule: Logout
+  steps:
+  - intent: logout
+  - action: action_logout
