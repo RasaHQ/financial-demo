@@ -5,8 +5,8 @@ nlu:
     - are you a bot?
     - am i speaking to an ai?
     - are you a human or a bot?
-    - are you real? 
-    - are you virtual? 
+    - are you real?
+    - are you virtual?
     - are you an ai?
     - aren't you a bot
     - are you a chatbot
@@ -213,7 +213,6 @@ nlu:
     - good bye
     - good bye rasa bot!
     - good night
-    - goodbye
     - goodbye.
     - goodnight
     - gotta go
@@ -430,35 +429,6 @@ nlu:
     - What did I spend at [Costco](vendor_name) last month?
     - what did I spend at [target](vendor_name) last month
     - where did I spend the most money last month?
-- intent: thankyou
-  examples: |
-    - thank you goodbye
-    - okay thank you goodbye
-    - thank you bye
-    - um okay thank you good bye
-    - thank you
-    - and thats all thank you and good bye
-    - okay thank you
-    - thanks
-    - thanks goodbye
-    - thank you and good bye
-    - Thanks!
-    - Awesome, you are a good bot!
-    - great!
-    - I see, thanks
-    - Oh thats good!
-    - it's good :-)
-    - thnaks
-    - good job bot
-    - great
-    - thanks for the help
-    - thanks you
-    - thanks!
-    - thankyou
-    - thnks
-    - thx
-    - thanks for your information
-    - thanks f
 - intent: transfer_money
   examples: |
     - I want to pay [John](PERSON)
@@ -554,8 +524,6 @@ nlu:
     - come back
     - cool! can I do something else here?
     - hello what can you do for me
-    - help
-    - help me
     - help please
     - help pls
     - help?
@@ -578,7 +546,6 @@ nlu:
     - talk to human
     - i want human :(
     - can i talk to human
-    - i want to talk to a human
     - i want to speak to human
     - can i talk to a real person?
     - connect me to a real person
@@ -615,10 +582,10 @@ nlu:
 - synonym: credit
   examples: |
     - credit card
+    - card
     - credit cards
     - credit account
     - credit accounts
-    - card
     - cards
     - credit card account
 - synonym: emblem
