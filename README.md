@@ -17,6 +17,21 @@ This is an example chatbot demonstrating how to build AI assistants for financia
   - [Run the bot](#run-the-bot)
   - [Overview of the files](#overview-of-the-files)
   - [Things you can ask the bot](#things-you-can-ask-the-bot)
+  - [Forms](#forms)
+  - [Handoff](#handoff)
+    - [Try it out](#try-it-out)
+    - [How it works](#how-it-works)
+    - [Bot-side configuration](#bot-side-configuration)
+  - [Testing the bot](#testing-the-bot)
+  - [Rasa X Deployment](#rasa-x-deployment)
+  - [Action Server Image](#action-server-image)
+- [Notes on Rasa `2.x / 1.x`](#notes-on-rasa-2x--1x)
+- [Financial Services Example Bot](#financial-services-example-bot)
+  - [Install dependencies](#install-dependencies)
+  - [Run the bot](#run-the-bot)
+  - [Overview of the files](#overview-of-the-files)
+  - [Things you can ask the bot](#things-you-can-ask-the-bot)
+  - [Forms](#forms)
   - [Handoff](#handoff)
     - [Try it out](#try-it-out)
     - [How it works](#how-it-works)
@@ -28,7 +43,6 @@ This is an example chatbot demonstrating how to build AI assistants for financia
   - [Summary](#summary)
   - [GitHub Secrets](#github-secrets)
       - [AWS IAM User API Keys:](#aws-iam-user-api-keys)
-      - [AWS Elastic IP:](#aws-elastic-ip)
       - [Rasa Enterprise License:](#rasa-enterprise-license)
       - [Helm chart Credentials](#helm-chart-credentials)
   - [AWS Preparation](#aws-preparation)
@@ -48,14 +62,21 @@ This is an example chatbot demonstrating how to build AI assistants for financia
     - [Create the EKS cluster](#create-the-eks-cluster)
     - [Configure `kubeconfig`](#configure-kubeconfig)
     - [Install/Upgrade Rasa Enterprise](#installupgrade-rasa-enterprise)
+    - [Versions](#versions)
+      - [Select compatible versions](#select-compatible-versions)
+      - [rasa & rasa-sdk](#rasa--rasa-sdk)
+      - [rasa-x & rasa-x-helm](#rasa-x--rasa-x-helm)
       - [Build & push action server docker image](#build--push-action-server-docker-image)
       - [Install/Upgrade Rasa Enterprise](#installupgrade-rasa-enterprise-1)
     - [Train, test & upload model to S3](#train-test--upload-model-to-s3)
     - [Deploy, Tag & Smoketest the trained model](#deploy-tag--smoketest-the-trained-model)
     - [DNS](#dns)
+  - [Trouble Shooting](#trouble-shooting)
+  - [Cleanup of AWS resources](#cleanup-of-aws-resources)
+    - [From the command line:](#from-the-command-line)
+    - [From the **AWS console**:](#from-the-aws-console)
   - [Appendix A: The AWS EKS cluster](#appendix-a-the-aws-eks-cluster)
-  - [Appendix B: Manual Cleanup of AWS resources](#appendix-b-manual-cleanup-of-aws-resources)
-  - [Appendix C: OCTANT](#appendix-c-octant)
+  - [Appendix B: OCTANT](#appendix-b-octant)
     - [Install Octant](#install-octant)
       - [Install on Ubuntu](#install-on-ubuntu)
     - [Run Octant](#run-octant)
@@ -124,7 +145,9 @@ Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financ
 
 `data/stories/stories*.yml` - contains stories training data
 
-`actions.py` - contains custom action/api code
+`actions/actions.py` - contains custom action/api code
+
+`actions/custom_forms.py` - contains custom form code
 
 `domain.yml` - the domain file, including bot response templates
 
@@ -165,6 +188,35 @@ It recognises the following vendors (for spending history):
 You can change any of these by modifying `actions.py` and the corresponding NLU data.
 
 If configured, the bot can also hand off to another bot in response to the user asking for handoff. More [details on handoff](#handoff) below.
+
+## Forms
+
+A `CustomFormValidationAction` class is implemented as a child class of `FormValidationAction`. This custom class can be used to:
+
+* Keep track of the number of repeated validation failures, using a special slot
+* After a certain number of failures:
+  * explain the slot to the user
+  * reset the counter
+  * ask if they want to continue with the form
+     * If the user answers yes, keep going
+     * If the user answers no, deactivate the form
+         * When the form is deactivated, a rule calls a custom action that confirms that the form was stopped
+
+This way, the bot is always trying to help the user, and provides a nice option to exit a form.
+
+If you want to use this logic in your bot, you can do so with minimal effort by:
+
+* copy the [custom_forms.py](https://github.com/RasaHQ/financial-demo/blob/master/actions/custom_forms.py) & [customForms_config.yml](https://github.com/RasaHQ/financial-demo/blob/master/actions/custom_forms_config.yml)
+* Remove setting of the `zz_confirm_form` slot near the end of `custom_forms.py`
+* Follow the instructions given in the [CustomFormValidationAction](https://github.com/RasaHQ/financial-demo/blob/0cfc5bb1aa38b5c0eee1ab6e73bcb9ae87df35a3/actions/custom_forms.py#L35) docstring.
+* use `CustomFormValidationAction` as the base class for your own validation class, like [here](https://github.com/RasaHQ/financial-demo/blob/0cfc5bb1aa38b5c0eee1ab6e73bcb9ae87df35a3/actions/actions.py#L107):
+  ```python
+  class ValidatePayCCForm(CustomFormValidationAction):
+  ```
+* add optional `explain_{slot}` methods, like [here](https://github.com/RasaHQ/financial-demo/blob/0cfc5bb1aa38b5c0eee1ab6e73bcb9ae87df35a3/actions/actions.py#L226):
+  ```python
+  async def explain_credit_card(...)
+  ```
 
 ## Handoff
 
