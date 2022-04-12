@@ -23,7 +23,7 @@ env:
   # Notes:
   # (-) rasa & rasa-sdk versions are extracted from `requirements.txt`
   # (-) TODO: extract this from Makefile
-  RASA_ENTERPRISE_VERSION: "0.42.3"
+  RASA_ENTERPRISE_VERSION: "1.1.0"
 
 jobs:
   params:
