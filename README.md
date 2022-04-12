@@ -75,8 +75,8 @@ To install development dependencies:
 ```bash
 pip install -r requirements-dev.txt
 pre-commit install
-python -m spacy download en_core_web_md en
-python -m spacy link en_core_web_md en
+python -m spacy download en_core_web_md en (Deprecated) As of spaCy v3.0, symlinks like "en" are not supported anymore.
+python -m spacy link en_core_web_md en (Deprecated) As of spaCy v3.0, symlinks like "en" are not supported anymore.
 ```
 
 > With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
