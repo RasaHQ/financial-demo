@@ -1,63 +1,63 @@
-# Cleans up EKS test clusters. Manually & every night at 3:30 UTC
+# # Cleans up EKS test clusters. Manually & every night at 3:30 UTC
 
-# Note: the workflow_dispatch & schedule events will only trigger if the workflow
-#       file is on the default (main) branch.
+# # Note: the workflow_dispatch & schedule events will only trigger if the workflow
+# #       file is on the default (main) branch.
 
-# See: 
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
-# https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
-name: financial-demo cleanup-nightly
+# # See: 
+# # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch
+# # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+# # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
+# name: financial-demo cleanup-nightly
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '30 3 * * *'
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     - cron: '30 3 * * *'
   
 
-env:
-  # Keep these values in sync with the values in the Makefile
-  AWS_REGION: us-west-2
+# env:
+#   # Keep these values in sync with the values in the Makefile
+#   AWS_REGION: us-west-2
 
-jobs:
-  cleanup_nightly:
-    name: cleanup_nightly
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
+# jobs:
+#   cleanup_nightly:
+#     name: cleanup_nightly
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: checkout
+#         uses: actions/checkout@v2
 
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
+#       - name: Set up Python 3.7
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: 3.7
 
-      - name: Cache pip
-        # see: https://docs.github.com/en/actions/guides/building-and-testing-python#caching-dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements-dev.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
+#       - name: Cache pip
+#         # see: https://docs.github.com/en/actions/guides/building-and-testing-python#caching-dependencies
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.cache/pip
+#           key: ${{ runner.os }}-pip-${{ hashFiles('requirements-dev.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
+#             ${{ runner.os }}-
 
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ env.AWS_REGION }}
 
-      - name: install CLIs & dependencies
-        run: |
-          make install-eksctl
-          make install-kubectl
-          make install-helm
-          make install-jp
+#       - name: install CLIs & dependencies
+#         run: |
+#           make install-eksctl
+#           make install-kubectl
+#           make install-helm
+#           make install-jp
           
-      - name: Cleanup EKS
-        run: |
-          echo "Delete all test clusters"
-          make aws-eks-cluster-delete-all-test-clusters
+#       - name: Cleanup EKS
+#         run: |
+#           echo "Delete all test clusters"
+#           make aws-eks-cluster-delete-all-test-clusters
