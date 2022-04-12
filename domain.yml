@@ -242,13 +242,9 @@ slots:
     - intent: search_transactions
       type: from_trigger_intent
       value: spend
-      conditions:
-      - active_loop: transaction_search_form
     - intent: check_earnings
       type: from_trigger_intent
       value: deposit
-      conditions:
-      - active_loop: transaction_search_form
     - type: from_entity
       entity: search_type
       conditions:
