@@ -1,4 +1,4 @@
-version: "3.1"
+version: '3.0'
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
@@ -19,8 +19,8 @@ intents:
     use_entities: []
 - check_balance:
     use_entities:
-    - credit_card
     - account_type
+    - credit_card
 - check_earnings:
     use_entities: []
 - check_recipients
@@ -179,8 +179,8 @@ slots:
       entity: credit_card
   currency:
     type: any
-    influence_conversation: false
     initial_value: $
+    influence_conversation: false
     mappings:
     - type: custom
   end_time:
@@ -371,12 +371,12 @@ responses:
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
   utter_ask_transaction_search_form_search_type:
-  - text: Would you like to search incoming or outgoing transactions?
-    buttons:
-    - title: Incoming (earnings)
-      payload: /inform{"search_type":"deposit"}'
-    - title: Outgoing (spending)
-      payload: /inform{"search_type":"spend"}'
+  - buttons:
+    - payload: /inform{"search_type":"deposit"}'
+      title: Incoming (earnings)
+    - payload: /inform{"search_type":"spend"}'
+      title: Outgoing (spending)
+    text: Would you like to search incoming or outgoing transactions?
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -477,7 +477,13 @@ responses:
   utter_bot:
   - text: I'm a virtual assistant made with Rasa.
   utter_help:
-  - text: "I can help you with your financial accounts. \nYou can ask me things like: \n- What's my account balance? \n- Pay off my credit card \n- What did I spend at Target last month? \n- I need to transfer money"
+  - text: |-
+      I can help you with your financial accounts. 
+      You can ask me things like: 
+      - What's my account balance? 
+      - Pay off my credit card 
+      - What did I spend at Target last month? 
+      - I need to transfer money
 actions:
 - action_session_start
 - action_restart

@@ -1,0 +1,9 @@
+version: "3.0"
+nlu:
+- intent: transfer_money
+  examples: |
+    - I need to transfer money
+    - I want to transfer $45 to Frank Furter
+- intent: greet
+  examples: |
+    - hello
