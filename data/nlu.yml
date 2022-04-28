@@ -1,0 +1,6 @@
+version: "3.0"
+nlu:
+- intent: transfer_money
+  examples: |
+    - make a money transfer
+    - I need to transfer money
