@@ -476,7 +476,7 @@ predict_schema:
         name: train_selectiveDIET4
     run_intent_resolver:
       needs:
-        messages: run_selectiveDIET2
+        messages: run_selectiveDIET4
         tracker: __tracker__
       uses: "custom_components.intent_resolver.IntentResolver"
       constructor_name: load
