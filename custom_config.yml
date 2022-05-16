@@ -418,7 +418,21 @@ predict_schema:
       fn: process
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money","pay_cc", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train:
+          # Entry Point Skills
+          - transfer_money
+          - pay_cc
+          - search_transactions
+          - check_balance
+          # Common Core Intents  
+          - help
+          - check_earnings
+          - human_handoff
+          - affirm
+          - deny 
+          - greet
+          - goodbye
+          - check_human
         classifier_name: "global_router"
         entity_recognition: False
       eager: true
@@ -476,7 +490,7 @@ predict_schema:
         name: train_selectiveDIET4
     run_intent_resolver:
       needs:
-        messages: run_selectiveDIET2
+        messages: run_selectiveDIET4
         tracker: __tracker__
       uses: "custom_components.intent_resolver.IntentResolver"
       constructor_name: load
@@ -509,9 +523,23 @@ predict_schema:
       is_target: false
       is_input: false
       resource: null
-    run_RegexMessageHandler:
+
+    run_DucklingEntityExtractor:
       needs:
         messages: run_intent_resolver
+      uses: rasa.nlu.extractors.duckling_entity_extractor.DucklingEntityExtractor
+      constructor_name: load
+      fn: process
+      config:
+        url: http://localhost:8000
+      eager: true
+      is_target: false
+      is_input: false
+      resource: null
+  
+    run_RegexMessageHandler:
+      needs:
+        messages: run_DucklingEntityExtractor
       uses: rasa.nlu.classifiers.regex_message_handler.RegexMessageHandler
       constructor_name: load
       fn: process
