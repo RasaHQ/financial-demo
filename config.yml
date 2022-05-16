@@ -9,27 +9,58 @@ pipeline:
     analyzer: "char_wb"
     min_ngram: 1
     max_ngram: 4
-  - name: DIETClassifier
+  - name: CRFEntityExtractor
+  - name: "custom_components.selective_diet.SelectiveDIET"
     epochs: 100
+    intents_to_train: ["transfer_money","pay_cc", "search_transactions","help", "check_earnings", "check_balance", "human_handoff"]
+    classifier_name: "global_router"
+    entity_recognition: False
+  - name: "custom_components.selective_diet.SelectiveDIET"
+    epochs: 100
+    intents_to_train: ["transfer_money", "check_recipients", "inform", "ask_transfer_charge", "pay_cc", "search_transactions","help", "check_earnings", "check_balance", "human_handoff"]
+    classifier_name: "p2p_transfer"
+    entity_recognition: False
+  - name: "custom_components.selective_diet.SelectiveDIET"
+    epochs: 100
+    intents_to_train: [ "transfer_money", "pay_cc", "inform", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+    classifier_name: "pay_cc"
+    entity_recognition: False
+  - name: "custom_components.selective_diet.SelectiveDIET"
+    epochs: 100
+    intents_to_train: [ "transfer_money", "pay_cc", "inform", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+    classifier_name: "search_transactions"
+    entity_recognition: False
+  - name: "custom_components.intent_resolver.IntentResolver"
+    global_router_name: "global_router"
+    skills:
+      p2p_transfer:
+        start_intent: transfer_money
+        end_action: action_transfer_money
+      pay_cc:
+        start_intent: pay_cc
+        end_action: action_pay_cc
+      search_transactions:
+        start_intent: search_transactions
+        end_action: action_transaction_search
   - name: FallbackClassifier
     threshold: 0.7
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions:
-    - amount-of-money
-    - time
-    - number
-  - name: SpacyNLP
-    model: "en_core_web_md"
-    case_sensitive: false
-  - name: "SpacyEntityExtractor"
-    # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in
-    #       combination with the WhitespaceTokenizer, and as a result the
-    #       PERSON extraction by Spacy is not very robust.
-    #       Because of this, the nlu training data is annotated as well, and the
-    #       DIETClassifier will also extract PERSON entities .
-    dimensions: ["PERSON"]
-  - name: EntitySynonymMapper
+#  - name: DucklingEntityExtractor
+#    url: http://localhost:8000
+#    dimensions:
+#    - amount-of-money
+#    - time
+#    - number
+#  - name: SpacyNLP
+#    model: "en_core_web_md"
+#    case_sensitive: false
+#  - name: "SpacyEntityExtractor"
+#    # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in
+#    #       combination with the WhitespaceTokenizer, and as a result the
+#    #       PERSON extraction by Spacy is not very robust.
+#    #       Because of this, the nlu training data is annotated as well, and the
+#    #       DIETClassifier will also extract PERSON entities .
+#    dimensions: ["PERSON"]
+#  - name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
 - name: TEDPolicy
