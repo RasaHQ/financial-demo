@@ -241,7 +241,26 @@ nlu:
     - welcome
     - howdy
     - good day
-- intent: inform
+
+- intent: inform_search
+  examples: |
+    - the past month
+    - the past two days
+    - the last two weeks
+    - last week
+    - yesterday
+    - for today
+    - at [amazon](vendor_name)
+    - [starbucks](vendor_name)
+    - at [target](vendor_name)
+    - at [starbucks](vendor_name)
+    - [target](vendor_name)
+    - [Amazon](vendor_name)
+    - [Starbucks](vendor_name)
+    - [Target](vendor_name)
+
+
+- intent: inform_pay_cc
   examples: |
     - $10
     - 5000
@@ -254,18 +273,6 @@ nlu:
     - next week
     - yesterday
     - for today
-    - last week
-    - the past month
-    - the past two days
-    - the last two weeks
-    - at [amazon](vendor_name)
-    - [starbucks](vendor_name)
-    - at [target](vendor_name)
-    - at [starbucks](vendor_name)
-    - [target](vendor_name)
-    - [Amazon](vendor_name)
-    - [Starbucks](vendor_name)
-    - [Target](vendor_name)
     - I want to pay the [current balance](amount-of-money)
     - [current balance](amount-of-money)
     - [full](amount-of-money)
@@ -313,11 +320,23 @@ nlu:
     - my [rasa](credit_card) account
     - my [credit card]{"entity": "account_type", "value": "credit"} account ending in 4321
     - My [Visa](credit_card) account
-    - A friend.
-    - [Alexandra](PERSON)?
     - today please
     - [Iron Bank](credit_card)
     - My [visa](credit_card)
+    - [Gringtos](credit_card)
+    - My chase
+
+- intent: inform_transfer
+  examples: |
+    - $10
+    - 5000
+    - 500
+    - $100
+    - $500
+    - 100 dollars
+    - 1000 dollars
+    - A friend.
+    - [Alexandra](PERSON)?
     - [Bob](PERSON)
     - [bill](PERSON)
     - [anusha](PERSON)
@@ -341,7 +360,6 @@ nlu:
     - Percy please
     - Laura Schilling
     - In that case, let's go with Percy
-    - My chase
     - Jane
     - Melinda
     - Sara
@@ -353,7 +371,6 @@ nlu:
     - Percy
     - percy donald
     - danIelle smilanich
-    - [Gringtos](credit_card)
 - intent: pay_cc
   examples: |
     - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
@@ -610,20 +627,20 @@ nlu:
     - ofif fsdfafsfs
 - synonym: credit
   examples: |
-    - credit card account
-    - card
     - credit accounts
-    - cards
     - credit account
-    - credit cards
     - credit card
+    - card
+    - credit card account
+    - credit cards
+    - cards
 - synonym: emblem
   examples: |
-    - embelm
     - emblm
     - Emblem
+    - embelm
 - synonym: current balance
   examples: |
     - balance
-    - full
     - full balance
+    - full

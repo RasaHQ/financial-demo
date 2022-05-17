@@ -6,7 +6,9 @@ intents:
 - check_human
 - transfer_money:
     use_entities: []
-- inform
+- inform_pay_cc
+- inform_search
+- inform_transfer
 - pay_cc:
     use_entities: []
 - greet
@@ -69,21 +71,21 @@ slots:
       - active_loop: transaction_search_form
         requested_slot: AA_CONTINUE_FORM
     - intent:
-      - inform
+      - inform_pay_cc
       - cc_payment_form
       type: from_text
       conditions:
       - active_loop: cc_payment_form
         requested_slot: AA_CONTINUE_FORM
     - intent:
-      - inform
+      - inform_transfer
       - transfer_money_form
       type: from_text
       conditions:
       - active_loop: transfer_money_form
         requested_slot: AA_CONTINUE_FORM
     - intent:
-      - inform
+      - inform_search
       - transaction_search_form
       type: from_text
       conditions:
@@ -99,7 +101,7 @@ slots:
       - active_loop: transfer_money_form
         requested_slot: PERSON
     - intent:
-      - inform
+      - inform_transfer
       - transfer_money_form
       type: from_text
       conditions:
@@ -138,14 +140,14 @@ slots:
       - active_loop: transfer_money_form
         requested_slot: amount-of-money
     - intent:
-      - inform
+      - inform_pay_cc
       - cc_payment_form
       type: from_text
       conditions:
       - active_loop: cc_payment_form
         requested_slot: amount-of-money
     - intent:
-      - inform
+      - inform_transfer
       - transfer_money_form
       type: from_text
       conditions:
@@ -169,7 +171,7 @@ slots:
       - active_loop: cc_payment_form
         requested_slot: credit_card
     - intent:
-      - inform
+      - inform_pay_cc
       - cc_payment_form
       type: from_text
       conditions:
@@ -274,14 +276,14 @@ slots:
       - active_loop: transaction_search_form
         requested_slot: time
     - intent:
-      - inform
+      - inform_pay_cc
       - cc_payment_form
       type: from_text
       conditions:
       - active_loop: cc_payment_form
         requested_slot: time
     - intent:
-      - inform
+      - inform_search
       - transaction_search_form
       type: from_text
       conditions:
@@ -325,21 +327,21 @@ slots:
       - active_loop: transaction_search_form
         requested_slot: zz_confirm_form
     - intent:
-      - inform
+      - inform_pay_cc
       - cc_payment_form
       type: from_text
       conditions:
       - active_loop: cc_payment_form
         requested_slot: zz_confirm_form
     - intent:
-      - inform
+      - inform_transfer
       - transfer_money_form
       type: from_text
       conditions:
       - active_loop: transfer_money_form
         requested_slot: zz_confirm_form
     - intent:
-      - inform
+      - inform_search
       - transaction_search_form
       type: from_text
       conditions:
@@ -372,9 +374,9 @@ responses:
   - text: In which timeframe would you like to search for transactions?
   utter_ask_transaction_search_form_search_type:
   - buttons:
-    - payload: /inform{"search_type":"deposit"}'
+    - payload: /inform_search{"search_type":"deposit"}'
       title: Incoming (earnings)
-    - payload: /inform{"search_type":"spend"}'
+    - payload: /inform_search{"search_type":"spend"}'
       title: Outgoing (spending)
     text: Would you like to search incoming or outgoing transactions?
   utter_no_payment_amount:

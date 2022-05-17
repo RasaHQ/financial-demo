@@ -219,7 +219,24 @@ train_schema:
       fn: train
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money","pay_cc", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train: 
+          # Entry Point Intents
+          - transfer_money
+          - pay_cc
+          - search_transactions
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Common Core 
+          - affirm
+          - deny 
+          - greet
+          - goodbye
+          - check_human
+          - thankyou
+          - help
+          - out_of_scope
+          - human_handoff
         classifier_name: "global_router"
         entity_recognition: False
       eager: false
@@ -234,7 +251,22 @@ train_schema:
       fn: train
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money", "check_recipients", "inform", "ask_transfer_charge", "pay_cc", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train: 
+          # Entry Point Intent
+          - transfer_money
+          # Transition Intents
+          - pay_cc
+          - search_transactions
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Related 
+          - inform_transfer
+          - ask_transfer_charge
+          # Core
+          - help
+          - affirm
+          - deny
         classifier_name: "p2p_transfer"
         entity_recognition: False
       eager: false
@@ -249,7 +281,21 @@ train_schema:
       fn: train
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money", "pay_cc", "inform", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train: 
+          # Entry Point Intent
+          - pay_cc
+          # Transition Intents
+          - transfer_money
+          - search_transactions
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Related 
+          - inform_pay_cc
+          # Core
+          - help
+          - affirm
+          - deny
         classifier_name: "pay_cc"
         entity_recognition: False
       eager: false
@@ -264,7 +310,21 @@ train_schema:
       fn: train
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money", "pay_cc", "inform", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train: 
+          # Entry Point Intent
+          - search_transactions
+          # Transition Intents
+          - pay_cc
+          - transfer_money
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Related 
+          - inform_search
+          # Core
+          - help
+          - affirm
+          - deny
         classifier_name: "search_transactions"
         entity_recognition: False
       eager: false
@@ -419,20 +479,22 @@ predict_schema:
       config:
         epochs: 50
         intents_to_train:
-          # Entry Point Skills
+          # Entry Point Intents
           - transfer_money
           - pay_cc
           - search_transactions
           - check_balance
-          # Common Core Intents  
-          - help
           - check_earnings
-          - human_handoff
+          # Common Core 
           - affirm
           - deny 
           - greet
           - goodbye
           - check_human
+          - thankyou
+          - help
+          - out_of_scope
+          - human_handoff
         classifier_name: "global_router"
         entity_recognition: False
       eager: true
@@ -448,7 +510,22 @@ predict_schema:
       fn: process
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money", "check_recipients", "inform", "ask_transfer_charge", "pay_cc", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train:
+          # Entry Point Intent
+          - transfer_money
+          # Transition Intents
+          - pay_cc
+          - search_transactions
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Related 
+          - inform_transfer
+          - ask_transfer_charge
+          # Core
+          - help
+          - affirm
+          - deny
         classifier_name: "p2p_transfer"
         entity_recognition: False
       eager: true
@@ -464,7 +541,21 @@ predict_schema:
       fn: process
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money", "pay_cc", "inform", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train: 
+          # Entry Point Intent
+          - pay_cc
+          # Transition Intents
+          - transfer_money
+          - search_transactions
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Related 
+          - inform_pay_cc
+          # Core
+          - help
+          - affirm
+          - deny
         classifier_name: "pay_cc"
         entity_recognition: False
       eager: true
@@ -480,7 +571,21 @@ predict_schema:
       fn: process
       config:
         epochs: 50
-        intents_to_train: [ "transfer_money", "pay_cc", "inform", "search_transactions","help", "check_earnings", "check_balance", "human_handoff" ]
+        intents_to_train: 
+          # Entry Point Intent
+          - search_transactions
+          # Transition Intents
+          - pay_cc
+          - transfer_money
+          - check_balance
+          - check_earnings
+          - check_recipients
+          # Related 
+          - inform_search
+          # Core
+          - help
+          - affirm
+          - deny
         classifier_name: "search_transactions"
         entity_recognition: False
       eager: true
