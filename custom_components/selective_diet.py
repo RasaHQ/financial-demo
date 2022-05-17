@@ -80,6 +80,10 @@ from rasa.utils.tensorflow.constants import (
 )
 from rasa.engine.recipes.default_recipe import DefaultV1Recipe
 
+from collections import Counter
+import logging
+
+logger = logging.getLogger(__name__)
 
 @DefaultV1Recipe.register(
     [DefaultV1Recipe.ComponentType.INTENT_CLASSIFIER], is_trainable=True
@@ -234,6 +238,9 @@ class SelectiveDIET(DIETClassifier):
             filtered_training_data = filtered_training_data.filter_training_examples(
                 lambda ex: ex.get("intent") in intents_to_train
             )
+            logger.debug(self.component_config["classifier_name"])
+            logger.debug(intents_to_train)
+            logger.debug(Counter([ex.get("intent") for ex in filtered_training_data.training_examples]))
 
         return super().preprocess_train_data(filtered_training_data)
 
