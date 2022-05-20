@@ -1,0 +1,8 @@
+version: "3.0"
+nlu:
+- intent: ask_transfer_charge
+  examples: |
+    - what is my account [balance]{"entity": "amount-of-money", "value": "current balance"}?
+- intent: transfer_money
+  examples: |
+    - [john](PERSON)
