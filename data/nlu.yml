@@ -1,0 +1,5 @@
+version: "3.0"
+nlu:
+- intent: check_earnings
+  examples: |
+    - I need to transfer money
