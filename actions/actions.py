@@ -72,7 +72,7 @@ class ActionPayCC(Action):
         """Executes the action"""
 
         slots = {
-            "AA_CONTINUE_FORM": None,
+            # "AA_CONTINUE_FORM": None,
             "zz_confirm_form": None,
             "credit_card": None,
             "account_type": None,
@@ -289,7 +289,7 @@ class ActionTransactionSearch(Action):
     ) -> List[Dict]:
         """Executes the action"""
         slots = {
-            "AA_CONTINUE_FORM": None,
+            # "AA_CONTINUE_FORM": None,
             "zz_confirm_form": None,
             "time": None,
             "time_formatted": None,
@@ -423,7 +423,7 @@ class ActionTransferMoney(Action):
     ) -> List[EventType]:
         """Executes the action"""
         slots = {
-            "AA_CONTINUE_FORM": None,
+            # "AA_CONTINUE_FORM": None,
             "zz_confirm_form": None,
             "PERSON": None,
             "amount-of-money": None,
@@ -875,10 +875,16 @@ class ActionSwitchFormsAffirm(Action):
             )
             dispatcher.utter_message(text=text)
 
-        return [
+        slot_events = [
             SlotSet("previous_form_name", active_form_name),
             SlotSet("next_form_name", None),
         ]
+        next_form_slots = domain.get("forms", {}).get(next_form_name, {}).get("required_slots")
+
+        if next_form_slots:
+            slot_events.extend([SlotSet(slot, None) for slot in next_form_slots])
+
+        return slot_events
 
 
 class ActionSwitchBackAsk(Action):

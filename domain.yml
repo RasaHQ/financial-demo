@@ -509,7 +509,7 @@ forms:
   cc_payment_form:
     ignored_intents: []
     required_slots:
-    - AA_CONTINUE_FORM
+    # - AA_CONTINUE_FORM
     - credit_card
     - amount-of-money
     - time
@@ -517,14 +517,14 @@ forms:
   transfer_money_form:
     ignored_intents: []
     required_slots:
-    - AA_CONTINUE_FORM
+    # - AA_CONTINUE_FORM
     - PERSON
     - amount-of-money
     - zz_confirm_form
   transaction_search_form:
     ignored_intents: []
     required_slots:
-    - AA_CONTINUE_FORM
+    # - AA_CONTINUE_FORM
     - search_type
     - time
     - zz_confirm_form
