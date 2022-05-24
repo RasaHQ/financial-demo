@@ -13,12 +13,12 @@ pipeline:
     epochs: 100
   - name: FallbackClassifier
     threshold: 0.7
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions:
-    - amount-of-money
-    - time
-    - number
+  # - name: DucklingEntityExtractor
+  #   url: http://localhost:8000
+  #   dimensions:
+  #   - amount-of-money
+  #   - time
+  #   - number
   - name: SpacyNLP
     model: "en_core_web_md"
     case_sensitive: false
@@ -28,7 +28,7 @@ pipeline:
     #       PERSON extraction by Spacy is not very robust.
     #       Because of this, the nlu training data is annotated as well, and the
     #       DIETClassifier will also extract PERSON entities .
-    dimensions: ["PERSON"]
+    # dimensions: ["PERSON"]
   - name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
