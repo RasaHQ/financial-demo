@@ -1,0 +1,5 @@
+version: "3.0"
+nlu:
+- intent: check_balance
+  examples: |
+    - what is my account [balance]{"entity": "amount-of-money", "value": "current balance"}?
