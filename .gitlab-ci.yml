@@ -1,0 +1,90 @@
+stages:
+  - pre-build
+  - build
+  - post-build
+  - deploy
+
+variables:
+  RASA_VERSION: "3.1.7-spacy-en"
+  # DOCKER_REGISTRY: "https://index.docker.io/v1/"
+  DOCKER_USERNAME: "stephens"
+  DOCKER_IMAGE_NAME: "financial-demo"
+  DOCKER_IMAGE_TAG: "test"
+  DOCKER_TLS_CERTDIR: "/certs"
+
+rasa-pre-tests:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  stage: pre-build
+  image:
+    name: rasa/rasa:${RASA_VERSION}
+    entrypoint: [""]
+  script:
+    - rasa data validate
+
+rasa-train:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  needs: ["rasa-pre-tests"]
+  stage: build
+  image:
+    name: rasa/rasa:${RASA_VERSION}
+    entrypoint: [""]
+  script:
+    - rasa train
+    # - python format_results.py
+  artifacts:
+    paths:
+      - models/
+    expire_in: 1 month
+
+rasa-post-tests:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  needs: ["rasa-train"]
+  stage: post-build
+  image:
+    name: rasa/rasa:${RASA_VERSION}
+    entrypoint: [""]
+  script:
+    # - rasa test --fail-on-prediction-errors
+    - rasa test
+    - rasa test nlu -f 5 --cross-validation
+    # - python format_results.py
+  artifacts:
+    paths:
+      - results/
+    expire_in: 1 month
+
+action-pre-tests:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  stage: pre-build
+  image: python:3.8-buster
+  before_script:
+    - python -m pip install -U 'pip<20'
+    - pip install -r requirements-dev.txt
+  script:
+    # - black actions --line-length 79
+    - flake8 actions
+    # - black --check actions --line-length 79
+    # - pytype --keep-going actions
+
+build-action-server:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  stage: build
+  needs: ["action-pre-tests"]
+  image: docker:20.10-dind
+  services:
+    - docker:20.10-dind
+  before_script:
+    # - mkdir -p $HOME/.docker
+    # - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_REGISTRY_PASS
+  script:
+    - docker pull ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:latest || true
+    - docker build --cache-from ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:latest -t ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} -f Dockerfile .
+    - docker images
+    - echo pushing ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
