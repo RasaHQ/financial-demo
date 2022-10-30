@@ -1,7 +1,7 @@
 stages:
-  - pre-build
+  - pre
   - build
-  - post-build
+  - post
   - deploy
 
 variables:
@@ -12,20 +12,25 @@ variables:
   DOCKER_IMAGE_TAG: "test"
   DOCKER_TLS_CERTDIR: "/certs"
 
-rasa-pre-tests:
+pre:rasa:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-  stage: pre-build
+  stage: pre
   image:
     name: rasa/rasa:${RASA_VERSION}
     entrypoint: [""]
   script:
+    # Confirm rasa versions are compatible
+    - export RASA_PKG_VERSION=$(grep "rasa\[spacy\]" requirements.txt | awk -F"[=<>][=<>]" '{print $2}' | awk -F"." '{print $1 "." $2 }')
+    - export RASA_SDK_PKG_VERSION=$(grep "rasa-sdk" requirements.txt | awk -F"[=<>][=<>]" '{print $2}' | awk -F"." '{print $1 "." $2 }')
+    - test $RASA_PKG_VERSION == $RASA_SDK_PKG_VERSION
     - rasa data validate
 
-rasa-train:
+build:rasa:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-  needs: ["rasa-pre-tests"]
+    - if: $RASA_PKG_VERSION != $RASA_SDK_PKG_VERSION
+  needs: ["pre:rasa"]
   stage: build
   image:
     name: rasa/rasa:${RASA_VERSION}
@@ -38,28 +43,28 @@ rasa-train:
       - models/
     expire_in: 1 month
 
-rasa-post-tests:
+post:rasa:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-  needs: ["rasa-train"]
-  stage: post-build
+  needs: ["build:rasa"]
+  stage: post
   image:
     name: rasa/rasa:${RASA_VERSION}
     entrypoint: [""]
   script:
     # - rasa test --fail-on-prediction-errors
     - rasa test
-    - rasa test nlu -f 5 --cross-validation
+    # - rasa test nlu -f 5 --cross-validation
     # - python format_results.py
   artifacts:
     paths:
       - results/
     expire_in: 1 month
 
-action-pre-tests:
+pre:actions:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-  stage: pre-build
+  stage: pre
   image: python:3.8-buster
   before_script:
     - python -m pip install -U 'pip<20'
@@ -69,12 +74,17 @@ action-pre-tests:
     - flake8 actions
     # - black --check actions --line-length 79
     # - pytype --keep-going actions
+    # Confirm rasa versions are compatible
+    - export RASA_PKG_VERSION=$(grep "rasa\[spacy\]" requirements.txt | awk -F"[=<>][=<>]" '{print $2}' | awk -F"." '{print $1 "." $2 }')
+    - export RASA_SDK_PKG_VERSION=$(grep "rasa-sdk" requirements.txt | awk -F"[=<>][=<>]" '{print $2}' | awk -F"." '{print $1 "." $2 }')
+    - test $RASA_PKG_VERSION == $RASA_SDK_PKG_VERSION
 
-build-action-server:
+build:actions:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $RASA_PKG_VERSION != $RASA_SDK_PKG_VERSION
   stage: build
-  needs: ["action-pre-tests"]
+  needs: ["pre:actions"]
   image: docker:20.10-dind
   services:
     - docker:20.10-dind
