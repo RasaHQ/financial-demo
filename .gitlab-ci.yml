@@ -61,6 +61,20 @@ post:rasa:
       - results/
     expire_in: 1 month
 
+
+deploy:rasa:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  needs: ["build:rasa"]
+  stage: deploy
+  image: debian:wheezy
+  script:
+    - ls -l
+    - ls -l models/
+    - MODEL_PATH=`ls models/*.tar.gz | head -n 1`
+    - ls -l ${MODEL_PATH}
+    - curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASS} -T ${MODEL_PATH} "https://gstephens.jfrog.io/artifactory/models-generic-local/model.tar.gz"
+
 pre:actions:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
