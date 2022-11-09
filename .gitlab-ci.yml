@@ -36,7 +36,11 @@ build:rasa:
     name: rasa/rasa:${RASA_VERSION}
     entrypoint: [""]
   script:
+    - mkdir models
+    - curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASS} -O "https://gstephens.jfrog.io/artifactory/models-generic-local/model.tar.gz" --output models/model.tar.gz
+    - ls -l models/
     - rasa train
+    - ls -l models/
     # - python format_results.py
   artifacts:
     paths:
@@ -58,22 +62,28 @@ post:rasa:
     # - python format_results.py
   artifacts:
     paths:
+      - models/
       - results/
     expire_in: 1 month
-
 
 deploy:rasa:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-  needs: ["build:rasa"]
+  needs: ["post:rasa"]
   stage: deploy
-  image: debian:wheezy
+  image: alpine/curl
   script:
-    - ls -l
     - ls -l models/
     - MODEL_PATH=`ls models/*.tar.gz | head -n 1`
-    - ls -l ${MODEL_PATH}
+    - MODEL_FILE=`basename ${MODEL_PATH}`
+    - echo new model `find models -type f | sort -n | tail -1`
+    - curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASS} -T ${MODEL_PATH} "https://gstephens.jfrog.io/artifactory/models-generic-local/${MODEL_FILE}"
     - curl -u${ARTIFACTORY_USER}:${ARTIFACTORY_PASS} -T ${MODEL_PATH} "https://gstephens.jfrog.io/artifactory/models-generic-local/model.tar.gz"
+  artifacts:
+    paths:
+      - models/
+      - results/
+    expire_in: 1 month
 
 pre:actions:
   rules:
