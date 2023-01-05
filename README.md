@@ -13,6 +13,8 @@ This is an example chatbot demonstrating how to build AI assistants for financia
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+- [Notes on Rasa `3.x/ 2.x / 1.x`](#notes-on-rasa-3x-2x--1x)
+- [Financial Services Example Bot](#financial-services-example-bot)
   - [Install dependencies](#install-dependencies)
   - [Run the bot](#run-the-bot)
   - [Overview of the files](#overview-of-the-files)
@@ -22,13 +24,11 @@ This is an example chatbot demonstrating how to build AI assistants for financia
     - [How it works](#how-it-works)
     - [Bot-side configuration](#bot-side-configuration)
   - [Testing the bot](#testing-the-bot)
-  - [Rasa X Deployment](#rasa-x-deployment)
   - [Action Server Image](#action-server-image)
 - [CI/CD](#cicd)
   - [Summary](#summary)
   - [GitHub Secrets](#github-secrets)
       - [AWS IAM User API Keys:](#aws-iam-user-api-keys)
-      - [AWS Elastic IP:](#aws-elastic-ip)
       - [Rasa Enterprise License:](#rasa-enterprise-license)
       - [Helm chart Credentials](#helm-chart-credentials)
   - [AWS Preparation](#aws-preparation)
@@ -37,7 +37,7 @@ This is an example chatbot demonstrating how to build AI assistants for financia
     - [Local AWS CLI](#local-aws-cli)
       - [Install AWS CLI v2](#install-aws-cli-v2)
       - [Configure your AWS CLI](#configure-your-aws-cli)
-    - [ECR repository & S3 bucket](#ecr-repository--s3-bucket)
+    - [ECR repository \& S3 bucket](#ecr-repository--s3-bucket)
   - [EKS production cluster](#eks-production-cluster)
     - [Preparation](#preparation)
       - [Install eksctl](#install-eksctl)
@@ -48,14 +48,21 @@ This is an example chatbot demonstrating how to build AI assistants for financia
     - [Create the EKS cluster](#create-the-eks-cluster)
     - [Configure `kubeconfig`](#configure-kubeconfig)
     - [Install/Upgrade Rasa Enterprise](#installupgrade-rasa-enterprise)
-      - [Build & push action server docker image](#build--push-action-server-docker-image)
+    - [Versions](#versions)
+      - [Select compatible versions](#select-compatible-versions)
+      - [rasa \& rasa-sdk](#rasa--rasa-sdk)
+      - [rasa-x \& rasa-x-helm](#rasa-x--rasa-x-helm)
+      - [Build \& push action server docker image](#build--push-action-server-docker-image)
       - [Install/Upgrade Rasa Enterprise](#installupgrade-rasa-enterprise-1)
-    - [Train, test & upload model to S3](#train-test--upload-model-to-s3)
-    - [Deploy, Tag & Smoketest the trained model](#deploy-tag--smoketest-the-trained-model)
+    - [Train, test \& upload model to S3](#train-test--upload-model-to-s3)
+    - [Deploy, Tag \& Smoketest the trained model](#deploy-tag--smoketest-the-trained-model)
     - [DNS](#dns)
+  - [Trouble Shooting](#trouble-shooting)
+  - [Cleanup of AWS resources](#cleanup-of-aws-resources)
+    - [From the command line:](#from-the-command-line)
+    - [From the **AWS console**:](#from-the-aws-console)
   - [Appendix A: The AWS EKS cluster](#appendix-a-the-aws-eks-cluster)
-  - [Appendix B: Manual Cleanup of AWS resources](#appendix-b-manual-cleanup-of-aws-resources)
-  - [Appendix C: OCTANT](#appendix-c-octant)
+  - [Appendix B: OCTANT](#appendix-b-octant)
     - [Install Octant](#install-octant)
       - [Install on Ubuntu](#install-on-ubuntu)
     - [Run Octant](#run-octant)
@@ -106,14 +113,6 @@ rasa shell --debug
 
 Note that `--debug` mode will produce a lot of output meant to help you understand how the bot is working
 under the hood. To simply talk to the bot, you can remove this flag.
-
-
-You can also try out your bot locally using Rasa X by running
-```
-rasa x
-```
-
-Refer to our guided workflow in the [Wiki page](https://github.com/RasaHQ/financial-demo/wiki/Using-Rasa-X-with-the-Financial-Demo) for how to get started with Rasa X in local mode.
 
 
 ## Overview of the files
@@ -279,14 +278,6 @@ You can test the bot on the test conversations by:
 This will run [end-to-end testing](https://rasa.com/docs/rasa/user-guide/testing-your-assistant/#end-to-end-testing) on the conversations in `tests/test_stories.yml`.
 
 All tests must pass.
-
-
-
-## Rasa X Deployment
-
-To [deploy financial-demo](https://rasa.com/docs/rasa/user-guide/how-to-deploy/), it is highly recommended to make use of the [one line deploy script](https://rasa.com/docs/rasa-x/installation-and-setup/one-line-deploy-script/) for Rasa X. 
-
-As part of the deployment, you'll need to set up [git integration](https://rasa.com/docs/rasa-x/installation-and-setup/integrated-version-control/#connect-your-rasa-x-server-to-a-git-repository) to pull in your data and configurations, and build or pull an action server image.
 
 
 ## Action Server Image
