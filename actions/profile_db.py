@@ -2,7 +2,7 @@ import os
 import sqlalchemy as sa
 from sqlalchemy import Column, Integer, String, DateTime, REAL
 from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.engine.base import Engine
 from typing import Dict, Text, List, Union, Optional
 
