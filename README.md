@@ -75,12 +75,12 @@ To install development dependencies:
 ```bash
 pip install -r requirements-dev.txt
 pre-commit install
-python -m spacy download en_core_web_md en
-python -m spacy link en_core_web_md en
+python -m spacy download en_core_web_md
 ```
 
-> With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
-> If any changes are made by the hooks, you will need to re-add changed files and re-commit your changes.
+> With pre-commit installed, the `black` and `doctoc` hooks will run on every
+> `git commit`. If any changes are made by the hooks, you will need to re-add
+> changed files and re-commit your changes.
 
 ## Run the bot
 
