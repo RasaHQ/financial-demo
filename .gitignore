@@ -124,3 +124,6 @@ results/
 # Secret & local files
 secret/
 run_rasa*
+
+# DVC
+.dvc/
