@@ -11,7 +11,7 @@ from rasa.nlu.extractors.duckling_entity_extractor import DucklingEntityExtracto
 from typing import List, Optional
 
 duckling_config = {**DucklingEntityExtractor.get_default_config(),
-                   "url": "https://rasa:xCTBjGqjTqDqE6X72FXLiBWVXYaQDZ@duckling.rasa-dev.io",
+                   "url": "https://username:pass@duckling.rasa-dev.io",
                    "dimensions": ["time"]}
 duckling = DucklingEntityExtractor(duckling_config)
 
