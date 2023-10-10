@@ -1,0 +1,5 @@
+flows:
+  dummy_transfer_money:
+    description: Help user make a one time money transfer to someone
+    name: dummy_transfer_money
+    steps: []

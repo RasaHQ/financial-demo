@@ -1,0 +1,48 @@
+flows:
+  setup_recurrent_payment:
+    name: setup recurrent payment
+    description: This flow let users to set up a recurring payment, which can either be a direct debit or a standing order.
+    steps:
+      - collect: recurrent_payment_type
+        rejections:
+          - if: not ({"direct debit" "standing order"} contains recurrent_payment_type)
+            utter: utter_invalid_recurrent_payment_type
+        description: the type of payment
+      - collect: recurrent_payment_recipient
+        utter: utter_ask_recipient
+        description: the name of a person
+      - collect: recurrent_payment_amount_of_money
+        description: the amount of money without any currency designation
+      - collect: recurrent_payment_frequency
+        description: the frequency of the payment
+        rejections:
+          - if: not ({"monthly" "yearly"} contains recurrent_payment_frequency)
+            utter: utter_invalid_recurrent_payment_frequency
+      - collect: recurrent_payment_start_date
+        description: the start date of the payment
+      - collect: recurrent_payment_end_date
+        description: the end date of the payment
+        rejections:
+          - if: recurrent_payment_end_date < recurrent_payment_start_date
+            utter: utter_invalid_recurrent_payment_end_date
+      - collect: recurrent_payment_confirmation
+        description: accepts True or False
+        ask_before_filling: true
+        next:
+          - if: not recurrent_payment_confirmation
+            then:
+              - action: utter_payment_cancelled
+                next: END
+          - else: "execute_payment"
+      - id: "execute_payment"
+        action: action_execute_recurrent_payment
+        next:
+          - if: setup_recurrent_payment_successful
+            then:
+              - action: utter_payment_complete
+                next: END
+          - else: "payment_failed"
+      - id: "payment_failed"
+        action: utter_payment_failed
+      - action: utter_failed_payment_handover
+      - action: utter_failed_handoff

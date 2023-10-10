@@ -1,0 +1,95 @@
+version: "3.1"
+
+slots:
+  recurrent_payment_type:
+    type: categorical
+    values:
+      - direct debit
+      - standing order
+    mappings:
+    - type: custom
+  recurrent_payment_recipient:
+    type: text
+    mappings:
+    - type: custom
+  recurrent_payment_amount_of_money:
+    type: float
+    mappings:
+    - type: custom
+  recurrent_payment_frequency:
+    type: categorical
+    values:
+      - monthly
+      - yearly
+    mappings:
+    - type: custom
+  recurrent_payment_start_date:
+    type: any
+    mappings:
+    - type: custom
+  recurrent_payment_end_date:
+    type: any
+    mappings:
+    - type: custom
+  recurrent_payment_confirmation:
+    type: bool
+    mappings:
+    - type: custom
+  setup_recurrent_payment_successful:
+    type: bool
+    mappings:
+    - type: custom
+
+responses:
+  utter_ask_recurrent_payment_type:
+    - text: "What type of payment would you like to set up?"
+      buttons:
+      - title: "Direct Debit"
+        payload: "direct debit"
+      - title: "Standing Order"
+        payload: "standing order"
+  utter_invalid_recurrent_payment_type:
+    - text: "Sorry, you requested a payment type that is not valid. Please select one of the available options."
+  utter_ask_recurrent_payment_recipient:
+    - text: "Who should receive the payment?"
+  utter_ask_recipient:
+    - text: "What is the name of the recipient?"
+  utter_ask_recurrent_payment_amount_of_money:
+    - text: "How much money should be transferred?"
+  utter_ask_recurrent_payment_frequency:
+    - text: "How often should the payment be made?"
+      buttons:
+      - title: "Monthly"
+        payload: "monthly"
+      - title: "Yearly"
+        payload: "yearly"
+  utter_invalid_recurrent_payment_frequency:
+    - text: "Sorry, you requested a payment frequency that is not valid. Please select one of the available options."
+  utter_ask_recurrent_payment_start_date:
+    - text: "When should the payment start?"
+  utter_ask_recurrent_payment_end_date:
+    - text: "When should the payment end?"
+  utter_invalid_recurrent_payment_end_date:
+    - text: "Sorry, you requested an end date that is before the start date."
+  utter_ask_recurrent_payment_confirmation:
+    - text: "Please confirm that you want to set up this payment."
+      buttons:
+      - title: "Yes"
+        payload: "True"
+      - title: "No"
+        payload: "False"
+  utter_payment_complete:
+    - text: "Your payment has been set up."
+  utter_payment_failed:
+    - text: "Sorry, your payment could not be set up."
+  utter_payment_cancelled:
+    - text: "Your payment has been cancelled."
+  utter_failed_payment_handover:
+    - text: "Let me connect you to an agent, to get the details of what happened to your payment."
+  utter_invalid_date:
+    - text: "Sorry, the date that you provided could not be validated."
+
+actions:
+    - action_execute_recurrent_payment
+    - validate_recurrent_payment_start_date
+    - validate_recurrent_payment_end_date

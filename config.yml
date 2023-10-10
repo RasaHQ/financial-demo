@@ -1,40 +1,51 @@
 version: "3.1"
 language: en
 pipeline:
-  - name: WhitespaceTokenizer
-  - name: RegexFeaturizer
-  - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-  - name: CountVectorsFeaturizer
-    analyzer: "char_wb"
-    min_ngram: 1
-    max_ngram: 4
-  - name: DIETClassifier
-    epochs: 100
-  - name: FallbackClassifier
-    threshold: 0.7
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions:
-    - amount-of-money
-    - time
-    - number
-  - name: SpacyNLP
-    model: "en_core_web_md"
-    case_sensitive: false
-  - name: "SpacyEntityExtractor"
-    # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in
-    #       combination with the WhitespaceTokenizer, and as a result the
-    #       PERSON extraction by Spacy is not very robust.
-    #       Because of this, the nlu training data is annotated as well, and the
-    #       DIETClassifier will also extract PERSON entities .
-    dimensions: ["PERSON"]
-  - name: EntitySynonymMapper
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: "char_wb"
+  min_ngram: 1
+  max_ngram: 4
+- name: DIETClassifier
+  epochs: 50
+- name: FallbackClassifier
+  threshold: 0.7
+- name: DucklingEntityExtractor
+  url: http://localhost:8000
+  dimensions:
+  - amount-of-money
+  - time
+  - number
+# - name: SpacyNLP
+#   model: "en_core_web_md"
+#   case_sensitive: false
+# - name: "SpacyEntityExtractor"
+#     # Note: It is not possible to use the SpacyTokenizer + SpacyFeaturizer in
+#     #       combination with the WhitespaceTokenizer, and as a result the
+#     #       PERSON extraction by Spacy is not very robust.
+#     #       Because of this, the nlu training data is annotated as well, and the
+#     #       DIETClassifier will also extract PERSON entities .
+#   dimensions: ["PERSON"]
+- name: EntitySynonymMapper
+- name: LLMCommandGenerator
+  llm:
+    # model_name: gpt-3.5-turbo
+    model_name: gpt-4
+    request_timeout: 7
+
+
 policies:
 - name: AugmentedMemoizationPolicy
 - name: TEDPolicy
-  epochs: 40
+  epochs: 20
 - name: RulePolicy
   core_fallback_threshold: 0.4
   core_fallback_action_name: "action_default_fallback"
-  enable_fallback_prediction: True
+  enable_fallback_prediction: true
+- name: rasa.core.policies.flow_policy.FlowPolicy
+  priority: 7
+
+assistant_id: 20231006-123431-deterministic-pressure

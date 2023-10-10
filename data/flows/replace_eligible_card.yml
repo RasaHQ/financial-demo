@@ -1,0 +1,25 @@
+flows:
+  replace_eligible_card:
+    description: Never predict StartFlow for this flow, users are not able to trigger it themselves.
+    name: replace eligible card
+    steps:
+      - collect: replacement_reason
+        next:
+          - if: replacement_reason == "lost"
+            then:
+              - collect: was_card_used_fraudulently
+                ask_before_filling: true
+                next:
+                  - if: was_card_used_fraudulently
+                    then:
+                      - action: utter_report_fraud
+                        next: END
+                  - else: start_replacement
+          - if: "replacement_reason == 'damaged'"
+            then: start_replacement
+          - else:
+            - action: utter_unknown_replacement_reason_handover
+              next: END
+      - id: start_replacement
+        action: utter_will_cancel_and_send_new
+      - action: utter_new_card_has_been_ordered
