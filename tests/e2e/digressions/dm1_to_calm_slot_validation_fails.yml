@@ -1,0 +1,11 @@
+test_cases:
+- test_case: b80b239dd61b4022aee2ec825c74d656
+  steps:
+  - user: transfer money
+  - utter: utter_ask_transfer_money_form_AA_CONTINUE_FORM
+  - user: /affirm
+  - utter: utter_ask_transfer_money_form_PERSON
+  - user: evan oslo
+  - utter: utter_ask_transfer_money_form_amount-of-money
+  - user: actually I might have to do a recurrent transfer to him
+  - utter: utter_ask_recurrent_payment_type

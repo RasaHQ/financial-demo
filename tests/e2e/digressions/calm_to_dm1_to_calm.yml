@@ -1,0 +1,17 @@
+test_cases:
+- test_case: User is in a calm skill, switches to dm1 skill and the bot switches back to CALM skill
+  steps:
+  - user: schedule a recurring payment
+  - utter: utter_ask_recurrent_payment_type
+  - user: standing order
+  - utter: utter_ask_recipient
+  - user: wait before that send 20 dollars to a friend
+  - utter: utter_ask_transfer_money_form_AA_CONTINUE_FORM
+  - user: /affirm
+  - utter: utter_ask_transfer_money_form_PERSON
+  - user: john jacob
+  - utter: utter_ask_transfer_money_form_zz_confirm_form
+  - user: /affirm
+  - utter: utter_transfer_complete
+  - utter: utter_flow_continue_interrupted
+  - utter: utter_ask_recipient

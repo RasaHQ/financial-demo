@@ -1,0 +1,20 @@
+test_cases:
+- test_case: User is in a DM1 skill, switches to CALM skill, CALM skill is cancelled and the bot switches back to DM1 skill
+  steps:
+  - user: transfer money
+  - utter: utter_ask_transfer_money_form_AA_CONTINUE_FORM
+  - user: /affirm
+  - utter: utter_ask_transfer_money_form_PERSON
+  - user: katy parrow
+  - utter: utter_ask_transfer_money_form_amount-of-money
+  - user: |-
+      actually I might have to pay her every month, can we setup a scheduled
+            payment?
+  - utter: utter_ask_recurrent_payment_type
+  - user: she stays in germany so an international transfer
+  - utter: utter_invalid_recurrent_payment_type
+  - utter: utter_ask_recurrent_payment_type
+  - user: ahh nevermind then
+  - utter: utter_flow_cancelled_rasa
+  - utter: utter_flow_continue_interrupted
+  - utter: utter_ask_transfer_money_form_amount-of-money
