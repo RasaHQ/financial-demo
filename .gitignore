@@ -123,3 +123,7 @@ results/
 # Secret & local files
 secret/
 run_rasa*
+
+rasa
+.rasa
+.idea
