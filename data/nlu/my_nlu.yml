@@ -1,0 +1,10 @@
+version: "3.1"
+nlu:
+  - intent: poggers
+    examples: |
+      - It's time to pog
+      - I love poggings
+      - Pogchamp is the best
+      - I'm a pogchampion
+      - I spam pog every day
+      - Surely it is pogging

@@ -1,0 +1,5 @@
+stories:
+  - story: say poggers if user pogged
+    steps:
+      - intent: poggers
+      - action: my_mom_action

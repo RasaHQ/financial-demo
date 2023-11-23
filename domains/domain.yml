@@ -1,0 +1,522 @@
+version: "3.1"
+session_config:
+  session_expiration_time: 0
+  carry_over_slots_to_new_session: true
+intents:
+- check_human
+- transfer_money:
+    use_entities: []
+- inform
+- pay_cc:
+    use_entities: []
+- greet
+- goodbye
+- affirm
+- deny
+- thankyou
+- ask_transfer_charge
+- search_transactions:
+    use_entities: []
+- check_balance:
+    use_entities:
+    - credit_card
+    - account_type
+- check_earnings:
+    use_entities: []
+- check_recipients
+- out_of_scope
+- session_start
+- restart
+- trigger_handoff
+- handoff
+- human_handoff
+- help
+- nlu_fallback
+entities:
+- amount-of-money
+- credit_card
+- payment_date
+- vendor_name
+- time
+- PERSON
+- number
+- account_type
+- handoff_to
+- search_type
+slots:
+  AA_CONTINUE_FORM:
+    type: any
+    influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: yes
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transfer_money_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transaction_search_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent: deny
+      type: from_intent
+      value: no
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transfer_money_form
+        requested_slot: AA_CONTINUE_FORM
+      - active_loop: transaction_search_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: AA_CONTINUE_FORM
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+      conditions:
+      - active_loop: transaction_search_form
+        requested_slot: AA_CONTINUE_FORM
+  PERSON:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: PERSON
+      type: from_entity
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: PERSON
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: PERSON
+    - type: from_entity
+      entity: PERSON
+  account_type:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: account_type
+  amount-of-money:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: amount-of-money
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: amount-of-money
+      - active_loop: transfer_money_form
+        requested_slot: amount-of-money
+    - entity: number
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: amount-of-money
+      - active_loop: transfer_money_form
+        requested_slot: amount-of-money
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: amount-of-money
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: amount-of-money
+    - type: from_entity
+      entity: amount-of-money
+  amount_transferred:
+    type: any
+    initial_value: 0
+    influence_conversation: false
+    mappings:
+    - type: custom
+  credit_card:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: credit_card
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: credit_card
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: credit_card
+    - type: from_entity
+      entity: credit_card
+  currency:
+    type: any
+    influence_conversation: false
+    initial_value: $
+    mappings:
+    - type: custom
+  end_time:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  end_time_formatted:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  grain:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  handoff_to:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: handoff_to
+  next_form_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: custom
+  number:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: number
+  payment_amount_type:
+    type: any
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  previous_form_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: custom
+  repeated_validation_failures:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  requested_slot:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  search_type:
+    type: any
+    influence_conversation: false
+    mappings:
+    - intent: search_transactions
+      type: from_trigger_intent
+      value: spend
+    - intent: check_earnings
+      type: from_trigger_intent
+      value: deposit
+    - type: from_entity
+      entity: search_type
+      conditions:
+      - active_loop: transaction_search_form
+    - type: from_entity
+      entity: search_type
+  start_time:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  start_time_formatted:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  time:
+    type: any
+    influence_conversation: false
+    mappings:
+    - entity: time
+      type: from_entity
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: time
+      - active_loop: transaction_search_form
+        requested_slot: time
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: time
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+      conditions:
+      - active_loop: transaction_search_form
+        requested_slot: time
+    - type: from_entity
+      entity: time
+  time_formatted:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: custom
+  vendor_name:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: vendor_name
+  zz_confirm_form:
+    type: any
+    influence_conversation: false
+    mappings:
+    - intent: affirm
+      type: from_intent
+      value: yes
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: zz_confirm_form
+      - active_loop: transfer_money_form
+        requested_slot: zz_confirm_form
+      - active_loop: transaction_search_form
+        requested_slot: zz_confirm_form
+    - intent: deny
+      type: from_intent
+      value: no
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: zz_confirm_form
+      - active_loop: transfer_money_form
+        requested_slot: zz_confirm_form
+      - active_loop: transaction_search_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+      conditions:
+      - active_loop: cc_payment_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+      conditions:
+      - active_loop: transfer_money_form
+        requested_slot: zz_confirm_form
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+      conditions:
+      - active_loop: transaction_search_form
+        requested_slot: zz_confirm_form
+responses:
+  utter_out_of_scope:
+  - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
+  utter_ask_transfer_money_form_amount-of-money:
+  - text: How much money do you want to transfer?
+  utter_ask_transfer_money_form_PERSON:
+  - text: Who do you want to transfer money to?
+  utter_goodbye:
+  - text: Bye
+  utter_noworries:
+  - text: You're welcome :)
+  utter_transfer_complete:
+  - text: Successfully transferred {currency}{amount-of-money} to {PERSON}.
+  utter_transfer_charge:
+  - text: You are entitled to six transfers within a statement cycle before being charged. For subsequent transfers you will be charged {currency}10 per transaction.
+  utter_ask_cc_payment_form_amount-of-money:
+  - text: How much do you want to pay?
+  utter_ask_cc_payment_form_credit_card:
+  - text: Towards which credit card account do you want to make a payment?
+  utter_ask_cc_payment_form_time:
+  - text: For which date would you like to schedule the payment?
+  utter_ask_transaction_search_form_vendor_name:
+  - text: For which vendor do you want to see transactions?  e.g Starbucks, Target, Amazon
+  utter_ask_transaction_search_form_time:
+  - text: In which timeframe would you like to search for transactions?
+  utter_ask_transaction_search_form_search_type:
+  - text: Would you like to search incoming or outgoing transactions?
+    buttons:
+    - title: Incoming (earnings)
+      payload: /inform{"search_type":"deposit"}'
+    - title: Outgoing (spending)
+      payload: /inform{"search_type":"spend"}'
+  utter_no_payment_amount:
+  - text: Sorry, I don't understand that payment amount.
+  utter_no_paymentdate:
+  - text: Sorry, that is not a valid payment date.
+  utter_no_creditcard:
+  - text: Sorry, that is not a valid credit card account to make payments towards.
+  utter_no_vendor_name:
+  - text: Sorry, that's not a recognized vendor.
+  utter_no_transactdate:
+  - text: Sorry, that's not a recognized time frame.
+  utter_cc_pay_scheduled:
+  - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account scheduled to be paid at {time_formatted}.
+  utter_searching_spend_transactions:
+  - text: Searching transactions{vendor_name} between {start_time_formatted} and {end_time_formatted}...
+  utter_found_spend_transactions:
+  - text: I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.
+  utter_searching_deposit_transactions:
+  - text: Searching deposits made to your account between {start_time_formatted} and {end_time_formatted}...
+  utter_found_deposit_transactions:
+  - text: I found {numtransacts} deposits made to your account totalling {currency}{total}
+  utter_ask_rephrase:
+  - text: I didn't quite understand that. Can you rephrase?
+  utter_ok:
+  - text: 👍
+  utter_ask_continue:
+  - text: Would you like to continue?
+  utter_default:
+  - text: I didn't quite understand that. Could you rephrase?
+  utter_ask_cc_payment_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transaction
+    text: Would you like to continue scheduling the credit card payment?
+  utter_ask_transfer_money_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transfer
+    text: Would you like to continue scheduling the money transfer?
+  utter_ask_transaction_search_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the search
+    text: Would you like to continue the transaction search?
+  utter_ask_cc_payment_form_zz_confirm_form:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transaction
+    text: Would you like to schedule a payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account for {time_formatted}?
+  utter_ask_transfer_money_form_zz_confirm_form:
+  - buttons:
+    - payload: /affirm
+      title: Yes
+    - payload: /deny
+      title: No, cancel the transaction
+    text: Would you like to transfer {currency}{amount-of-money} to {PERSON}?
+  utter_cc_pay_cancelled:
+  - text: Credit card account payment cancelled.
+  utter_transfer_cancelled:
+  - text: Transfer cancelled.
+  utter_transaction_search_cancelled:
+  - text: Transaction search cancelled.
+  utter_account_balance:
+  - text: Your bank account balance is {currency}{init_account_balance}.
+  utter_changed_account_balance:
+  - text: Your bank account balance was {currency}{init_account_balance} and is now {currency}{account_balance} after transfers and payments.
+  utter_unknown_recipient:
+  - text: Sorry, {PERSON} is not in your list of known recipients.
+  utter_insufficient_funds:
+  - text: Sorry, you don't have enough money to do that!
+  utter_insufficient_funds_specific:
+  - text: The {payment_amount_type} on your {credit_card} credit card is {amount-of-money}, so you have insufficient funds to pay it off.
+  utter_credit_card_balance:
+  - text: The current balance for your {credit_card} account is {currency}{credit_card_balance}.
+  utter_nothing_due:
+  - text: Your don't owe any money on your {credit_card} credit card bill.
+  utter_recipients:
+  - text: These are your known recpients to whom you can send money:{formatted_recipients}
+  utter_greet:
+  - text: Hi! I'm your Financial Assistant!
+  utter_ask_handoff:
+  - text: It looks like you want to be transferred to a human agent.
+  utter_handoff:
+  - text: Alright, I'll try to transfer you.
+  utter_wouldve_handed_off:
+  - text: If you were talking to me via chatroom, I would have handed you off to {handoffhost}.
+  utter_no_handoff:
+  - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
+  utter_ask_whatelse:
+  - text: What else can I help you with?
+  utter_bot:
+  - text: I'm a virtual assistant made with Rasa.
+  utter_help:
+  - text: "I can help you with your financial accounts. \nYou can ask me things like: \n- What's my account balance? \n- Pay off my credit card \n- What did I spend at Target last month? \n- I need to transfer money"
+actions:
+- action_session_start
+- action_restart
+- action_show_balance
+- action_show_recipients
+- action_show_transfer_charge
+- action_handoff
+- action_handoff_options
+- action_pay_cc
+- action_transfer_money
+- action_transaction_search
+- action_ask_transaction_search_form_zz_confirm_form
+- action_switch_forms_ask
+- action_switch_forms_deny
+- action_switch_forms_affirm
+- action_switch_back_ask
+- validate_cc_payment_form
+- validate_transfer_money_form
+- validate_transaction_search_form
+forms:
+  cc_payment_form:
+    ignored_intents: []
+    required_slots:
+    - AA_CONTINUE_FORM
+    - credit_card
+    - amount-of-money
+    - time
+    - zz_confirm_form
+  transfer_money_form:
+    ignored_intents: []
+    required_slots:
+    - AA_CONTINUE_FORM
+    - PERSON
+    - amount-of-money
+    - zz_confirm_form
+  transaction_search_form:
+    ignored_intents: []
+    required_slots:
+    - AA_CONTINUE_FORM
+    - search_type
+    - time
+    - zz_confirm_form
