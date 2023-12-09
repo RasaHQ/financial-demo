@@ -1,0 +1,74 @@
+version: "3.1"
+
+stories:
+  - story: Happy path vendor creation
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - action: utter_help
+      - intent: ask_add_vendor
+      - action: add_vendor_form
+      - active_loop: add_vendor_form
+      - intent: inform_vendor
+      - slot_was_set:
+          - requested_slot: vendor
+      - slot_was_set:
+          - vendor: KFC
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_add_vendor
+
+  - story: Happy Path Vendor Creation with multi word vendor name
+    steps:
+      - intent: ask_add_vendor
+      - action: add_vendor_form
+      - active_loop: add_vendor_form
+      - intent: inform_vendor
+      - slot_was_set:
+        - requested_slot: vendor
+      - slot_was_set:
+          - vendor: O'Reily and Company
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_add_vendor
+
+  - story: Addition without question and with greet
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - action: utter_help
+      - intent: add_vendor
+        entities:
+          - vendor: "Apple"
+      - slot_was_set:
+          - vendor: "Apple"
+      - action: add_vendor_form
+      - active_loop: add_vendor_form
+      - slot_was_set:
+          - requested_slot: vendor
+      - slot_was_set:
+          - vendor: "Alpine"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_add_vendor
+
+  - story: Addition without question
+    steps:
+      - intent: add_vendor
+        entities:
+          - vendor: "Alpine"
+      - slot_was_set:
+          - vendor: "Alpine"
+      - action: add_vendor_form
+      - active_loop: add_vendor_form
+      - slot_was_set:
+          - requested_slot: vendor
+      - slot_was_set:
+          - vendor: "Alpine"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_add_vendor

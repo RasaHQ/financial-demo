@@ -259,14 +259,14 @@ nlu:
     - the past month
     - the past two days
     - the last two weeks
-    - at [amazon](vendor_name)
-    - [starbucks](vendor_name)
-    - at [target](vendor_name)
-    - at [starbucks](vendor_name)
-    - [target](vendor_name)
-    - [Amazon](vendor_name)
-    - [Starbucks](vendor_name)
-    - [Target](vendor_name)
+    - at [amazon](vendor)
+    - [starbucks](vendor)
+    - at [target](vendor)
+    - at [starbucks](vendor)
+    - [target](vendor)
+    - [Amazon](vendor)
+    - [Starbucks](vendor)
+    - [Target](vendor)
     - I want to pay the [current balance](amount-of-money)
     - [current balance](amount-of-money)
     - [full](amount-of-money)
@@ -398,37 +398,37 @@ nlu:
     - can I pay my [card]{"entity": "account_type", "value": "credit"}?
 - intent: search_transactions
   examples: |
-    - how much did I spend at [Target](vendor_name) this week?
-    - what is my typical spending at [Amazon](vendor_name)?
+    - how much did I spend at [Target](vendor) this week?
+    - what is my typical spending at [Amazon](vendor)?
     - I want to check my spending history
-    - how much did I spend at [Starbucks](vendor_name) last week?
+    - how much did I spend at [Starbucks](vendor) last week?
     - I need to check my spending history
     - I want to check my spending
-    - I want to check my spending history at [starbucks](vendor_name)
+    - I want to check my spending history at [starbucks](vendor)
     - i want to check my spending history
     - i want to see my transaction history
     - I want to search my past transactions
     - can I search my transaction history
     - can I look at past transactions
-    - I want to search my transactions with [amazon](vendor_name)
-    - can i seem my transactions with [target](vendor_name)
-    - how much did i spend at [starbucks](vendor_name) last month?
+    - I want to search my transactions with [amazon](vendor)
+    - can i seem my transactions with [target](vendor)
+    - how much did i spend at [starbucks](vendor) last month?
     - what did i spend last month?
     - How much did I spend last month?
-    - What did I spend at [Legoland](vendor_name) last month?
-    - What did I spend at [Legoland](vendor_name) last year?
-    - how much did i spend at [starbucks](vendor_name) last year
-    - Yes! How much did I spend on [Starbucks](vendor_name) last month?
+    - What did I spend at [Legoland](vendor) last month?
+    - What did I spend at [Legoland](vendor) last year?
+    - how much did i spend at [starbucks](vendor) last year
+    - Yes! How much did I spend on [Starbucks](vendor) last month?
     - How much did I spend at Burger King last month?
     - what places have I spent money?
-    - What did I spend at [Starbucks](vendor_name) in may?
-    - How much money did I lose to [starbucks](vendor_name) in may?
-    - Oh how much did I actually spend at [target](vendor_name) last month? I'd love to know.
-    - Can you tell me how much I spent at [Ikea](vendor_name) this month?
+    - What did I spend at [Starbucks](vendor) in may?
+    - How much money did I lose to [starbucks](vendor) in may?
+    - Oh how much did I actually spend at [target](vendor) last month? I'd love to know.
+    - Can you tell me how much I spent at [Ikea](vendor) this month?
     - Can you tell me how much I spent at coffeeshops this month?
     - Can you tell me how much I spent on coffee this month?
-    - What did I spend at [Costco](vendor_name) last month?
-    - what did I spend at [target](vendor_name) last month
+    - What did I spend at [Costco](vendor) last month?
+    - what did I spend at [target](vendor) last month
     - where did I spend the most money last month?
 - intent: thankyou
   examples: |

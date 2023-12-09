@@ -1,0 +1,43 @@
+version: "3.1"
+session_config:
+  session_expiration_time: 0
+  carry_over_slots_to_new_session: true
+intents:
+  - ask_add_vendor
+  - add_vendor:
+      use_entities:
+        - vendor
+  - inform_vendor
+  - show_vendors
+
+entities:
+  - vendor
+slots:
+  vendor:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: vendor
+        conditions:
+          - active_loop: add_vendor_form
+      - type: from_entity
+        entity: vendor
+        intent:
+          - inform_vendor
+          - add_vendor
+
+forms:
+  add_vendor_form:
+    required_slots:
+      - vendor
+
+responses:
+  utter_ask_vendor:
+    - text: What vendor do you want to add?
+  utter_fail_addition:
+    - text: An error has occurred...
+
+actions:
+  - action_add_vendor
+  - action_show_vendors

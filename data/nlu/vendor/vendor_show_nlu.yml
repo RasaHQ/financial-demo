@@ -1,0 +1,14 @@
+version: "3.1"
+nlu:
+  - intent: show_vendors
+    examples: |
+      - List my vendors
+      - What are my vendors
+      - Can you show my vendors?
+      - Can you show saved vendors?
+      - I want to see memorized vendors
+      - What vendors are stored?
+      - Show vendor list
+      - Show me vendor list
+      - Display available vendors
+      - Get recorded vendors

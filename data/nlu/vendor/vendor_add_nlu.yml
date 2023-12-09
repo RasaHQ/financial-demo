@@ -1,0 +1,46 @@
+version: "3.1"
+nlu:
+  - intent: ask_add_vendor
+    examples: |
+      - I would like to add new vendors
+      - New vendor, please
+      - It will be great if I can add a vendor
+      - Add a new vendor
+      - Create a new vendor
+      - Add a new entry to vendor list
+      - Expand vendor list
+  - intent: add_vendor
+    examples: |
+      - Add [McDonalds](vendor) to the list
+      - Expand the vendor list with [MacAffee](vendor)
+      - Create a new vendor [Starbucks](vendor)
+      - Create a new vendor [Burger King](vendor) in the list
+      - I want to add a new vendor called [Aerostat](vendor)
+      - Extend the vendor list with [KFC](vendor)
+      - Extend the vendor list with [Gloria Jeans](vendor)
+      - Start tracking vendor [EliLilly](vendor)
+      - Append [Mackinze](vendor) to the list
+      - Expand vendors with [Gap](vendor)
+      - I want to add [Adidas](vendor) to the list
+      - I'd like to add [Nike](vendor) to be tracked
+      - Create a new vendor named [DNS](vendor)
+      - I want to track my spendings on [Schmonger](vendor)
+      - I have unexpected expenses on [Amazon](vendor)
+      - Fill in the database with [NewEgg](vendor)
+      - Track [Target](vendor)
+      - Expand with [Netflix](vendor)
+      - Add [Phillips](vendor) to the vendor list
+  - intent: inform_vendor
+    examples: | 
+      - [John Deer](vendor)
+      - [O'Reily and Company](vendor)
+      - [Nike](vendor)
+      - [Zara](vendor)
+      - [Calvin Klein](vendor)
+      - It's [NewEgg](vendor)
+      - It will be [Netflix](vendor)
+      - It is [HBO](vendor)
+      - The name is [Lous Vitonne](vendor)
+      - It's [Wanderwuffle](vendor)
+      - Gotta be [Kentucky](vendor)
+      - [Best Buy](vendor)

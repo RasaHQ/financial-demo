@@ -11,6 +11,8 @@ from numpy import arange
 from datetime import datetime, timedelta
 import pytz
 
+from actions.database.tables.vendors import Vendor
+
 utc = pytz.UTC
 
 GENERAL_ACCOUNTS = {
@@ -109,6 +111,7 @@ class ProfileDB:
         Transaction.__table__.create(self.engine, checkfirst=True)
         RecipientRelationship.__table__.create(self.engine, checkfirst=True)
         Account.__table__.create(self.engine, checkfirst=True)
+        Vendor.__table__.create(self.engine, checkfirst=True)
 
     def get_account(self, id: int):
         """Get an `Account` object based on an `Account.id`"""
@@ -214,6 +217,7 @@ class ProfileDB:
         deposit: bool = False,
         vendor: Optional[Text] = None,
     ):
+        # @vendor_update
         """Find all transactions for an account between `start_time` and `end_time`.
         Looks for spend transactions by default, set `deposit` to `True` to search earnings.
         Looks for transactions with anybody by default, set `vendor` to search by vendor
@@ -290,6 +294,7 @@ class ProfileDB:
 
     def list_vendors(self):
         """List valid vendors"""
+        # @vendor_update
         vendors = (
             self.session.query(Account.account_holder_name)
             .filter(Account.session_id.startswith("vendor_"))
@@ -394,6 +399,8 @@ class ProfileDB:
         self.session.add_all(relationships)
 
     def add_transactions(self, session_id: Text):
+        # @vendor_update
+
         """Populate transactions table for a session ID with random transactions"""
         account_number = self.get_account_number(
             self.get_account_from_session_id(session_id)
@@ -494,3 +501,12 @@ class ProfileDB:
         )
         self.session.add(transaction)
         self.session.commit()
+
+    def add_vendor(self, vendor_name: Text):
+        vendor = Vendor(name=vendor_name)
+
+        self.session.add(vendor)
+        self.session.commit()
+
+    def get_vendors(self):
+        return self.session.query(Vendor).all()

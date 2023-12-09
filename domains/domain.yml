@@ -93,8 +93,8 @@ slots:
     type: any
     influence_conversation: false
     mappings:
-    - entity: PERSON
-      type: from_entity
+    - type: from_entity
+      entity: PERSON
       conditions:
       - active_loop: transfer_money_form
         requested_slot: PERSON
@@ -107,6 +107,9 @@ slots:
         requested_slot: PERSON
     - type: from_entity
       entity: PERSON
+      not_intent:
+        - add_vendor
+        - ask_add_vendor
   account_type:
     type: any
     influence_conversation: false

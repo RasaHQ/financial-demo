@@ -1,0 +1,7 @@
+version: "3.1"
+
+rules:
+  - rule: Show vendors upon asking
+    steps:
+      - intent: show_vendors
+      - action: action_show_vendors
