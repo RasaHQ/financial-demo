@@ -10,18 +10,6 @@ intents:
         - amount-of-money
         - time
 
-slots:
-  transaction_type:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_entity
-        entity: transaction_type
-        conditions:
-          - active_loop: add_offline_transaction_form
-      - type: from_entity
-        entity: transaction_type
-
 forms:
   add_transaction_form:
     required_slots:
@@ -30,7 +18,10 @@ forms:
       - time
 
 responses:
-  -
+  utter_ask_amount_of_money:
+    - text: How much?
+  utter_ask_time:
+    - text: When it happened?
 
 actions:
   - action_add_offline_transaction

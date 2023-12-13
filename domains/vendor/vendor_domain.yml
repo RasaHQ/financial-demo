@@ -22,11 +22,13 @@ slots:
         conditions:
           - active_loop: add_vendor_form
           - active_loop: transaction_search_form
+          - active_loop: add_transaction_form
       - type: from_entity
         entity: vendor
         intent:
           - inform_vendor
           - add_vendor
+          - action_add_offline_transaction
 
 forms:
   add_vendor_form:

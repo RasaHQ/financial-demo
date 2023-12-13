@@ -19,6 +19,13 @@ nlu:
       - New expenses record
   - intent: add_transaction
     examples: |
-
-  - intent: inform_vendor
-    examples: | 
+      - Add new transaction record to (McDonalds)[vendor] of 100 USD yesterday
+      - Record spendings in (Ikea)[vendor] 
+      - I want to add spendings on clothes in (Home Depot)[vendor] for 531 last week on sunday
+      - New expenditures in (Adidas)[vendor]
+      - Write down my expenses on water in [7eleven](vendor) for 5.99 euro previous day
+      - Add unexpected spendings of 99.83 EUR on groceries at 7eleven two days ago 
+      - I spent on medicine in [EliLilly](vendor) for 31 USD 
+      - I've bought three days ago a new laptop at [NewEgg](vendor)
+      - I have spent 53 recently
+      - I have bought something for 441 dollars previous week

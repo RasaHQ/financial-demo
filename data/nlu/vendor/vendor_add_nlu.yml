@@ -6,8 +6,8 @@ nlu:
       - New vendor, please
       - It will be great if I can add a vendor
       - Add a new vendor
-      - Create a new vendor
       - Add a new entry to vendor list
+      - Create a new vndor
       - Expand vendor list
   - intent: add_vendor
     examples: |

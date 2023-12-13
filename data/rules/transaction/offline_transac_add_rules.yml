@@ -1,0 +1,39 @@
+version: "3.1"
+
+rules:
+  - rule: Start Transaction form with question
+    condition:
+      - active_loop: null
+    steps:
+      - intent: ask_add_transaction
+      - action: add_transaction_form
+      - active_loop: add_transaction_form
+
+
+  - rule: Add Transaction with already partially filled entities
+    condition:
+      - active_loop: null
+    steps:
+      - intent: add_transaction
+      - action: add_transaction_form
+      - active_loop: add_transaction_form
+
+
+  - rule: Submit Transaction Form
+    condition:
+      - active_loop: add_transaction_form
+      - slot_was_set:
+        - vendor: true
+        - time: true
+        - amount-of-money: true
+        - currency: true
+    steps:
+      - action: add_transaction_form
+      - active_loop: null
+      - slot_was_set:
+          - vendor: null
+          - time: null
+          - amount-of-money: null
+          - currency: null
+      - action: action_add_offline_transaction
+

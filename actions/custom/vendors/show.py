@@ -16,7 +16,7 @@ class ActionShowVendors(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(
             f"Here are available vendors: "
-            f"{[vendor.name for vendor in profile_db.get_vendors()]}",
+            f"{[vendor.account_holder_name for vendor in profile_db.get_vendors()]}",
         )
 
         return []

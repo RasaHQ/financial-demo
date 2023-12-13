@@ -14,7 +14,8 @@ from actions.database.populate import populate, create_missing_user_account
 from actions.database.tables.account import Account
 from actions.database.tables.accountrelationship import RecipientRelationship
 from actions.database.tables.creditcard import CreditCard
-from actions.database.tables.transaction import Transaction
+from actions.database.tables.transaction.offline import OfflineTransaction
+from actions.database.tables.transaction.online import Transaction
 
 
 utc = pytz.UTC
@@ -63,10 +64,16 @@ class ProfileDB:
 
     def create_tables(self):
         logger.info("Creating database tables...")
-        CreditCard.__table__.create(self.engine, checkfirst=True)
-        Transaction.__table__.create(self.engine, checkfirst=True)
-        RecipientRelationship.__table__.create(self.engine, checkfirst=True)
         Account.__table__.create(self.engine, checkfirst=True)
+        logger.info("Accounts created...")
+        CreditCard.__table__.create(self.engine, checkfirst=True)
+        logger.info("Credit Card created...")
+        Transaction.__table__.create(self.engine, checkfirst=True)
+        logger.info("Transaction created...")
+        OfflineTransaction.__table__.create(self.engine, checkfirst=True)
+        logger.info("Offline Transaction created...")
+        RecipientRelationship.__table__.create(self.engine, checkfirst=True)
+        logger.info("RecipientRelationship created...")
         logger.info("Tables created!")
 
     def get_account(self, id: int):
@@ -360,4 +367,29 @@ class ProfileDB:
         self.session.commit()
 
     def get_vendors(self):
-        return self.session.query(Account).filter(Account.is_vendor is True)
+        return self.session.query(Account).filter(Account.is_vendor == True)
+
+    def add_offline_transaction(
+        self, rasa_session_id: Text, to_account_name: Text, time: datetime, amount: int
+    ):
+        logger.info(f"Incoming time: {time}")
+        from_account = (
+            self.session.query(Account)
+            .filter(Account.session_id == rasa_session_id)
+            .first()
+        )
+        to_account = (
+            self.session.query(Account)
+            .filter(Account.account_holder_name == to_account_name)
+            .first()
+        )
+
+        transac = OfflineTransaction(
+            amount=amount,
+            from_account=from_account.id,
+            to_account=to_account.id,
+            timestamp=time,
+        )
+
+        self.session.add(transac)
+        self.session.commit()

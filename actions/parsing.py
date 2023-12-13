@@ -1,6 +1,10 @@
+import logging
+
 from dateutil import relativedelta, parser
 from typing import Dict, Text, Any, Optional
 from rasa_sdk import Tracker
+
+logger = logging.getLogger(__name__)
 
 
 def close_interval_duckling_time(
@@ -98,6 +102,7 @@ def get_entity_details(
 
 
 def parse_duckling_currency(entity: Dict[Text, Any]) -> Optional[Dict[Text, Any]]:
+    logger.info(f"Parsing duckling currency: {entity}")
     if entity.get("entity") == "amount-of-money":
         amount = entity.get("additional_info", {}).get("value")
         currency = entity.get("additional_info", {}).get("unit")
