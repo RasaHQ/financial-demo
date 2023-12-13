@@ -21,6 +21,7 @@ slots:
         entity: vendor
         conditions:
           - active_loop: add_vendor_form
+          - active_loop: transaction_search_form
       - type: from_entity
         entity: vendor
         intent:

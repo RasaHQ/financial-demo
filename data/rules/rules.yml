@@ -38,11 +38,6 @@ rules:
   - intent: thankyou
   - action: utter_noworries
   
-- rule: is there a transfer charge
-  steps:
-  - intent: ask_transfer_charge
-  - action: action_show_transfer_charge
-  
 - rule: Show list of known recipients
   steps:
   - intent: check_recipients

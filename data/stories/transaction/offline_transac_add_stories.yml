@@ -1,0 +1,55 @@
+version: "3.1"
+
+stories:
+
+- story: Happy path transaction addition in multiple steps
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: utter_help
+    - intent: ask_add_transaction
+    - action: add_transaction_form
+    - active_loop: add_transaction_form
+    - intent: inform_vendor
+      entities:
+        - vendor
+    - slot_was_set:
+        - vendor: Nike
+    - intent: inform_money_amount
+      entities:
+        - amount-of-money
+        - currency
+    - slot_was_set:
+        - amount-of-money: 129
+    - slot_was_set:
+        - currency: euro
+    - intent: inform_date
+      entity:
+        - date
+    - slot_was_set:
+        - requested_slot: date
+    - action: action_add_offline_transaction
+
+- story: Happy Path with single action
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: utter_help
+    - intent: add_transaction
+      entities:
+        - vendor: EliLilly
+        - amount-of-money: 100
+        - currency: USD
+        - transaction_type: spending
+    - action: add_transaction_form
+    - active_loop: add_transaction_form
+    - action: utter_ask_date
+    - intent: inform_date
+      entities:
+        - date
+    - action: action_add_offline_transaction
+    - slot_was_set:
+        - vendor: null
+        - date: null
+        - amount-of-money: null
+        - currency: null

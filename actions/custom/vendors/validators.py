@@ -11,7 +11,7 @@ class ValidateVendorForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_add_vendor_form"
 
-    def validate_vendor(
+    async def validate_vendor(
         self,
         vendor_name: Any,
         dispatcher: CollectingDispatcher,

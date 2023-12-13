@@ -36,7 +36,6 @@ entities:
 - amount-of-money
 - credit_card
 - payment_date
-- vendor_name
 - time
 - PERSON
 - number
@@ -297,12 +296,6 @@ slots:
     influence_conversation: false
     mappings:
     - type: custom
-  vendor_name:
-    type: any
-    influence_conversation: false
-    mappings:
-    - type: from_entity
-      entity: vendor_name
   zz_confirm_form:
     type: any
     influence_conversation: false
@@ -369,7 +362,7 @@ responses:
   - text: Towards which credit card account do you want to make a payment?
   utter_ask_cc_payment_form_time:
   - text: For which date would you like to schedule the payment?
-  utter_ask_transaction_search_form_vendor_name:
+  utter_ask_transaction_search_form_vendor:
   - text: For which vendor do you want to see transactions?  e.g Starbucks, Target, Amazon
   utter_ask_transaction_search_form_time:
   - text: In which timeframe would you like to search for transactions?
@@ -386,16 +379,16 @@ responses:
   - text: Sorry, that is not a valid payment date.
   utter_no_creditcard:
   - text: Sorry, that is not a valid credit card account to make payments towards.
-  utter_no_vendor_name:
+  utter_no_vendor:
   - text: Sorry, that's not a recognized vendor.
   utter_no_transactdate:
   - text: Sorry, that's not a recognized time frame.
   utter_cc_pay_scheduled:
   - text: Payment of {currency}{amount-of-money}{payment_amount_type} towards your {credit_card} account scheduled to be paid at {time_formatted}.
   utter_searching_spend_transactions:
-  - text: Searching transactions{vendor_name} between {start_time_formatted} and {end_time_formatted}...
+  - text: Searching transactions {vendor} between {start_time_formatted} and {end_time_formatted}...
   utter_found_spend_transactions:
-  - text: I found {numtransacts} transactions{vendor_name} totalling {currency}{total}.
+  - text: I found {numtransacts} transactions {vendor} totalling {currency}{total}.
   utter_searching_deposit_transactions:
   - text: Searching deposits made to your account between {start_time_formatted} and {end_time_formatted}...
   utter_found_deposit_transactions:
@@ -486,7 +479,6 @@ actions:
 - action_restart
 - action_show_balance
 - action_show_recipients
-- action_show_transfer_charge
 - action_handoff
 - action_handoff_options
 - action_pay_cc

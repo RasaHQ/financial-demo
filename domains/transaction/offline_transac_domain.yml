@@ -1,0 +1,36 @@
+version: "3.1"
+session_config:
+  session_expiration_time: 0
+  carry_over_slots_to_new_session: true
+intents:
+  - ask_add_transaction
+  - add_transaction:
+      use_entities:
+        - vendor
+        - amount-of-money
+        - time
+
+slots:
+  transaction_type:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: transaction_type
+        conditions:
+          - active_loop: add_offline_transaction_form
+      - type: from_entity
+        entity: transaction_type
+
+forms:
+  add_transaction_form:
+    required_slots:
+      - vendor
+      - amount-of-money
+      - time
+
+responses:
+  -
+
+actions:
+  - action_add_offline_transaction

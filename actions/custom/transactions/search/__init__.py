@@ -26,6 +26,7 @@ class ActionTransactionSearch(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Executes the action"""
+
         slots = {
             "AA_CONTINUE_FORM": None,
             "zz_confirm_form": None,
@@ -37,18 +38,17 @@ class ActionTransactionSearch(Action):
             "end_time_formatted": None,
             "grain": None,
             "search_type": None,
-            "vendor_name": None,
+            "vendor": None,
         }
 
         if tracker.get_slot("zz_confirm_form") == "yes":
             search_type = tracker.get_slot("search_type")
             deposit = search_type == "deposit"
-            vendor = tracker.get_slot("vendor_name")
-            vendor_name = f" at {vendor.title()}" if vendor else ""
+            vendor = tracker.get_slot("vendor")
+            vendor = f" at {vendor}" if vendor else ""
             start_time = parser.isoparse(tracker.get_slot("start_time"))
             end_time = parser.isoparse(tracker.get_slot("end_time"))
             transactions = profile_db.search_transactions(
-                tracker.sender_id,
                 start_time=start_time,
                 end_time=end_time,
                 deposit=deposit,
@@ -67,7 +67,7 @@ class ActionTransactionSearch(Action):
                 "numtransacts": numtransacts,
                 "start_time_formatted": tracker.get_slot("start_time_formatted"),
                 "end_time_formatted": tracker.get_slot("end_time_formatted"),
-                "vendor_name": vendor_name,
+                "vendor": vendor,
             }
 
             dispatcher.utter_message(

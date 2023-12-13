@@ -26,14 +26,12 @@ from actions.parsing import (
 )
 
 from actions.profile_db import create_database, ProfileDB
-
 from actions.custom_forms import CustomFormValidationAction
 
 
 logger = logging.getLogger(__name__)
 
-# The profile database is created/connected to when the action server starts
-# It is populated the first time `ActionSessionStart.run()` is called .
+# The profile database is created/connected to when the actd the first time `ActionSessionStart.run()` is called .
 
 PROFILE_DB_NAME = os.environ.get("PROFILE_DB_NAME", "profile")
 PROFILE_DB_URL = os.environ.get("PROFILE_DB_URL", f"sqlite:///{PROFILE_DB_NAME}.db")
@@ -292,7 +290,7 @@ class ActionTransferMoney(Action):
             "amount-of-money": None,
             "number": None,
         }
-
+        # Todo: user-contacts
         if tracker.get_slot("zz_confirm_form") == "yes":
             amount_of_money = float(tracker.get_slot("amount-of-money"))
             from_account_number = profile_db.get_account_number(
@@ -514,32 +512,6 @@ class ActionShowRecipients(Action):
         return events
 
 
-class ActionShowTransferCharge(Action):
-    """Lists the transfer charges"""
-
-    def name(self) -> Text:
-        """Unique identifier of the action"""
-        return "action_show_transfer_charge"
-
-    async def run(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-    ) -> List[EventType]:
-        """Executes the custom action"""
-        dispatcher.utter_message(response="utter_transfer_charge")
-
-        events = []
-        active_form_name = tracker.active_form.get("name")
-        if active_form_name:
-            # keep the tracker clean for the predictions with form switch stories
-            events.append(UserUtteranceReverted())
-            # trigger utter_ask_{form}_AA_CONTINUE_FORM, by making it the requested_slot
-            events.append(SlotSet("AA_CONTINUE_FORM", None))
-            # # avoid that bot goes in listen mode after UserUtteranceReverted
-            events.append(FollowupAction(active_form_name))
-
-        return events
-
-
 class ActionSessionStart(Action):
     """Executes at start of session"""
 
@@ -576,13 +548,14 @@ class ActionSessionStart(Action):
         events = [SessionStarted()]
 
         events.extend(self._slot_set_events_from_tracker(tracker))
+        logger.info(f"Current session_id: {tracker.sender_id}")
 
-        # create a mock profile by populating database with values specific to tracker.sender_id
-        profile_db.populate_profile_db(tracker.sender_id)
-        currency = profile_db.get_currency(tracker.sender_id)
+        # Create account if it does not exist.
+        account = profile_db.get_account_from_session_id(tracker.sender_id)
+        logger.info(f"Current active account: {account.id}")
 
-        # initialize slots from mock profile
-        events.append(SlotSet("currency", currency))
+        # Initialize slots from mock profile
+        events.append(SlotSet("currency", "$"))
 
         # add `action_listen` at the end
         events.append(ActionExecuted("action_listen"))
@@ -611,7 +584,7 @@ class ActionAskTransactionSearchFormConfirm(Action):
     """Asks for the 'zz_confirm_form' slot of 'transaction_search_form'
 
     A custom action is used instead of an 'utter_ask' response because a different
-    question is asked based on 'search_type' and 'vendor_name' slots.
+    question is asked based on 'search_type' and 'vendor' slots.
     """
 
     def name(self) -> Text:
@@ -622,7 +595,8 @@ class ActionAskTransactionSearchFormConfirm(Action):
     ) -> List[EventType]:
         """Executes the custom action"""
         search_type = tracker.get_slot("search_type")
-        vendor_name = tracker.get_slot("vendor_name")
+
+        vendor_name = tracker.get_slot("vendor")
         start_time_formatted = tracker.get_slot("start_time_formatted")
         end_time_formatted = tracker.get_slot("end_time_formatted")
 

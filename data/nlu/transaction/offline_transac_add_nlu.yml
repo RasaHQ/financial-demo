@@ -1,0 +1,24 @@
+version: "3.1"
+nlu:
+  - intent: ask_add_transaction
+    examples: |
+      - I want to add a new offline transaction
+      - I want to add a new transaction record
+      - Record unexpected expenses
+      - Add a new transaction
+      - Save a new transaction
+      - Create new offline transaction
+      - Can you add a new transaction record? 
+      - Is it possible to save my offline transactions?
+      - I need to add a new transaction
+      - New transaction please
+      - new transact
+      - New spendings
+      - New expenses
+      - Unexpected expenses
+      - New expenses record
+  - intent: add_transaction
+    examples: |
+
+  - intent: inform_vendor
+    examples: | 

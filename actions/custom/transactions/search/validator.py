@@ -25,12 +25,14 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
         """Custom validates the filled slots"""
         events = await super().run(dispatcher, tracker, domain)
 
-        # For 'spend' type transactions we need to know the vendor_name
+        # For 'spend' type transactions we need to know the vendor
         search_type = tracker.get_slot("search_type")
+
         if search_type == "spend":
-            vendor_name = tracker.get_slot("vendor_name")
+            vendor_name = tracker.get_slot("vendor")
+
             if not vendor_name:
-                events.append(SlotSet("requested_slot", "vendor_name"))
+                events.append(SlotSet("requested_slot", "vendor"))
 
         return events
 
@@ -47,19 +49,22 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
 
         return {"search_type": None}
 
-    async def validate_vendor_name(
+    async def validate_vendor(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        """Validates value of 'vendor_name' slot"""
-        if value and value.lower() in profile_db.list_vendors():
-            return {"vendor_name": value}
+        """Validates value of 'vendor' slot"""
 
-        dispatcher.utter_message(response="utter_no_vendor_name")
-        return {"vendor_name": None}
+        available_vendors = [v.name for v in profile_db.get_vendors()]
+
+        if value and value in available_vendors:
+            return {"vendor": value}
+
+        dispatcher.utter_message(response="utter_no_vendor")
+        return {"vendor": None}
 
     async def validate_time(
         self,
