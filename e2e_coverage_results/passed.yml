@@ -1,0 +1,80 @@
+fixtures: []
+metadata: []
+stub_custom_actions: {}
+test_cases:
+- test_case: say_goodbye
+  steps:
+  - user: bye
+    assertions:
+    - bot_uttered:
+        utter_name: utter_goodbye
+- test_case: help_request
+  steps:
+  - user: how do I use this
+    assertions:
+    - bot_uttered:
+        utter_name: utter_help
+- test_case: out_of_scope_request
+  steps:
+  - user: I want to order a pizza
+    assertions:
+    - bot_uttered:
+        utter_name: utter_out_of_scope
+- test_case: transfer_charge_check
+  steps:
+  - user: is there a transfer charge
+    assertions:
+    - action_executed: action_show_transfer_charge
+- test_case: known_recipients_list
+  steps:
+  - user: Show me my list of recipients
+    assertions:
+    - action_executed: action_show_recipients
+- test_case: check_balance_and_transfer
+  steps:
+  - user: How much money is on my account?
+    assertions:
+    - action_executed: action_show_balance
+  - user: i want to transfer money
+    assertions:
+    - action_executed: transfer_money_form
+    - slot_was_set:
+      - name: requested_slot
+        value: AA_CONTINUE_FORM
+- test_case: pay_credit_card_then_check_balance
+  steps:
+  - user: i want to pay off my emblem
+    assertions:
+    - action_executed: cc_payment_form
+    - slot_was_set:
+      - name: requested_slot
+        value: AA_CONTINUE_FORM
+  - user: How much money is on my account?
+    assertions:
+    - action_executed: action_show_balance
+- test_case: greet_help_bye_flow
+  steps:
+  - user: hi
+    assertions:
+    - bot_uttered:
+        utter_name: utter_greet
+    - bot_uttered:
+        utter_name: utter_help
+  - user: bye
+    assertions:
+    - bot_uttered:
+        utter_name: utter_goodbye
+- test_case: check_earnings_flow
+  steps:
+  - user: how much did I earn in January 2019
+    assertions:
+    - action_executed: transaction_search_form
+    - slot_was_set:
+      - name: requested_slot
+        value: AA_CONTINUE_FORM
+- test_case: thankyou_acknowledgement
+  steps:
+  - user: Thanks!
+    assertions:
+    - bot_uttered:
+        utter_name: utter_noworries
