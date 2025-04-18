@@ -125,3 +125,8 @@ results/
 # Secret & local files
 secret/
 run_rasa*
+
+# Rasa Pro test output
+e2e_coverage_results/
+e2e_results_failed.yml
+e2e_results_passed.yml
