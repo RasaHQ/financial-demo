@@ -12,6 +12,7 @@ version: "3.1"
 # https://rasa.com/docs/rasa/core/actions/#custom-actions/
 
 action_endpoint:
+#  module: 
  url: "http://localhost:5055/webhook"
 
 # Tracker store which is used to store the conversations.
@@ -36,8 +37,16 @@ action_endpoint:
 # Event broker which all conversation events should be streamed to.
 # https://rasa.com/docs/rasa/api/event-brokers/
 
-#event_broker:
-#  url: localhost
-#  username: username
-#  password: password
-#  queue: queue
+event_broker:
+  type: kafka
+  partition_by_sender: True
+  topic: rasa-events
+  url: localhost:29092
+  security_protocol: PLAINTEXT
+
+tracing:
+  type: otlp
+  endpoint: localhost:4317
+  insecure: true
+  host: localhost
+  service_name: rasa
