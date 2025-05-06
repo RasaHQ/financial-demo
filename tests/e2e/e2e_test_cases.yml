@@ -75,3 +75,9 @@ test_cases:
         assertions:
           - bot_uttered:
               utter_name: utter_noworries
+  - test_case: check_human
+    steps:
+      - user: Are you a bot or a human?
+        assertions:
+          - bot_uttered:
+              utter_name: utter_bot
