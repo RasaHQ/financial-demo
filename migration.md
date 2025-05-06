@@ -24,7 +24,14 @@ rasa test core --stories tests/test_stories.yml
 
 ## Migrate tests
 
+- Verify existing test stories work
 - Convert `test_stories.yml` to e2e tests
+
+```sh
+rasa test core -s tests/test_stories.yml
+```
+
+- Verify existing pytests
 - Convert pytest to e2e tests
 
 ## Next Steps
