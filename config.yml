@@ -30,7 +30,11 @@ pipeline:
     #       DIETClassifier will also extract PERSON entities .
   dimensions: ["PERSON"]
 - name: EntitySynonymMapper
+# - name: CompactLLMCommandGenerator
+#   model_group: gpt-4o
+
 policies:
+- name: FlowPolicy
 - name: AugmentedMemoizationPolicy
 - name: TEDPolicy
   epochs: 40
