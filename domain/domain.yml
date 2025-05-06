@@ -44,9 +44,6 @@ entities:
 - handoff_to
 - search_type
 slots:
-  route_session_to_calm:
-    type: bool
-    influence_conversation: false
   AA_CONTINUE_FORM:
     type: any
     influence_conversation: false
