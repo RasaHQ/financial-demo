@@ -232,7 +232,7 @@ rasa-train:
 
 rasa-test:
 	@echo Testing $(RASA_MODEL_PATH)
-	rasa test --model $(RASA_MODEL_PATH)
+	rasa test core -s tests/test_stories.yml
 
 formatter:
 	black actions
