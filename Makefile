@@ -147,7 +147,7 @@ rasa-test-stories:
 
 rasa-test-e2e:
 	@echo Testing $(RASA_MODEL_PATH)
-	rasa test e2e --debug --model $(RASA_MODEL_PATH)
+	rasa test e2e --debug --model $(RASA_MODEL_PATH) tests/e2e
 
 formatter:
 	black actions

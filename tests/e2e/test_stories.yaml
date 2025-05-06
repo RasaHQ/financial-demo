@@ -1,0 +1,145 @@
+fixtures:
+- fixtures_Transfer_money_happy_path_w_recipient:
+    - PERSON: Latisha
+
+test_cases:
+- test_case: Greet_Bye_Path
+  steps:
+    - user: "hi"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_greet"
+    - user: "how do I use this"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_help"
+    - user: "bye"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_goodbye"
+- test_case: Say_Goodbye
+  steps:
+    - user: "bye"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_goodbye"
+- test_case: Help
+  steps:
+    - user: "how do I use this"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_help"
+- test_case: Out_of_Scope
+  steps:
+    - user: "I want to order a pizza"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_out_of_scope"
+- test_case: Ask_Transfer_Charge
+  steps:
+    - user: "is there a transfer charge"
+      assertions:
+        - action_executed: "action_show_transfer_charge"
+- test_case: Show_List_of_Known_Recipients
+  steps:
+    - user: "Who can I send money to?"
+      assertions:
+        - action_executed: "action_show_recipients"
+- test_case: Show_Bank_Account_Balance
+  steps:
+    - user: "How much money is on my account?"
+      assertions:
+        - action_executed: "action_show_balance"
+- test_case: Show_Specific_Credit_Card_Account_Balance
+  steps:
+    - user: "What's my [emblem](credit_card) [card]{'entity': 'account_type', 'value': 'credit'} [balance]{'entity': 'amount-of-money', 'value': 'current balance'}"
+      assertions:
+        - action_executed: "action_show_balance"
+- test_case: Show_All_Credit_Cards_Account_Balances
+  steps:
+    - user: "What are my [credit](account_type) accounts"
+      assertions:
+        - action_executed: "action_show_balance"
+- test_case: Check_List_of_Known_Recipients
+  steps:
+    - user: "Show me my list of recipients"
+      assertions:
+        - action_executed: "action_show_recipients"
+- test_case: Help_And_Greet
+  steps:
+    - user: "help"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_help"
+    - user: "hello"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_greet"
+    - user: "Thanks!"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_noworries"
+- test_case: Greet_and_Search_Transactions_Happy_Path
+  steps:
+    - user: "hi"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_greet"
+    - user: "how do I use this"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_help"
+    - user: "I want to search my spending history"
+      assertions:
+        - action_executed: "transaction_search_form"
+    - user: "Thanks!"
+      assertions:
+        - bot_uttered:
+            utter_name: "utter_noworries"
+- test_case: Pay_Credit_Card_Happy_Path
+  steps:
+    - user: "i want to pay off my [emblm]{'entity': 'credit_card', 'value': 'emblem'}"
+      assertions:
+        - action_executed: "cc_payment_form"
+    - user: "submit"
+      assertions:
+        - action_executed: "utter_ask_cc_payment_form_amount-of-money"
+    - user: "$25"
+      assertions:
+        - action_executed: "action_pay_cc"
+- test_case: Transfer_Money_Happy_Path_Without_Recipient
+  steps:
+    - user: "i want to transfer money"
+      assertions:
+        - action_executed: "transfer_money_form"
+    - user: "submit"
+      assertions:
+        - action_executed: "action_transfer_money"
+- test_case: Transfer_Money_Happy_Path_With_Recipient
+  fixtures:
+    - fixtures_Transfer_money_happy_path_w_recipient
+  steps:
+    - user: "i want to transfer money to [Latisha](PERSON)"
+      assertions:
+        - slot_was_set:
+            - name: PERSON
+              value: "Latisha"
+    - user: "submit"
+      assertions:
+        - action_executed: "action_transfer_money"
+- test_case: Check_Earnings_Happy_Path
+  steps:
+    - user: "how much did I earn [in January 2019]{'entity': 'time', 'value': '2019-01-01T00:00:00.000-08:00'}"
+      assertions:
+        - action_executed: "transaction_search_form"
+    - user: "submit"
+      assertions:
+        - action_executed: "action_transaction_search"
+- test_case: Search_Transactions_Happy_Path
+  steps:
+    - user: "I want to search my spending history"
+      assertions:
+        - action_executed: "transaction_search_form"
+    - user: "submit"
+      assertions:
+        - action_executed: "action_transaction_search"
