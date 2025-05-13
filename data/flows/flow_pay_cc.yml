@@ -1,0 +1,47 @@
+version: "3.1"
+
+flows:
+  flow_pay_cc:
+    name: Pay Credit Card
+    description: Helps the user pay a credit card bill, with support for mid-conversation flow switching and resumption.
+    nlu_trigger:
+      - intent: pay_cc
+    steps:
+      - set_slots:
+          - started_collect: "collect_credit_card"
+      - collect: credit_card
+        description: Ask the user which credit card they want to make a payment on (e.g., Visa, Emblem, Mastercard).
+      - set_slots:
+          - started_collect: null
+
+      - set_slots:
+          - started_collect: "amount-of-money"
+      - collect: amount-of-money
+        description: Ask the user how much they want to pay (e.g., minimum balance, full balance, or a custom amount).
+      - set_slots:
+          - started_collect: null
+
+      - set_slots:
+          - started_collect: "collect_time"
+      - collect: time
+        description: Ask the user when they want the payment to be made (e.g., today, tomorrow, or a specific date).
+      - set_slots:
+          - started_collect: null
+
+      - set_slots:
+          - started_collect: "confirm_payment"
+      - collect: confirm_payment
+        description: Ask the user to confirm their payment; expects a clear affirmation (yes, correct) or rejection (no, wrong)
+      - set_slots:
+          - started_collect: "confirm_payment"
+        next:
+          - if: "slots.confirm_payment == True"
+            then:
+              - action: action_pay_cc
+              - action: utter_cc_pay_is_scheduled
+                next: END
+          - else:
+              - action: utter_cc_pay_cancelled
+                next: END
+
+

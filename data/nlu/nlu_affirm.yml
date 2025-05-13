@@ -1,0 +1,40 @@
+version: "3.1"
+nlu:
+
+- intent: affirm
+  examples: |
+    - indeed
+    - correct
+    - that sounds good
+    - yes
+    - yess please
+    - of course
+    - yup
+    - yeah
+    - yes please
+    - yes plz
+    - Sure
+    - submit
+    - Ok
+    - sweet
+    - cool,
+    - yes...
+    - y
+    - ok
+    - ye
+    - okay
+    - That would be great
+    - YES
+    - YUP
+    - Yea
+    - Yeah
+    - Yeah sure
+    - Yep
+    - Yep that's fine
+    - Yep!
+    - Yepp
+    - Yes
+    - Yes I do
+    - Yes please
+    - Yes please!
+    - Yes, I accept

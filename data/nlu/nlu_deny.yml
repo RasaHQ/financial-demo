@@ -1,0 +1,27 @@
+version: "3.1"
+nlu:
+
+- intent: deny
+  examples: |
+    - not really
+    - no
+    - I don't think so
+    - never
+    - no way
+    - nope
+    - no thanks
+    - I dunno
+    - Nothing!
+    - nevermind
+    - n
+    - i decline
+    - i don not like this
+    - i don't think so
+    - i don't want either of those
+    - i don't want to
+    - i don't want to give you my email
+    - i dont want to
+    - i dont want to accept :P lol
+    - i guess it means - no
+    - i'm afraid not
+    - i'm not sure

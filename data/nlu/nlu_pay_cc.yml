@@ -1,0 +1,44 @@
+version: "3.1"
+nlu:
+
+- intent: pay_cc
+  examples: |
+    - I would like to pay the [minimum balance](amount-of-money) on my [embelm](credit_card) [card](account_type)
+    - I want to pay my [credit card](account_type)
+    - I want to pay my [card](account_type)
+    - Pay my [card](account_type)
+    - I want to pay my [justice bank](credit_card) bill
+    - Pay my [discover](credit_card)
+    - I want to pay my [iron bank](credit_card) bill
+    - Pay my [visa](credit_card)
+    - I want to pay my [visa](credit_card) bill
+    - Pay my [mastercard](credit_card)
+    - I want to pay my [MasterCard](credit_card) bill
+    - I want to pay my [credit card](account_type) bill
+    - I want to pay the [current balance](amount-of-money) on my [credit card](account_type)
+    - can you help me pay the [current balance](amount-of-money) on my [credit card](account_type)
+    - i want to pay off my [credit card](account_type)
+    - I want to pay off my [credit card](account_type)
+    - i want to pay my [credit card](account_type)
+    - i want to pay off my [emblem](credit_card) [credit card](account_type)
+    - I want to pay my [current balance](amount-of-money) on my [embelm](credit_card) [credit card](account_type)
+    - i want to pay my [current balance](amount-of-money) on my [emblem](credit_card) [credit card](account_type)
+    - I want to pay $500 on my [emblem](credit_card) [credit card](account_type) on Sunday
+    - I want to pay my [current balance](amount-of-money) on my [emblem](credit_card) [credit card](account_type) today
+    - i need to pay off my [emblm](credit_card) [credit card](account_type)
+    - Please schedule  a payment towards my [credit card](account_type) for April 12th
+    - Can I schedule a payment towards my [credit card](account_type) for tomorrow?
+    - Pay off my [minimum balance](amount-of-money) please
+    - i would like to pay $1200 to my [credit card]{"entity": "account_type", "value": "credit"}
+    - I would also like to pay my [visa](credit_card) bill
+    - Pay off my [credit card]{"entity": "account_type", "value": "credit"}, please
+    - I guess it is. Since it's so much, let's pay off my [credit](account_type)
+    - Let's pay that [credit card]{"entity": "account_type", "value": "credit"} bill
+    - I want to pay 100 dollars toward my [Emblem](credit_card) [card](account_type), tomorrow
+    - pay 100 towards [emblem](credit_card) [card](account_type), tomorrow
+    - id like to pay my bill
+    - could I pay off my [credit card]{"entity": "account_type", "value": "credit"}?
+    - pay off my [credit card]{"entity": "account_type", "value": "credit"}
+    - i wanna pay my [credit card]{"entity": "account_type", "value": "credit"}
+    - pay a bill
+    - can I pay my [card]{"entity": "account_type", "value": "credit"}?
