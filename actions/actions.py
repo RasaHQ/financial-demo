@@ -367,19 +367,6 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
 
         return events
 
-    async def validate_search_type(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Any]:
-        """Validates value of 'search_type' slot"""
-        if value in ["spend", "deposit"]:
-            return {"search_type": value}
-
-        return {"search_type": None}
-
     async def validate_vendor_name(
         self,
         value: Text,
@@ -409,6 +396,29 @@ class ValidateTransactionSearchForm(CustomFormValidationAction):
             return {"time": None}
 
         return parsedinterval
+class ValidateSearchType(Action):
+    """Validates search_type form"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+        return "validate_search_type"
+
+    def run(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validates value of 'search_type' slot"""
+        events = []
+        if value in ["spend", "deposit"]:
+            events.append(SlotSet("search_type", value))
+            return events
+
+        return events
+
+
 
 
 class ActionTransferMoney(Action):

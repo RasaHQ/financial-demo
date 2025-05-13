@@ -71,16 +71,16 @@ rules:
   - action: transfer_money_form
   - active_loop: transfer_money_form
   
-- rule: Activate transaction_search_form when no other form is active
-  condition:
-  # this condition allows stories to handle form switching
-  - active_loop: null
-  steps:
-  - or:
-    - intent: search_transactions
-    - intent: check_earnings
-  - action: transaction_search_form
-  - active_loop: transaction_search_form
+# - rule: Activate transaction_search_form when no other form is active
+#   condition:
+#   # this condition allows stories to handle form switching
+#   - active_loop: null
+#   steps:
+#   - or:
+#     - intent: search_transactions
+#     - intent: check_earnings
+#   - action: transaction_search_form
+#   - active_loop: transaction_search_form
   
 - rule: Submit cc_payment_form while not switched from previous form
   condition:
@@ -106,14 +106,14 @@ rules:
     - requested_slot: null
   - action: action_transfer_money
   
-- rule: Submit transaction_search_form while not switched from previous form
-  condition:
-  - active_loop: transaction_search_form
-  - slot_was_set:
-    - previous_form_name: null
-  steps:
-  - action: transaction_search_form
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_transaction_search
+# - rule: Submit transaction_search_form while not switched from previous form
+#   condition:
+#   - active_loop: transaction_search_form
+#   - slot_was_set:
+#     - previous_form_name: null
+#   steps:
+#   - action: transaction_search_form
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: action_transaction_search

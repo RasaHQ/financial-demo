@@ -37,3 +37,12 @@ rasa test core -s tests/test_stories.yml
 ## Next Steps
 
 - Remove custom slot mappings per deprecation [note](https://rasa.com/docs/reference/changelogs/rasa-pro-changelog/#3120---2025-03-19)
+
+
+## Migration Notes
+
+### Forms to Flows
+
+- When converting forms to flows, one needs to rewrite the validate functions in the custom actions. Beforehand, the validate functions for the slot setting were all nested in the one Validate Form function. For flows, each validate function for each collect step needs to be its own custom action.
+
+- If one decides to use buttons in a flow converted from a form with NLU (and no LLMs), we recommend using the `/SetSlots(SLOT_NAME=VALUE)` paradigm for the paylod.

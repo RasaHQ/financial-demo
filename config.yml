@@ -32,10 +32,11 @@ pipeline:
 - name: EntitySynonymMapper
 # - name: CompactLLMCommandGenerator
 #   model_group: gpt-4o
+- name: NLUCommandAdapter 
 
 policies:
 - name: FlowPolicy
-- name: AugmentedMemoizationPolicy
+# - name: AugmentedMemoizationPolicy
 - name: TEDPolicy
   epochs: 40
 - name: RulePolicy

@@ -56,8 +56,8 @@ slots:
         requested_slot: AA_CONTINUE_FORM
       - active_loop: transfer_money_form
         requested_slot: AA_CONTINUE_FORM
-      - active_loop: transaction_search_form
-        requested_slot: AA_CONTINUE_FORM
+      # - active_loop: transaction_search_form
+      #   requested_slot: AA_CONTINUE_FORM
     - intent: deny
       type: from_intent
       value: no
@@ -66,8 +66,8 @@ slots:
         requested_slot: AA_CONTINUE_FORM
       - active_loop: transfer_money_form
         requested_slot: AA_CONTINUE_FORM
-      - active_loop: transaction_search_form
-        requested_slot: AA_CONTINUE_FORM
+      # - active_loop: transaction_search_form
+      #   requested_slot: AA_CONTINUE_FORM
     - intent:
       - inform
       - cc_payment_form
@@ -82,13 +82,13 @@ slots:
       conditions:
       - active_loop: transfer_money_form
         requested_slot: AA_CONTINUE_FORM
-    - intent:
-      - inform
-      - transaction_search_form
-      type: from_text
-      conditions:
-      - active_loop: transaction_search_form
-        requested_slot: AA_CONTINUE_FORM
+    # - intent:
+    #   - inform
+    #   - transaction_search_form
+    #   type: from_text
+    #   conditions:
+    #   - active_loop: transaction_search_form
+    #     requested_slot: AA_CONTINUE_FORM
   PERSON:
     type: any
     influence_conversation: false
@@ -248,10 +248,10 @@ slots:
       value: deposit
     - type: from_entity
       entity: search_type
-      conditions:
-      - active_loop: transaction_search_form
-    - type: from_entity
-      entity: search_type
+      # conditions:
+      # - active_loop: transaction_search_form
+    # - type: from_entity
+    #   entity: search_type
   start_time:
     type: any
     influence_conversation: false
@@ -271,8 +271,8 @@ slots:
       conditions:
       - active_loop: cc_payment_form
         requested_slot: time
-      - active_loop: transaction_search_form
-        requested_slot: time
+      # - active_loop: transaction_search_form
+      #   requested_slot: time
     - intent:
       - inform
       - cc_payment_form
@@ -282,11 +282,11 @@ slots:
         requested_slot: time
     - intent:
       - inform
-      - transaction_search_form
-      type: from_text
-      conditions:
-      - active_loop: transaction_search_form
-        requested_slot: time
+      # - transaction_search_form
+      # type: from_text
+      # conditions:
+      # - active_loop: transaction_search_form
+      #   requested_slot: time
     - type: from_entity
       entity: time
   time_formatted:
@@ -312,8 +312,8 @@ slots:
         requested_slot: zz_confirm_form
       - active_loop: transfer_money_form
         requested_slot: zz_confirm_form
-      - active_loop: transaction_search_form
-        requested_slot: zz_confirm_form
+      # - active_loop: transaction_search_form
+      #   requested_slot: zz_confirm_form
     - intent: deny
       type: from_intent
       value: no
@@ -322,8 +322,8 @@ slots:
         requested_slot: zz_confirm_form
       - active_loop: transfer_money_form
         requested_slot: zz_confirm_form
-      - active_loop: transaction_search_form
-        requested_slot: zz_confirm_form
+      # - active_loop: transaction_search_form
+      #   requested_slot: zz_confirm_form
     - intent:
       - inform
       - cc_payment_form
@@ -340,11 +340,11 @@ slots:
         requested_slot: zz_confirm_form
     - intent:
       - inform
-      - transaction_search_form
-      type: from_text
-      conditions:
-      - active_loop: transaction_search_form
-        requested_slot: zz_confirm_form
+      # - transaction_search_form
+      # type: from_text
+      # conditions:
+      # - active_loop: transaction_search_form
+      #   requested_slot: zz_confirm_form
 responses:
   utter_out_of_scope:
   - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
@@ -373,10 +373,10 @@ responses:
   utter_ask_transaction_search_form_search_type:
   - text: Would you like to search incoming or outgoing transactions?
     buttons:
-    - title: Incoming (earnings)
-      payload: /inform{"search_type":"deposit"}'
-    - title: Outgoing (spending)
-      payload: /inform{"search_type":"spend"}'
+    - title: "Incoming (earnings)"
+      payload: "/SetSlots(search_type=deposit)"
+    - title: "Outgoing (spending)"
+      payload: "/SetSlots(search_type=spend)"
   utter_no_payment_amount:
   - text: Sorry, I don't understand that payment amount.
   utter_no_paymentdate:
@@ -513,10 +513,10 @@ forms:
     - PERSON
     - amount-of-money
     - zz_confirm_form
-  transaction_search_form:
-    ignored_intents: []
-    required_slots:
-    - AA_CONTINUE_FORM
-    - search_type
-    - time
-    - zz_confirm_form
+  # transaction_search_form:
+  #   ignored_intents: []
+  #   required_slots:
+  #   - AA_CONTINUE_FORM
+  #   - search_type
+  #   - time
+  #   - zz_confirm_form

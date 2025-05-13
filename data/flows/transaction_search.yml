@@ -1,0 +1,20 @@
+flows:
+  transaction_search:
+    name: transaction search
+    description: when a user wants to search or look through their past activity within a certain time frame. 
+    nlu_trigger:
+      - intent: search_transactions
+    steps:
+      - collect: search_type
+        utter: utter_ask_transaction_search_form_search_type
+      - collect: vendor_name
+        utter: utter_ask_transaction_search_form_vendor_name
+      - collect: time
+        utter: utter_ask_transaction_search_form_time
+      - set_slots:
+          - zz_confirm_form: "yes"
+      
+      # how do I call the custom action to fit the 
+      - action: action_transaction_search
+      - action: utter_found_spend_transactions
+    
