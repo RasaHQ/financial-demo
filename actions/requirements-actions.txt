@@ -1,5 +1,3 @@
-python-dateutil==2.8.1
-numpy~=1.19.2
-pytz~=2019.3
+python-dateutil
+numpy
 ruamel.yaml
-sqlalchemy~=1.3.22
